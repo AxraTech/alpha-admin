@@ -1,4 +1,6 @@
 // MUI Imports
+"use client"
+
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
@@ -11,23 +13,18 @@ import EditUserInfo from '@components/dialogs/edit-user-info'
 import ConfirmationDialog from '@components/dialogs/confirmation-dialog'
 import OpenDialogOnElementClick from '@components/dialogs/OpenDialogOnElementClick'
 import CustomAvatar from '@core/components/mui/Avatar'
+import { useParams } from 'next/navigation'
+import {useSuspenseQuery} from "@apollo/client";
+import {GET_USER_BY_ID} from "@/graphql/queries";
 
 // Vars
-const userData = {
-  firstName: 'Seth',
-  lastName: 'Hallam',
-  userName: '@shallamb',
-  billingEmail: 'shallamb@gmail.com',
-  status: 'active',
-  role: 'Subscriber',
-  taxId: 'Tax-8894',
-  contact: '+1 (234) 464-0600',
-  language: ['English'],
-  country: 'France',
-  useAsBillingAddress: true
-}
+
 
 const UserDetails = () => {
+  const {userId} = useParams()
+
+  const {data}  = useSuspenseQuery(GET_USER_BY_ID, {variables: {userId}})
+
   const buttonProps = (children, color, variant) => ({
     children,
     color,
@@ -42,7 +39,7 @@ const UserDetails = () => {
             <div className='flex items-center justify-center flex-col gap-4'>
               <div className='flex flex-col items-center gap-4'>
                 <CustomAvatar alt='user-profile' src='/images/avatars/1.png' variant='rounded' size={120} />
-                <Typography variant='h5'>{`${userData.firstName} ${userData.lastName}`}</Typography>
+                <Typography variant='h5'>{data.users_by_pk.name}</Typography>
               </div>
               <Chip label='Subscriber' color='error' size='small' variant='tonal' />
             </div>
@@ -75,49 +72,49 @@ const UserDetails = () => {
                 <Typography className='font-medium' color='text.primary'>
                   Username:
                 </Typography>
-                <Typography>{userData.userName}</Typography>
+                <Typography>{data.users_by_pk.name}</Typography>
               </div>
               <div className='flex items-center flex-wrap gap-x-1.5'>
                 <Typography className='font-medium' color='text.primary'>
                   Billing Email:
                 </Typography>
-                <Typography>{userData.billingEmail}</Typography>
+                <Typography>{data.users_by_pk.billingEmail}</Typography>
               </div>
               <div className='flex items-center flex-wrap gap-x-1.5'>
                 <Typography className='font-medium' color='text.primary'>
                   Status
                 </Typography>
-                <Typography color='text.primary'>{userData.status}</Typography>
+                <Typography color='text.primary'>{data.users_by_pk.status}</Typography>
               </div>
               <div className='flex items-center flex-wrap gap-x-1.5'>
                 <Typography className='font-medium' color='text.primary'>
                   Role:
                 </Typography>
-                <Typography color='text.primary'>{userData.role}</Typography>
+                <Typography color='text.primary'>{data.users_by_pk.role}</Typography>
               </div>
               <div className='flex items-center flex-wrap gap-x-1.5'>
                 <Typography className='font-medium' color='text.primary'>
                   Tax ID:
                 </Typography>
-                <Typography color='text.primary'>{userData.taxId}</Typography>
+                <Typography color='text.primary'>{data.users_by_pk.taxId}</Typography>
               </div>
               <div className='flex items-center flex-wrap gap-x-1.5'>
                 <Typography className='font-medium' color='text.primary'>
                   Contact:
                 </Typography>
-                <Typography color='text.primary'>{userData.contact}</Typography>
+                <Typography color='text.primary'>{data.users_by_pk.contact}</Typography>
               </div>
               <div className='flex items-center flex-wrap gap-x-1.5'>
                 <Typography className='font-medium' color='text.primary'>
                   Language:
                 </Typography>
-                <Typography color='text.primary'>{userData.language}</Typography>
+                <Typography color='text.primary'>{data.users_by_pk.language}</Typography>
               </div>
               <div className='flex items-center flex-wrap gap-x-1.5'>
                 <Typography className='font-medium' color='text.primary'>
                   Country:
                 </Typography>
-                <Typography color='text.primary'>{userData.country}</Typography>
+                <Typography color='text.primary'>{data.users_by_pk.country}</Typography>
               </div>
             </div>
           </div>
@@ -126,7 +123,7 @@ const UserDetails = () => {
               element={Button}
               elementProps={buttonProps('Edit', 'primary', 'contained')}
               dialog={EditUserInfo}
-              dialogProps={{ data: userData }}
+              dialogProps={{ data: data.users_by_pk }}
             />
             <OpenDialogOnElementClick
               element={Button}

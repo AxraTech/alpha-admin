@@ -26,7 +26,6 @@ import {getEcommerceData} from '@/app/server/actions'
 } */
 const eCommerceProductsList = async () => {
   // Vars
-  const data = await getEcommerceData()
 
   return (
     <Grid container spacing={6}>
@@ -34,7 +33,7 @@ const eCommerceProductsList = async () => {
         <ProductCard/>
       </Grid>
       <Grid item xs={12}>
-        <ProductListTable productData={data?.products}/>
+        <ProductListTable/>
       </Grid>
     </Grid>
   )

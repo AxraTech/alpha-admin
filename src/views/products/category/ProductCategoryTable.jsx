@@ -34,6 +34,8 @@ import OptionMenu from '@core/components/option-menu'
 
 // Style Imports
 import tableStyles from '@core/styles/table.module.css'
+import {useSuspenseQuery} from "@apollo/client";
+import {GET_PRODUCT_CATEGORIES} from "@/graphql/queries";
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -68,164 +70,39 @@ const DebouncedInput = ({ value: initialValue, onChange, debounce = 500, ...prop
 }
 
 // Vars
-const categoryData = [
-  {
-    id: 1,
-    categoryTitle: 'Smart Phone',
-    description: 'Choose from wide range of smartphones online at best prices.',
-    totalProduct: 12548,
-    totalEarning: 98784,
-    image: '/images/apps/ecommerce/product-1.png'
-  },
-  {
-    id: 2,
-    categoryTitle: 'Clothing, Shoes, and jewellery',
-    description: 'Fashion for a wide selection of clothing, shoes, jewellery and watches.',
-    totalProduct: 4689,
-    totalEarning: 45627,
-    image: '/images/apps/ecommerce/product-9.png'
-  },
-  {
-    id: 3,
-    categoryTitle: 'Home and Kitchen',
-    description: 'Browse through the wide range of Home and kitchen products.',
-    totalProduct: 11297,
-    totalEarning: 51097,
-    image: '/images/apps/ecommerce/product-10.png'
-  },
-  {
-    id: 4,
-    categoryTitle: 'Beauty and Personal Care',
-    description: 'Explore beauty and personal care products, shop makeup and etc.',
-    totalProduct: 9474,
-    totalEarning: 74829,
-    image: '/images/apps/ecommerce/product-19.png'
-  },
-  {
-    id: 5,
-    categoryTitle: 'Books',
-    description: 'Over 25 million titles across categories such as business  and etc.',
-    totalProduct: 10257,
-    totalEarning: 63618,
-    image: '/images/apps/ecommerce/product-25.png'
-  },
-  {
-    id: 6,
-    categoryTitle: 'Games',
-    description: 'Every month, get exclusive in-game loot, free games, a free subscription.',
-    totalProduct: 14501,
-    totalEarning: 65920,
-    image: '/images/apps/ecommerce/product-12.png'
-  },
-  {
-    id: 7,
-    categoryTitle: 'Baby Products',
-    description: 'Buy baby products across different categories from top brands.',
-    totalProduct: 8624,
-    totalEarning: 38838,
-    image: '/images/apps/ecommerce/product-14.png'
-  },
-  {
-    id: 8,
-    categoryTitle: 'Growsari',
-    description: 'Shop grocery Items through at best prices in India.',
-    totalProduct: 7389,
-    totalEarning: 72652,
-    image: '/images/apps/ecommerce/product-26.png'
-  },
-  {
-    id: 9,
-    categoryTitle: 'Computer Accessories',
-    description: 'Enhance your computing experience with our range of computer accessories.',
-    totalProduct: 9876,
-    totalEarning: 65421,
-    image: '/images/apps/ecommerce/product-17.png'
-  },
-  {
-    id: 10,
-    categoryTitle: 'Fitness Tracker',
-    description: 'Monitor your health and fitness goals with our range of advanced fitness trackers.',
-    totalProduct: 1987,
-    totalEarning: 32067,
-    image: '/images/apps/ecommerce/product-10.png'
-  },
-  {
-    id: 11,
-    categoryTitle: 'Smart Home Devices',
-    description: 'Transform your home into a smart home with our innovative smart home devices.',
-    totalProduct: 2345,
-    totalEarning: 87654,
-    image: '/images/apps/ecommerce/product-11.png'
-  },
-  {
-    id: 12,
-    categoryTitle: 'Audio Speakers',
-    description: 'Immerse yourself in rich audio quality with our wide range of speakers.',
-    totalProduct: 5678,
-    totalEarning: 32145,
-    image: '/images/apps/ecommerce/product-2.png'
-  }
-]
 
 // Column Definitions
 const columnHelper = createColumnHelper()
 
 const ProductCategoryTable = () => {
   // States
+  const {data: categoryData} = useSuspenseQuery(GET_PRODUCT_CATEGORIES)
+
   const [addCategoryOpen, setAddCategoryOpen] = useState(false)
   const [rowSelection, setRowSelection] = useState({})
-  const [data, setData] = useState(...[categoryData])
+  const [data, setData] = useState(...[categoryData.product_categories])
   const [globalFilter, setGlobalFilter] = useState('')
 
   const columns = useMemo(
     () => [
-      {
-        id: 'select',
-        header: ({ table }) => (
-          <Checkbox
-            {...{
-              checked: table.getIsAllRowsSelected(),
-              indeterminate: table.getIsSomeRowsSelected(),
-              onChange: table.getToggleAllRowsSelectedHandler()
-            }}
-          />
-        ),
-        cell: ({ row }) => (
-          <Checkbox
-            {...{
-              checked: row.getIsSelected(),
-              disabled: !row.getCanSelect(),
-              indeterminate: row.getIsSomeSelected(),
-              onChange: row.getToggleSelectedHandler()
-            }}
-          />
-        )
-      },
-      columnHelper.accessor('categoryTitle', {
+
+      columnHelper.accessor('title', {
         header: 'Categories',
         cell: ({ row }) => (
           <div className='flex items-center gap-3'>
-            <img src={row.original.image} width={38} height={38} className='rounded bg-actionHover' />
+            <img src={row.original.image_url} width={38} height={38} className='rounded bg-actionHover' />
             <div className='flex flex-col items-start'>
               <Typography className='font-medium' color='text.primary'>
-                {row.original.categoryTitle}
+                {row.original.title}
               </Typography>
               <Typography variant='body2'>{row.original.description}</Typography>
             </div>
           </div>
         )
       }),
-      columnHelper.accessor('totalProduct', {
+      columnHelper.accessor('products_aggregate.aggregate.count', {
         header: 'Total Products',
-        cell: ({ row }) => <Typography>{row.original.totalProduct.toLocaleString()}</Typography>
-      }),
-      columnHelper.accessor('totalEarning', {
-        header: 'Total Earning',
-        cell: ({ row }) => (
-          <Typography>
-            {row.original.totalEarning.toLocaleString('en-IN', { style: 'currency', currency: 'USD' })}
-          </Typography>
-        )
+        cell: ({ row }) => <Typography>{row.original.products_aggregate.aggregate.count.toLocaleString()}</Typography>
       }),
       columnHelper.accessor('actions', {
         header: 'Actions',

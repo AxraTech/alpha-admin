@@ -16,16 +16,16 @@ import InputAdornment from '@mui/material/InputAdornment'
 
 // Third-party Imports
 import { useForm, Controller } from 'react-hook-form'
+import {useMutation} from "@apollo/client";
+import {ADD_CATEGORY} from "@/graphql/mutations";
 
 const AddCategoryDrawer = props => {
   // Props
   const { open, handleClose, categoryData, setData } = props
+const [addCategory] = useMutation(ADD_CATEGORY)
 
   // States
   const [fileName, setFileName] = useState('')
-  const [category, setCategory] = useState('')
-  const [comment, setComment] = useState('')
-  const [status, setStatus] = useState('')
 
   // Refs
   const fileInputRef = useRef(null)
@@ -44,17 +44,17 @@ const AddCategoryDrawer = props => {
   })
 
   // Handle Form Submit
-  const handleFormSubmit = data => {
-    const newData = {
-      id: categoryData.length + 1,
-      categoryTitle: data.title,
-      description: data.description,
-      totalProduct: Math.floor(Math.random() * 9000) + 1000,
-      totalEarning: Math.floor(Math.random() * 90000) + 10000,
-      image: `/images/apps/ecommerce/product-${Math.floor(Math.random() * 20) + 1}.png`
-    }
+  const handleFormSubmit = async data => {
+    const res = await addCategory({
+      variables: {
+        data: {
+          title: data.title,
+          image_url:fileName
+        }
+      }
+    })
 
-    setData([...categoryData, newData])
+    setData([...categoryData, res.data.insert_product_categories_one])
     handleReset()
   }
 
@@ -63,9 +63,7 @@ const AddCategoryDrawer = props => {
     handleClose()
     resetForm({ title: '', description: '' })
     setFileName('')
-    setCategory('')
-    setComment('')
-    setStatus('')
+
   }
 
   // Handle File Upload
@@ -104,22 +102,8 @@ const AddCategoryDrawer = props => {
                 {...field}
                 fullWidth
                 label='Title'
-                placeholder='Fashion'
+                placeholder=''
                 {...(errors.title && { error: true, helperText: 'This field is required.' })}
-              />
-            )}
-          />
-          <Controller
-            name='description'
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                fullWidth
-                label='Description'
-                placeholder='Enter a description...'
-                {...(errors.description && { error: true, helperText: 'This field is required.' })}
               />
             )}
           />
@@ -146,47 +130,7 @@ const AddCategoryDrawer = props => {
               <input hidden id='contained-button-file' type='file' onChange={handleFileUpload} ref={fileInputRef} />
             </Button>
           </div>
-          <FormControl fullWidth>
-            <InputLabel id='category'>Parent Category</InputLabel>
-            <Select
-              fullWidth
-              id='category'
-              value={category}
-              onChange={e => setCategory(e.target.value)}
-              label='Parent Category'
-              labelId='category'
-            >
-              <MenuItem value='HouseHold'>HouseHold</MenuItem>
-              <MenuItem value='Management'>Management</MenuItem>
-              <MenuItem value='Electronics'>Electronics</MenuItem>
-              <MenuItem value='Office'>Office</MenuItem>
-              <MenuItem value='Accessories'>Accessories</MenuItem>
-            </Select>
-          </FormControl>
-          <TextField
-            fullWidth
-            label='Comment'
-            value={comment}
-            onChange={e => setComment(e.target.value)}
-            multiline
-            rows={4}
-            placeholder='Write a Comment...'
-          />
-          <FormControl fullWidth>
-            <InputLabel id='plan-select'>Category Status</InputLabel>
-            <Select
-              fullWidth
-              id='select-status'
-              value={status}
-              onChange={e => setStatus(e.target.value)}
-              label='Category Status'
-              labelId='status-select'
-            >
-              <MenuItem value='Published'>Published</MenuItem>
-              <MenuItem value='Inactive'>Inactive</MenuItem>
-              <MenuItem value='Scheduled'>Scheduled</MenuItem>
-            </Select>
-          </FormControl>
+
           <div className='flex items-center gap-4'>
             <Button variant='contained' type='submit'>
               Add

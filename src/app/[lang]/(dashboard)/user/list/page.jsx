@@ -1,10 +1,6 @@
 // Component Imports
 import UserList from '@views/user/list'
 
-// Data Imports
-import {GET_USERS} from "@/graphql/queries";
-import {getClient} from "@/app/ApolloClient";
-
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the
  * ! `.env` file found at root of your project and also update the API endpoints like `/apps/user-list` in below example.
@@ -22,9 +18,8 @@ import {getClient} from "@/app/ApolloClient";
   return res.json()
 } */
 const UserListApp = async () => {
-  const {data} = await getClient().query({query: GET_USERS});
 
-  return <UserList userData={data.users}/>
+  return <UserList />
 }
 
 export default UserListApp

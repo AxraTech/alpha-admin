@@ -12,6 +12,8 @@ import TranslationWrapper from '@/hocs/TranslationWrapper'
 // Config Imports
 import { i18n } from '@configs/i18n'
 
+import {ApolloWrapper} from './../ApolloWrapper'
+
 // Style Imports
 import '@/app/globals.css'
 
@@ -30,11 +32,13 @@ const RootLayout = ({ children, params }) => {
   const direction = i18n.langDirection[params.lang]
 
   return (
+    <ApolloWrapper>
     <TranslationWrapper headersList={headersList} lang={params.lang}>
       <html id='__next' lang={params.lang} dir={direction}>
         <body className='flex is-full min-bs-full flex-auto flex-col'>{children}</body>
       </html>
     </TranslationWrapper>
+    </ApolloWrapper>
   )
 }
 

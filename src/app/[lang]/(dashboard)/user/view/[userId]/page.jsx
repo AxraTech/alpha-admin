@@ -9,8 +9,6 @@ import UserLeftOverview from '@views/user/view/user-left-overview'
 import UserRight from '@views/user/view/user-right'
 
 // Data Imports
-import {getClient} from "@/app/ApolloClient";
-import {GET_USER_BY_ID} from "@/graphql/queries";
 
 const OverViewTab = dynamic(() => import('@views/user/view/user-right/overview'))
 const SecurityTab = dynamic(() => import('@views/user/view/user-right/security'))
@@ -39,16 +37,15 @@ const tabContentList = data => ({
 
   return res.json()
 } */
-const UserViewTab = async ({params}) => {
-  const {data} = await getClient().query({query: GET_USER_BY_ID, variables: {userId: params.userId}});
+const UserViewTab = async () => {
 
   return (
     <Grid container spacing={6}>
       <Grid item xs={12} lg={4} md={5}>
-        <UserLeftOverview userData={data.users_by_pk}/>
+        <UserLeftOverview/>
       </Grid>
       <Grid item xs={12} lg={8} md={7}>
-        <UserRight tabContentList={tabContentList(data)}/>
+        <UserRight tabContentList={tabContentList()}/>
       </Grid>
     </Grid>
   )

@@ -46,6 +46,9 @@ import { getLocalizedUrl } from '@/utils/i18n'
 
 // Style Imports
 import tableStyles from '@core/styles/table.module.css'
+import {useSuspenseQuery} from "@apollo/client";
+import {GET_PRODUCTS} from "@/graphql/queries";
+import Avatar from "@mui/material/Avatar";
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -90,18 +93,19 @@ const productCategoryObj = {
 }
 
 const productStatusObj = {
-  Scheduled: { title: 'Scheduled', color: 'warning' },
-  Published: { title: 'Publish', color: 'success' },
-  Inactive: { title: 'Inactive', color: 'error' }
+  true: { title: 'Enabled', color: 'success' },
+  false: { title: 'Disabled', color: 'error' }
 }
 
 // Column Definitions
 const columnHelper = createColumnHelper()
 
-const ProductListTable = ({ productData }) => {
+const ProductListTable = () => {
+  const {data: productData} = useSuspenseQuery(GET_PRODUCTS)
+
   // States
   const [rowSelection, setRowSelection] = useState({})
-  const [data, setData] = useState(...[productData])
+  const [data, setData] = useState(...[productData.products])
   const [filteredData, setFilteredData] = useState(data)
   const [globalFilter, setGlobalFilter] = useState('')
 
@@ -110,38 +114,16 @@ const ProductListTable = ({ productData }) => {
 
   const columns = useMemo(
     () => [
-      {
-        id: 'select',
-        header: ({ table }) => (
-          <Checkbox
-            {...{
-              checked: table.getIsAllRowsSelected(),
-              indeterminate: table.getIsSomeRowsSelected(),
-              onChange: table.getToggleAllRowsSelectedHandler()
-            }}
-          />
-        ),
-        cell: ({ row }) => (
-          <Checkbox
-            {...{
-              checked: row.getIsSelected(),
-              disabled: !row.getCanSelect(),
-              indeterminate: row.getIsSomeSelected(),
-              onChange: row.getToggleSelectedHandler()
-            }}
-          />
-        )
-      },
       columnHelper.accessor('productName', {
         header: 'Product',
         cell: ({ row }) => (
           <div className='flex items-center gap-4'>
-            <img src={row.original.image} width={38} height={38} className='rounded bg-actionHover' />
+            <img src={row.original.product_medias[0].media_url} width={38} height={38} className='rounded bg-actionHover' />
             <div className='flex flex-col'>
               <Typography className='font-medium' color='text.primary'>
-                {row.original.productName}
+                {row.original.title}
               </Typography>
-              <Typography variant='body2'>{row.original.productBrand}</Typography>
+              <Typography variant='body2'>{row.original.brand.title}</Typography>
             </div>
           </div>
         )
@@ -150,37 +132,26 @@ const ProductListTable = ({ productData }) => {
         header: 'Category',
         cell: ({ row }) => (
           <div className='flex items-center gap-4'>
-            <CustomAvatar skin='light' color={productCategoryObj[row.original.category].color} size={30}>
-              <i className={classnames(productCategoryObj[row.original.category].icon, 'text-lg')} />
-            </CustomAvatar>
-            <Typography color='text.primary'>{row.original.category}</Typography>
+            <Avatar src={row.original.product_category.image_url} />
+            <Typography color='text.primary'>{row.original.product_category.title}</Typography>
           </div>
         )
       }),
-      columnHelper.accessor('stock', {
-        header: 'Stock',
-        cell: ({ row }) => <Switch defaultChecked={row.original.stock} />,
-        enableSorting: false
-      }),
-      columnHelper.accessor('sku', {
-        header: 'SKU',
-        cell: ({ row }) => <Typography>{row.original.sku}</Typography>
+      columnHelper.accessor('serial_number', {
+        header: 'Serial No.',
+        cell: ({ row }) => <Typography>{row.original.serial_number}-</Typography>
       }),
       columnHelper.accessor('price', {
         header: 'Price',
-        cell: ({ row }) => <Typography>{row.original.price}</Typography>
-      }),
-      columnHelper.accessor('qty', {
-        header: 'QTY',
-        cell: ({ row }) => <Typography>{row.original.qty}</Typography>
+        cell: ({ row }) => <Typography>{row.original.price.toLocaleString()}</Typography>
       }),
       columnHelper.accessor('status', {
         header: 'Status',
         cell: ({ row }) => (
           <Chip
-            label={productStatusObj[row.original.status].title}
+            label={row.original.disabled ? "Disabled" : "Enabled"}
             variant='tonal'
-            color={productStatusObj[row.original.status].color}
+            color={productStatusObj[row.original.disabled].color}
             size='small'
           />
         )
