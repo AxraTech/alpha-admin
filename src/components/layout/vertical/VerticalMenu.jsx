@@ -62,6 +62,7 @@ const VerticalMenu = ({ dictionary, scrollMenu }) => {
         renderExpandedMenuItemIcon={{ icon: <i className='ri-circle-line' /> }}
         menuSectionStyles={menuSectionStyles(verticalNavOptions, theme)}
       >
+        {/* dashboard */}
         <SubMenu
           label={dictionary['navigation'].dashboards}
           icon={<i className='ri-home-smile-line' />}
@@ -71,26 +72,46 @@ const VerticalMenu = ({ dictionary, scrollMenu }) => {
           <MenuItem href={`/${locale}/dashboards/ecommerce`}>{dictionary['navigation'].eCommerce}</MenuItem>
         </SubMenu>
 
-          <MenuItem href={`/${locale}/chat`} icon={<i className='ri-wechat-line' />}>
-            {dictionary['navigation'].chat}
-          </MenuItem>
-          <MenuItem href={`/${locale}/products/category`} icon={<i className='ri-user-line' />}>
-            {dictionary['navigation'].category}
-          </MenuItem>
-          <MenuItem href={`/${locale}/products/list`}  icon={<i className='ri-user-line' />}>{dictionary['navigation'].products}</MenuItem>
-          <MenuItem href={`/${locale}/orders/list`} icon={<i className='ri-user-line' />}>{dictionary['navigation'].orders}</MenuItem>
-          <MenuItem href={`/${locale}/user/list`} icon={<i className='ri-user-line' />}>{dictionary['navigation'].user}</MenuItem>
-          <MenuItem href={`/${locale}/invoice/list`} icon={<i className='ri-bill-line' />}>{dictionary['navigation'].invoice}</MenuItem>
+        {/* products */}
+        <SubMenu
+          label={dictionary['navigation'].products}
+          icon={<i className='ri-home-smile-line' />}
+          //suffix={<Chip label='5' size='small' color='error' />}
+        >
+          <MenuItem href={`/${locale}/products/list`}>{dictionary['navigation'].product_list}</MenuItem>
+          <MenuItem href={`/${locale}/products/category`}>{dictionary['navigation'].category}</MenuItem>
+          <MenuItem href={`/${locale}/products/brands`}>{dictionary['navigation'].brands}</MenuItem>
+        </SubMenu>
+        {/* newsfeed */}
+        <SubMenu
+          label={dictionary['navigation'].news}
+          icon={<i className='ri-home-smile-line' />}
+          //suffix={<Chip label='5' size='small' color='error' />}
+        >
+          <MenuItem href={`/${locale}/news/list`}>{dictionary['navigation'].news_list}</MenuItem>
+          <MenuItem href={`/${locale}/news/category`}>{dictionary['navigation'].new_category}</MenuItem>
+        </SubMenu>
 
+        <MenuItem href={`/${locale}/chat`} icon={<i className='ri-wechat-line' />}>
+          {dictionary['navigation'].chat}
+        </MenuItem>
 
+        <MenuItem href={`/${locale}/orders/list`} icon={<i className='ri-user-line' />}>
+          {dictionary['navigation'].orders}
+        </MenuItem>
+        <MenuItem href={`/${locale}/user/list`} icon={<i className='ri-user-line' />}>
+          {dictionary['navigation'].user}
+        </MenuItem>
+        <MenuItem href={`/${locale}/invoice/list`} icon={<i className='ri-bill-line' />}>
+          {dictionary['navigation'].invoice}
+        </MenuItem>
 
-          <MenuItem href={`/${locale}/404-not-found`} target='_blank'>
-            {dictionary['navigation'].pageNotFound404}
-          </MenuItem>
-          <MenuItem href={`/${locale}/401-not-authorized`} target='_blank'>
-            {dictionary['navigation'].notAuthorized401}
-          </MenuItem>
-
+        <MenuItem href={`/${locale}/404-not-found`} target='_blank'>
+          {dictionary['navigation'].pageNotFound404}
+        </MenuItem>
+        <MenuItem href={`/${locale}/401-not-authorized`} target='_blank'>
+          {dictionary['navigation'].notAuthorized401}
+        </MenuItem>
       </Menu>
       {/* <Menu
           popoutMenuOffset={{ mainAxis: 10 }}

@@ -15,13 +15,13 @@ import TextField from '@mui/material/TextField'
 
 // Component Imports
 import CustomIconButton from '@core/components/mui/IconButton'
+import { useSuspenseQuery } from '@apollo/client'
+import { PRODUCT_BRANDs, PRODUCT_CATS } from '@/graphql/queries'
+import { FormHelperText } from '@mui/material'
 
-const ProductOrganize = () => {
-  // States
-  const [vendor, setVendor] = useState('')
-  const [category, setCategory] = useState('')
-  const [collection, setCollection] = useState('')
-  const [status, setStatus] = useState('')
+const ProductOrganize = ({ brandId, setBrandId, catId, setCatId, errors }) => {
+  const { data: brands } = useSuspenseQuery(PRODUCT_BRANDs)
+  const { data: cats } = useSuspenseQuery(PRODUCT_CATS)
 
   return (
     <Card>
@@ -29,29 +29,44 @@ const ProductOrganize = () => {
       <CardContent>
         <form onSubmit={e => e.preventDefault()} className='flex flex-col gap-5'>
           <FormControl fullWidth>
-            <InputLabel>Select Vendor</InputLabel>
-            <Select label='Select Vendor' value={vendor} onChange={e => setVendor(e.target.value)}>
-              <MenuItem value={`Men's Clothing`}>Men&apos;s Clothing</MenuItem>
-              <MenuItem value={`Women's Clothing`}>Women&apos;s Clothing</MenuItem>
-              <MenuItem value={`Kid's Clothing`}>Kid&apos;s Clothing</MenuItem>
+            <InputLabel>Select Product Brand</InputLabel>
+            <Select
+              label='Select Vendor'
+              value={brandId}
+              onChange={e => setBrandId(e.target.value)}
+              error={errors?.brandId ? true : false}
+              helperText={errors?.brandId}
+            >
+              {brands?.brands?.map((brand, index) => (
+                <MenuItem value={brand?.id} key={index}>
+                  {brand?.title}
+                </MenuItem>
+              ))}
             </Select>
+            <FormHelperText sx={{ color: 'red' }}>{errors?.brandId}</FormHelperText>
           </FormControl>
           <div className='flex items-center gap-4'>
             <FormControl fullWidth>
-              <InputLabel>Select Category</InputLabel>
-              <Select label='Select Category' value={category} onChange={e => setCategory(e.target.value)}>
-                <MenuItem value='Household'>Household</MenuItem>
-                <MenuItem value='Office'>Office</MenuItem>
-                <MenuItem value='Electronics'>Electronics</MenuItem>
-                <MenuItem value='Management'>Management</MenuItem>
-                <MenuItem value='Automotive'>Automotive</MenuItem>
+              <InputLabel>Select Product Category</InputLabel>
+              <Select
+                label='Select Category'
+                value={catId}
+                onChange={e => setCatId(e.target.value)}
+                error={errors?.catId ? true : false}
+              >
+                {cats?.product_categories?.map((cat, index) => (
+                  <MenuItem value={cat?.id} key={index}>
+                    {cat?.title}
+                  </MenuItem>
+                ))}
               </Select>
+              <FormHelperText sx={{ color: 'red' }}>{errors?.catId}</FormHelperText>
             </FormControl>
-            <CustomIconButton size='large' variant='outlined' color='primary' className='min-is-fit'>
+            {/* <CustomIconButton size='large' variant='outlined' color='primary' className='min-is-fit'>
               <i className='ri-add-line' />
-            </CustomIconButton>
+            </CustomIconButton> */}
           </div>
-          <FormControl fullWidth>
+          {/* <FormControl fullWidth>
             <InputLabel>Select Collection</InputLabel>
             <Select label='Select Collection' value={collection} onChange={e => setCollection(e.target.value)}>
               <MenuItem value={`Men's Clothing`}>Men&apos;s Clothing</MenuItem>
@@ -67,7 +82,7 @@ const ProductOrganize = () => {
               <MenuItem value='Scheduled'>Scheduled</MenuItem>
             </Select>
           </FormControl>
-          <TextField fullWidth label='Enter Tags' placeholder='Fashion, Trending, Summer' />
+          <TextField fullWidth label='Enter Tags' placeholder='Fashion, Trending, Summer' /> */}
         </form>
       </CardContent>
     </Card>

@@ -46,9 +46,12 @@ import { getLocalizedUrl } from '@/utils/i18n'
 
 // Style Imports
 import tableStyles from '@core/styles/table.module.css'
-import {useSuspenseQuery} from "@apollo/client";
-import {GET_PRODUCTS} from "@/graphql/queries";
-import Avatar from "@mui/material/Avatar";
+import { useMutation, useSuspenseQuery } from '@apollo/client'
+import { GET_PRODUCTS } from '@/graphql/queries'
+import Avatar from '@mui/material/Avatar'
+import { DELETE_PRODUCT } from '@/graphql/mutations'
+import { useApp } from '@/app/ApolloWrapper'
+import Alert from '@/components/helper/Alert'
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -101,8 +104,9 @@ const productStatusObj = {
 const columnHelper = createColumnHelper()
 
 const ProductListTable = () => {
-  const {data: productData} = useSuspenseQuery(GET_PRODUCTS)
-
+  const { setGlobalMsg } = useApp()
+  const { data: productData } = useSuspenseQuery(GET_PRODUCTS, { fetchPolicy: 'network-only' })
+  const [deletProduct] = useMutation(DELETE_PRODUCT)
   // States
   const [rowSelection, setRowSelection] = useState({})
   const [data, setData] = useState(...[productData.products])
@@ -112,13 +116,29 @@ const ProductListTable = () => {
   // Hooks
   const { lang: locale } = useParams()
 
+  const handleDelete = async id => {
+    try {
+      await deletProduct({ variables: { id: id } })
+      setGlobalMsg('✅ Delete Successful')
+      setData(data?.filter(item => item.id !== id))
+    } catch (e) {
+      setGlobalMsg('❌ Delete Error')
+      console.log('Delete Error', e)
+    }
+  }
+
   const columns = useMemo(
     () => [
-      columnHelper.accessor('productName', {
+      columnHelper.accessor('title', {
         header: 'Product',
         cell: ({ row }) => (
           <div className='flex items-center gap-4'>
-            <img src={row.original.product_medias[0].media_url} width={38} height={38} className='rounded bg-actionHover' />
+            <img
+              src={row.original?.product_medias[0]?.media_url}
+              width={38}
+              height={38}
+              className='rounded bg-actionHover'
+            />
             <div className='flex flex-col'>
               <Typography className='font-medium' color='text.primary'>
                 {row.original.title}
@@ -128,7 +148,7 @@ const ProductListTable = () => {
           </div>
         )
       }),
-      columnHelper.accessor('category', {
+      columnHelper.accessor('product_category.title', {
         header: 'Category',
         cell: ({ row }) => (
           <div className='flex items-center gap-4'>
@@ -145,11 +165,11 @@ const ProductListTable = () => {
         header: 'Price',
         cell: ({ row }) => <Typography>{row.original.price.toLocaleString()}</Typography>
       }),
-      columnHelper.accessor('status', {
+      columnHelper.accessor('disabled', {
         header: 'Status',
         cell: ({ row }) => (
           <Chip
-            label={row.original.disabled ? "Disabled" : "Enabled"}
+            label={row.original.disabled ? 'Disabled' : 'Enabled'}
             variant='tonal'
             color={productStatusObj[row.original.disabled].color}
             size='small'
@@ -163,7 +183,10 @@ const ProductListTable = () => {
             <IconButton size='small'>
               <i className='ri-edit-box-line text-[22px] text-textSecondary' />
             </IconButton>
-            <OptionMenu
+            <IconButton size='small' onClick={() => handleDelete(row?.original?.id)}>
+              <i className='ri-delete-bin-7-line text-[22px] text-red-500' />
+            </IconButton>
+            {/* <OptionMenu
               iconButtonProps={{ size: 'medium' }}
               iconClassName='text-textSecondary text-[22px]'
               options={[
@@ -178,7 +201,7 @@ const ProductListTable = () => {
                 },
                 { text: 'Duplicate', icon: 'ri-stack-line', menuItemProps: { className: 'gap-2' } }
               ]}
-            />
+            /> */}
           </div>
         ),
         enableSorting: false
@@ -318,6 +341,7 @@ const ProductListTable = () => {
           onRowsPerPageChange={e => table.setPageSize(Number(e.target.value))}
         />
       </Card>
+      <Alert />
     </>
   )
 }

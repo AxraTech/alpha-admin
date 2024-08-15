@@ -16,13 +16,16 @@ import InputAdornment from '@mui/material/InputAdornment'
 
 // Third-party Imports
 import { useForm, Controller } from 'react-hook-form'
-import {useMutation} from "@apollo/client";
-import {ADD_CATEGORY} from "@/graphql/mutations";
+import { useMutation } from '@apollo/client'
+import { ADD_CATEGORY } from '@/graphql/mutations'
+import Alert from '@/components/helper/Alert'
+import { useApp } from '@/app/ApolloWrapper'
 
 const AddCategoryDrawer = props => {
+  const { setGlobalMsg } = useApp()
   // Props
   const { open, handleClose, categoryData, setData } = props
-const [addCategory] = useMutation(ADD_CATEGORY)
+  const [addCategory] = useMutation(ADD_CATEGORY)
 
   // States
   const [fileName, setFileName] = useState('')
@@ -49,13 +52,14 @@ const [addCategory] = useMutation(ADD_CATEGORY)
       variables: {
         data: {
           title: data.title,
-          image_url:fileName
+          image_url: fileName
         }
       }
     })
 
     setData([...categoryData, res.data.insert_product_categories_one])
     handleReset()
+    setGlobalMsg('➕ Added New Category')
   }
 
   // Handle Form Reset
@@ -63,7 +67,6 @@ const [addCategory] = useMutation(ADD_CATEGORY)
     handleClose()
     resetForm({ title: '', description: '' })
     setFileName('')
-
   }
 
   // Handle File Upload
@@ -76,72 +79,75 @@ const [addCategory] = useMutation(ADD_CATEGORY)
   }
 
   return (
-    <Drawer
-      open={open}
-      anchor='right'
-      variant='temporary'
-      onClose={handleReset}
-      ModalProps={{ keepMounted: true }}
-      sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
-    >
-      <div className='flex items-center justify-between pli-5 plb-4'>
-        <Typography variant='h5'>Add Category</Typography>
-        <IconButton size='small' onClick={handleReset}>
-          <i className='ri-close-line text-2xl' />
-        </IconButton>
-      </div>
-      <Divider />
-      <div className='p-5'>
-        <form onSubmit={handleSubmit(data => handleFormSubmit(data))} className='flex flex-col gap-5'>
-          <Controller
-            name='title'
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                fullWidth
-                label='Title'
-                placeholder=''
-                {...(errors.title && { error: true, helperText: 'This field is required.' })}
-              />
-            )}
-          />
-          <div className='flex items-center gap-4'>
-            <TextField
-              size='small'
-              placeholder='No file chosen'
-              variant='outlined'
-              value={fileName}
-              className='flex-auto'
-              InputProps={{
-                readOnly: true,
-                endAdornment: fileName ? (
-                  <InputAdornment position='end'>
-                    <IconButton size='small' edge='end' onClick={() => setFileName('')}>
-                      <i className='ri-close-line' />
-                    </IconButton>
-                  </InputAdornment>
-                ) : null
-              }}
+    <>
+      <Drawer
+        open={open}
+        anchor='right'
+        variant='temporary'
+        onClose={handleReset}
+        ModalProps={{ keepMounted: true }}
+        sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
+      >
+        <div className='flex items-center justify-between pli-5 plb-4'>
+          <Typography variant='h5'>Add Category</Typography>
+          <IconButton size='small' onClick={handleReset}>
+            <i className='ri-close-line text-2xl' />
+          </IconButton>
+        </div>
+        <Divider />
+        <div className='p-5'>
+          <form onSubmit={handleSubmit(data => handleFormSubmit(data))} className='flex flex-col gap-5'>
+            <Controller
+              name='title'
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  fullWidth
+                  label='Title'
+                  placeholder=''
+                  {...(errors.title && { error: true, helperText: 'This field is required.' })}
+                />
+              )}
             />
-            <Button component='label' variant='outlined' htmlFor='contained-button-file' className='min-is-fit'>
-              Choose
-              <input hidden id='contained-button-file' type='file' onChange={handleFileUpload} ref={fileInputRef} />
-            </Button>
-          </div>
+            <div className='flex items-center gap-4'>
+              <TextField
+                size='small'
+                placeholder='No file chosen'
+                variant='outlined'
+                value={fileName}
+                className='flex-auto'
+                InputProps={{
+                  readOnly: true,
+                  endAdornment: fileName ? (
+                    <InputAdornment position='end'>
+                      <IconButton size='small' edge='end' onClick={() => setFileName('')}>
+                        <i className='ri-close-line' />
+                      </IconButton>
+                    </InputAdornment>
+                  ) : null
+                }}
+              />
+              <Button component='label' variant='outlined' htmlFor='contained-button-file' className='min-is-fit'>
+                Choose
+                <input hidden id='contained-button-file' type='file' onChange={handleFileUpload} ref={fileInputRef} />
+              </Button>
+            </div>
 
-          <div className='flex items-center gap-4'>
-            <Button variant='contained' type='submit'>
-              Add
-            </Button>
-            <Button variant='outlined' color='error' type='reset' onClick={handleReset}>
-              Discard
-            </Button>
-          </div>
-        </form>
-      </div>
-    </Drawer>
+            <div className='flex items-center gap-4'>
+              <Button variant='contained' type='submit'>
+                Add
+              </Button>
+              <Button variant='outlined' color='error' type='reset' onClick={handleReset}>
+                Discard
+              </Button>
+            </div>
+          </form>
+        </div>
+      </Drawer>
+      <Alert />
+    </>
   )
 }
 
