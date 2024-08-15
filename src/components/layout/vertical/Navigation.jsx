@@ -44,7 +44,7 @@ const StyledBoxForShadow = styled('div')(({ theme }) => ({
 const Navigation = props => {
   // Props
   const { dictionary, mode, systemMode } = props
-
+  console.log('dictionary ', dictionary)
   // Hooks
   const verticalNavOptions = useVerticalNav()
   const { updateSettings, settings } = useSettings()

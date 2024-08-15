@@ -29,16 +29,16 @@ import {
 } from '@tanstack/react-table'
 
 // Component Imports
-import AddCategoryDrawer from './AddCategoryDrawer'
+import AddBrandDrawer from './AddBrandDrawer'
 import OptionMenu from '@core/components/option-menu'
 
 // Style Imports
 import tableStyles from '@core/styles/table.module.css'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
-import { GET_PRODUCT_CATEGORIES } from '@/graphql/queries'
-import { DELETE_PRODUCT_CAT } from '@/graphql/mutations'
-import Alert from '@/components/helper/Alert'
+import { GET_BRANDS, PRODUCT_BRANDs } from '@/graphql/queries'
+import { DELETE_PRODUCT_BRAND } from '@/graphql/mutations'
 import { useApp } from '@/app/ApolloWrapper'
+import Alert from '@/components/helper/Alert'
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -77,31 +77,31 @@ const DebouncedInput = ({ value: initialValue, onChange, debounce = 500, ...prop
 // Column Definitions
 const columnHelper = createColumnHelper()
 
-const ProductCategoryTable = () => {
+const ProductBrandTable = () => {
   const { setGlobalMsg } = useApp()
   // States
-  const { data: categoryData } = useSuspenseQuery(GET_PRODUCT_CATEGORIES)
-  const [deleteCat] = useMutation(DELETE_PRODUCT_CAT)
-  const [addCategoryOpen, setAddCategoryOpen] = useState(false)
+  const { data: brandData } = useSuspenseQuery(GET_BRANDS)
+  const [deleteBrand] = useMutation(DELETE_PRODUCT_BRAND)
+  const [addBrandOpen, setAddBrandOpen] = useState(false)
   const [rowSelection, setRowSelection] = useState({})
-  const [data, setData] = useState(...[categoryData.product_categories])
+  const [data, setData] = useState(...[brandData.brands])
   const [globalFilter, setGlobalFilter] = useState('')
 
   const handleDelete = async id => {
     try {
-      await deleteCat({ variables: { id: id } })
+      await deleteBrand({ variables: { id: id } })
       setData(data.filter(item => item.id !== id))
       setGlobalMsg('✅ Delete Successful')
     } catch (e) {
       setGlobalMsg('❌ Delete Error')
-      console.log('Delete Error')
+      console.log('Delete Error', e)
     }
   }
 
   const columns = useMemo(
     () => [
       columnHelper.accessor('title', {
-        header: 'Categories',
+        header: 'Brands',
         cell: ({ row }) => (
           <div className='flex items-center gap-3'>
             <img src={row.original.image_url} width={38} height={38} className='rounded bg-actionHover' />
@@ -109,15 +109,18 @@ const ProductCategoryTable = () => {
               <Typography className='font-medium' color='text.primary'>
                 {row.original.title}
               </Typography>
-              <Typography variant='body2'>{row.original.description}</Typography>
+              {/* <Typography variant='body2'>{row.original.description}</Typography> */}
             </div>
           </div>
         )
       }),
       columnHelper.accessor('products_aggregate.aggregate.count', {
         header: 'Total Products',
-        cell: ({ row }) => <Typography>{row.original.products_aggregate.aggregate.count.toLocaleString()}</Typography>
+        cell: ({ row }) => (
+          <Typography>{row.original?.products_aggregate?.aggregate?.count.toLocaleString()}</Typography>
+        )
       }),
+
       columnHelper.accessor('actions', {
         header: 'Actions',
         cell: ({ row }) => (
@@ -205,10 +208,10 @@ const ProductCategoryTable = () => {
             <Button
               variant='contained'
               className='max-sm:is-full is-auto'
-              onClick={() => setAddCategoryOpen(!addCategoryOpen)}
+              onClick={() => setAddBrandOpen(!addBrandOpen)}
               startIcon={<i className='ri-add-line' />}
             >
-              Add Category
+              Add Brand
             </Button>
           </div>
         </div>
@@ -280,15 +283,15 @@ const ProductCategoryTable = () => {
           onRowsPerPageChange={e => table.setPageSize(Number(e.target.value))}
         />
       </Card>
-      <AddCategoryDrawer
-        open={addCategoryOpen}
-        categoryData={data}
+      <AddBrandDrawer
+        open={addBrandOpen}
+        brandData={data}
         setData={setData}
-        handleClose={() => setAddCategoryOpen(!addCategoryOpen)}
+        handleClose={() => setAddBrandOpen(!addBrandOpen)}
       />
       <Alert />
     </>
   )
 }
 
-export default ProductCategoryTable
+export default ProductBrandTable

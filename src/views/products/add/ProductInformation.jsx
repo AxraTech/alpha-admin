@@ -22,6 +22,7 @@ import CustomIconButton from '@core/components/mui/IconButton'
 
 // Style Imports
 import '@/libs/styles/tiptapEditor.css'
+import { setNonce } from 'react-colorful'
 
 const EditorToolbar = ({ editor }) => {
   if (!editor) {
@@ -110,7 +111,7 @@ const EditorToolbar = ({ editor }) => {
   )
 }
 
-const ProductInformation = () => {
+const ProductInformation = ({ setTitle, title, setSNo, sNo, setDescription, description, errors }) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -135,13 +136,27 @@ const ProductInformation = () => {
       <CardContent>
         <Grid container spacing={5} className='mbe-5'>
           <Grid item xs={12}>
-            <TextField fullWidth label='Product Name' placeholder='iPhone 14' />
+            <TextField
+              fullWidth
+              label='Product Name'
+              placeholder='iPhone 14'
+              value={title}
+              onChange={e => setTitle(e.target.value)}
+              error={errors?.title ? true : false}
+              helperText={errors?.title}
+            />
           </Grid>
+
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='SKU' placeholder='FXSK123U' />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Barcode' placeholder='0123-4567' />
+            <TextField
+              fullWidth
+              label='Serial Number'
+              placeholder='0123-4567'
+              value={sNo}
+              onChange={e => setSNo(e.target.value)}
+              error={errors?.sNo ? true : false}
+              helperText={errors?.sNo}
+            />
           </Grid>
         </Grid>
         <Typography className='mbe-1'>Description (Optional)</Typography>

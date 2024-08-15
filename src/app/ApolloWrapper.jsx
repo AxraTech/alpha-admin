@@ -1,59 +1,79 @@
-"use client";
+'use client'
 // ^ this file needs the "use client" pragma
-
-import { ApolloLink, HttpLink } from "@apollo/client";
+import { onError } from '@apollo/client/link/error'
+import { ApolloLink, HttpLink } from '@apollo/client'
 import {
   ApolloNextAppProvider,
   ApolloClient,
   InMemoryCache,
-  SSRMultipartLink,
-} from "@apollo/experimental-nextjs-app-support";
-import {setContext} from "@apollo/client/link/context";
-
+  SSRMultipartLink
+} from '@apollo/experimental-nextjs-app-support'
+import { setContext } from '@apollo/client/link/context'
+import { createContext, useContext, useState } from 'react'
+export const AppContext = createContext()
 // have a function to create a client for you
 function makeClient() {
   const httpLink = new HttpLink({
     // this needs to be an absolute url, as relative urls cannot be used in SSR
-    uri: "https://alpha.axra.app/v1/graphql",
+    uri: 'https://alpha.axra.app/v1/graphql',
     // you can disable result caching here if you want to
     // (this does not work if you are rendering your page with `export const dynamic = "force-static"`)
-    fetchOptions: { cache: "no-store" },
+    fetchOptions: { cache: 'no-store' }
     // you can override the default `fetchOptions` on a per query basis
     // via the `context` property on the options passed as a second argument
     // to an Apollo Client data fetching hook, e.g.:
     // const { data } = useSuspenseQuery(MY_QUERY, { context: { fetchOptions: { cache: "force-cache" }}});
-  });
+  })
 
-
-  const authLink = setContext(async (_, {headers}) => {
+  const authLink = setContext(async (_, { headers }) => {
     try {
       return {
         headers: {
           ...headers,
-          "x-hasura-admin-secret": "alphapassword",
-        },
-      };
+          'x-hasura-admin-secret': 'alphapassword'
+        }
+      }
     } catch (e) {
       return {
-        headers,
-      };
+        headers
+      }
     }
   })
-
 
   // use the `ApolloClient` from "@apollo/experimental-nextjs-app-support"
   return new ApolloClient({
     // use the `InMemoryCache` from "@apollo/experimental-nextjs-app-support"
     cache: new InMemoryCache(),
-    link: authLink.concat(httpLink)
-  });
+    link: errorLink.concat(authLink).concat(httpLink)
+  })
 }
 
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors) {
+    console.log('graphql', graphQLErrors)
+    graphQLErrors.forEach(({ extensions }) => {
+      if (extensions.code === 'invalid-headers' || extensions.code === 'invalid-jwt') {
+        localStorage.clear()
+        window.location.assign(`${window.location.origin}/login`)
+      }
+    })
+  }
+  if (networkError) {
+    console.log(`[Network error]: ${networkError}`)
+    alert('network connection problem')
+  }
+})
+
+export const useApp = () => {
+  return useContext(AppContext)
+}
 // you need to create a component to wrap your app in
 export function ApolloWrapper({ children }) {
+  const [globalMsg, setGlobalMsg] = useState(null)
+  const [loading, setLoading] = useState(false)
   return (
     <ApolloNextAppProvider makeClient={makeClient}>
-      {children}
+      <AppContext.Provider value={{ globalMsg, setGlobalMsg, loading, setLoading }}>{children}</AppContext.Provider>
     </ApolloNextAppProvider>
-  );
+  )
 }
