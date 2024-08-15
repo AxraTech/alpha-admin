@@ -1,11 +1,11 @@
 'use client'
 
 // React Imports
-import { useState } from 'react'
+import {useState} from 'react'
 
 // Next Imports
 import Link from 'next/link'
-import { useParams, useRouter, useSearchParams } from 'next/navigation'
+import {useParams, useRouter, useSearchParams} from 'next/navigation'
 
 // MUI Imports
 import Typography from '@mui/material/Typography'
@@ -19,9 +19,9 @@ import Divider from '@mui/material/Divider'
 import Alert from '@mui/material/Alert'
 
 // Third-party Imports
-import { Controller, useForm } from 'react-hook-form'
-import { valibotResolver } from '@hookform/resolvers/valibot'
-import { object, minLength, string, email, pipe, nonEmpty } from 'valibot'
+import {Controller, useForm} from 'react-hook-form'
+import {valibotResolver} from '@hookform/resolvers/valibot'
+import {email, minLength, nonEmpty, object, pipe, string} from 'valibot'
 import classnames from 'classnames'
 
 // Component Imports
@@ -32,11 +32,14 @@ import Illustrations from '@components/Illustrations'
 import themeConfig from '@configs/themeConfig'
 
 // Hook Imports
-import { useImageVariant } from '@core/hooks/useImageVariant'
-import { useSettings } from '@core/hooks/useSettings'
+import {useImageVariant} from '@core/hooks/useImageVariant'
+import {useSettings} from '@core/hooks/useSettings'
 
 // Util Imports
-import { getLocalizedUrl } from '@/utils/i18n'
+import {getLocalizedUrl} from '@/utils/i18n'
+import {useMutation} from "@apollo/client";
+import {ADMIN_SIGN_IN} from "@/graphql/mutations";
+import Cookies from "js-cookie";
 
 const schema = object({
   email: pipe(string(), minLength(1, 'This field is required'), email('Please enter a valid email address')),
@@ -47,7 +50,7 @@ const schema = object({
   )
 })
 
-const Login = ({ mode }) => {
+const Login = ({mode}) => {
   // States
   const [isPasswordShown, setIsPasswordShown] = useState(false)
   const [errorState, setErrorState] = useState(null)
@@ -63,18 +66,18 @@ const Login = ({ mode }) => {
   // Hooks
   const router = useRouter()
   const searchParams = useSearchParams()
-  const { lang: locale } = useParams()
-  const { settings } = useSettings()
+  const {lang: locale} = useParams()
+  const {settings} = useSettings()
 
   const {
     control,
     handleSubmit,
-    formState: { errors }
+    formState: {errors}
   } = useForm({
     resolver: valibotResolver(schema),
     defaultValues: {
-      email: 'admin@materio.com',
-      password: 'admin'
+      email: 'admin@mail.com',
+      password: 'password'
     }
   })
 
@@ -90,20 +93,22 @@ const Login = ({ mode }) => {
 
   const handleClickShowPassword = () => setIsPasswordShown(show => !show)
 
+  const [adminSignIn] = useMutation(ADMIN_SIGN_IN)
+
   const onSubmit = async data => {
-
-
-    if (res && res.ok && res.error === null) {
-      // Vars
+    try {
+      const res = await adminSignIn({
+        variables: {
+          email: data.email,
+          password: data.password
+        }
+      })
+      Cookies.set("token", res.data.AdminSignIn.token)
       const redirectURL = searchParams.get('redirectTo') ?? '/'
-
-      router.replace(getLocalizedUrl(redirectURL, locale))
-    } else {
-      if (res?.error) {
-        const error = JSON.parse(res.error)
-
-        setErrorState(error)
-      }
+      router.replace(redirectURL)
+    }
+    catch (e) {
+      setErrorState(e.message)
     }
   }
 
@@ -125,14 +130,15 @@ const Login = ({ mode }) => {
           />
         </div>
         <Illustrations
-          image1={{ src: '/images/illustrations/objects/tree-2.png' }}
+          image1={{src: '/images/illustrations/objects/tree-2.png'}}
           image2={null}
-          maskImg={{ src: authBackground }}
+          maskImg={{src: authBackground}}
         />
       </div>
-      <div className='flex justify-center items-center bs-full bg-backgroundPaper !min-is-full p-6 md:!min-is-[unset] md:p-12 md:is-[480px]'>
+      <div
+        className='flex justify-center items-center bs-full bg-backgroundPaper !min-is-full p-6 md:!min-is-[unset] md:p-12 md:is-[480px]'>
         <div className='absolute block-start-5 sm:block-start-[33px] inline-start-6 sm:inline-start-[38px]'>
-          <Logo />
+          <Logo/>
         </div>
         <div className='flex flex-col gap-5 is-full sm:is-auto md:is-full sm:max-is-[400px] md:max-is-[unset]'>
           <div>
@@ -148,7 +154,8 @@ const Login = ({ mode }) => {
 
           <form
             noValidate
-            action={() => {}}
+            action={() => {
+            }}
             autoComplete='off'
             onSubmit={handleSubmit(onSubmit)}
             className='flex flex-col gap-5'
@@ -156,8 +163,8 @@ const Login = ({ mode }) => {
             <Controller
               name='email'
               control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
+              rules={{required: true}}
+              render={({field}) => (
                 <TextField
                   {...field}
                   fullWidth
@@ -170,7 +177,7 @@ const Login = ({ mode }) => {
                   }}
                   {...((errors.email || errorState !== null) && {
                     error: true,
-                    helperText: errors?.email?.message || errorState?.message[0]
+                    helperText: errors?.email?.message || errorState
                   })}
                 />
               )}
@@ -178,8 +185,8 @@ const Login = ({ mode }) => {
             <Controller
               name='password'
               control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
+              rules={{required: true}}
+              render={({field}) => (
                 <TextField
                   {...field}
                   fullWidth
@@ -200,17 +207,17 @@ const Login = ({ mode }) => {
                           onMouseDown={e => e.preventDefault()}
                           aria-label='toggle password visibility'
                         >
-                          <i className={isPasswordShown ? 'ri-eye-off-line' : 'ri-eye-line'} />
+                          <i className={isPasswordShown ? 'ri-eye-off-line' : 'ri-eye-line'}/>
                         </IconButton>
                       </InputAdornment>
                     )
                   }}
-                  {...(errors.password && { error: true, helperText: errors.password.message })}
+                  {...(errors.password && {error: true, helperText: errors.password.message})}
                 />
               )}
             />
             <div className='flex justify-between items-center flex-wrap gap-x-3 gap-y-1'>
-              <FormControlLabel control={<Checkbox defaultChecked />} label='Remember me' />
+              <FormControlLabel control={<Checkbox defaultChecked/>} label='Remember me'/>
               <Typography className='text-end' color='primary' component={Link} href='/forgot-password'>
                 Forgot password?
               </Typography>
@@ -229,8 +236,8 @@ const Login = ({ mode }) => {
           <Button
             color='secondary'
             className='self-center text-textPrimary'
-            startIcon={<img src='/images/logos/google.png' alt='Google' width={22} />}
-            sx={{ '& .MuiButton-startIcon': { marginInlineEnd: 3 } }}
+            startIcon={<img src='/images/logos/google.png' alt='Google' width={22}/>}
+            sx={{'& .MuiButton-startIcon': {marginInlineEnd: 3}}}
             onClick={() => signIn('google')}
           >
             Sign in with Google

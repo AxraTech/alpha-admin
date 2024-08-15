@@ -13,7 +13,6 @@ export const GET_USERS = gql`
       delivery_name
       delivery_phone
       delivery_address
-      disabled
       dealer {
         id
         name
@@ -38,7 +37,6 @@ export const GET_USER_BY_ID = gql`
       delivery_name
       delivery_phone
       delivery_address
-      disabled
       dealer {
         id
         name

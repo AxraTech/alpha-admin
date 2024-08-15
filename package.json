@@ -43,6 +43,8 @@
     "classnames": "2.5.1",
     "cmdk": "1.0.0",
     "emoji-mart": "5.6.0",
+    "js-cookie": "^3.0.5",
+    "jwt-decode": "^4.0.0",
     "keen-slider": "6.8.6",
     "negotiator": "0.6.3",
     "next": "14.2.5",
