@@ -85,7 +85,7 @@ const VerticalMenu = ({ dictionary, scrollMenu }) => {
         {/* newsfeed */}
         <SubMenu
           label={dictionary['navigation'].news}
-          icon={<i className='ri-home-smile-line' />}
+          icon={<i className='ri-news-line' />}
           //suffix={<Chip label='5' size='small' color='error' />}
         >
           <MenuItem href={`/${locale}/news/list`}>{dictionary['navigation'].news_list}</MenuItem>
