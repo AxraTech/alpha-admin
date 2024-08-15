@@ -70,3 +70,26 @@ export const DELETE_PRODUCT_CAT = gql`
     }
   }
 `
+
+export const DELETE_NEW_CAT = gql`
+  mutation deleteNewCat($id: uuid!) {
+    delete_news_categories_by_pk(id: $id) {
+      id
+    }
+  }
+`
+
+export const ADD_NEWS_CAT = gql`
+  mutation addNewCat($title: String!) {
+    insert_news_categories_one(object: { title: $title }) {
+      id
+    }
+  }
+`
+export const DELETE_NEWS = gql`
+  mutation deleteNews($id: uuid!) {
+    delete_news_by_pk(id: $id) {
+      id
+    }
+  }
+`

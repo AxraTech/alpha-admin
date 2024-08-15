@@ -51,6 +51,7 @@ export const GET_USER_BY_ID = gql`
   }
 `
 
+// product
 export const GET_PRODUCT_CATEGORIES = gql`
   query getProductCategories {
     product_categories {
@@ -110,7 +111,6 @@ export const PRODUCT_CATS = gql`
     }
   }
 `
-
 export const GET_BRANDS = gql`
   query brands {
     brands {
@@ -122,6 +122,54 @@ export const GET_BRANDS = gql`
           count
         }
       }
+    }
+  }
+`
+export const GET_NEWS_CATS = gql`
+  query newCategorys {
+    news_categories {
+      id
+      title
+      news_aggregate {
+        aggregate {
+          count
+        }
+      }
+    }
+  }
+`
+
+export const NEW_CAT_BY_ID = gql`
+  query newCatById($id: uuid!) {
+    news_categories_by_pk(id: $id) {
+      id
+      title
+    }
+  }
+`
+
+export const GET_NEWS = gql`
+  query news {
+    news {
+      id
+      title
+      body_html
+      image_url
+      disabled
+      news_category_id
+      news_category {
+        id
+        title
+      }
+    }
+  }
+`
+export const NEW_BY_ID = gql`
+  query newId($id: uuid!) {
+    news_by_pk(id: $id) {
+      id
+      title
+      image_url
     }
   }
 `

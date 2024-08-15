@@ -47,9 +47,9 @@ import { getLocalizedUrl } from '@/utils/i18n'
 // Style Imports
 import tableStyles from '@core/styles/table.module.css'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
-import { GET_PRODUCTS } from '@/graphql/queries'
+import { GET_NEWS, GET_PRODUCTS } from '@/graphql/queries'
 import Avatar from '@mui/material/Avatar'
-import { DELETE_PRODUCT } from '@/graphql/mutations'
+import { DELETE_NEWS, DELETE_PRODUCT } from '@/graphql/mutations'
 import { useApp } from '@/app/ApolloWrapper'
 import Alert from '@/components/helper/Alert'
 
@@ -95,7 +95,7 @@ const productCategoryObj = {
   Games: { icon: 'ri-gamepad-line', color: 'secondary' }
 }
 
-const productStatusObj = {
+const newStatusObj = {
   true: { title: 'Enabled', color: 'success' },
   false: { title: 'Disabled', color: 'error' }
 }
@@ -103,13 +103,13 @@ const productStatusObj = {
 // Column Definitions
 const columnHelper = createColumnHelper()
 
-const ProductListTable = () => {
+const NewListTable = () => {
   const { setGlobalMsg } = useApp()
-  const { data: productData } = useSuspenseQuery(GET_PRODUCTS, { fetchPolicy: 'network-only' })
-  const [deletProduct] = useMutation(DELETE_PRODUCT)
+  const { data: newData } = useSuspenseQuery(GET_NEWS)
+  const [deletNew] = useMutation(DELETE_NEWS)
   // States
   const [rowSelection, setRowSelection] = useState({})
-  const [data, setData] = useState(...[productData.products])
+  const [data, setData] = useState(...[newData.news])
   const [filteredData, setFilteredData] = useState(data)
   const [globalFilter, setGlobalFilter] = useState('')
 
@@ -118,7 +118,7 @@ const ProductListTable = () => {
 
   const handleDelete = async id => {
     try {
-      await deletProduct({ variables: { id: id } })
+      await deletNew({ variables: { id: id } })
       setGlobalMsg('✅ Delete Successful')
       setData(data?.filter(item => item.id !== id))
     } catch (e) {
@@ -130,49 +130,35 @@ const ProductListTable = () => {
   const columns = useMemo(
     () => [
       columnHelper.accessor('title', {
-        header: 'Product',
+        header: 'News',
         cell: ({ row }) => (
           <div className='flex items-center gap-4'>
-            <img
-              src={row.original?.product_medias[0]?.media_url}
-              width={38}
-              height={38}
-              className='rounded bg-actionHover'
-            />
-            {console.log('product ----------', row.original)}
+            <img src={row.original?.image_url} width={38} height={38} className='rounded bg-actionHover' />
+
             <div className='flex flex-col'>
               <Typography className='font-medium' color='text.primary'>
                 {row.original.title}
               </Typography>
-              <Typography variant='body2'>{row.original.brand.title}</Typography>
             </div>
           </div>
         )
       }),
-      columnHelper.accessor('product_category.title', {
+      columnHelper.accessor('news_category.title', {
         header: 'Category',
         cell: ({ row }) => (
           <div className='flex items-center gap-4'>
-            <Avatar src={row.original.product_category.image_url} />
-            <Typography color='text.primary'>{row.original.product_category.title}</Typography>
+            <Typography color='text.primary'>{row.original.news_category.title}</Typography>
           </div>
         )
       }),
-      columnHelper.accessor('serial_number', {
-        header: 'Serial No.',
-        cell: ({ row }) => <Typography>{row.original.serial_number}-</Typography>
-      }),
-      columnHelper.accessor('price', {
-        header: 'Price',
-        cell: ({ row }) => <Typography>{row.original.price.toLocaleString()}</Typography>
-      }),
+
       columnHelper.accessor('disabled', {
         header: 'Status',
         cell: ({ row }) => (
           <Chip
             label={row.original.disabled ? 'Disabled' : 'Enabled'}
             variant='tonal'
-            color={productStatusObj[row.original.disabled].color}
+            color={newStatusObj[row.original.disabled].color}
             size='small'
           />
         )
@@ -187,22 +173,6 @@ const ProductListTable = () => {
             <IconButton size='small' onClick={() => handleDelete(row?.original?.id)}>
               <i className='ri-delete-bin-7-line text-[22px] text-red-500' />
             </IconButton>
-            {/* <OptionMenu
-              iconButtonProps={{ size: 'medium' }}
-              iconClassName='text-textSecondary text-[22px]'
-              options={[
-                { text: 'Download', icon: 'ri-download-line', menuItemProps: { className: 'gap-2' } },
-                {
-                  text: 'Delete',
-                  icon: 'ri-delete-bin-7-line',
-                  menuItemProps: {
-                    className: 'gap-2',
-                    onClick: () => setData(data?.filter(product => product.id !== row.original.id))
-                  }
-                },
-                { text: 'Duplicate', icon: 'ri-stack-line', menuItemProps: { className: 'gap-2' } }
-              ]}
-            /> */}
           </div>
         ),
         enableSorting: false
@@ -245,7 +215,7 @@ const ProductListTable = () => {
     <>
       <Card>
         <CardHeader title='Filters' className='pbe-4' />
-        <TableFilters setData={setFilteredData} productData={data} />
+        <TableFilters setData={setFilteredData} newData={data} />
         <Divider />
         <div className='flex justify-between flex-col items-start sm:flex-row sm:items-center gap-y-4 p-5'>
           <DebouncedInput
@@ -266,11 +236,11 @@ const ProductListTable = () => {
             <Button
               variant='contained'
               component={Link}
-              href={getLocalizedUrl('/products/add', locale)}
+              href={getLocalizedUrl('/news/add', locale)}
               startIcon={<i className='ri-add-line' />}
               className='max-sm:is-full is-auto'
             >
-              Add Product
+              Add News
             </Button>
           </div>
         </div>
@@ -303,10 +273,10 @@ const ProductListTable = () => {
                 </tr>
               ))}
             </thead>
-            {table.getFilteredRowModel().rows.length === 0 ? (
+            {table.getFilteredRowModel().rows?.length === 0 ? (
               <tbody>
                 <tr>
-                  <td colSpan={table.getVisibleFlatColumns().length} className='text-center'>
+                  <td colSpan={table.getVisibleFlatColumns()?.length} className='text-center'>
                     No data available
                   </td>
                 </tr>
@@ -333,7 +303,7 @@ const ProductListTable = () => {
           rowsPerPageOptions={[10, 25, 50]}
           component='div'
           className='border-bs'
-          count={table.getFilteredRowModel().rows.length}
+          count={table.getFilteredRowModel().rows?.length}
           rowsPerPage={table.getState().pagination.pageSize}
           page={table.getState().pagination.pageIndex}
           onPageChange={(_, page) => {
@@ -347,4 +317,4 @@ const ProductListTable = () => {
   )
 }
 
-export default ProductListTable
+export default NewListTable
