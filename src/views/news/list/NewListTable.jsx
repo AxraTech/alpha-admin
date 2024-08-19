@@ -96,8 +96,8 @@ const productCategoryObj = {
 }
 
 const newStatusObj = {
-  true: { title: 'Enabled', color: 'success' },
-  false: { title: 'Disabled', color: 'error' }
+  false: { title: 'Enabled', color: 'success' },
+  true: { title: 'Disabled', color: 'error' }
 }
 
 // Column Definitions

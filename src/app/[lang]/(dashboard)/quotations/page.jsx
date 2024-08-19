@@ -1,5 +1,5 @@
 // Component Imports
-import InvoiceList from '@views/invoice/list'
+import QuotationList from '@/views/service_token/list/index'
 
 // Data Imports
 import { getInvoiceData } from '@/app/server/actions'
@@ -27,7 +27,7 @@ const InvoiceApp = async () => {
 
   // const data = await getInvoiceData()
 
-  return <InvoiceList />
+  return <QuotationList />
 }
 
 export default InvoiceApp

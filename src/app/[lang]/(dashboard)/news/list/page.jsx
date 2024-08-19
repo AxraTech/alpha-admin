@@ -26,8 +26,6 @@ import { Typography } from '@mui/material'
   return res.json()
 } */
 const eCommerceProductsList = async () => {
-  // Vars
-
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>

@@ -50,7 +50,7 @@ import { getLocalizedUrl } from '@/utils/i18n'
 // Style Imports
 import tableStyles from '@core/styles/table.module.css'
 import { useSuspenseQuery } from '@apollo/client'
-import { GET_ALL_INVOICES } from '@/graphql/queries'
+import { GET_ALL_INVOICES, GET_ALL_QUOTATIONS } from '@/graphql/queries'
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -98,12 +98,13 @@ const invoiceStatusObj = {
 const columnHelper = createColumnHelper()
 
 const InvoiceListTable = () => {
-  const { data: invoiceDatas } = useSuspenseQuery(GET_ALL_INVOICES)
-  const invoiceData = invoiceDatas?.invoices
+  const { data: quotationDatas } = useSuspenseQuery(GET_ALL_QUOTATIONS)
+  const quotationData = quotationDatas?.quotations
+  console.log('quotaions data ', quotationData)
   // States
   const [status, setStatus] = useState('')
   const [rowSelection, setRowSelection] = useState({})
-  const [data, setData] = useState(...[invoiceData])
+  const [data, setData] = useState(...[quotationData])
   const [filteredData, setFilteredData] = useState(data)
   const [globalFilter, setGlobalFilter] = useState('')
 
@@ -139,7 +140,7 @@ const InvoiceListTable = () => {
         cell: ({ row }) => (
           <Typography
             component={Link}
-            href={getLocalizedUrl(`/invoice/preview/${row.original.id}`, locale)}
+            href={getLocalizedUrl(`/quotation/preview${row.original.id}`, locale)}
             color='primary'
           >{`#${row.original.id}`}</Typography>
         )

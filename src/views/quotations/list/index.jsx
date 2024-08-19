@@ -2,8 +2,8 @@
 import Grid from '@mui/material/Grid'
 
 // Component Imports
-import InvoiceListTable from './InvoiceListTable'
-import InvoiceCard from './InvoiceCard'
+import QuotationListTable from './QuotationListTable'
+import QuotationCard from './QuotationCard'
 import { useQuery, useSuspenseQuery } from '@apollo/client'
 import { GET_ALL_INVOICES } from '@/graphql/queries'
 
@@ -11,10 +11,10 @@ const InvoiceList = () => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
-        <InvoiceCard />
+        <QuotationCard />
       </Grid>
       <Grid item xs={12}>
-        <InvoiceListTable />
+        <QuotationListTable />
       </Grid>
     </Grid>
   )

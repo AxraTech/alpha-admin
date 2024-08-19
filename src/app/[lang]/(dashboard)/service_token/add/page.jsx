@@ -1,10 +1,12 @@
+// MUI Imports
+import Grid from '@mui/material/Grid'
+
 // Component Imports
-import InvoiceList from '@views/invoice/list'
+import AddCard from '@views/service_token/add/AddCard'
+import AddActions from '@views/service_token/add/AddActions'
 
 // Data Imports
 import { getInvoiceData } from '@/app/server/actions'
-import { useQuery, useSuspenseQuery } from '@apollo/client'
-import { GET_ALL_INVOICES } from '@/graphql/queries'
 
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the
@@ -21,13 +23,22 @@ import { GET_ALL_INVOICES } from '@/graphql/queries'
   }
 
   return res.json()
-} */
-const InvoiceApp = async () => {
+}
+ */
+const ServiceTokenAdd = async () => {
   // Vars
+  const data = await getInvoiceData()
 
-  // const data = await getInvoiceData()
-
-  return <InvoiceList />
+  return (
+    <Grid container spacing={6}>
+      <Grid item xs={12} md={9}>
+        <AddCard invoiceData={data} />
+      </Grid>
+      <Grid item xs={12} md={3}>
+        <AddActions />
+      </Grid>
+    </Grid>
+  )
 }
 
-export default InvoiceApp
+export default ServiceTokenAdd

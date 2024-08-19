@@ -75,7 +75,7 @@ const VerticalMenu = ({ dictionary, scrollMenu }) => {
         {/* products */}
         <SubMenu
           label={dictionary['navigation'].products}
-          icon={<i className='ri-home-smile-line' />}
+          icon={<i className='ri-gift-line' />}
           //suffix={<Chip label='5' size='small' color='error' />}
         >
           <MenuItem href={`/${locale}/products/list`}>{dictionary['navigation'].product_list}</MenuItem>
@@ -92,18 +92,34 @@ const VerticalMenu = ({ dictionary, scrollMenu }) => {
           <MenuItem href={`/${locale}/news/category`}>{dictionary['navigation'].new_category}</MenuItem>
         </SubMenu>
 
+        {/* quotation */}
+        <MenuItem href={`/${locale}/quotations`} icon={<i className='ri-chat-quote-line' />}>
+          {dictionary['navigation'].quotations}
+        </MenuItem>
+
+        {/* server token */}
+        <MenuItem href={`/${locale}/service_token`} icon={<i className='ri-nft-fill' />}>
+          {dictionary['navigation'].service_token}
+        </MenuItem>
+
+        {/* invoice */}
+        <MenuItem href={`/${locale}/invoice/list`} icon={<i className='ri-bill-line' />}>
+          {dictionary['navigation'].invoice}
+        </MenuItem>
+
+        {/* chat */}
         <MenuItem href={`/${locale}/chat`} icon={<i className='ri-wechat-line' />}>
           {dictionary['navigation'].chat}
         </MenuItem>
 
+        {/* order */}
         <MenuItem href={`/${locale}/orders/list`} icon={<i className='ri-user-line' />}>
           {dictionary['navigation'].orders}
         </MenuItem>
+
+        {/* user */}
         <MenuItem href={`/${locale}/user/list`} icon={<i className='ri-user-line' />}>
           {dictionary['navigation'].user}
-        </MenuItem>
-        <MenuItem href={`/${locale}/invoice/list`} icon={<i className='ri-bill-line' />}>
-          {dictionary['navigation'].invoice}
         </MenuItem>
 
         <MenuItem href={`/${locale}/404-not-found`} target='_blank'>
