@@ -1,5 +1,5 @@
 // Component Imports
-import InvoiceList from '@views/invoice/list'
+import ServerTokenList from '@/views/service_token/list/index'
 
 // Data Imports
 import { getInvoiceData } from '@/app/server/actions'
@@ -23,11 +23,7 @@ import { GET_ALL_INVOICES } from '@/graphql/queries'
   return res.json()
 } */
 const InvoiceApp = async () => {
-  // Vars
-
-  // const data = await getInvoiceData()
-
-  return <InvoiceList />
+  return <ServerTokenList />
 }
 
 export default InvoiceApp

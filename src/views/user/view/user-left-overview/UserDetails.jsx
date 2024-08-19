@@ -1,5 +1,5 @@
 // MUI Imports
-"use client"
+'use client'
 
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
@@ -14,16 +14,15 @@ import ConfirmationDialog from '@components/dialogs/confirmation-dialog'
 import OpenDialogOnElementClick from '@components/dialogs/OpenDialogOnElementClick'
 import CustomAvatar from '@core/components/mui/Avatar'
 import { useParams } from 'next/navigation'
-import {useSuspenseQuery} from "@apollo/client";
-import {GET_USER_BY_ID} from "@/graphql/queries";
+import { useSuspenseQuery } from '@apollo/client'
+import { GET_USER_BY_ID } from '@/graphql/queries'
 
 // Vars
 
-
 const UserDetails = () => {
-  const {userId} = useParams()
+  const { userId } = useParams()
 
-  const {data}  = useSuspenseQuery(GET_USER_BY_ID, {variables: {userId}})
+  const { data } = useSuspenseQuery(GET_USER_BY_ID, { variables: { userId } })
 
   const buttonProps = (children, color, variant) => ({
     children,

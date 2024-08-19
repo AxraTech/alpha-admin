@@ -1,10 +1,13 @@
+// Next Imports
+import { redirect } from 'next/navigation'
+
 // Component Imports
-import InvoiceList from '@views/invoice/list'
+import Preview from '@views/service_token/preview'
 
 // Data Imports
 import { getInvoiceData } from '@/app/server/actions'
-import { useQuery, useSuspenseQuery } from '@apollo/client'
-import { GET_ALL_INVOICES } from '@/graphql/queries'
+import { useSuspenseQuery } from '@apollo/client'
+import { INVOICE_BY_ID } from '@/graphql/queries'
 
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the
@@ -22,12 +25,15 @@ import { GET_ALL_INVOICES } from '@/graphql/queries'
 
   return res.json()
 } */
-const InvoiceApp = async () => {
+const PreviewPage = async ({ params }) => {
+  // const { invoiceId } = useParams()
+  const { data } = useSuspenseQuery(INVOICE_BY_ID, { variables: { id: '' } })
+
   // Vars
-
   // const data = await getInvoiceData()
+  // const filteredData = data?.invoices_by_pk.filter(invoice => invoice.id === params.id)[0]
 
-  return <InvoiceList />
+  return <Preview invoiceData={data} id={invoiceId} />
 }
 
-export default InvoiceApp
+export default PreviewPage

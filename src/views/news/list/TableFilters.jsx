@@ -8,6 +8,8 @@ import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
+import { useQuery } from '@apollo/client'
+import { NEWS_CATS } from '@/graphql/queries'
 
 // Vars
 const productStockObj = {
@@ -16,6 +18,8 @@ const productStockObj = {
 }
 
 const TableFilters = ({ setData, newData }) => {
+  const { data: newsCats } = useQuery(NEWS_CATS)
+
   // States
   const [category, setCategory] = useState('')
   const [stock, setStock] = useState('')
@@ -24,8 +28,8 @@ const TableFilters = ({ setData, newData }) => {
   useEffect(
     () => {
       const filteredData = newData?.filter(product => {
-        if (category && product.category !== category) return false
-        if (status && product.status !== status) return false
+        if (category && product?.news_category?.title !== category) return false
+        if (status && product.disabled !== status) return false
         return true
       })
       setData(filteredData ?? [])
@@ -66,12 +70,11 @@ const TableFilters = ({ setData, newData }) => {
               labelId='category-select'
             >
               <MenuItem value=''>Select Category</MenuItem>
-              <MenuItem value='Accessories'>Accessories</MenuItem>
-              <MenuItem value='Home Decor'>Home Decor</MenuItem>
-              <MenuItem value='Electronics'>Electronics</MenuItem>
-              <MenuItem value='Shoes'>Shoes</MenuItem>
-              <MenuItem value='Office'>Office</MenuItem>
-              <MenuItem value='Games'>Games</MenuItem>
+              {newsCats?.news_categories?.map((cat, index) => (
+                <MenuItem value={cat?.title} key={index}>
+                  {cat?.title}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Grid>

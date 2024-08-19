@@ -46,6 +46,14 @@ export const ADD_PRODUCT = gql`
   }
 `
 
+export const ADD_NEWS = gql`
+  mutation addNews($data: news_insert_input!) {
+    insert_news_one(object: $data) {
+      id
+    }
+  }
+`
+
 // delete
 export const DELETE_PRODUCT = gql`
   mutation deleteProduct($id: uuid!) {
@@ -89,6 +97,13 @@ export const ADD_NEWS_CAT = gql`
 export const DELETE_NEWS = gql`
   mutation deleteNews($id: uuid!) {
     delete_news_by_pk(id: $id) {
+      id
+    }
+  }
+`
+export const DELETE_INVOICE = gql`
+  mutation deleteInvoice($id: uuid!) {
+    delete_invoices_by_pk(id: $id) {
       id
     }
   }
