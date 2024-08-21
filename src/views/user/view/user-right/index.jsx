@@ -11,20 +11,40 @@ import Grid from '@mui/material/Grid'
 
 // Component Imports
 import CustomTabList from '@core/components/mui/TabList'
+import { Button } from '@mui/material'
+import { useMutation, useSuspenseQuery } from '@apollo/client'
+import { CHANGE_USER_STATUS } from '@/graphql/mutations'
+import { useParams } from 'next/navigation'
+import { GET_USER_BY_ID } from '@/graphql/queries'
 
 const UserRight = ({ tabContentList }) => {
+  const { userId } = useParams()
+
+  const { data: users } = useSuspenseQuery(GET_USER_BY_ID, { variables: { userId: userId } })
+
   // States
   const [activeTab, setActiveTab] = useState('overview')
-
+  const [changeUserStatus] = useMutation(CHANGE_USER_STATUS)
   const handleChange = (event, value) => {
     setActiveTab(value)
   }
 
+  const handleChangeUserStatus = async (id, status, role) => {
+    await changeUserStatus({
+      variables: {
+        data: {
+          ...status,
+          ...role
+        },
+        id: id
+      }
+    })
+  }
   return (
     <>
       <TabContext value={activeTab}>
         <Grid container spacing={6}>
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <CustomTabList onChange={handleChange} variant='scrollable' pill='true'>
               <Tab icon={<i className='ri-user-3-line' />} value='overview' label='Overview' iconPosition='start' />
               <Tab icon={<i className='ri-lock-line' />} value='security' label='Security' iconPosition='start' />
@@ -35,6 +55,43 @@ const UserRight = ({ tabContentList }) => {
                 iconPosition='start'
               />
             </CustomTabList>
+          </Grid> */}
+          <Grid item xs={12} className='flex gap-4'>
+            <Button
+              variant='outlined'
+              color='info'
+              onClick={() => handleChangeUserStatus(users.users_by_pk.id, { role: 'dealer' })}
+            >
+              Dealer
+            </Button>
+            <Button
+              variant='outlined'
+              color='warning'
+              onClick={() => handleChangeUserStatus(users.users_by_pk.id, { role: 'consumer' })}
+            >
+              Consumer
+            </Button>
+            <Button
+              variant='outlined'
+              color='success'
+              onClick={() => handleChangeUserStatus(users.users_by_pk.id, { status: 'active' })}
+            >
+              Active
+            </Button>
+            <Button
+              variant='outlined'
+              color='primary'
+              onClick={() => handleChangeUserStatus(users.users_by_pk.id, { status: 'pending' })}
+            >
+              Pending
+            </Button>
+            <Button
+              variant='outlined'
+              color='error'
+              onClick={() => handleChangeUserStatus(users.users_by_pk.id, { status: 'disable' })}
+            >
+              Disabled
+            </Button>
           </Grid>
           <Grid item xs={12}>
             <TabPanel value={activeTab} className='p-0'>

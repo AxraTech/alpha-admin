@@ -43,6 +43,8 @@ import { getLocalizedUrl } from '@/utils/i18n'
 
 // Style Imports
 import tableStyles from '@core/styles/table.module.css'
+import { useSuspenseQuery } from '@apollo/client'
+import { GET_ALL_INVOICES } from '@/graphql/queries'
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -58,22 +60,30 @@ const fuzzyFilter = (row, columnId, value, addMeta) => {
 }
 
 // Vars
-const invoiceStatusObj = {
-  Sent: { color: 'secondary', icon: 'ri-send-plane-2-line' },
-  Paid: { color: 'success', icon: 'ri-check-line' },
-  Draft: { color: 'primary', icon: 'ri-mail-line' },
-  'Partial Payment': { color: 'warning', icon: 'ri-pie-chart-2-line' },
-  'Past Due': { color: 'error', icon: 'ri-information-line' },
-  Downloaded: { color: 'info', icon: 'ri-arrow-down-line' }
+const invoiceStatusColorObj = {
+  paid: 'secondary',
+  'partially paid': 'info',
+  completed: 'success',
+  unpaid: 'error',
+  pending: 'primary'
+}
+
+const invoiceStatusIconObj = {
+  paid: 'ri-check-double-line',
+  'partially paid': 'ri-check-line',
+  completed: 'ri-checkbox-circle-line',
+  unpaid: 'ri-close-circle-line',
+  pending: 'ri-time-line'
 }
 
 // Column Definitions
 const columnHelper = createColumnHelper()
 
-const InvoiceListTable = ({ invoiceData }) => {
+const InvoiceListTable = () => {
+  const { data: invoiceData } = useSuspenseQuery(GET_ALL_INVOICES)
   // States
   const [rowSelection, setRowSelection] = useState({})
-  const [data, setData] = useState(...[invoiceData])
+  const [data, setData] = useState(...[invoiceData.invoices])
   const [globalFilter, setGlobalFilter] = useState('')
   const [anchorEl, setAnchorEl] = useState(null)
 
@@ -92,44 +102,45 @@ const InvoiceListTable = ({ invoiceData }) => {
             component={Link}
             href={getLocalizedUrl(`/invoice/preview/${row.original.id}`, locale)}
             color='primary'
-          >{`#${row.original.id}`}</Typography>
+          >{`${row.original.invoice_number}`}</Typography>
         )
       }),
-      columnHelper.accessor('invoiceStatus', {
+      columnHelper.accessor('status', {
         header: 'Status',
         cell: ({ row }) => (
           <Tooltip
             title={
               <div>
                 <Typography variant='body2' component='span' className='text-inherit'>
-                  {row.original.invoiceStatus}
+                  {console.log('statyos ', row.original.status)}
+                  {row.original.status}
                 </Typography>
                 <br />
                 <Typography variant='body2' component='span' className='text-inherit'>
                   Balance:
-                </Typography>{' '}
+                </Typography>
                 {row.original.balance}
                 <br />
                 <Typography variant='body2' component='span' className='text-inherit'>
                   Due Date:
-                </Typography>{' '}
-                {row.original.dueDate}
+                </Typography>
+                {row.original.created_at.substring(0, 10)}
               </div>
             }
           >
-            <CustomAvatar skin='light' color={invoiceStatusObj[row.original.invoiceStatus].color} size={28}>
-              <i className={classnames('text-base', invoiceStatusObj[row.original.invoiceStatus].icon)} />
+            <CustomAvatar skin='light' color={invoiceStatusColorObj[row.original.status]} size={28}>
+              <i className={classnames('text-base', invoiceStatusIconObj[row.original.status])} />
             </CustomAvatar>
           </Tooltip>
         )
       }),
       columnHelper.accessor('total', {
         header: 'Total',
-        cell: ({ row }) => <Typography>{`$${row.original.total}`}</Typography>
+        cell: ({ row }) => <Typography>{`${row.original.total.toLocaleString()}`}</Typography>
       }),
-      columnHelper.accessor('issuedDate', {
+      columnHelper.accessor('created_at', {
         header: 'Issued Date',
-        cell: ({ row }) => <Typography>{row.original.issuedDate}</Typography>
+        cell: ({ row }) => <Typography>{row.original.created_at.substring(0, 10)}</Typography>
       }),
       columnHelper.accessor('action', {
         header: 'Action',

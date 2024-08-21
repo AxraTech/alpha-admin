@@ -106,6 +106,10 @@ const VerticalMenu = ({ dictionary, scrollMenu }) => {
         <MenuItem href={`/${locale}/invoice/list`} icon={<i className='ri-bill-line' />}>
           {dictionary['navigation'].invoice}
         </MenuItem>
+        {/* dealers */}
+        <MenuItem href={`/${locale}/dealers`} icon={<i className='ri-bill-line' />}>
+          {dictionary['navigation'].dealers}
+        </MenuItem>
 
         {/* chat */}
         <MenuItem href={`/${locale}/chat`} icon={<i className='ri-wechat-line' />}>

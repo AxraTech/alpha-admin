@@ -8,24 +8,26 @@ import classnames from 'classnames'
 
 // Component Imports
 import CustomAvatar from '@core/components/mui/Avatar'
+import { useSuspenseQuery } from '@apollo/client'
+import { ORDERS_AGGREGATE } from '@/graphql/queries'
 
 const HorizontalWithSubtitle = props => {
   // Props
   const { title, stats, avatarIcon, avatarColor, trend: trend, trendNumber: trendNumber, subtitle: subtitle } = props
+  const { data: orderData } = useSuspenseQuery(ORDERS_AGGREGATE)
 
   return (
     <Card>
       <CardContent className='flex justify-between gap-1'>
         <div className='flex flex-col gap-1 flex-grow'>
-          <Typography color='text.primary'>{title}</Typography>
+          <Typography color='text.primary'>{title ? title : orderData.activeOrder.aggregate.count}</Typography>
           <div className='flex items-center gap-2 flex-wrap'>
-            <Typography variant='h4'>{stats}</Typography>
-
+            <Typography variant='h4'>{stats ? stats : 'Active'}</Typography>
           </div>
-          <Typography variant='body2'>{subtitle}</Typography>
+          <Typography variant='body2'>{subtitle ? subtitle : ''}</Typography>
         </div>
-        <CustomAvatar color={avatarColor} skin='light' variant='rounded' size={42}>
-          <i className={classnames(avatarIcon, 'text-[26px]')} />
+        <CustomAvatar color={avatarColor ? avatarColor : 'primary'} skin='light' variant='rounded' size={42}>
+          {/* <i className={classnames(avatarIcon, 'text-[26px]')} /> */}
         </CustomAvatar>
       </CardContent>
     </Card>

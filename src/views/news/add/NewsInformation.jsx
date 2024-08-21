@@ -123,23 +123,22 @@ const NewsInformation = ({ setTitle, title, setDescription, description, errors 
       }),
       Underline
     ],
-    content: `
-      <p>
-        Keep your account secure with authentication step.
-      </p>
-    `
+    content: description, // Use the initial description state
+    onUpdate: ({ editor }) => {
+      setDescription(editor.getHTML()) // Update state when content changes
+    }
   })
 
   return (
     <Card>
-      <CardHeader title='News Information' />
+      <CardHeader title='Post Information' />
       <CardContent>
         <Grid container spacing={5} className='mbe-5'>
           <Grid item xs={12}>
             <TextField
               fullWidth
-              label='News Name'
-              placeholder='iPhone 14'
+              label='Post Name'
+              placeholder='Enter Post Name'
               value={title}
               onChange={e => setTitle(e.target.value)}
               error={errors?.title ? true : false}
@@ -152,8 +151,14 @@ const NewsInformation = ({ setTitle, title, setDescription, description, errors 
           <CardContent className='p-0'>
             <EditorToolbar editor={editor} />
             <Divider className='mli-5' />
-            <EditorContent editor={editor} className='bs-[135px] overflow-y-auto flex ' />
+            <EditorContent
+              editor={editor}
+              className='bs-[135px] overflow-y-auto flex '
+              value={description}
+              onChange={e => setDescription(e.target.value)}
+            />
           </CardContent>
+          {console.log('description ', description)}
         </Card>
       </CardContent>
     </Card>

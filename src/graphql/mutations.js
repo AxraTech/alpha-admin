@@ -108,3 +108,76 @@ export const DELETE_INVOICE = gql`
     }
   }
 `
+export const DELETE_ORDERS = gql`
+  mutation aa($id: uuid!) {
+    delete_orders_by_pk(id: $id) {
+      id
+    }
+  }
+`
+export const DELETE_DEALER = gql`
+  mutation deleteDealer($id: uuid!) {
+    delete_dealers_by_pk(id: $id) {
+      id
+    }
+  }
+`
+export const ADD_DEALERS = gql`
+  mutation addDealer($data: dealers_insert_input!) {
+    insert_dealers_one(object: $data) {
+      id
+    }
+  }
+`
+export const ADD_NEWS_PRODUCTS = gql`
+  mutation addNewProducts($data: news_related_products_insert_input!) {
+    insert_news_related_products_one(object: $data) {
+      id
+    }
+  }
+`
+export const IMGAE_UPLOAD = gql`
+  mutation aa($content_type: String!, $folder: String!) {
+    getFileUploadUrl(content_type: $content_type, folder: $folder) {
+      error
+      message
+      fileName
+      fileUploadUrl
+    }
+  }
+`
+
+export const CHANGE_ORDER_STATUS = gql`
+  mutation changeOrderStatus($id: uuid!, $data: orders_set_input!) {
+    update_orders_by_pk(pk_columns: { id: $id }, _set: $data) {
+      id
+      status
+    }
+  }
+`
+
+export const CHANGE_USER_STATUS = gql`
+  mutation changeUserStatus($id: uuid!, $data: users_set_input!) {
+    update_users_by_pk(pk_columns: { id: $id }, _set: $data) {
+      id
+      role
+      status
+    }
+  }
+`
+export const CHANGE_QUOTATION_STATUS = gql`
+  mutation changeQuotationStatus($id: uuid!, $data: quotations_set_input!) {
+    update_quotations_by_pk(pk_columns: { id: $id }, _set: $data) {
+      id
+      status
+    }
+  }
+`
+export const CHANGE_INVOICE_STATUS = gql`
+  mutation changeInvoiceStatus($id: uuid!, $data: invoices_set_input!) {
+    update_invoices_by_pk(pk_columns: { id: $id }, _set: $data) {
+      id
+      status
+    }
+  }
+`

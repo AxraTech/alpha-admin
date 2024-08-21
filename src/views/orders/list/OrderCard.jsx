@@ -1,4 +1,6 @@
+'use client'
 // MUI Imports
+
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Divider from '@mui/material/Divider'
@@ -11,6 +13,10 @@ import classnames from 'classnames'
 
 // Component Imports
 import CustomAvatar from '@core/components/mui/Avatar'
+import { useSuspenseQuery } from '@apollo/client'
+import { ORDERS_AGGREGATE } from '@/graphql/queries'
+import { useState } from 'react'
+import { grey } from '@mui/material/colors'
 
 // Vars
 const data = [
@@ -36,50 +42,31 @@ const data = [
   }
 ]
 
-const OrderCard = () => {
-  // Hooks
-  const isBelowMdScreen = useMediaQuery(theme => theme.breakpoints.down('md'))
-  const isBelowSmScreen = useMediaQuery(theme => theme.breakpoints.down('sm'))
-
+const OrderCard = ({ count, title, color }) => {
   return (
-    <Card>
-      <CardContent>
-        <Grid container spacing={6}>
-          {data.map((item, index) => (
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              md={3}
-              key={index}
-              className={classnames({
-                '[&:nth-of-type(odd)>div]:pie-6 [&:nth-of-type(odd)>div]:border-ie':
-                  isBelowMdScreen && !isBelowSmScreen,
-                '[&:not(:last-child)>div]:pie-6 [&:not(:last-child)>div]:border-ie': !isBelowMdScreen
-              })}
-            >
-              <div className='flex justify-between gap-4'>
-                <div className='flex flex-col items-start'>
-                  <Typography variant='h4'>{item.value.toLocaleString()}</Typography>
-                  <Typography>{item.title}</Typography>
-                </div>
-                <CustomAvatar variant='rounded' size={42} skin='light'>
-                  <i className={classnames(item.icon, 'text-[26px]')} />
-                </CustomAvatar>
-              </div>
-              {isBelowMdScreen && !isBelowSmScreen && index < data.length - 2 && (
-                <Divider
-                  className={classnames('mbs-6', {
-                    'mie-6': index % 2 === 0
-                  })}
-                />
-              )}
-              {isBelowSmScreen && index < data.length - 1 && <Divider className='mbs-6' />}
-            </Grid>
-          ))}
-        </Grid>
-      </CardContent>
-    </Card>
+    <>
+      <Card>
+        <CardContent className='flex justify-between gap-1 '>
+          <div className='flex flex-col gap-1 flex-grow'>
+            <Typography color='text.primary' variant='h3'>
+              {count}
+            </Typography>
+            <div className='flex items-center gap-2 flex-wrap'>
+              <Typography
+                variant='h5'
+                color={`${title === 'Active' ? 'primary' : title === 'Completed' ? 'green' : title === 'Refunded' ? 'orange' : 'error'}`}
+              >
+                {title}
+              </Typography>
+            </div>
+            {/* <Typography variant='body2'>subtitle</Typography> */}
+          </div>
+          <CustomAvatar skin='light' variant='rounded' size={42}>
+            {/* <i className={classnames(avatarIcon, 'text-[26px]')} /> */}
+          </CustomAvatar>
+        </CardContent>
+      </Card>
+    </>
   )
 }
 

@@ -24,7 +24,7 @@ const data = {
   contact: '+1 (609) 972-22-22'
 }
 
-const ShippingAddress = () => {
+const ShippingAddress = ({ orderData }) => {
   // Vars
   const typographyProps = (children, color, className) => ({
     children,
@@ -37,18 +37,19 @@ const ShippingAddress = () => {
       <CardContent className='flex flex-col gap-6'>
         <div className='flex justify-between items-center'>
           <Typography variant='h5'>Shipping Address</Typography>
-          <OpenDialogOnElementClick
+          {/* <OpenDialogOnElementClick
             element={Typography}
             elementProps={typographyProps('Edit', 'primary', 'cursor-pointer font-medium')}
             dialog={AddAddress}
             dialogProps={{ type: 'Add address for billing address', data }}
-          />
+          /> */}
         </div>
         <div className='flex flex-col'>
-          <Typography>45 Roker Terrace</Typography>
-          <Typography>Latheronwheel</Typography>
-          <Typography>KW5 8NW, London</Typography>
-          <Typography>UK</Typography>
+          <Typography>Receiver Name : {orderData.receiver_name}</Typography>
+          <br></br>
+          <Typography>Receiver Phone : {orderData.receiver_phone}</Typography>
+          <br></br>
+          <Typography>Receiver Address : {orderData.receiver_address}</Typography>
         </div>
       </CardContent>
     </Card>

@@ -6,7 +6,7 @@ import Preview from '@views/invoice/preview'
 
 // Data Imports
 import { getInvoiceData } from '@/app/server/actions'
-import { useSuspenseQuery } from '@apollo/client'
+import { useQuery, useSuspenseQuery } from '@apollo/client'
 import { INVOICE_BY_ID } from '@/graphql/queries'
 
 /**
@@ -25,15 +25,17 @@ import { INVOICE_BY_ID } from '@/graphql/queries'
 
   return res.json()
 } */
-const PreviewPage = async ({ params }) => {
+const PreviewPage = async () => {
   // const { invoiceId } = useParams()
-  const { data } = useSuspenseQuery(INVOICE_BY_ID, { variables: { id: '' } })
+  // console.log('invoice Id ', invoiceId)
+  // const { data: invoiceData } = useQuery(INVOICE_BY_ID, { variables: { id: invoiceId } })
 
+  // console.log('invoice data ', invoiceData)
   // Vars
   // const data = await getInvoiceData()
   // const filteredData = data?.invoices_by_pk.filter(invoice => invoice.id === params.id)[0]
 
-  return <Preview invoiceData={data} id={invoiceId} />
+  return <Preview />
 }
 
 export default PreviewPage

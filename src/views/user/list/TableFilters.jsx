@@ -64,7 +64,7 @@ const TableFilters = ({ setData, tableData }) => {
               <MenuItem value=''>Select Status</MenuItem>
               <MenuItem value='pending'>Pending</MenuItem>
               <MenuItem value='active'>Active</MenuItem>
-              <MenuItem value='inactive'>Inactive</MenuItem>
+              <MenuItem value='disabled'>Disabled</MenuItem>
             </Select>
           </FormControl>
         </Grid>

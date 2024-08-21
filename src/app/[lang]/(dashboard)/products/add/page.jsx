@@ -122,12 +122,12 @@ const eCommerceProductsAdd = () => {
                 errors={errors}
               />
             </Grid>
-            <Grid item xs={12}>
-              <ProductImage />
-            </Grid>
             {/* <Grid item xs={12}>
-            <ProductVariants />
-          </Grid> */}
+              <ProductImage />
+            </Grid> */}
+            {/* <Grid item xs={12}>
+              <ProductVariants />
+            </Grid> */}
             {/* <Grid item xs={12}>
             <ProductInventory />
           </Grid> */}

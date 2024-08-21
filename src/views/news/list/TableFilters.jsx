@@ -78,7 +78,7 @@ const TableFilters = ({ setData, newData }) => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12} sm={4}>
+        {/* <Grid item xs={12} sm={4}>
           <FormControl fullWidth>
             <InputLabel id='stock-select'>Stock</InputLabel>
             <Select
@@ -94,7 +94,7 @@ const TableFilters = ({ setData, newData }) => {
               <MenuItem value='Out of Stock'>Out of Stock</MenuItem>
             </Select>
           </FormControl>
-        </Grid>
+        </Grid> */}
       </Grid>
     </CardContent>
   )

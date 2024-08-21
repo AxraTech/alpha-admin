@@ -38,9 +38,12 @@ import OptionMenu from '@core/components/option-menu'
 // Util Imports
 import { getInitials } from '@/utils/getInitials'
 import { getLocalizedUrl } from '@/utils/i18n'
-
+import { useApp } from '@/app/ApolloWrapper'
 // Style Imports
 import tableStyles from '@core/styles/table.module.css'
+import { Avatar, IconButton } from '@mui/material'
+import { useMutation } from '@apollo/client'
+import { DELETE_ORDERS } from '@/graphql/mutations'
 
 export const paymentStatus = {
   1: { text: 'Paid', color: 'success', colorClassName: 'text-success' },
@@ -49,10 +52,10 @@ export const paymentStatus = {
   4: { text: 'Failed', color: 'error', colorClassName: 'text-error' }
 }
 export const statusChipColor = {
-  Delivered: { color: 'success' },
-  'Out for Delivery': { color: 'primary' },
-  'Ready to Pickup': { color: 'info' },
-  Dispatched: { color: 'warning' }
+  ordered: 'warning',
+  completed: 'success',
+  preparing: 'info',
+  delivering: 'primary'
 }
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
@@ -92,6 +95,7 @@ const columnHelper = createColumnHelper()
 
 const OrderListTable = ({ orderData }) => {
   // States
+  const { setGlobalMsg } = useApp()
   const [rowSelection, setRowSelection] = useState({})
   const [data, setData] = useState(...[orderData])
   const [globalFilter, setGlobalFilter] = useState('')
@@ -105,49 +109,47 @@ const OrderListTable = ({ orderData }) => {
 
   const columns = useMemo(
     () => [
-      {
-        id: 'select',
-        header: ({ table }) => (
-          <Checkbox
-            {...{
-              checked: table.getIsAllRowsSelected(),
-              indeterminate: table.getIsSomeRowsSelected(),
-              onChange: table.getToggleAllRowsSelectedHandler()
-            }}
-          />
-        ),
-        cell: ({ row }) => (
-          <Checkbox
-            {...{
-              checked: row.getIsSelected(),
-              disabled: !row.getCanSelect(),
-              indeterminate: row.getIsSomeSelected(),
-              onChange: row.getToggleSelectedHandler()
-            }}
-          />
-        )
-      },
-      columnHelper.accessor('order', {
+      // {
+      //   id: 'select',
+      //   header: ({ table }) => (
+      //     <Checkbox
+      //       {...{
+      //         checked: table.getIsAllRowsSelected(),
+      //         indeterminate: table.getIsSomeRowsSelected(),
+      //         onChange: table.getToggleAllRowsSelectedHandler()
+      //       }}
+      //     />
+      //   ),
+      //   cell: ({ row }) => (
+      //     <Checkbox
+      //       {...{
+      //         checked: row.getIsSelected(),
+      //         disabled: !row.getCanSelect(),
+      //         indeterminate: row.getIsSomeSelected(),
+      //         onChange: row.getToggleSelectedHandler()
+      //       }}
+      //     />
+      //   )
+      // },
+      columnHelper.accessor('order_number', {
         header: 'Order',
         cell: ({ row }) => (
           <Typography
             component={Link}
-            href={getLocalizedUrl(`/orders/details/${row.original.order}`, locale)}
+            href={getLocalizedUrl(`/orders/details/${row.original.order_number}`, locale)}
             color='primary'
-          >{`#${row.original.order}`}</Typography>
+          >{`${row.original.order_number}`}</Typography>
         )
       }),
-      columnHelper.accessor('date', {
+      columnHelper.accessor('ordered_at', {
         header: 'Date',
-        cell: ({ row }) => (
-          <Typography>{`${new Date(row.original.date).toDateString()}, ${row.original.time}`}</Typography>
-        )
+        cell: ({ row }) => <Typography>{`${new Date(row.original.ordered_at).toLocaleDateString()}`}</Typography>
       }),
-      columnHelper.accessor('customer', {
+      columnHelper.accessor('user?.name', {
         header: 'Customers',
         cell: ({ row }) => (
           <div className='flex items-center gap-3'>
-            {getAvatar({ avatar: row.original.avatar, customer: row.original.customer })}
+            <Avatar src={row.original.user.profile_picture_url} />
             <div className='flex flex-col'>
               <Typography
                 component={Link}
@@ -155,50 +157,37 @@ const OrderListTable = ({ orderData }) => {
                 color='text.primary'
                 className='font-medium hover:text-primary'
               >
-                {row.original.customer}
+                {row.original.user?.name}
               </Typography>
               <Typography variant='body2'>{row.original.email}</Typography>
             </div>
           </div>
         )
       }),
-      columnHelper.accessor('payment', {
-        header: 'Payment',
-        cell: ({ row }) => (
-          <div className='flex items-center gap-1'>
-            <i
-              className={classnames('ri-circle-fill bs-2.5 is-2.5', paymentStatus[row.original.payment].colorClassName)}
-            />
-            <Typography color={`${paymentStatus[row.original.payment].color}.main`} className='font-medium'>
-              {paymentStatus[row.original.payment].text}
-            </Typography>
-          </div>
-        )
-      }),
+
       columnHelper.accessor('status', {
         header: 'Status',
         cell: ({ row }) => (
           <Chip
             label={row.original.status}
-            color={statusChipColor[row.original.status].color}
+            color={statusChipColor[row.original.status]}
+            style={{ textTransform: 'capitalize' }}
             variant='tonal'
             size='small'
           />
         )
       }),
-      columnHelper.accessor('method', {
-        header: 'Method',
+      columnHelper.accessor('total', {
+        header: 'Total',
         cell: ({ row }) => (
           <div className='flex items-center'>
-            <div className='flex justify-center items-center bg-[#F6F8FA] rounded-sm is-[29px] bs-[18px]'>
+            {/* <div className='flex justify-center items-center bg-[#F6F8FA] rounded-sm is-[29px] bs-[18px]'>
               <img
                 src={row.original.method === 'mastercard' ? mastercard : paypal}
                 height={row.original.method === 'mastercard' ? 11 : 14}
               />
-            </div>
-            <Typography>
-              {`...${row.original.method === 'mastercard' ? row.original.methodNumber : '@gmail.com'}`}
-            </Typography>
+            </div> */}
+            <Typography>{row.original.total.toLocaleString()} Ks</Typography>
           </div>
         )
       }),
@@ -206,7 +195,7 @@ const OrderListTable = ({ orderData }) => {
         header: 'Action',
         cell: ({ row }) => (
           <div className='flex items-center'>
-            <OptionMenu
+            {/* <OptionMenu
               iconButtonProps={{ size: 'medium' }}
               iconClassName='text-[22px]'
               options={[
@@ -225,7 +214,18 @@ const OrderListTable = ({ orderData }) => {
                   }
                 }
               ]}
-            />
+            /> */}
+            <IconButton>
+              <Link href={getLocalizedUrl('/orders/details/' + row.original.id, locale)} className='flex'>
+                <i className='ri-eye-line text-textSecondary' />
+              </Link>
+            </IconButton>
+            <IconButton size='small'>
+              <i className='ri-edit-box-line text-[22px] text-textSecondary' />
+            </IconButton>
+            {/* <IconButton size='small' onClick={() => handleDelete(row?.original?.id)}>
+              <i className='ri-delete-bin-7-line text-[22px] text-red-500' />
+            </IconButton> */}
           </div>
         ),
         enableSorting: false

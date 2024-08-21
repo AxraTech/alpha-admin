@@ -123,11 +123,10 @@ const ProductInformation = ({ setTitle, title, setSNo, sNo, setDescription, desc
       }),
       Underline
     ],
-    content: `
-      <p>
-        Keep your account secure with authentication step.
-      </p>
-    `
+    content: description,
+    onUpdate: ({ editor }) => {
+      setDescription(editor.getHTML())
+    }
   })
 
   return (
@@ -139,7 +138,7 @@ const ProductInformation = ({ setTitle, title, setSNo, sNo, setDescription, desc
             <TextField
               fullWidth
               label='Product Name'
-              placeholder='iPhone 14'
+              placeholder='Enter Product Name'
               value={title}
               onChange={e => setTitle(e.target.value)}
               error={errors?.title ? true : false}

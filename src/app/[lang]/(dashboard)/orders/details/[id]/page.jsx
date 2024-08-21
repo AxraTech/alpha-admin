@@ -1,11 +1,11 @@
 // Next Imports
-import {redirect} from 'next/navigation'
+import { redirect } from 'next/navigation'
 
 // Component Imports
 import OrderDetails from '@views/orders/details'
 
 // Data Imports
-import {getEcommerceData} from '@/app/server/actions'
+import { getEcommerceData } from '@/app/server/actions'
 
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the
@@ -23,16 +23,8 @@ import {getEcommerceData} from '@/app/server/actions'
 
   return res.json()
 } */
-const OrderDetailsPage = async ({params}) => {
-  // Vars
-  const data = await getEcommerceData()
-  const filteredData = data?.orderData.filter(item => item.order === params.id)[0]
-
-  if (!filteredData) {
-    redirect('/not-found')
-  }
-
-  return filteredData ? <OrderDetails orderData={filteredData} order={params.id}/> : null
+const OrderDetailsPage = async () => {
+  return <OrderDetails />
 }
 
 export default OrderDetailsPage

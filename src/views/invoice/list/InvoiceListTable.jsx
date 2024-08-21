@@ -50,7 +50,9 @@ import { getLocalizedUrl } from '@/utils/i18n'
 // Style Imports
 import tableStyles from '@core/styles/table.module.css'
 import { useSuspenseQuery } from '@apollo/client'
-import { GET_ALL_INVOICES } from '@/graphql/queries'
+import { GET_ALL_INVOICES, INVOICE_STATUS } from '@/graphql/queries'
+import { Avatar } from '@mui/material'
+import { CHANGE_INVOICE_STATUS } from '@/graphql/mutations'
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -96,14 +98,21 @@ const invoiceStatusObj = {
 
 // Column Definitions
 const columnHelper = createColumnHelper()
-
+export const statusChipColor = {
+  paid: 'secondary',
+  'partially paid': 'info',
+  completed: 'success',
+  unpaid: 'error',
+  pending: 'primary'
+}
 const InvoiceListTable = () => {
   const { data: invoiceDatas } = useSuspenseQuery(GET_ALL_INVOICES)
-  const invoiceData = invoiceDatas?.invoices
-  // States
+  const { data: invoiceStatus } = useSuspenseQuery(INVOICE_STATUS)
+
+  // // States
   const [status, setStatus] = useState('')
   const [rowSelection, setRowSelection] = useState({})
-  const [data, setData] = useState(...[invoiceData])
+  const [data, setData] = useState(...[invoiceDatas.invoices])
   const [filteredData, setFilteredData] = useState(data)
   const [globalFilter, setGlobalFilter] = useState('')
 
@@ -112,76 +121,76 @@ const InvoiceListTable = () => {
 
   const columns = useMemo(
     () => [
-      {
-        id: 'select',
-        header: ({ table }) => (
-          <Checkbox
-            {...{
-              checked: table.getIsAllRowsSelected(),
-              indeterminate: table.getIsSomeRowsSelected(),
-              onChange: table.getToggleAllRowsSelectedHandler()
-            }}
-          />
-        ),
-        cell: ({ row }) => (
-          <Checkbox
-            {...{
-              checked: row.getIsSelected(),
-              disabled: !row.getCanSelect(),
-              indeterminate: row.getIsSomeSelected(),
-              onChange: row.getToggleSelectedHandler()
-            }}
-          />
-        )
-      },
+      // {
+      //   id: 'select',
+      //   header: ({ table }) => (
+      //     <Checkbox
+      //       {...{
+      //         checked: table.getIsAllRowsSelected(),
+      //         indeterminate: table.getIsSomeRowsSelected(),
+      //         onChange: table.getToggleAllRowsSelectedHandler()
+      //       }}
+      //     />
+      //   ),
+      //   cell: ({ row }) => (
+      //     <Checkbox
+      //       {...{
+      //         checked: row.getIsSelected(),
+      //         disabled: !row.getCanSelect(),
+      //         indeterminate: row.getIsSomeSelected(),
+      //         onChange: row.getToggleSelectedHandler()
+      //       }}
+      //     />
+      //   )
+      // },
       columnHelper.accessor('id', {
-        header: '#',
+        header: 'Invoice Number',
         cell: ({ row }) => (
           <Typography
             component={Link}
             href={getLocalizedUrl(`/invoice/preview/${row.original.id}`, locale)}
             color='primary'
-          >{`#${row.original.id}`}</Typography>
+          >{`${row.original.invoice_number}`}</Typography>
         )
       }),
-      columnHelper.accessor('status', {
+
+      columnHelper.accessor('status ', {
         header: 'Status',
         cell: ({ row }) => (
-          <Tooltip
-            title={
-              <div>
-                <Typography variant='body2' component='span' className='text-inherit'>
-                  {row.original.status}
-                </Typography>
-                <br />
-                <Typography variant='body2' component='span' className='text-inherit'>
-                  Balance:
-                </Typography>{' '}
-                {row.original.balance}
-                <br />
-                <Typography variant='body2' component='span' className='text-inherit'>
-                  Due Date:
-                </Typography>{' '}
-                {row.original.created_at?.substring(0, 10)}
-              </div>
-            }
-          >
-            {/* <CustomAvatar skin='light' color={invoiceStatusObj[row.original.invoiceStatus].color} size={28}>
-              <i className={classnames('bs-4 is-4', invoiceStatusObj[row.original.invoiceStatus].icon)} />
-            </CustomAvatar> */}
-          </Tooltip>
+          <div className='flex items-center gap-3'>
+            <div className='flex flex-col'>
+              <Chip
+                label={row.original.status}
+                color={statusChipColor[row.original.status]}
+                style={{ textTransform: 'capitalize' }}
+                variant='tonal'
+                size='small'
+              />
+            </div>
+          </div>
         )
       }),
-      columnHelper.accessor('name', {
+      columnHelper.accessor('user.name ', {
         header: 'Client',
         cell: ({ row }) => (
           <div className='flex items-center gap-3'>
-            {getAvatar({ avatar: row.original.user?.profile_picture_url, name: row.original?.user.name })}
+            <Avatar src={row.original.user.profile_picture_url} width='100px' height='100px' />
             <div className='flex flex-col'>
               <Typography className='font-medium' color='text.primary'>
-                {row.original.name}
+                {row.original.user.name}
               </Typography>
-              <Typography variant='body2'>{row.original.companyEmail}</Typography>
+            </div>
+          </div>
+        )
+      }),
+      columnHelper.accessor('balance ', {
+        header: 'Balance',
+        cell: ({ row }) => (
+          <div className='flex items-center gap-3'>
+            <div className='flex flex-col'>
+              <Typography className='font-medium' color='text.primary'>
+                {row.original.balance}
+              </Typography>
             </div>
           </div>
         )
@@ -194,29 +203,20 @@ const InvoiceListTable = () => {
       //   header: 'Issued Date',
       //   cell: ({ row }) => <Typography>{row.original.issuedDate}</Typography>
       // }),
-      columnHelper.accessor('balance', {
-        header: 'Balance',
-        cell: ({ row }) => {
-          return row.original.balance === 0 ? (
-            <Chip variant='tonal' label='Paid' color='success' size='small' />
-          ) : (
-            <Typography color='text.primary'>{row.original.balance}</Typography>
-          )
-        }
-      }),
+
       columnHelper.accessor('action', {
         header: 'Action',
         cell: ({ row }) => (
           <div className='flex items-center'>
-            <IconButton onClick={() => setData(data?.filter(invoice => invoice.id !== row.original.id))}>
+            {/* <IconButton onClick={() => setData(data?.filter(invoice => invoice.id !== row.original.id))}>
               <i className='ri-delete-bin-7-line text-textSecondary' />
-            </IconButton>
+            </IconButton> */}
             <IconButton>
               <Link href={getLocalizedUrl(`/invoice/preview/${row.original.id}`, locale)} className='flex'>
                 <i className='ri-eye-line text-textSecondary' />
               </Link>
             </IconButton>
-            <OptionMenu
+            {/* <OptionMenu
               iconButtonProps={{ size: 'medium' }}
               iconClassName='text-textSecondary'
               options={[
@@ -239,7 +239,7 @@ const InvoiceListTable = () => {
                   menuItemProps: { className: 'flex items-center gap-2 text-textSecondary' }
                 }
               ]}
-            />
+            /> */}
           </div>
         ),
         enableSorting: false
@@ -305,24 +305,15 @@ const InvoiceListTable = () => {
   return (
     <Card>
       <CardContent className='flex justify-between gap-4 flex-wrap flex-col sm:flex-row items-center'>
-        <Button
-          variant='contained'
-          component={Link}
-          startIcon={<i className='ri-add-line' />}
-          href={getLocalizedUrl('apps/invoice/add', locale)}
-          className='max-sm:is-full'
-        >
-          Create Invoice
-        </Button>
         <div className='flex flex-col sm:flex-row max-sm:is-full items-center gap-4'>
           <DebouncedInput
             value={globalFilter ?? ''}
             onChange={value => setGlobalFilter(String(value))}
-            placeholder='Search Invoice'
+            placeholder='Search Quotation'
             className='max-sm:is-full min-is-[200px]'
           />
           <FormControl fullWidth size='small' className='min-is-[175px]'>
-            <InputLabel id='status-select'>Invoice Status</InputLabel>
+            <InputLabel id='status-select'>Quotation Status</InputLabel>
             <Select
               fullWidth
               id='select-status'
@@ -332,12 +323,11 @@ const InvoiceListTable = () => {
               labelId='status-select'
             >
               <MenuItem value=''>none</MenuItem>
-              <MenuItem value='downloaded'>Downloaded</MenuItem>
-              <MenuItem value='draft'>Draft</MenuItem>
-              <MenuItem value='paid'>Paid</MenuItem>
-              <MenuItem value='partial-payment'>Partial Payment</MenuItem>
-              <MenuItem value='past-due'>Past Due</MenuItem>
-              <MenuItem value='sent'>Sent</MenuItem>
+              {invoiceStatus.invoice_status.map(s => (
+                <MenuItem value={s.name} key={s.id}>
+                  {s.name}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </div>

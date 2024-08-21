@@ -4,8 +4,6 @@ import Grid from '@mui/material/Grid'
 // Component Imports
 import InvoiceListTable from './InvoiceListTable'
 import InvoiceCard from './InvoiceCard'
-import { useQuery, useSuspenseQuery } from '@apollo/client'
-import { GET_ALL_INVOICES } from '@/graphql/queries'
 
 const InvoiceList = () => {
   return (

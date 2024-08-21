@@ -8,6 +8,8 @@ import InvoiceListTable from './InvoiceListTable'
 
 // Data Imports
 import { getInvoiceData } from '@/app/server/actions'
+import { useSuspenseQuery } from '@apollo/client'
+import { GET_ALL_INVOICES } from '@/graphql/queries'
 
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the
@@ -26,12 +28,12 @@ import { getInvoiceData } from '@/app/server/actions'
 } */
 const OverViewTab = async () => {
   // Vars
-  const invoiceData = await getInvoiceData()
+  // const invoiceData = await getInvoiceData()
 
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
-        <InvoiceListTable invoiceData={invoiceData} />
+        <InvoiceListTable />
       </Grid>
     </Grid>
   )

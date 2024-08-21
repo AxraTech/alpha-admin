@@ -23,6 +23,8 @@ import CustomAvatar from '@core/components/mui/Avatar'
 
 // Styled Component Imports
 import AppReactDropzone from '@/libs/styles/AppReactDropzone'
+import { useMutation } from '@apollo/client'
+import { IMGAE_UPLOAD } from '@/graphql/mutations'
 
 // Styled Dropzone Component
 const Dropzone = styled(AppReactDropzone)(({ theme }) => ({
@@ -38,12 +40,12 @@ const Dropzone = styled(AppReactDropzone)(({ theme }) => ({
   }
 }))
 
-const ProductImage = () => {
+const NewImage = ({ files, setFiles }) => {
   // States
-  const [files, setFiles] = useState([])
 
   // Hooks
   const { getRootProps, getInputProps } = useDropzone({
+    multiple: true,
     onDrop: acceptedFiles => {
       setFiles(acceptedFiles.map(file => Object.assign(file)))
     }
@@ -115,6 +117,7 @@ const ProductImage = () => {
               </Button>
             </div>
           </div>
+
           {files.length ? (
             <>
               <List>{fileList}</List>
@@ -122,7 +125,7 @@ const ProductImage = () => {
                 <Button color='error' variant='outlined' onClick={handleRemoveAllFiles}>
                   Remove All
                 </Button>
-                <Button variant='contained'>Upload Files</Button>
+                {/* <Button variant='contained'>Upload Files</Button> */}
               </div>
             </>
           ) : null}
@@ -132,4 +135,4 @@ const ProductImage = () => {
   )
 }
 
-export default ProductImage
+export default NewImage

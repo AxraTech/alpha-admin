@@ -68,7 +68,7 @@ export const GET_PRODUCT_CATEGORIES = gql`
 
 export const GET_PRODUCTS = gql`
   query getProducts {
-    products {
+    products(order_by: { updated_at: desc }) {
       id
       title
       serial_number
@@ -111,7 +111,7 @@ export const PRODUCT_CATS = gql`
 `
 export const GET_BRANDS = gql`
   query brands {
-    brands {
+    brands(order_by: { updated_at: desc }) {
       id
       title
       image_url
@@ -148,7 +148,7 @@ export const NEW_CAT_BY_ID = gql`
 
 export const GET_NEWS = gql`
   query news {
-    news {
+    news(order_by: { updated_at: desc }) {
       id
       title
       body_html
@@ -182,7 +182,7 @@ export const NEWS_CATS = gql`
 
 export const GET_ALL_INVOICES = gql`
   query getAllInvoices {
-    invoices {
+    invoices(order_by: { updated_at: desc }) {
       id
       invoice_number
       status
@@ -206,37 +206,90 @@ export const GET_ALL_INVOICES = gql`
   }
 `
 
+export const INVOICE_STATUS = gql`
+  query invoiceStatus {
+    invoice_status {
+      id
+      name
+    }
+  }
+`
+
 export const INVOICE_BY_ID = gql`
   query invoiceById($id: uuid!) {
     invoices_by_pk(id: $id) {
       id
-      user {
-        id
-        name
-      }
       balance
       status
+      note
       total
       created_at
       updated_at
+      user {
+        id
+        name
+        email
+        phone
+      }
+      order {
+        id
+        items_total
+        order_items {
+          product {
+            title
+            id
+            price
+            brand {
+              id
+              title
+            }
+          }
+
+          quantity
+          total
+        }
+      }
+    }
+  }
+`
+
+export const PRODUCT_SELECT = gql`
+  query productSelect {
+    products {
+      id
+      title
     }
   }
 `
 export const GET_ALL_QUOTATIONS = gql`
   query getAllQuotations {
-    quotations {
+    quotations(order_by: { updated_at: desc }) {
       id
       dealer_remark
       created_at
       updated_at
       status
+      quotation_status {
+        id
+        name
+      }
       user {
         id
         name
+        profile_picture_url
       }
       quotation_file_url
       quotation_number
       total_amount
+    }
+  }
+`
+
+export const QUOTATION_STATUS = gql`
+  query aa {
+    quotation_status {
+      id
+      name
     }
   }
 `
@@ -261,7 +314,7 @@ export const QUOTATION_BY_ID = gql`
 
 export const GET_ALL_SERVICE_TOKENS = gql`
   query getAllServiceTokens {
-    service_tokens {
+    service_tokens(order_by: { updated_at: desc }) {
       id
       completed_at
       created_at
@@ -314,6 +367,197 @@ export const SERVICE_TOKEN_BY_ID = gql`
       user {
         name
         id
+      }
+    }
+  }
+`
+
+export const GET_ALL_ORDERS = gql`
+  query getAllOrders {
+    orders(order_by: { updated_at: desc }) {
+      id
+      order_number
+      completion_photo_url
+      completed_at
+      created_at
+      delivering_at
+      delivery_fee
+      discount
+      items_total
+      order_status {
+        name
+        id
+      }
+      ordered_at
+      preparing_at
+      receiver_address
+      receiver_name
+      receiver_phone
+      remark
+      status
+      total
+      updated_at
+      user {
+        id
+        name
+        profile_picture_url
+        user_role {
+          role_name
+        }
+      }
+      user_id
+    }
+  }
+`
+
+export const ORDERS_BY_ID = gql`
+  query ordersById($id: uuid!) {
+    orders_by_pk(id: $id) {
+      id
+      order_number
+      completion_photo_url
+      completed_at
+      created_at
+      delivering_at
+      delivery_fee
+      discount
+      items_total
+      order_status {
+        name
+        id
+      }
+      ordered_at
+      preparing_at
+      receiver_address
+      receiver_name
+      receiver_phone
+      remark
+      status
+      total
+      updated_at
+      receiver_name
+      receiver_phone
+      order_items {
+        id
+        quantity
+        total
+        unit_price
+        product {
+          id
+          title
+          brand {
+            id
+            title
+          }
+        }
+      }
+      user {
+        id
+        name
+        phone
+        email
+        profile_picture_url
+        user_role {
+          role_name
+        }
+      }
+      user_id
+    }
+  }
+`
+
+export const ORDERS_AGGREGATE = gql`
+  query orderAggregate {
+    activeOrder: orders_aggregate(
+      where: {
+        _and: [{ status: { _neq: "completed" } }, { status: { _neq: "canceled" } }, { status: { _neq: "refunded" } }]
+      }
+    ) {
+      aggregate {
+        count
+      }
+    }
+    completeOrder: orders_aggregate(where: { status: { _eq: "completed" } }) {
+      aggregate {
+        count
+      }
+    }
+    refundedOrder: orders_aggregate(where: { status: { _eq: "refunded" } }) {
+      aggregate {
+        count
+      }
+    }
+    canceledOrder: orders_aggregate(where: { status: { _eq: "canceled" } }) {
+      aggregate {
+        count
+      }
+    }
+  }
+`
+export const GET_ALL_DEALERS = gql`
+  query getAllDealers {
+    dealers {
+      id
+      address
+      city_name
+      name
+      phone
+      township_name
+      user {
+        id
+        name
+      }
+    }
+  }
+`
+
+export const DEALERS_BY_ID = gql`
+  query dealerById($id: uuid!) {
+    dealers_by_pk(id: $id) {
+      id
+      address
+      city_name
+      name
+      phone
+      township_name
+      user {
+        id
+        name
+      }
+    }
+  }
+`
+
+export const USER_STATUS_AGGREGATE = gql`
+  query userAggregate {
+    activeUser: users_aggregate(where: { status: { _eq: "active" } }) {
+      aggregate {
+        count
+      }
+    }
+    pendingUser: users_aggregate(where: { status: { _eq: "pending" } }) {
+      aggregate {
+        count
+      }
+    }
+    disabelUser: users_aggregate(where: { status: { _eq: "disabled" } }) {
+      aggregate {
+        count
+      }
+    }
+  }
+`
+
+export const USERS_ROLE_AGGREGATES = gql`
+  query userAggregate {
+    consumerUser: users_aggregate(where: { role: { _eq: "consumer" } }) {
+      aggregate {
+        count
+      }
+    }
+    dealerUser: users_aggregate(where: { role: { _eq: "dealer" } }) {
+      aggregate {
+        count
       }
     }
   }

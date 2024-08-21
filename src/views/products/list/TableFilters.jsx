@@ -8,6 +8,8 @@ import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
+import { useSuspenseQuery } from '@apollo/client'
+import { PRODUCT_CATS } from '@/graphql/queries'
 
 // Vars
 const productStockObj = {
@@ -20,13 +22,14 @@ const TableFilters = ({ setData, productData }) => {
   const [category, setCategory] = useState('')
   const [stock, setStock] = useState('')
   const [status, setStatus] = useState('')
+  const { data: catProducts } = useSuspenseQuery(PRODUCT_CATS)
 
   useEffect(
     () => {
       const filteredData = productData?.filter(product => {
-        if (category && product.category !== category) return false
+        if (category && product.product_category.title !== category) return false
         if (stock && product.stock !== productStockObj[stock]) return false
-        if (status && product.status !== status) return false
+        if (status && product.disabled !== status) return false
 
         return true
       })
@@ -52,9 +55,8 @@ const TableFilters = ({ setData, productData }) => {
               labelId='status-select'
             >
               <MenuItem value=''>Select Status</MenuItem>
-              <MenuItem value='Scheduled'>Scheduled</MenuItem>
-              <MenuItem value='Published'>Publish</MenuItem>
-              <MenuItem value='Inactive'>Inactive</MenuItem>
+              <MenuItem value='true'>Enabled</MenuItem>
+              <MenuItem value='false'>Disabled</MenuItem>
             </Select>
           </FormControl>
         </Grid>
@@ -70,16 +72,15 @@ const TableFilters = ({ setData, productData }) => {
               labelId='category-select'
             >
               <MenuItem value=''>Select Category</MenuItem>
-              <MenuItem value='Accessories'>Accessories</MenuItem>
-              <MenuItem value='Home Decor'>Home Decor</MenuItem>
-              <MenuItem value='Electronics'>Electronics</MenuItem>
-              <MenuItem value='Shoes'>Shoes</MenuItem>
-              <MenuItem value='Office'>Office</MenuItem>
-              <MenuItem value='Games'>Games</MenuItem>
+              {catProducts.product_categories.map(cats => (
+                <MenuItem value={cats.title} key={cats.id}>
+                  {cats.title}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12} sm={4}>
+        {/* <Grid item xs={12} sm={4}>
           <FormControl fullWidth>
             <InputLabel id='stock-select'>Stock</InputLabel>
             <Select
@@ -95,7 +96,7 @@ const TableFilters = ({ setData, productData }) => {
               <MenuItem value='Out of Stock'>Out of Stock</MenuItem>
             </Select>
           </FormControl>
-        </Grid>
+        </Grid> */}
       </Grid>
     </CardContent>
   )

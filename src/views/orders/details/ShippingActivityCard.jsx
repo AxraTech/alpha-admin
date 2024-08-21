@@ -35,7 +35,7 @@ const Timeline = styled(MuiTimeline)({
   }
 })
 
-const ShippingActivity = ({ order }) => {
+const ShippingActivity = ({ orderData }) => {
   return (
     <Card>
       <CardHeader title='Shipping Activity' />
@@ -46,62 +46,80 @@ const ShippingActivity = ({ order }) => {
               <TimelineDot color='primary' />
               <TimelineConnector />
             </TimelineSeparator>
+
             <TimelineContent>
               <div className='flex flex-wrap items-center justify-between gap-x-2 mbe-2.5'>
                 <Typography color='text.primary' className='font-medium'>
-                  Order was placed (Order ID: #{order})
+                  Order was placed (Order ID: #{orderData.order_number})
                 </Typography>
-                <Typography variant='caption'>Tuesday 11:29 AM</Typography>
+
+                <Typography variant='caption'>{new Date(orderData.ordered_at).toLocaleString()}</Typography>
               </div>
-              <Typography className='mbe-2'>Your order has been placed successfully</Typography>
+              <Typography className='mbe-2'>Order has been placed successfully</Typography>
             </TimelineContent>
           </TimelineItem>
           <TimelineItem>
             <TimelineSeparator>
-              <TimelineDot color='primary' />
+              {console.log('preparing at ', orderData.preparing_at)}
+              <TimelineDot
+                variant={orderData.preparing_at === null ? 'outlined' : 'contained'}
+                color={orderData.preparing_at === null ? 'grey' : 'primary'}
+              />
               <TimelineConnector />
             </TimelineSeparator>
             <TimelineContent>
               <div className='flex flex-wrap items-center justify-between gap-x-2 mbe-2.5'>
                 <Typography color='text.primary' className='font-medium'>
-                  Pick-up
+                  Preparing
                 </Typography>
-                <Typography variant='caption'>Wednesday 11:29 AM</Typography>
+                {orderData.preparing_at !== null && (
+                  <Typography variant='caption'>{new Date(orderData?.preparing_at).toLocaleString()}</Typography>
+                )}
               </div>
-              <Typography className='mbe-2'>Pick-up scheduled with courier</Typography>
+              <Typography className='mbe-2'>Order is preparing</Typography>
             </TimelineContent>
           </TimelineItem>
           <TimelineItem>
             <TimelineSeparator>
-              <TimelineDot color='primary' />
+              <TimelineDot
+                variant={orderData.delivering_at === null ? 'outlined' : 'contained'}
+                color={orderData.delivering_at === null ? 'grey' : 'primary'}
+              />
               <TimelineConnector />
             </TimelineSeparator>
             <TimelineContent>
               <div className='flex flex-wrap items-center justify-between gap-x-2 mbe-2.5'>
                 <Typography color='text.primary' className='font-medium'>
-                  Dispatched
+                  Delivering
                 </Typography>
-                <Typography variant='caption'>Thursday 8:15 AM</Typography>
+                {orderData.delivering_at !== null && (
+                  <Typography variant='caption'>{new Date(orderData?.delivering_at).toLocaleString()}</Typography>
+                )}
               </div>
-              <Typography className='mbe-2'>Item has been picked up by courier.</Typography>
+              <Typography className='mbe-2'>Order is delivering </Typography>
             </TimelineContent>
           </TimelineItem>
           <TimelineItem>
             <TimelineSeparator>
-              <TimelineDot color='primary' />
+              <TimelineDot
+                variant={orderData.completed_at === null ? 'outlined' : 'contained'}
+                color={orderData.completed_at === null ? 'grey' : 'primary'}
+              />
               <TimelineConnector />
             </TimelineSeparator>
             <TimelineContent>
               <div className='flex flex-wrap items-center justify-between gap-x-2 mbe-2.5'>
                 <Typography color='text.primary' className='font-medium'>
-                  Package arrived
+                  Completed
                 </Typography>
-                <Typography variant='caption'>Saturday 15:20 AM</Typography>
+                {orderData.completed_at !== null && (
+                  <Typography variant='caption'>{new Date(orderData?.completed_at).toLocaleString()}</Typography>
+                )}
               </div>
-              <Typography className='mbe-2'>Package arrived at an Amazon facility, NY</Typography>
+              <Typography className='mbe-2'>Order has been completed </Typography>
             </TimelineContent>
           </TimelineItem>
-          <TimelineItem>
+          {/* <TimelineItem>
             <TimelineSeparator>
               <TimelineDot color='primary' />
               <TimelineConnector />
@@ -126,7 +144,7 @@ const ShippingActivity = ({ order }) => {
               </Typography>
               <Typography className='mbe-2'>Package will be delivered by tomorrow</Typography>
             </TimelineContent>
-          </TimelineItem>
+          </TimelineItem> */}
         </Timeline>
       </CardContent>
     </Card>

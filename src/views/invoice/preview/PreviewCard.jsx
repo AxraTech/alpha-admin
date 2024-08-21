@@ -11,6 +11,12 @@ import Logo from '@components/layout/shared/Logo'
 // Style Imports
 import tableStyles from '@core/styles/table.module.css'
 import './print.css'
+import { useMutation, useQuery } from '@apollo/client'
+import { INVOICE_BY_ID } from '@/graphql/queries'
+import { useParams } from 'next/navigation'
+import { useApp } from '@/app/ApolloWrapper'
+import { CHANGE_INVOICE_STATUS, CHANGE_QUOTATION_STATUS } from '@/graphql/mutations'
+import { Button, Chip } from '@mui/material'
 
 // Vars
 const data = [
@@ -44,12 +50,78 @@ const data = [
   }
 ]
 
-const PreviewCard = ({ invoiceData, id }) => {
+export const statusChipColor = {
+  paid: 'secondary',
+  'partially paid': 'info',
+  completed: 'success',
+  unpaid: 'error',
+  pending: 'primary'
+}
+
+const PreviewCard = ({ invoiceData }) => {
+  const invoiceDataId = invoiceData?.invoices_by_pk
+  const { setGlobalMsg } = useApp()
+  const [changeInvoiceStatus] = useMutation(CHANGE_INVOICE_STATUS)
+  const handleChangeInvoiceStatus = async (id, status) => {
+    try {
+      const result = await changeInvoiceStatus({
+        variables: {
+          data: {
+            ...status
+          },
+          id: id
+        }
+      })
+
+      setGlobalMsg('Change Order Status')
+    } catch (e) {
+      console.log('Change Status Error ', e)
+    }
+  }
   return (
     <Card className='previewCard'>
       <CardContent className='sm:!p-12'>
         <Grid container spacing={6}>
           <Grid item xs={12}>
+            <div className='flex gap-4 mb-4'>
+              <Button
+                variant='outlined'
+                color='success'
+                onClick={() =>
+                  handleChangeInvoiceStatus(invoiceDataId?.id, { status: 'completed' }, { completed_at: new Date() })
+                }
+              >
+                Complete
+              </Button>
+              <Button
+                variant='outlined'
+                color='secondary'
+                onClick={() => handleChangeInvoiceStatus(invoiceDataId?.id, { status: 'paid' })}
+              >
+                Paid
+              </Button>
+              <Button
+                variant='outlined'
+                color='info'
+                onClick={() => handleChangeInvoiceStatus(invoiceDataId?.id, { status: 'partially paid' })}
+              >
+                Partially Paid
+              </Button>
+              <Button
+                variant='outlined'
+                color='warning'
+                onClick={() => handleChangeInvoiceStatus(invoiceDataId?.id, { status: 'pending' })}
+              >
+                Pending
+              </Button>
+              <Button
+                variant='outlined'
+                color='error'
+                onClick={() => handleChangeInvoiceStatus(invoiceDataId?.id, { status: 'unpaid' })}
+              >
+                UnPaid
+              </Button>
+            </div>
             <div className='p-6 bg-actionHover rounded'>
               <div className='flex justify-between gap-y-4 flex-col sm:flex-row'>
                 <div className='flex flex-col gap-6'>
@@ -63,10 +135,23 @@ const PreviewCard = ({ invoiceData, id }) => {
                   </div>
                 </div>
                 <div className='flex flex-col gap-6'>
-                  <Typography variant='h5'>{`Invoice #${id}`}</Typography>
+                  <div className='flex flex-row gap-3'>
+                    <Typography variant='h5'>{`Invoice #`}</Typography>
+                    <Chip
+                      label={invoiceDataId?.status}
+                      color={statusChipColor[invoiceDataId?.status]}
+                      style={{ textTransform: 'capitalize' }}
+                      variant='tonal'
+                      size='small'
+                    />
+                  </div>
                   <div className='flex flex-col gap-1'>
-                    <Typography color='text.primary'>{`Date Issued: ${invoiceData?.issuedDate}`}</Typography>
-                    <Typography color='text.primary'>{`Date Due: ${invoiceData?.dueDate}`}</Typography>
+                    <Typography color='text.primary'>
+                      Date Issued : {new Date(invoiceDataId?.created_at).toLocaleDateString()}
+                    </Typography>
+                    <Typography color='text.primary'>
+                      Date Due : {new Date(invoiceDataId?.updated_at).toLocaleDateString()}
+                    </Typography>
                   </div>
                 </div>
               </div>
@@ -80,11 +165,12 @@ const PreviewCard = ({ invoiceData, id }) => {
                     Invoice To:
                   </Typography>
                   <div>
-                    <Typography>{invoiceData?.name}</Typography>
-                    <Typography>{invoiceData?.company}</Typography>
-                    <Typography>{invoiceData?.address}</Typography>
-                    <Typography>{invoiceData?.contact}</Typography>
-                    <Typography>{invoiceData?.companyEmail}</Typography>
+                    <Typography>{invoiceDataId?.user.name}</Typography>
+
+                    <Typography>{invoiceDataId?.company}</Typography>
+                    <Typography>{invoiceDataId?.address}</Typography>
+                    <Typography>{invoiceDataId?.user.phone}</Typography>
+                    <Typography>{invoiceDataId?.user.email}</Typography>
                   </div>
                 </div>
               </Grid>
@@ -96,23 +182,23 @@ const PreviewCard = ({ invoiceData, id }) => {
                   <div>
                     <div className='flex items-center gap-4'>
                       <Typography className='min-is-[100px]'>Total Due:</Typography>
-                      <Typography>$12,110.55</Typography>
+                      <Typography>{invoiceDataId?.total}</Typography>
                     </div>
                     <div className='flex items-center gap-4'>
                       <Typography className='min-is-[100px]'>Bank name:</Typography>
-                      <Typography>American Bank</Typography>
+                      <Typography>-</Typography>
                     </div>
                     <div className='flex items-center gap-4'>
                       <Typography className='min-is-[100px]'>Country:</Typography>
-                      <Typography>United States</Typography>
+                      <Typography>-</Typography>
                     </div>
                     <div className='flex items-center gap-4'>
                       <Typography className='min-is-[100px]'>IBAN:</Typography>
-                      <Typography>ETD95476213874685</Typography>
+                      <Typography>-</Typography>
                     </div>
                     <div className='flex items-center gap-4'>
                       <Typography className='min-is-[100px]'>SWIFT code:</Typography>
-                      <Typography>BR91905</Typography>
+                      <Typography>-</Typography>
                     </div>
                   </div>
                 </div>
@@ -124,30 +210,31 @@ const PreviewCard = ({ invoiceData, id }) => {
               <table className={tableStyles.table}>
                 <thead>
                   <tr className='border-be'>
-                    <th className='!bg-transparent'>Item</th>
-                    <th className='!bg-transparent'>Description</th>
-                    <th className='!bg-transparent'>Hours</th>
+                    <th className='!bg-transparent'>Product</th>
+                    <th className='!bg-transparent'>Brand</th>
+                    <th className='!bg-transparent'>Price</th>
                     <th className='!bg-transparent'>Qty</th>
                     <th className='!bg-transparent'>Total</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {data.map((item, index) => (
+                  {invoiceDataId?.order?.order_items.map((item, index) => (
                     <tr key={index}>
                       <td>
-                        <Typography color='text.primary'>{item.Item}</Typography>
+                        <Typography color='text.primary'>{item.product.title}</Typography>
+                      </td>
+
+                      <td>
+                        <Typography color='text.primary'>{item.product.brand.title}</Typography>
                       </td>
                       <td>
-                        <Typography color='text.primary'>{item.Description}</Typography>
+                        <Typography color='text.primary'>{item.product.price}</Typography>
                       </td>
                       <td>
-                        <Typography color='text.primary'>{item.Hours}</Typography>
+                        <Typography color='text.primary'>{item.quantity}</Typography>
                       </td>
                       <td>
-                        <Typography color='text.primary'>{item.Qty}</Typography>
-                      </td>
-                      <td>
-                        <Typography color='text.primary'>{item.Total}</Typography>
+                        <Typography color='text.primary'>{item.total}</Typography>
                       </td>
                     </tr>
                   ))}
@@ -162,7 +249,7 @@ const PreviewCard = ({ invoiceData, id }) => {
                   <Typography className='font-medium' color='text.primary'>
                     Salesperson:
                   </Typography>
-                  <Typography>Tommy Shelby</Typography>
+                  <Typography>-</Typography>
                 </div>
                 <Typography>Thanks for your business</Typography>
               </div>
@@ -170,26 +257,26 @@ const PreviewCard = ({ invoiceData, id }) => {
                 <div className='flex items-center justify-between'>
                   <Typography>Subtotal:</Typography>
                   <Typography className='font-medium' color='text.primary'>
-                    $1800
+                    {invoiceDataId?.order?.items_total}
                   </Typography>
                 </div>
                 <div className='flex items-center justify-between'>
                   <Typography>Discount:</Typography>
                   <Typography className='font-medium' color='text.primary'>
-                    $28
+                    {invoiceDataId?.order?.discount}
                   </Typography>
                 </div>
-                <div className='flex items-center justify-between'>
+                {/* <div className='flex items-center justify-between'>
                   <Typography>Tax:</Typography>
                   <Typography className='font-medium' color='text.primary'>
                     21%
                   </Typography>
-                </div>
+                </div> */}
                 <Divider className='mlb-2' />
                 <div className='flex items-center justify-between'>
                   <Typography>Total:</Typography>
                   <Typography className='font-medium' color='text.primary'>
-                    $1690
+                    {invoiceDataId?.total}
                   </Typography>
                 </div>
               </div>
@@ -202,9 +289,8 @@ const PreviewCard = ({ invoiceData, id }) => {
             <Typography>
               <Typography component='span' className='font-medium' color='text.primary'>
                 Note:
-              </Typography>{' '}
-              It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance
-              projects. Thank You!
+              </Typography>
+              {invoiceDataId?.note}
             </Typography>
           </Grid>
         </Grid>

@@ -1,4 +1,4 @@
-// Next Imports
+// Next Impo\rts
 import dynamic from 'next/dynamic'
 
 // MUI Imports
@@ -16,9 +16,9 @@ const NotificationsTab = dynamic(() => import('@views/user/view/user-right/notif
 
 // Vars
 const tabContentList = data => ({
-  overview: <OverViewTab/>,
-  security: <SecurityTab/>,
-  notifications: <NotificationsTab/>,
+  overview: <OverViewTab />,
+  security: <SecurityTab />,
+  notifications: <NotificationsTab />
 })
 
 /**
@@ -38,14 +38,14 @@ const tabContentList = data => ({
   return res.json()
 } */
 const UserViewTab = async () => {
-
   return (
     <Grid container spacing={6}>
       <Grid item xs={12} lg={4} md={5}>
-        <UserLeftOverview/>
+        <UserLeftOverview />
       </Grid>
       <Grid item xs={12} lg={8} md={7}>
-        <UserRight tabContentList={tabContentList()}/>
+        {/* <UserRight tabContentList={tabContentList()}/> */}
+        <UserRight tabContentList={tabContentList()} />
       </Grid>
     </Grid>
   )

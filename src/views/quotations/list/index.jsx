@@ -7,7 +7,7 @@ import QuotationCard from './QuotationCard'
 import { useQuery, useSuspenseQuery } from '@apollo/client'
 import { GET_ALL_INVOICES } from '@/graphql/queries'
 
-const InvoiceList = () => {
+const QuotationList = () => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
@@ -20,4 +20,4 @@ const InvoiceList = () => {
   )
 }
 
-export default InvoiceList
+export default QuotationList

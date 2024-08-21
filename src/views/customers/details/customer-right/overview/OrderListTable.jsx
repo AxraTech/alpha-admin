@@ -89,6 +89,7 @@ const DebouncedInput = ({ value: initialValue, onChange, debounce = 500, ...prop
 const columnHelper = createColumnHelper()
 
 const OrderListTable = ({ orderData }) => {
+  console.log('order data ', orderData)
   // States
   const [rowSelection, setRowSelection] = useState({})
   const [data, setData] = useState(...[orderData])
@@ -103,15 +104,20 @@ const OrderListTable = ({ orderData }) => {
         header: 'order',
         cell: ({ row }) => (
           <Typography
-            component={Link}
-            href={getLocalizedUrl(`/orders/details/${row.original.order}`, locale)}
+            // component={Link}
+            // href={getLocalizedUrl(`/orders/details/${row.original.order_number}`, locale)}
             color='primary'
-          >{`#${row.original.order}`}</Typography>
+          >
+            {`#${row.original.order}`}
+
+            {console.log('order umber ', row?.original)}
+          </Typography>
         )
       }),
+
       columnHelper.accessor('date', {
         header: 'Date',
-        cell: ({ row }) => <Typography>{`${new Date(row.original.date).toDateString()}`}</Typography>
+        cell: ({ row }) => <Typography>{`${new Date(row.original.created_at).toDateString()}`}</Typography>
       }),
       columnHelper.accessor('status', {
         header: 'Status',
@@ -124,15 +130,15 @@ const OrderListTable = ({ orderData }) => {
           />
         )
       }),
-      columnHelper.accessor('spent', {
-        header: 'Spent',
-        cell: ({ row }) => <Typography>${row.original.spent}</Typography>
+      columnHelper.accessor('total', {
+        header: 'Total',
+        cell: ({ row }) => <Typography>${row.original.total}</Typography>
       }),
       columnHelper.accessor('action', {
         header: 'Actions',
         cell: ({ row }) => (
           <div className='flex items-center'>
-            <OptionMenu
+            {/* <OptionMenu
               iconButtonProps={{ size: 'medium' }}
               iconClassName='text-textSecondary text-[22px]'
               options={[
@@ -151,7 +157,7 @@ const OrderListTable = ({ orderData }) => {
                   }
                 }
               ]}
-            />
+            /> */}
           </div>
         ),
         enableSorting: false

@@ -1,10 +1,5 @@
 // Component Imports
-import QuotationList from '@/views/service_token/list/index'
-
-// Data Imports
-import { getInvoiceData } from '@/app/server/actions'
-import { useQuery, useSuspenseQuery } from '@apollo/client'
-import { GET_ALL_INVOICES } from '@/graphql/queries'
+import QuotationList from '@/views/quotations/list/index'
 
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the
@@ -22,12 +17,8 @@ import { GET_ALL_INVOICES } from '@/graphql/queries'
 
   return res.json()
 } */
-const InvoiceApp = async () => {
-  // Vars
-
-  // const data = await getInvoiceData()
-
+const Quotations = async () => {
   return <QuotationList />
 }
 
-export default InvoiceApp
+export default Quotations

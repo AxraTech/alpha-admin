@@ -83,54 +83,58 @@ const orderData = [
 // Column Definitions
 const columnHelper = createColumnHelper()
 
-const OrderTable = () => {
+const OrderTable = ({ orderData }) => {
   // States
+
   const [rowSelection, setRowSelection] = useState({})
 
-  const [data, setData] = useState(...[orderData])
+  const [data, setData] = useState(...[orderData.order_items])
   const [globalFilter, setGlobalFilter] = useState('')
 
   const columns = useMemo(
     () => [
-      {
-        id: 'select',
-        header: ({ table }) => (
-          <Checkbox
-            {...{
-              checked: table.getIsAllRowsSelected(),
-              indeterminate: table.getIsSomeRowsSelected(),
-              onChange: table.getToggleAllRowsSelectedHandler()
-            }}
-          />
-        ),
-        cell: ({ row }) => (
-          <Checkbox
-            {...{
-              checked: row.getIsSelected(),
-              disabled: !row.getCanSelect(),
-              indeterminate: row.getIsSomeSelected(),
-              onChange: row.getToggleSelectedHandler()
-            }}
-          />
-        )
-      },
-      columnHelper.accessor('productName', {
+      // {
+      //   id: 'select',
+      //   header: ({ table }) => (
+      //     <Checkbox
+      //       {...{
+      //         checked: table.getIsAllRowsSelected(),
+      //         indeterminate: table.getIsSomeRowsSelected(),
+      //         onChange: table.getToggleAllRowsSelectedHandler()
+      //       }}
+      //     />
+      //   ),
+      //   cell: ({ row }) => (
+      //     <Checkbox
+      //       {...{
+      //         checked: row.getIsSelected(),
+      //         disabled: !row.getCanSelect(),
+      //         indeterminate: row.getIsSomeSelected(),
+      //         onChange: row.getToggleSelectedHandler()
+      //       }}
+      //     />
+      //   )
+      // },
+
+      columnHelper.accessor('title', {
         header: 'Product',
+        // size: '200px',
         cell: ({ row }) => (
-          <div className='flex items-center gap-3'>
-            <img src={row.original.productImage} alt={row.original.productName} height={34} className='rounded' />
-            <div className='flex flex-col items-start'>
-              <Typography color='text.primary' className='font-medium'>
-                {row.original.productName}
+          <div className='flex items-center gap-3 ' style={{ width: '200px' }}>
+            {/* <img src={row.original.productImage} alt={row.original.productName} height={34} className='rounded' /> */}
+
+            <div className='flex flex-col items-start  '>
+              <Typography color='text.primary' className='font-medium '>
+                {row.original.product.title}
               </Typography>
-              <Typography variant='body2'>{row.original.brand}</Typography>
+              <Typography variant='body2'>{row.original.product.brand.title}</Typography>
             </div>
           </div>
         )
       }),
-      columnHelper.accessor('price', {
+      columnHelper.accessor('order_items?.unit_price', {
         header: 'Price',
-        cell: ({ row }) => <Typography>{`$${row.original.price}`}</Typography>
+        cell: ({ row }) => <Typography>{`${row.original.unit_price.toLocaleString()}`} Ks</Typography>
       }),
       columnHelper.accessor('quantity', {
         header: 'Qty',
@@ -138,7 +142,7 @@ const OrderTable = () => {
       }),
       columnHelper.accessor('total', {
         header: 'Total',
-        cell: ({ row }) => <Typography>{`$${row.original.total}`}</Typography>
+        cell: ({ row }) => <Typography>{`${row.original.total?.toLocaleString()}`} Ks</Typography>
       })
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -204,7 +208,7 @@ const OrderTable = () => {
             </tr>
           ))}
         </thead>
-        {table.getFilteredRowModel().rows.length === 0 ? (
+        {table.getFilteredRowModel().rows?.length === 0 ? (
           <tbody>
             <tr>
               <td colSpan={table.getVisibleFlatColumns().length} className='text-center'>
@@ -235,18 +239,18 @@ const OrderTable = () => {
   )
 }
 
-const OrderDetailsCard = () => {
+const OrderDetailsCard = ({ orderData }) => {
   return (
     <Card>
       <CardHeader
         title='Order Details'
-        action={
-          <Typography component={Link} color='primary.main' className='font-medium'>
-            Edit
-          </Typography>
-        }
+        // action={
+        //   <Typography component={Link} color='primary.main' className='font-medium'>
+        //     Edit
+        //   </Typography>
+        // }
       />
-      <OrderTable />
+      <OrderTable orderData={orderData} />
       <CardContent className='flex justify-end'>
         <div>
           <div className='flex items-center gap-12'>
@@ -254,31 +258,31 @@ const OrderDetailsCard = () => {
               Subtotal:
             </Typography>
             <Typography color='text.primary' className='font-medium'>
-              $2,093
+              {orderData?.items_total?.toLocaleString()} Ks
             </Typography>
           </div>
           <div className='flex items-center gap-12'>
             <Typography color='text.primary' className='min-is-[100px]'>
-              Shipping Fee:
+              Delivery Fee:
             </Typography>
             <Typography color='text.primary' className='font-medium'>
-              $2
+              {orderData?.delivery_fee?.toLocaleString()}
             </Typography>
           </div>
-          <div className='flex items-center gap-12'>
+          {/* <div className='flex items-center gap-12'>
             <Typography color='text.primary' className='min-is-[100px]'>
               Tax:
             </Typography>
             <Typography color='text.primary' className='font-medium'>
               $28
             </Typography>
-          </div>
+          </div> */}
           <div className='flex items-center gap-12'>
             <Typography color='text.primary' className='font-medium min-is-[100px]'>
               Total:
             </Typography>
             <Typography color='text.primary' className='font-medium'>
-              $2113
+              {orderData?.total?.toLocaleString()} Ks
             </Typography>
           </div>
         </div>

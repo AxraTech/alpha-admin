@@ -12,8 +12,11 @@ import Button from '@mui/material/Button'
 
 // Third-party Imports
 import classnames from 'classnames'
+import { useMutation } from '@apollo/client'
+import { DELETE_ORDERS } from '@/graphql/mutations'
 
 const ConfirmationDialog = ({ open, setOpen, type }) => {
+  const [deletOrder] = useMutation(DELETE_ORDERS)
   // States
   const [secondDialog, setSecondDialog] = useState(false)
   const [userInput, setUserInput] = useState(false)
@@ -26,7 +29,8 @@ const ConfirmationDialog = ({ open, setOpen, type }) => {
     setOpen(false)
   }
 
-  const handleConfirmation = value => {
+  const handleConfirmation = async value => {
+    // await deletOrder({ variables: { id: id } })
     setUserInput(value)
     setSecondDialog(true)
     setOpen(false)

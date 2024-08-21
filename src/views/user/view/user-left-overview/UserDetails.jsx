@@ -40,7 +40,12 @@ const UserDetails = () => {
                 <CustomAvatar alt='user-profile' src='/images/avatars/1.png' variant='rounded' size={120} />
                 <Typography variant='h5'>{data.users_by_pk.name}</Typography>
               </div>
-              <Chip label='Subscriber' color='error' size='small' variant='tonal' />
+              <Chip
+                label={data.users_by_pk.role}
+                color={`${data.users_by_pk.role === 'consumer' ? 'warning' : 'info'}`}
+                size='small'
+                variant='tonal'
+              />
             </div>
             <div className='flex items-center justify-around flex-wrap gap-4'>
               <div className='flex items-center gap-4'>
@@ -64,7 +69,15 @@ const UserDetails = () => {
             </div>
           </div>
           <div>
-            <Typography variant='h5'>Details</Typography>
+            <div className='flex justify-between items-center'>
+              <Typography variant='h5'>Details</Typography>
+              <Chip
+                label={data.users_by_pk.status}
+                color={`${data.users_by_pk.status === 'pending' ? 'primary' : data.users_by_pk.status === 'active' ? 'success' : 'error'}`}
+                size='small'
+                // variant='tonal'
+              />
+            </div>
             <Divider className='mlb-4' />
             <div className='flex flex-col gap-2'>
               <div className='flex items-center flex-wrap gap-x-1.5'>
@@ -79,18 +92,7 @@ const UserDetails = () => {
                 </Typography>
                 <Typography>{data.users_by_pk.billingEmail}</Typography>
               </div>
-              <div className='flex items-center flex-wrap gap-x-1.5'>
-                <Typography className='font-medium' color='text.primary'>
-                  Status
-                </Typography>
-                <Typography color='text.primary'>{data.users_by_pk.status}</Typography>
-              </div>
-              <div className='flex items-center flex-wrap gap-x-1.5'>
-                <Typography className='font-medium' color='text.primary'>
-                  Role:
-                </Typography>
-                <Typography color='text.primary'>{data.users_by_pk.role}</Typography>
-              </div>
+
               <div className='flex items-center flex-wrap gap-x-1.5'>
                 <Typography className='font-medium' color='text.primary'>
                   Tax ID:

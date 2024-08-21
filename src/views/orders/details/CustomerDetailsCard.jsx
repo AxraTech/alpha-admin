@@ -50,36 +50,36 @@ const CustomerDetails = ({ orderData }) => {
       <CardContent className='flex flex-col gap-6'>
         <Typography variant='h5'>Customer details</Typography>
         <div className='flex items-center gap-3'>
-          {getAvatar({ avatar: orderData?.avatar ?? '', customer: orderData?.customer ?? '' })}
+          {getAvatar({ avatar: orderData?.avatar ?? '', customer: orderData?.user.profile_picture_url ?? '' })}
           <div className='flex flex-col'>
             <Typography color='text.primary' className='font-medium'>
-              {orderData?.customer}
+              {orderData?.user.name}
             </Typography>
-            <Typography>Customer ID: #47389</Typography>
+            {/* <Typography>Customer ID: #47389</Typography> */}
           </div>
         </div>
-        <div className='flex items-center gap-3'>
+        {/* <div className='flex items-center gap-3'>
           <CustomAvatar skin='light' color='success' size={40}>
             <i className='ri-shopping-cart-2-line' />
           </CustomAvatar>
           <Typography color='text.primary' className='font-medium'>
             12 Orders
           </Typography>
-        </div>
+        </div> */}
         <div className='flex flex-col gap-1'>
           <div className='flex justify-between items-center'>
             <Typography color='text.primary' className='font-medium'>
               Contact info
             </Typography>
-            <OpenDialogOnElementClick
+            {/* <OpenDialogOnElementClick
               element={Typography}
               elementProps={typographyProps('Edit', 'primary', 'cursor-pointer font-medium')}
               dialog={EditUserInfo}
               dialogProps={{ data: userData }}
-            />
+            /> */}
           </div>
-          <Typography>Email: {orderData?.email}</Typography>
-          <Typography>Mobile: +1 (609) 972-22-22</Typography>
+          {/* <Typography>Email : {orderData.user.email}</Typography> */}
+          <Typography>Mobile : {orderData.user.phone}</Typography>
         </div>
       </CardContent>
     </Card>
