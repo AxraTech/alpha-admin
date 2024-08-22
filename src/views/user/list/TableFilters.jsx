@@ -1,3 +1,5 @@
+'use client'
+
 // React Imports
 import { useState, useEffect } from 'react'
 
@@ -8,13 +10,15 @@ import Grid from '@mui/material/Grid'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
+import { useSuspenseQuery } from '@apollo/client'
+import { USER_ROLES } from '@/graphql/queries'
 
 const TableFilters = ({ setData, tableData }) => {
   // States
   const [role, setRole] = useState('')
   const [plan, setPlan] = useState('')
   const [status, setStatus] = useState('')
-
+  const { data: userlevels } = useSuspenseQuery(USER_ROLES)
   useEffect(() => {
     const filteredData = tableData?.filter(user => {
       if (role && user.role !== role) return false
@@ -43,8 +47,11 @@ const TableFilters = ({ setData, tableData }) => {
               inputProps={{ placeholder: 'Select Role' }}
             >
               <MenuItem value=''>Select Role</MenuItem>
-              <MenuItem value='consumer'>Consumer</MenuItem>
-              <MenuItem value='dealer'>Dealer</MenuItem>
+              {userlevels.user_roles.map(role => (
+                <MenuItem value={role.role_name} key={role.id}>
+                  {role.role_name}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Grid>

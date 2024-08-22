@@ -17,7 +17,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 // Third-party Imports
 import { useForm, Controller } from 'react-hook-form'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
-import { ADD_CATEGORY, ADD_DEALERS } from '@/graphql/mutations'
+import { ADD_ADMIN, ADD_CATEGORY, ADD_DEALERS } from '@/graphql/mutations'
 import Alert from '@/components/helper/Alert'
 import { useApp } from '@/app/ApolloWrapper'
 import { GET_USERS } from '@/graphql/queries'
@@ -27,8 +27,7 @@ const AddCategoryDrawer = props => {
   // Props
   const { open, handleClose, dealerData, setData } = props
   const [userId, setUserId] = useState()
-  const { data: users } = useSuspenseQuery(GET_USERS)
-  const [addDealer] = useMutation(ADD_DEALERS)
+  const [addDealer] = useMutation(ADD_ADMIN)
 
   // Refs
   const fileInputRef = useRef(null)
@@ -50,17 +49,15 @@ const AddCategoryDrawer = props => {
     const res = await addDealer({
       variables: {
         data: {
-          phone: data.phone,
+          email: data.email,
           name: data.name,
-          address: data.address,
-          city_name: data.city_name,
-          township_name: data.township_name,
-          user_id: userId
+          role: data.role,
+          password: data.password
         }
       }
     })
 
-    setData([...dealerData, res.data.insert_dealers_one])
+    setData([...dealerData, res.data.insert_admins_one])
     handleReset()
     setGlobalMsg('➕ Added New Data')
   }
@@ -91,7 +88,7 @@ const AddCategoryDrawer = props => {
         sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
       >
         <div className='flex items-center justify-between pli-5 plb-4'>
-          <Typography variant='h5'>Add Dealer</Typography>
+          <Typography variant='h5'>Add Admin</Typography>
           <IconButton size='small' onClick={handleReset}>
             <i className='ri-close-line text-2xl' />
           </IconButton>
@@ -99,6 +96,7 @@ const AddCategoryDrawer = props => {
         <Divider />
         <div className='p-5'>
           <form onSubmit={handleSubmit(data => handleFormSubmit(data))} className='flex flex-col gap-5'>
+            {/* name */}
             <Controller
               name='name'
               control={control}
@@ -113,85 +111,53 @@ const AddCategoryDrawer = props => {
                 />
               )}
             />
+            {/* email */}
+            <Controller
+              name='email'
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  fullWidth
+                  label='Email'
+                  type='email'
+                  placeholder=''
+                  {...(errors.email && { error: true, helperText: 'This field is required.' })}
+                />
+              )}
+            />
+            {/* role */}
+            <Controller
+              name='role'
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  fullWidth
+                  label='Role'
+                  placeholder=''
+                  {...(errors.role && { error: true, helperText: 'This field is required.' })}
+                />
+              )}
+            />
             {/* phone */}
             <Controller
-              name='phone'
+              name='password'
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
                 <TextField
                   {...field}
                   fullWidth
-                  label='Phone'
+                  label='Password'
+                  type='password'
                   placeholder=''
-                  {...(errors.phone && { error: true, helperText: 'This field is required.' })}
+                  {...(errors.password && { error: true, helperText: 'This field is required.' })}
                 />
               )}
             />
-            {/* address */}
-            <Controller
-              name='address'
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <TextField
-                  multiline
-                  {...field}
-                  fullWidth
-                  label='Address'
-                  placeholder=''
-                  {...(errors.address && { error: true, helperText: 'This field is required.' })}
-                />
-              )}
-            />
-            <Controller
-              name='city_name'
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  fullWidth
-                  label='City Name'
-                  placeholder=''
-                  {...(errors.city_name && { error: true, helperText: 'This field is required.' })}
-                />
-              )}
-            />
-            {/* township name */}
-            <Controller
-              name='township_name'
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  fullWidth
-                  label='Township Name'
-                  placeholder=''
-                  {...(errors.township_name && { error: true, helperText: 'This field is required.' })}
-                />
-              )}
-            />
-
-            {/* user */}
-            <FormControl fullWidth>
-              <InputLabel>Select User</InputLabel>
-              <Select
-                label='Select Vendor'
-                value={userId}
-                onChange={e => setUserId(e.target.value)}
-                // error={errors?.brandId ? true : false}
-                // helperText={errors?.brandId}
-              >
-                {users?.users?.map((user, index) => (
-                  <MenuItem value={user?.id} key={index}>
-                    {user.name}
-                  </MenuItem>
-                ))}
-              </Select>
-              {/* <FormHelperText sx={{ color: 'red' }}>{errors?.user_id}</FormHelperText> */}
-            </FormControl>
 
             <div className='flex items-center gap-4'>
               <Button variant='contained' type='submit'>

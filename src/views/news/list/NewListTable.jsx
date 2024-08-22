@@ -79,7 +79,6 @@ const DebouncedInput = ({ value: initialValue, onChange, debounce = 500, ...prop
     }, debounce)
 
     return () => clearTimeout(timeout)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value])
 
   return <TextField {...props} value={value} onChange={e => setValue(e.target.value)} size='small' />

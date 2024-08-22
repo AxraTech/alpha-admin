@@ -211,3 +211,10 @@ export const DELETE_ADMIN = gql`
     }
   }
 `
+export const ADD_ADMIN = gql`
+  mutation addAdmin($data: admins_insert_input!) {
+    insert_admins_one(object: { name: $data }) {
+      id
+    }
+  }
+`

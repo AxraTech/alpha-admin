@@ -141,10 +141,7 @@ const OrderListTable = ({ orderData }) => {
           >{`${row.original.order_number}`}</Typography>
         )
       }),
-      columnHelper.accessor('ordered_at', {
-        header: 'Date',
-        cell: ({ row }) => <Typography>{`${new Date(row.original.ordered_at).toLocaleDateString()}`}</Typography>
-      }),
+
       columnHelper.accessor('user?.name', {
         header: 'Customers',
         cell: ({ row }) => (
@@ -165,18 +162,6 @@ const OrderListTable = ({ orderData }) => {
         )
       }),
 
-      columnHelper.accessor('status', {
-        header: 'Status',
-        cell: ({ row }) => (
-          <Chip
-            label={row.original.status}
-            color={statusChipColor[row.original.status]}
-            style={{ textTransform: 'capitalize' }}
-            variant='tonal'
-            size='small'
-          />
-        )
-      }),
       columnHelper.accessor('total', {
         header: 'Total',
         cell: ({ row }) => (
@@ -189,6 +174,22 @@ const OrderListTable = ({ orderData }) => {
             </div> */}
             <Typography>{row.original.total.toLocaleString()} Ks</Typography>
           </div>
+        )
+      }),
+      columnHelper.accessor('ordered_at', {
+        header: 'Date',
+        cell: ({ row }) => <Typography>{`${new Date(row.original.ordered_at).toLocaleDateString()}`}</Typography>
+      }),
+      columnHelper.accessor('status', {
+        header: 'Status',
+        cell: ({ row }) => (
+          <Chip
+            label={row.original.status}
+            color={statusChipColor[row.original.status]}
+            style={{ textTransform: 'capitalize' }}
+            variant='tonal'
+            size='small'
+          />
         )
       }),
       columnHelper.accessor('action', {
@@ -220,9 +221,9 @@ const OrderListTable = ({ orderData }) => {
                 <i className='ri-eye-line text-textSecondary' />
               </Link>
             </IconButton>
-            <IconButton size='small'>
+            {/* <IconButton size='small'>
               <i className='ri-edit-box-line text-[22px] text-textSecondary' />
-            </IconButton>
+            </IconButton> */}
             {/* <IconButton size='small' onClick={() => handleDelete(row?.original?.id)}>
               <i className='ri-delete-bin-7-line text-[22px] text-red-500' />
             </IconButton> */}

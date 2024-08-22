@@ -13,19 +13,20 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
 import InputAdornment from '@mui/material/InputAdornment'
-
+import { uploadFile } from '@/utils/helper'
 // Third-party Imports
 import { useForm, Controller } from 'react-hook-form'
 import { useMutation } from '@apollo/client'
-import { ADD_CATEGORY } from '@/graphql/mutations'
+import { ADD_CATEGORY, IMGAE_UPLOAD } from '@/graphql/mutations'
 import Alert from '@/components/helper/Alert'
 import { useApp } from '@/app/ApolloWrapper'
 
 const AddCategoryDrawer = props => {
   const { setGlobalMsg } = useApp()
   // Props
-  const { open, handleClose, categoryData, setData } = props
+  const { open, handleClose, categoryData, setData, loading, setLoading } = props
   const [addCategory] = useMutation(ADD_CATEGORY)
+  const [getFileUploadUrl] = useMutation(IMGAE_UPLOAD)
 
   // States
   const [fileName, setFileName] = useState('')
@@ -48,18 +49,31 @@ const AddCategoryDrawer = props => {
 
   // Handle Form Submit
   const handleFormSubmit = async data => {
-    const res = await addCategory({
-      variables: {
-        data: {
-          title: data.title,
-          image_url: fileName
+    try {
+      setLoading(true)
+      const fileUploadUrl = await getFileUploadUrl({
+        variables: {
+          content_type: 'pdf',
+          folder: 'quotations'
         }
-      }
-    })
+      })
 
-    setData([...categoryData, res.data.insert_product_categories_one])
-    handleReset()
-    setGlobalMsg('➕ Added New Category')
+      const uploadedFileUrl = await uploadFile(fileName[0], fileUploadUrl.data.getFileUploadUrl.fileUploadUrl, 'image')
+      const res = await addCategory({
+        variables: {
+          data: {
+            title: data.title,
+            image_url: uploadedFileUrl
+          }
+        }
+      })
+      setLoading(false)
+      setData([...categoryData, res.data.insert_product_categories_one])
+      handleReset()
+      setGlobalMsg('➕ Added New Category')
+    } catch (e) {
+      console.log('Error ', e)
+    }
   }
 
   // Handle Form Reset
@@ -74,7 +88,7 @@ const AddCategoryDrawer = props => {
     const { files } = event.target
 
     if (files && files.length !== 0) {
-      setFileName(files[0].name)
+      setFileName(files)
     }
   }
 
@@ -136,7 +150,7 @@ const AddCategoryDrawer = props => {
             </div>
 
             <div className='flex items-center gap-4'>
-              <Button variant='contained' type='submit'>
+              <Button variant='contained' type='submit' loading={loading}>
                 Add
               </Button>
               <Button variant='outlined' color='error' type='reset' onClick={handleReset}>

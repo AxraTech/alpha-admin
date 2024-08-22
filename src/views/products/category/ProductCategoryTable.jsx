@@ -86,6 +86,7 @@ const ProductCategoryTable = () => {
   const [rowSelection, setRowSelection] = useState({})
   const [data, setData] = useState(...[categoryData.product_categories])
   const [globalFilter, setGlobalFilter] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const handleDelete = async id => {
     try {
@@ -284,6 +285,8 @@ const ProductCategoryTable = () => {
         open={addCategoryOpen}
         categoryData={data}
         setData={setData}
+        loading={loading}
+        setLoading={setLoading}
         handleClose={() => setAddCategoryOpen(!addCategoryOpen)}
       />
       <Alert />

@@ -526,6 +526,15 @@ export const GET_ALL_ADMINS = gql`
   }
 `
 
+export const USER_ROLES = gql`
+  query userRoles {
+    user_roles {
+      id
+      role_name
+    }
+  }
+`
+
 export const DEALERS_BY_ID = gql`
   query dealerById($id: uuid!) {
     dealers_by_pk(id: $id) {

@@ -148,22 +148,6 @@ const QuotationListTable = () => {
         )
       }),
 
-      columnHelper.accessor('status', {
-        header: 'Status',
-        cell: ({ row }) => (
-          <div className='flex items-center gap-3'>
-            <div className='flex flex-col'>
-              <Chip
-                label={row.original.status}
-                color={quotationstatusChipColor[row.original.status]}
-                style={{ textTransform: 'capitalize' }}
-                variant='tonal'
-                size='small'
-              />
-            </div>
-          </div>
-        )
-      }),
       columnHelper.accessor('user.name ', {
         header: 'Client',
         cell: ({ row }) => (
@@ -193,6 +177,22 @@ const QuotationListTable = () => {
         header: 'Total',
         cell: ({ row }) => (
           <Typography>{`${row.original.total_amount !== null ? row.original.total_amount : '-'}`}</Typography>
+        )
+      }),
+      columnHelper.accessor('status', {
+        header: 'Status',
+        cell: ({ row }) => (
+          <div className='flex items-center gap-3'>
+            <div className='flex flex-col'>
+              <Chip
+                label={row.original.status}
+                color={quotationstatusChipColor[row.original.status]}
+                style={{ textTransform: 'capitalize' }}
+                variant='tonal'
+                size='small'
+              />
+            </div>
+          </div>
         )
       }),
       // columnHelper.accessor('issuedDate', {

@@ -154,22 +154,6 @@ const InvoiceListTable = () => {
         )
       }),
 
-      columnHelper.accessor('status ', {
-        header: 'Status',
-        cell: ({ row }) => (
-          <div className='flex items-center gap-3'>
-            <div className='flex flex-col'>
-              <Chip
-                label={row.original.status}
-                color={statusChipColor[row.original.status]}
-                style={{ textTransform: 'capitalize' }}
-                variant='tonal'
-                size='small'
-              />
-            </div>
-          </div>
-        )
-      }),
       columnHelper.accessor('user.name ', {
         header: 'Client',
         cell: ({ row }) => (
@@ -189,7 +173,7 @@ const InvoiceListTable = () => {
           <div className='flex items-center gap-3'>
             <div className='flex flex-col'>
               <Typography className='font-medium' color='text.primary'>
-                {row.original.balance}
+                {row.original.balance.toLocaleString()}
               </Typography>
             </div>
           </div>
@@ -197,12 +181,28 @@ const InvoiceListTable = () => {
       }),
       columnHelper.accessor('total', {
         header: 'Total',
-        cell: ({ row }) => <Typography>{`$${row.original.total}`}</Typography>
+        cell: ({ row }) => <Typography>{`${row.original.total.toLocaleString()}`}</Typography>
       }),
       // columnHelper.accessor('issuedDate', {
       //   header: 'Issued Date',
       //   cell: ({ row }) => <Typography>{row.original.issuedDate}</Typography>
       // }),
+      columnHelper.accessor('status ', {
+        header: 'Status',
+        cell: ({ row }) => (
+          <div className='flex items-center gap-3'>
+            <div className='flex flex-col'>
+              <Chip
+                label={row.original.status}
+                color={statusChipColor[row.original.status]}
+                style={{ textTransform: 'capitalize' }}
+                variant='tonal'
+                size='small'
+              />
+            </div>
+          </div>
+        )
+      }),
 
       columnHelper.accessor('action', {
         header: 'Action',
@@ -292,15 +292,15 @@ const InvoiceListTable = () => {
     }
   }
 
-  // useEffect(() => {
-  //   const filteredData = data?.filter(invoice => {
-  //     if (status && invoice.invoiceStatus.toLowerCase().replace(/\s+/g, '-') !== status) return false
+  useEffect(() => {
+    const filteredData = data?.filter(invoice => {
+      if (status && invoice.status.toLowerCase().replace(/\s+/g, '-') !== status) return false
 
-  //     return true
-  //   })
+      return true
+    })
 
-  //   setFilteredData(filteredData)
-  // }, [status, data, setFilteredData])
+    setFilteredData(filteredData)
+  }, [status, data, setFilteredData])
 
   return (
     <Card>

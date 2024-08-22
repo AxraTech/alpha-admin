@@ -86,7 +86,7 @@ const ProductBrandTable = () => {
   const [rowSelection, setRowSelection] = useState({})
   const [data, setData] = useState(...[brandData.brands])
   const [globalFilter, setGlobalFilter] = useState('')
-
+  const [loading, setLoading] = useState(false)
   const handleDelete = async id => {
     try {
       await deleteBrand({ variables: { id: id } })
@@ -287,6 +287,8 @@ const ProductBrandTable = () => {
         open={addBrandOpen}
         brandData={data}
         setData={setData}
+        loading={loading}
+        setLoading={setLoading}
         handleClose={() => setAddBrandOpen(!addBrandOpen)}
       />
       <Alert />

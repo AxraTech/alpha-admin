@@ -47,8 +47,8 @@ import { getLocalizedUrl } from '@/utils/i18n'
 
 // Style Imports
 import tableStyles from '@core/styles/table.module.css'
-import {useQuery} from "@apollo/client";
-import {GET_USERS} from "@/graphql/queries";
+import { useQuery } from '@apollo/client'
+import { GET_USERS } from '@/graphql/queries'
 
 // Styled Components
 const Icon = styled('i')({})
@@ -159,13 +159,12 @@ const UserListTable = ({ tableData }) => {
         header: 'Action',
         cell: ({ row }) => (
           <div className='flex items-center'>
-
             <IconButton>
-              <Link href={getLocalizedUrl('/user/view/'+row.original.id, locale)} className='flex'>
+              <Link href={getLocalizedUrl('/user/view/' + row.original.id, locale)} className='flex'>
                 <i className='ri-eye-line text-textSecondary' />
               </Link>
             </IconButton>
-            <OptionMenu
+            {/* <OptionMenu
               iconButtonProps={{ size: 'medium' }}
               iconClassName='text-textSecondary'
               options={[
@@ -180,7 +179,7 @@ const UserListTable = ({ tableData }) => {
                   menuItemProps: { className: 'flex items-center gap-2 text-textSecondary' }
                 }
               ]}
-            />
+            /> */}
           </div>
         ),
         enableSorting: false
@@ -222,7 +221,7 @@ const UserListTable = ({ tableData }) => {
   const getAvatar = params => {
     const { avatar } = params
 
-      return <CustomAvatar src={avatar} skin='light' size={34} />
+    return <CustomAvatar src={avatar} skin='light' size={34} />
   }
 
   return (

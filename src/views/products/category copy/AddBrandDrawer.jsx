@@ -17,14 +17,15 @@ import InputAdornment from '@mui/material/InputAdornment'
 // Third-party Imports
 import { useForm, Controller } from 'react-hook-form'
 import { useMutation } from '@apollo/client'
-import { ADD_BRAND } from '@/graphql/mutations'
+import { ADD_BRAND, IMGAE_UPLOAD } from '@/graphql/mutations'
 import { useApp } from '@/app/ApolloWrapper'
-
+import { uploadFile } from '@/utils/helper'
 const AddBrandDrawer = props => {
   const { setGlobalMsg } = useApp()
   // Props
-  const { open, handleClose, brandData, setData } = props
+  const { open, handleClose, brandData, setData, loading, setLoading } = props
   const [addBrand] = useMutation(ADD_BRAND)
+  const [getFileUploadUrl] = useMutation(IMGAE_UPLOAD)
 
   // States
   const [fileName, setFileName] = useState('')
@@ -48,11 +49,20 @@ const AddBrandDrawer = props => {
   // Handle Form Submit
   const handleFormSubmit = async data => {
     try {
+      setLoading(true)
+      const fileUploadUrl = await getFileUploadUrl({
+        variables: {
+          content_type: 'pdf',
+          folder: 'quotations'
+        }
+      })
+
+      const uploadedFileUrl = await uploadFile(fileName[0], fileUploadUrl.data.getFileUploadUrl.fileUploadUrl, 'image')
       const res = await addBrand({
         variables: {
           data: {
             title: data.title,
-            image_url: fileName
+            image_url: uploadedFileUrl
           }
         }
       })
@@ -78,7 +88,7 @@ const AddBrandDrawer = props => {
     const { files } = event.target
 
     if (files && files.length !== 0) {
-      setFileName(files[0].name)
+      setFileName(files)
     }
   }
 
