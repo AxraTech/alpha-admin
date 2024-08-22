@@ -21,9 +21,7 @@ const UserList = () => {
       <Grid item md={3} xs={12} sm={6}>
         <UserListCards count={userRoleAggregate.dealerUser.aggregate.count} title='dealer' />
       </Grid>
-      {/* <Grid item md={3} xs={12} sm={6}>
-        <UserListCards count={userStatusAggregate.activeUser.aggregate.count} title='Active' />
-      </Grid> */}
+
       <Grid item md={3} xs={12} sm={6}>
         <UserListCards count={userStatusAggregate.pendingUser.aggregate.count} title='pending' />
       </Grid>

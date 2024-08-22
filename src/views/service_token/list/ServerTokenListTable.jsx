@@ -46,12 +46,12 @@ import CustomAvatar from '@core/components/mui/Avatar'
 // Util Imports
 import { getInitials } from '@/utils/getInitials'
 import { getLocalizedUrl } from '@/utils/i18n'
-import { statusChipColor } from '@/components/helper/StatusColor'
+import { serviceStatusChipColor } from '@/components/helper/StatusColor'
 import { serviceStatusIcon } from '@/components/helper/StatusIcon'
 // Style Imports
 import tableStyles from '@core/styles/table.module.css'
 import { useSuspenseQuery } from '@apollo/client'
-import { GET_ALL_INVOICES, GET_ALL_QUOTATIONS, GET_ALL_SERVICE_TOKENS } from '@/graphql/queries'
+import { GET_ALL_SERVICE_TOKENS, SERVICE_STATUS } from '@/graphql/queries'
 import { Avatar } from '@mui/material'
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
@@ -86,23 +86,13 @@ const DebouncedInput = ({ value: initialValue, onChange, debounce = 500, ...prop
   return <TextField {...props} value={value} onChange={e => setValue(e.target.value)} size='small' />
 }
 
-// Vars
-const invoiceStatusObj = {
-  Sent: { color: 'secondary', icon: 'ri-send-plane-2-line' },
-  Paid: { color: 'success', icon: 'ri-check-line' },
-  Draft: { color: 'primary', icon: 'ri-mail-line' },
-  'Partial Payment': { color: 'warning', icon: 'ri-pie-chart-2-line' },
-  'Past Due': { color: 'error', icon: 'ri-information-line' },
-  Downloaded: { color: 'info', icon: 'ri-arrow-down-line' }
-}
-
 // Column Definitions
 const columnHelper = createColumnHelper()
 
 const ServerTokenListTable = () => {
   const { data: serviceTokenDatas } = useSuspenseQuery(GET_ALL_SERVICE_TOKENS)
   const serviceTokenData = serviceTokenDatas?.service_tokens
-
+  const { data: serviceStatus } = useSuspenseQuery(SERVICE_STATUS)
   // States
   const [status, setStatus] = useState('')
   const [rowSelection, setRowSelection] = useState({})
@@ -125,34 +115,7 @@ const ServerTokenListTable = () => {
           >{`${row.original.token_number}`}</Typography>
         )
       }),
-      columnHelper.accessor('status', {
-        header: 'Status',
-        cell: ({ row }) => (
-          <Tooltip
-            title={
-              <div>
-                <Typography variant='body2' component='span' className='text-inherit'>
-                  {row.original.status}
-                </Typography>
-                <br />
-                <Typography variant='body2' component='span' className='text-inherit'>
-                  Service Fee:
-                </Typography>{' '}
-                {row.original.service_fee}
-                <br />
-                <Typography variant='body2' component='span' className='text-inherit'>
-                  Due Date:
-                </Typography>{' '}
-                {row.original.created_at?.substring(0, 10)}
-              </div>
-            }
-          >
-            <CustomAvatar skin='light' color={serviceStatusIcon[row.original.status]} size={28}>
-              <i className={classnames('bs-4 is-4', serviceStatusIcon[row.original.status])} />
-            </CustomAvatar>
-          </Tooltip>
-        )
-      }),
+
       columnHelper.accessor('user.name', {
         header: 'Client',
         cell: ({ row }) => (
@@ -166,9 +129,67 @@ const ServerTokenListTable = () => {
           </div>
         )
       }),
+      columnHelper.accessor('product', {
+        header: 'Product',
+        cell: ({ row }) => (
+          <div className='flex items-center gap-3'>
+            <div className='flex flex-col'>
+              <Typography className='font-medium' color='text.primary'>
+                {row.original.product}
+              </Typography>
+            </div>
+          </div>
+        )
+      }),
       columnHelper.accessor('service_fee', {
         header: 'Service Fee',
-        cell: ({ row }) => <Typography>{`${row.original.service_fee}`} Ks</Typography>
+        cell: ({ row }) => (
+          <Typography>{`${row.original.service_fee !== null ? row.original.service_fee : '-'}`}</Typography>
+        )
+      }),
+      // columnHelper.accessor('status', {
+      //   header: 'Status',
+      //   cell: ({ row }) => (
+      //     <Tooltip
+      //       title={
+      //         <div>
+      //           <Typography variant='body2' component='span' className='text-inherit'>
+      //             {row.original.status}
+      //           </Typography>
+      //           <br />
+      //           <Typography variant='body2' component='span' className='text-inherit'>
+      //             Service Fee:
+      //           </Typography>{' '}
+      //           {row.original.service_fee}
+      //           <br />
+      //           <Typography variant='body2' component='span' className='text-inherit'>
+      //             Due Date:
+      //           </Typography>{' '}
+      //           {row.original.created_at?.substring(0, 10)}
+      //         </div>
+      //       }
+      //     >
+      //       <CustomAvatar skin='light' color={serviceStatusChipColor[row.original.status]} size={28}>
+      //         <i className={classnames('bs-4 is-4', serviceStatusIcon[row.original.status])} />
+      //       </CustomAvatar>
+      //     </Tooltip>
+      //   )
+      // }),
+      columnHelper.accessor('status', {
+        header: 'Status',
+        cell: ({ row }) => (
+          <div className='flex items-center gap-3'>
+            <div className='flex flex-col'>
+              <Chip
+                label={row.original.status}
+                color={serviceStatusChipColor[row.original.status]}
+                style={{ textTransform: 'capitalize' }}
+                variant='tonal'
+                size='small'
+              />
+            </div>
+          </div>
+        )
       }),
       columnHelper.accessor('created_at', {
         header: 'Issued Date',
@@ -180,7 +201,7 @@ const ServerTokenListTable = () => {
         cell: ({ row }) => (
           <div className='flex items-center'>
             <IconButton onClick={() => setData(data?.filter(invoice => invoice.id !== row.original.id))}>
-              <i className='ri-delete-bin-7-line text-textSecondary' />
+              <i className='ri-delete-bin-7-line text-red-500' />
             </IconButton>
             <IconButton>
               <Link href={getLocalizedUrl(`/service_token/details/${row.original.id}`, locale)} className='flex'>
@@ -263,20 +284,20 @@ const ServerTokenListTable = () => {
     }
   }
 
-  // useEffect(() => {
-  //   const filteredData = data?.filter(invoice => {
-  //     if (status && invoice.invoiceStatus.toLowerCase().replace(/\s+/g, '-') !== status) return false
+  useEffect(() => {
+    const filteredData = data?.filter(service => {
+      if (status && service.status.toLowerCase().replace(/\s+/g, '-') !== status) return false
 
-  //     return true
-  //   })
+      return true
+    })
 
-  //   setFilteredData(filteredData)
-  // }, [status, data, setFilteredData])
+    setFilteredData(filteredData)
+  }, [status, data, setFilteredData])
 
   return (
     <Card>
       <CardContent className='flex justify-between gap-4 flex-wrap flex-col sm:flex-row items-center'>
-        <Button
+        {/* <Button
           variant='contained'
           component={Link}
           startIcon={<i className='ri-add-line' />}
@@ -284,16 +305,16 @@ const ServerTokenListTable = () => {
           className='max-sm:is-full'
         >
           Create Invoice
-        </Button>
+        </Button> */}
         <div className='flex flex-col sm:flex-row max-sm:is-full items-center gap-4'>
           <DebouncedInput
             value={globalFilter ?? ''}
             onChange={value => setGlobalFilter(String(value))}
-            placeholder='Search Invoice'
+            placeholder='Search Service'
             className='max-sm:is-full min-is-[200px]'
           />
           <FormControl fullWidth size='small' className='min-is-[175px]'>
-            <InputLabel id='status-select'>Invoice Status</InputLabel>
+            <InputLabel id='status-select'>Service Status</InputLabel>
             <Select
               fullWidth
               id='select-status'
@@ -303,12 +324,11 @@ const ServerTokenListTable = () => {
               labelId='status-select'
             >
               <MenuItem value=''>none</MenuItem>
-              <MenuItem value='downloaded'>Downloaded</MenuItem>
-              <MenuItem value='draft'>Draft</MenuItem>
-              <MenuItem value='paid'>Paid</MenuItem>
-              <MenuItem value='partial-payment'>Partial Payment</MenuItem>
-              <MenuItem value='past-due'>Past Due</MenuItem>
-              <MenuItem value='sent'>Sent</MenuItem>
+              {serviceStatus.service_status.map(service => (
+                <MenuItem value={service.name} key={service.id}>
+                  {service.name}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </div>

@@ -42,7 +42,7 @@ import {
 // Component Imports
 import OptionMenu from '@core/components/option-menu'
 import CustomAvatar from '@core/components/mui/Avatar'
-
+import { quotationstatusChipColor } from '@/components/helper/StatusColor'
 // Util Imports
 import { getInitials } from '@/utils/getInitials'
 import { getLocalizedUrl } from '@/utils/i18n'
@@ -98,12 +98,7 @@ const invoiceStatusObj = {
 
 // Column Definitions
 const columnHelper = createColumnHelper()
-export const statusChipColor = {
-  pending: 'warning',
-  completed: 'success',
-  accepted: 'info',
-  rejected: 'error'
-}
+
 const QuotationListTable = () => {
   const { data: quotationDatas } = useSuspenseQuery(GET_ALL_QUOTATIONS)
   const { data: quoStatus } = useSuspenseQuery(QUOTATION_STATUS)
@@ -153,14 +148,14 @@ const QuotationListTable = () => {
         )
       }),
 
-      columnHelper.accessor('status ', {
+      columnHelper.accessor('status', {
         header: 'Status',
         cell: ({ row }) => (
           <div className='flex items-center gap-3'>
             <div className='flex flex-col'>
               <Chip
                 label={row.original.status}
-                color={statusChipColor[row.original.status]}
+                color={quotationstatusChipColor[row.original.status]}
                 style={{ textTransform: 'capitalize' }}
                 variant='tonal'
                 size='small'
@@ -196,7 +191,9 @@ const QuotationListTable = () => {
       }),
       columnHelper.accessor('total_amount', {
         header: 'Total',
-        cell: ({ row }) => <Typography>{`$${row.original.total_amount}`}</Typography>
+        cell: ({ row }) => (
+          <Typography>{`${row.original.total_amount !== null ? row.original.total_amount : '-'}`}</Typography>
+        )
       }),
       // columnHelper.accessor('issuedDate', {
       //   header: 'Issued Date',
@@ -244,7 +241,7 @@ const QuotationListTable = () => {
         enableSorting: false
       })
     ],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
     [data, filteredData]
   )
 
@@ -291,15 +288,15 @@ const QuotationListTable = () => {
     }
   }
 
-  // useEffect(() => {
-  //   const filteredData = data?.filter(invoice => {
-  //     if (status && invoice.invoiceStatus.toLowerCase().replace(/\s+/g, '-') !== status) return false
+  useEffect(() => {
+    const filteredData = data?.filter(invoice => {
+      if (status && invoice.status.toLowerCase().replace(/\s+/g, '-') !== status) return false
 
-  //     return true
-  //   })
+      return true
+    })
 
-  //   setFilteredData(filteredData)
-  // }, [status, data, setFilteredData])
+    setFilteredData(filteredData)
+  }, [status, data, setFilteredData])
 
   return (
     <Card>

@@ -45,7 +45,7 @@ const fuzzyFilter = (row, columnId, value, addMeta) => {
   return itemRank.passed
 }
 
-const orderData = [
+const serviceData = [
   {
     productName: 'OnePlus 7 Pro',
     productImage: '/images/apps/ecommerce/product-21.png',
@@ -83,12 +83,12 @@ const orderData = [
 // Column Definitions
 const columnHelper = createColumnHelper()
 
-const OrderTable = ({ orderData }) => {
+const OrderTable = ({ serviceData }) => {
   // States
 
   const [rowSelection, setRowSelection] = useState({})
 
-  const [data, setData] = useState(...[orderData.order_items])
+  const [data, setData] = useState(...[serviceData.serice_tokens])
   const [globalFilter, setGlobalFilter] = useState('')
 
   const columns = useMemo(
@@ -239,18 +239,18 @@ const OrderTable = ({ orderData }) => {
   )
 }
 
-const OrderDetailsCard = ({ orderData }) => {
+const ServiceDetailsCard = ({ serviceData }) => {
   return (
     <Card>
       <CardHeader
-        title='Order Details'
+        title='Service Details'
         // action={
         //   <Typography component={Link} color='primary.main' className='font-medium'>
         //     Edit
         //   </Typography>
         // }
       />
-      <OrderTable orderData={orderData} />
+      {/* <OrderTable serviceData={serviceData} /> */}
       <CardContent className='flex justify-end'>
         <div>
           <div className='flex items-center gap-12'>
@@ -258,7 +258,7 @@ const OrderDetailsCard = ({ orderData }) => {
               Subtotal:
             </Typography>
             <Typography color='text.primary' className='font-medium'>
-              {orderData?.items_total?.toLocaleString()} Ks
+              {serviceData?.items_total?.toLocaleString()} Ks
             </Typography>
           </div>
           <div className='flex items-center gap-12'>
@@ -266,7 +266,7 @@ const OrderDetailsCard = ({ orderData }) => {
               Delivery Fee:
             </Typography>
             <Typography color='text.primary' className='font-medium'>
-              {orderData?.delivery_fee?.toLocaleString()}
+              {serviceData?.delivery_fee?.toLocaleString()}
             </Typography>
           </div>
           {/* <div className='flex items-center gap-12'>
@@ -282,7 +282,7 @@ const OrderDetailsCard = ({ orderData }) => {
               Total:
             </Typography>
             <Typography color='text.primary' className='font-medium'>
-              {orderData?.total?.toLocaleString()} Ks
+              {serviceData?.total?.toLocaleString()} Ks
             </Typography>
           </div>
         </div>
@@ -291,4 +291,4 @@ const OrderDetailsCard = ({ orderData }) => {
   )
 }
 
-export default OrderDetailsCard
+export default ServiceDetailsCard

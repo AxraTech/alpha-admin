@@ -22,22 +22,7 @@ const getAvatar = params => {
   }
 }
 
-// Vars
-const userData = {
-  firstName: 'Gabrielle',
-  lastName: 'Feyer',
-  userName: '@gabriellefeyer',
-  billingEmail: 'gfeyer0@nyu.edu',
-  status: 'active',
-  role: 'Customer',
-  taxId: 'Tax-8894',
-  contact: '+1 (234) 464-0600',
-  language: ['English'],
-  country: 'France',
-  useAsBillingAddress: true
-}
-
-const CustomerDetails = ({ orderData }) => {
+const CustomerDetails = ({ serviceData }) => {
   // Vars
   const typographyProps = (children, color, className) => ({
     children,
@@ -50,10 +35,10 @@ const CustomerDetails = ({ orderData }) => {
       <CardContent className='flex flex-col gap-6'>
         <Typography variant='h5'>Customer details</Typography>
         <div className='flex items-center gap-3'>
-          {getAvatar({ avatar: orderData?.avatar ?? '', customer: orderData?.user.profile_picture_url ?? '' })}
+          {getAvatar({ avatar: serviceData?.avatar ?? '', customer: serviceData?.user.profile_picture_url ?? '' })}
           <div className='flex flex-col'>
             <Typography color='text.primary' className='font-medium'>
-              {orderData?.user.name}
+              {serviceData?.user.name}
             </Typography>
             {/* <Typography>Customer ID: #47389</Typography> */}
           </div>
@@ -78,8 +63,8 @@ const CustomerDetails = ({ orderData }) => {
               dialogProps={{ data: userData }}
             /> */}
           </div>
-          {/* <Typography>Email : {orderData.user.email}</Typography> */}
-          <Typography>Mobile : {orderData.user.phone}</Typography>
+          {/* <Typography>Email : {serviceData.user.email}</Typography> */}
+          <Typography>Mobile : {serviceData.user.phone}</Typography>
         </div>
       </CardContent>
     </Card>

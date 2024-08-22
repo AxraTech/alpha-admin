@@ -2,14 +2,14 @@
 import Button from '@mui/material/Button'
 import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
-
+import { serviceStatusChipColor } from '@/components/helper/StatusColor'
 // Component Imports
 import ConfirmationDialog from '@components/dialogs/confirmation-dialog'
 import OpenDialogOnElementClick from '@components/dialogs/OpenDialogOnElementClick'
 // import { useParams } from 'next/navigation'
 import { useMutation, useQuery, useSuspenseQuery } from '@apollo/client'
 import { ORDERS_BY_ID } from '@/graphql/queries'
-import { CHANGE_ORDER_STATUS, DELETE_ORDERS } from '@/graphql/mutations'
+import { CHANGE_ORDER_STATUS, CHANGE_SERVICE_STATUS, DELETE_ORDERS } from '@/graphql/mutations'
 import { useState } from 'react'
 import { useApp } from '@/app/ApolloWrapper'
 
@@ -19,20 +19,20 @@ export const paymentStatus = {
   3: { text: 'Cancelled', color: 'secondary' },
   4: { text: 'Failed', color: 'error' }
 }
-export const statusChipColor = {
-  completed: 'success',
-  canceled: 'error',
-  refunded: 'warning',
-  delivering: 'primary',
-  preparing: 'info',
-  ordered: 'secondary'
-}
+// export const statusChipColor = {
+//   completed: 'success',
+//   canceled: 'error',
+//   refunded: 'warning',
+//   delivering: 'primary',
+//   preparing: 'info',
+//   ordered: 'secondary'
+// }
 
-const OrderDetailHeader = ({ orderData }) => {
+const OrderDetailHeader = ({ serviceData }) => {
   const { setGlobalMsg } = useApp()
 
   const [deleteOrder] = useMutation(DELETE_ORDERS)
-  const [changeOrderStatus] = useMutation(CHANGE_ORDER_STATUS)
+  const [changeOrderStatus] = useMutation(CHANGE_SERVICE_STATUS)
   const buttonProps = (children, color, variant) => ({
     children,
     color,
@@ -51,7 +51,7 @@ const OrderDetailHeader = ({ orderData }) => {
         }
       })
 
-      setGlobalMsg('Change Order Status')
+      setGlobalMsg('Change Service Status')
     } catch (e) {
       console.log('Change Status Error ', e)
     }
@@ -61,66 +61,65 @@ const OrderDetailHeader = ({ orderData }) => {
     <div className='flex flex-wrap justify-between sm:items-center max-sm:flex-col gap-y-4'>
       <div className='flex flex-col items-start gap-1'>
         <div className='flex items-center gap-2'>
-          <Typography variant='h5'>{`Order - ${orderData?.order_number}`}</Typography>
+          <Typography variant='h5'>{`Service Token - ${serviceData?.token_number}`}</Typography>
           <Chip
             variant='tonal'
-            label={orderData?.status}
-            color={statusChipColor[orderData?.status || '']}
+            label={serviceData?.status}
+            color={serviceStatusChipColor[serviceData?.status || '']}
             size='small'
           />
-          <Chip
+          {/* <Chip
             variant='tonal'
-            // label={paymentStatus[orderData?.payment ?? 0].text}
-            // color={paymentStatus[orderData?.payment ?? 0].color}
+            // label={paymentStatus[serviceData?.payment ?? 0].text}
+            // color={paymentStatus[serviceData?.payment ?? 0].color}
             size='small'
-          />
+          /> */}
         </div>
-        <Typography>{`${new Date(orderData?.ordered_at ?? '').toLocaleString()}`}</Typography>
+        <Typography>{`${new Date(serviceData?.created_at ?? '').toLocaleString()}`}</Typography>
       </div>
       <div className='flex gap-4'>
         <Button
           variant='outlined'
           color='success'
-          onClick={() => handleChangeOrderStatus(orderData?.id, { status: 'completed' }, { completed_at: new Date() })}
+          onClick={() =>
+            handleChangeOrderStatus(serviceData?.id, { status: 'completed' }, { completed_at: new Date() })
+          }
         >
           Complete
         </Button>
         <Button
           variant='outlined'
           color='error'
-          onClick={() => handleChangeOrderStatus(orderData?.id, { status: 'canceled' }, { canceled_at: new Date() })}
+          onClick={() => handleChangeOrderStatus(serviceData?.id, { status: 'canceled' }, { canceled_at: new Date() })}
         >
           Cancel
         </Button>
         <Button
           variant='outlined'
-          color='warning'
-          onClick={() => handleChangeOrderStatus(orderData?.id, { status: 'refunded' }, { refunding_at: new Date() })}
+          color='info'
+          onClick={() =>
+            handleChangeOrderStatus(serviceData?.id, { status: 'received token' }, { received_at: new Date() })
+          }
         >
-          Refund
+          Receive Token
         </Button>
         <Button
           variant='outlined'
           color='primary'
           onClick={() =>
-            handleChangeOrderStatus(orderData?.id, { status: 'delivering' }, { delivering_at: new Date() })
+            handleChangeOrderStatus(serviceData?.id, { status: 'picking up' }, { picking_up_at: new Date() })
           }
         >
-          Delivering
+          Picking Up
         </Button>
         <Button
           variant='outlined'
-          color='info'
-          onClick={() => handleChangeOrderStatus(orderData?.id, { status: 'preparing' }, { preparing_at: new Date() })}
+          color='warning'
+          onClick={() =>
+            handleChangeOrderStatus(serviceData?.id, { status: 'processing' }, { processing_at: new Date() })
+          }
         >
-          Preparing
-        </Button>
-        <Button
-          variant='outlined'
-          color='secondary'
-          onClick={() => handleChangeOrderStatus(orderData?.id, { status: 'ordered' }, { ordering_at: new Date() })}
-        >
-          Ordered
+          Processing
         </Button>
       </div>
       {/* <OpenDialogOnElementClick

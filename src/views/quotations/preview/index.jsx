@@ -30,7 +30,7 @@ const Preview = () => {
         <PreviewCard quotationData={quotationData.quotations_by_pk} />
       </Grid>
       <Grid item xs={12} md={3}>
-        <PreviewActions onButtonClick={handleButtonClick} />
+        <PreviewActions onButtonClick={handleButtonClick} quotationData={quotationData.quotations_by_pk} />
       </Grid>
     </Grid>
   )

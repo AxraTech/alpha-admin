@@ -1,6 +1,6 @@
 // React Imports
-import { useState } from 'react'
-
+import { useRef, useState } from 'react'
+import { Controller } from 'react-hook-form'
 // MUI Imports
 import Drawer from '@mui/material/Drawer'
 import IconButton from '@mui/material/IconButton'
@@ -9,6 +9,7 @@ import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import Chip from '@mui/material/Chip'
 import Divider from '@mui/material/Divider'
+import { useForm } from 'react-hook-form'
 
 // Vars
 const initialData = {
@@ -28,11 +29,61 @@ const SendInvoiceDrawer = ({ open, handleClose }) => {
   // States
   const [formData, setFormData] = useState(initialData)
 
-  const handleSubmit = e => {
-    e.preventDefault()
-    handleClose()
-    setFormData(initialData)
+  // States
+  const [fileName, setFileName] = useState('')
+
+  // Refs
+  const fileInputRef = useRef(null)
+
+  // Hooks
+  const {
+    control,
+    reset: resetForm,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({
+    defaultValues: {
+      title: '',
+      description: ''
+    }
+  })
+
+  // Handle Form Submit
+  const handleFormSubmit = async data => {
+    // const res = await addCategory({
+    //   variables: {
+    //     data: {
+    //       title: data.title,
+    //       image_url: fileName
+    //     }
+    //   }
+    // })
+    // setData([...categoryData, res.data.insert_product_categories_one])
+    // handleReset()
+    // setGlobalMsg('➕ Added New Category')
   }
+
+  // Handle Form Reset
+  // const handleReset = () => {
+  //   handleClose()
+  //   resetForm({ title: '', description: '' })
+  //   setFileName('')
+  // }
+
+  // Handle File Upload
+  const handleFileUpload = event => {
+    const { files } = event.target
+
+    if (files && files.length !== 0) {
+      setFileName(files[0].name)
+    }
+  }
+
+  // const handleSubmit = e => {
+  //   e.preventDefault()
+  //   handleClose()
+  //   setFormData(initialData)
+  // }
 
   const handleReset = () => {
     handleClose()
@@ -48,7 +99,7 @@ const SendInvoiceDrawer = ({ open, handleClose }) => {
       ModalProps={{ keepMounted: true }}
       sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
     >
-      <div className='flex items-center justify-between pli-5 plb-4'>
+      {/* <div className='flex items-center justify-between pli-5 plb-4'>
         <Typography variant='h5'>Send Invoice</Typography>
         <IconButton size='small' onClick={handleReset}>
           <i className='ri-close-line text-2xl' />
@@ -101,6 +152,65 @@ const SendInvoiceDrawer = ({ open, handleClose }) => {
             </Button>
             <Button variant='outlined' color='secondary' type='reset' onClick={handleReset}>
               Cancel
+            </Button>
+          </div>
+        </form>
+      </div> */}
+
+      <div className='flex items-center justify-between pli-5 plb-4'>
+        <Typography variant='h5'>Send Invoice File</Typography>
+        <IconButton size='small' onClick={handleReset}>
+          <i className='ri-close-line text-2xl' />
+        </IconButton>
+      </div>
+      <Divider />
+
+      <div className='p-5'>
+        <form onSubmit={handleSubmit(data => handleFormSubmit(data))} className='flex flex-col gap-5'>
+          {/* <Controller
+            name='title'
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                fullWidth
+                label='Title'
+                placeholder=''
+                {...(errors.title && { error: true, helperText: 'This field is required.' })}
+              />
+            )}
+          /> */}
+          <div className='flex items-center gap-4'>
+            <TextField
+              size='small'
+              placeholder='No file chosen'
+              variant='outlined'
+              value={fileName}
+              className='flex-auto'
+              InputProps={{
+                readOnly: true,
+                endAdornment: fileName ? (
+                  <InputAdornment position='end'>
+                    <IconButton size='small' edge='end' onClick={() => setFileName('')}>
+                      <i className='ri-close-line' />
+                    </IconButton>
+                  </InputAdornment>
+                ) : null
+              }}
+            />
+            <Button component='label' variant='outlined' htmlFor='contained-button-file' className='min-is-fit'>
+              Choose
+              <input hidden id='contained-button-file' type='file' onChange={handleFileUpload} ref={fileInputRef} />
+            </Button>
+          </div>
+
+          <div className='flex items-center gap-4'>
+            <Button variant='contained' type='submit'>
+              Add
+            </Button>
+            <Button variant='outlined' color='error' type='reset' onClick={handleReset}>
+              Discard
             </Button>
           </div>
         </form>

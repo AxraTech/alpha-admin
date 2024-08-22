@@ -12,12 +12,12 @@ import Button from '@mui/material/Button'
 
 // Component Imports
 import AddPaymentDrawer from '@views/invoice/shared/AddPaymentDrawer'
-import SendInvoiceDrawer from '@views/invoice/shared/SendInvoiceDrawer'
+import SendQuotationDrawer from '@views/quotations/shared/SendQuotationDrawer'
 
 // Util Imports
 import { getLocalizedUrl } from '@/utils/i18n'
 
-const PreviewActions = ({ id, onButtonClick }) => {
+const PreviewActions = ({ id, onButtonClick, quotationData }) => {
   // States
   const [paymentDrawerOpen, setPaymentDrawerOpen] = useState(false)
   const [sendDrawerOpen, setSendDrawerOpen] = useState(false)
@@ -69,7 +69,11 @@ const PreviewActions = ({ id, onButtonClick }) => {
         </CardContent>
       </Card>
       <AddPaymentDrawer open={paymentDrawerOpen} handleClose={() => setPaymentDrawerOpen(false)} />
-      <SendInvoiceDrawer open={sendDrawerOpen} handleClose={() => setSendDrawerOpen(false)} />
+      <SendQuotationDrawer
+        open={sendDrawerOpen}
+        handleClose={() => setSendDrawerOpen(false)}
+        quotationData={quotationData}
+      />
     </>
   )
 }

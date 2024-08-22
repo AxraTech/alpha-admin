@@ -337,6 +337,7 @@ export const GET_ALL_SERVICE_TOKENS = gql`
       user {
         name
         id
+        profile_picture_url
       }
     }
   }
@@ -367,6 +368,8 @@ export const SERVICE_TOKEN_BY_ID = gql`
       user {
         name
         id
+        phone
+        email
       }
     }
   }
@@ -510,6 +513,18 @@ export const GET_ALL_DEALERS = gql`
     }
   }
 `
+export const GET_ALL_ADMINS = gql`
+  query admins {
+    admins(order_by: { updated_at: desc }) {
+      id
+      name
+      email
+      role
+      created_at
+      updated_at
+    }
+  }
+`
 
 export const DEALERS_BY_ID = gql`
   query dealerById($id: uuid!) {
@@ -559,6 +574,135 @@ export const USERS_ROLE_AGGREGATES = gql`
       aggregate {
         count
       }
+    }
+  }
+`
+
+export const SERVICE_AGGREGATE = gql`
+  query userAggregate {
+    completedService: service_tokens_aggregate(where: { status: { _eq: "complete" } }) {
+      aggregate {
+        count
+      }
+    }
+    canceledService: service_tokens_aggregate(where: { status: { _eq: "canceled" } }) {
+      aggregate {
+        count
+      }
+    }
+    pickService: service_tokens_aggregate(where: { status: { _eq: "picking up" } }) {
+      aggregate {
+        count
+      }
+    }
+    receivedService: service_tokens_aggregate(where: { status: { _eq: "received token" } }) {
+      aggregate {
+        count
+      }
+    }
+    processingService: service_tokens_aggregate(where: { status: { _eq: "processing" } }) {
+      aggregate {
+        count
+      }
+    }
+    deliverService: service_tokens_aggregate(where: { status: { _eq: "delivering" } }) {
+      aggregate {
+        count
+      }
+    }
+  }
+`
+
+export const USER_SERVICE_AGGREGATE = gql`
+  query userServiceAggregate {
+    users_aggregate(where: { service_tokens: { id: { _is_null: false } } }) {
+      aggregate {
+        count
+      }
+    }
+  }
+`
+
+export const USER_INVOICE_AGGREGATE = gql`
+  query userServiceAggregate {
+    users_aggregate(where: { invoices: { id: { _is_null: false } } }) {
+      aggregate {
+        count
+      }
+    }
+  }
+`
+
+export const USER_QUOTATION_AGGREGATE = gql`
+  query userServiceAggregate {
+    users_aggregate(where: { quotations: { id: { _is_null: false } } }) {
+      aggregate {
+        count
+      }
+    }
+  }
+`
+
+export const INVOICE_AGGREGATE = gql`
+  query userAggregate {
+    paidInvoice: invoices_aggregate(where: { status: { _eq: "paid" } }) {
+      aggregate {
+        count
+      }
+    }
+    UnPaindInvoice: users_aggregate(where: { status: { _eq: "unpaid" } }) {
+      aggregate {
+        count
+      }
+    }
+    completeInvoice: users_aggregate(where: { status: { _eq: "completed" } }) {
+      aggregate {
+        count
+      }
+    }
+    pendingInvoice: users_aggregate(where: { status: { _eq: "pending" } }) {
+      aggregate {
+        count
+      }
+    }
+    partiallPaidInvoice: users_aggregate(where: { status: { _eq: "partially paid" } }) {
+      aggregate {
+        count
+      }
+    }
+  }
+`
+
+export const QUOTATION_AGGREGATE = gql`
+  query quotationAggregate {
+    pendingQuotation: quotations_aggregate(where: { status: { _eq: "pending" } }) {
+      aggregate {
+        count
+      }
+    }
+    acceptedQuotation: quotations_aggregate(where: { status: { _eq: "accepted" } }) {
+      aggregate {
+        count
+      }
+    }
+    rejectedQuotation: quotations_aggregate(where: { status: { _eq: "rejected" } }) {
+      aggregate {
+        count
+      }
+    }
+    completedQuotation: quotations_aggregate(where: { status: { _eq: "completed" } }) {
+      aggregate {
+        count
+      }
+    }
+  }
+`
+
+export const SERVICE_STATUS = gql`
+  query serviceStatus {
+    service_status {
+      id
+      name
     }
   }
 `

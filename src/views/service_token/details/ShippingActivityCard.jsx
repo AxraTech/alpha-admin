@@ -35,7 +35,7 @@ const Timeline = styled(MuiTimeline)({
   }
 })
 
-const ShippingActivity = ({ orderData }) => {
+const ShippingActivity = ({ serviceData }) => {
   return (
     <Card>
       <CardHeader title='Shipping Activity' />
@@ -50,40 +50,79 @@ const ShippingActivity = ({ orderData }) => {
             <TimelineContent>
               <div className='flex flex-wrap items-center justify-between gap-x-2 mbe-2.5'>
                 <Typography color='text.primary' className='font-medium'>
-                  Order was placed (Order ID: #{orderData.order_number})
+                  Service was placed (Token number: #{serviceData.token_number})
                 </Typography>
 
-                <Typography variant='caption'>{new Date(orderData.ordered_at).toLocaleString()}</Typography>
+                <Typography variant='caption'>{new Date(serviceData.received_at).toLocaleString()}</Typography>
               </div>
               <Typography className='mbe-2'>Order has been placed successfully</Typography>
             </TimelineContent>
           </TimelineItem>
-          <TimelineItem>
+          {/* <TimelineItem>
             <TimelineSeparator>
-              {console.log('preparing at ', orderData.preparing_at)}
               <TimelineDot
-                variant={orderData.preparing_at === null ? 'outlined' : 'contained'}
-                color={orderData.preparing_at === null ? 'grey' : 'primary'}
+                variant={serviceData.received_at === null ? 'outlined' : 'contained'}
+                color={serviceData.received_at === null ? 'grey' : 'primary'}
               />
               <TimelineConnector />
             </TimelineSeparator>
             <TimelineContent>
               <div className='flex flex-wrap items-center justify-between gap-x-2 mbe-2.5'>
                 <Typography color='text.primary' className='font-medium'>
-                  Preparing
+                  Received Token
                 </Typography>
-                {orderData.preparing_at !== null && (
-                  <Typography variant='caption'>{new Date(orderData?.preparing_at).toLocaleString()}</Typography>
+                {serviceData.received_at !== null && (
+                  <Typography variant='caption'>{new Date(serviceData?.received_at).toLocaleString()}</Typography>
                 )}
               </div>
-              <Typography className='mbe-2'>Order is preparing</Typography>
+              <Typography className='mbe-2'>Service Token is received</Typography>
+            </TimelineContent>
+          </TimelineItem> */}
+          <TimelineItem>
+            <TimelineSeparator>
+              <TimelineDot
+                variant={serviceData.picking_up_at === null ? 'outlined' : 'contained'}
+                color={serviceData.picking_up_at === null ? 'grey' : 'primary'}
+              />
+              <TimelineConnector />
+            </TimelineSeparator>
+            <TimelineContent>
+              <div className='flex flex-wrap items-center justify-between gap-x-2 mbe-2.5'>
+                <Typography color='text.primary' className='font-medium'>
+                  Picking Up
+                </Typography>
+                {serviceData.picking_up_at !== null && (
+                  <Typography variant='caption'>{new Date(serviceData?.picking_up_at).toLocaleString()}</Typography>
+                )}
+              </div>
+              <Typography className='mbe-2'>Service is picking </Typography>
             </TimelineContent>
           </TimelineItem>
           <TimelineItem>
             <TimelineSeparator>
               <TimelineDot
-                variant={orderData.delivering_at === null ? 'outlined' : 'contained'}
-                color={orderData.delivering_at === null ? 'grey' : 'primary'}
+                variant={serviceData.processing_at === null ? 'outlined' : 'contained'}
+                color={serviceData.processing_at === null ? 'grey' : 'primary'}
+              />
+              <TimelineConnector />
+            </TimelineSeparator>
+            <TimelineContent>
+              <div className='flex flex-wrap items-center justify-between gap-x-2 mbe-2.5'>
+                <Typography color='text.primary' className='font-medium'>
+                  Processing
+                </Typography>
+                {serviceData.processing_at !== null && (
+                  <Typography variant='caption'>{new Date(serviceData?.processing_at).toLocaleString()}</Typography>
+                )}
+              </div>
+              <Typography className='mbe-2'>Service is processing </Typography>
+            </TimelineContent>
+          </TimelineItem>
+          <TimelineItem>
+            <TimelineSeparator>
+              <TimelineDot
+                variant={serviceData.delivering_at === null ? 'outlined' : 'contained'}
+                color={serviceData.delivering_at === null ? 'grey' : 'primary'}
               />
               <TimelineConnector />
             </TimelineSeparator>
@@ -92,18 +131,18 @@ const ShippingActivity = ({ orderData }) => {
                 <Typography color='text.primary' className='font-medium'>
                   Delivering
                 </Typography>
-                {orderData.delivering_at !== null && (
-                  <Typography variant='caption'>{new Date(orderData?.delivering_at).toLocaleString()}</Typography>
+                {serviceData.delivering_at !== null && (
+                  <Typography variant='caption'>{new Date(serviceData?.delivering_at).toLocaleString()}</Typography>
                 )}
               </div>
-              <Typography className='mbe-2'>Order is delivering </Typography>
+              <Typography className='mbe-2'>Service is Delivering </Typography>
             </TimelineContent>
           </TimelineItem>
           <TimelineItem>
             <TimelineSeparator>
               <TimelineDot
-                variant={orderData.completed_at === null ? 'outlined' : 'contained'}
-                color={orderData.completed_at === null ? 'grey' : 'primary'}
+                variant={serviceData.completed_at === null ? 'outlined' : 'contained'}
+                color={serviceData.completed_at === null ? 'grey' : 'primary'}
               />
               <TimelineConnector />
             </TimelineSeparator>
@@ -112,39 +151,13 @@ const ShippingActivity = ({ orderData }) => {
                 <Typography color='text.primary' className='font-medium'>
                   Completed
                 </Typography>
-                {orderData.completed_at !== null && (
-                  <Typography variant='caption'>{new Date(orderData?.completed_at).toLocaleString()}</Typography>
+                {serviceData.completed_at !== null && (
+                  <Typography variant='caption'>{new Date(serviceData?.completed_at).toLocaleString()}</Typography>
                 )}
               </div>
-              <Typography className='mbe-2'>Order has been completed </Typography>
+              <Typography className='mbe-2'>Service has been completed </Typography>
             </TimelineContent>
           </TimelineItem>
-          {/* <TimelineItem>
-            <TimelineSeparator>
-              <TimelineDot color='primary' />
-              <TimelineConnector />
-            </TimelineSeparator>
-            <TimelineContent>
-              <div className='flex flex-wrap items-center justify-between gap-x-2 mbe-2.5'>
-                <Typography color='text.primary' className='font-medium'>
-                  Dispatched for delivery
-                </Typography>
-                <Typography variant='caption'>Today 14:12 PM</Typography>
-              </div>
-              <Typography className='mbe-2'>Package has left an Amazon facility , NY</Typography>
-            </TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineSeparator>
-              <TimelineDot color='primary' />
-            </TimelineSeparator>
-            <TimelineContent>
-              <Typography color='text.primary' className='font-medium'>
-                Delivery
-              </Typography>
-              <Typography className='mbe-2'>Package will be delivered by tomorrow</Typography>
-            </TimelineContent>
-          </TimelineItem> */}
         </Timeline>
       </CardContent>
     </Card>

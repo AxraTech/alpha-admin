@@ -92,6 +92,11 @@ const VerticalMenu = ({ dictionary, scrollMenu }) => {
           <MenuItem href={`/${locale}/news/category`}>{dictionary['navigation'].new_category}</MenuItem>
         </SubMenu>
 
+        {/* user level */}
+        <MenuItem href={`/${locale}/admin`} icon={<i className='ri-group-3-fill' />}>
+          {dictionary['navigation'].admin}
+        </MenuItem>
+
         {/* quotation */}
         <MenuItem href={`/${locale}/quotations`} icon={<i className='ri-chat-quote-line' />}>
           {dictionary['navigation'].quotations}
@@ -106,18 +111,14 @@ const VerticalMenu = ({ dictionary, scrollMenu }) => {
         <MenuItem href={`/${locale}/invoice/list`} icon={<i className='ri-bill-line' />}>
           {dictionary['navigation'].invoice}
         </MenuItem>
-        {/* dealers */}
-        <MenuItem href={`/${locale}/dealers`} icon={<i className='ri-bill-line' />}>
-          {dictionary['navigation'].dealers}
-        </MenuItem>
 
         {/* chat */}
-        <MenuItem href={`/${locale}/chat`} icon={<i className='ri-wechat-line' />}>
+        {/* <MenuItem href={`/${locale}/chat`} icon={<i className='ri-wechat-line' />}>
           {dictionary['navigation'].chat}
-        </MenuItem>
+        </MenuItem> */}
 
         {/* order */}
-        <MenuItem href={`/${locale}/orders/list`} icon={<i className='ri-user-line' />}>
+        <MenuItem href={`/${locale}/orders/list`} icon={<i className='ri-shopping-bag-4-fill' />}>
           {dictionary['navigation'].orders}
         </MenuItem>
 
@@ -126,12 +127,12 @@ const VerticalMenu = ({ dictionary, scrollMenu }) => {
           {dictionary['navigation'].user}
         </MenuItem>
 
-        <MenuItem href={`/${locale}/404-not-found`} target='_blank'>
+        {/* <MenuItem href={`/${locale}/404-not-found`} target='_blank'>
           {dictionary['navigation'].pageNotFound404}
         </MenuItem>
         <MenuItem href={`/${locale}/401-not-authorized`} target='_blank'>
           {dictionary['navigation'].notAuthorized401}
-        </MenuItem>
+        </MenuItem> */}
       </Menu>
       {/* <Menu
           popoutMenuOffset={{ mainAxis: 10 }}

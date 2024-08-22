@@ -26,7 +26,7 @@ const Preview = () => {
         <PreviewCard invoiceData={invoiceData} />
       </Grid>
       <Grid item xs={12} md={3}>
-        <PreviewActions onButtonClick={handleButtonClick} />
+        <PreviewActions onButtonClick={handleButtonClick} invoiceData={invoiceData?.invoices_by_pk} />
       </Grid>
     </Grid>
   )

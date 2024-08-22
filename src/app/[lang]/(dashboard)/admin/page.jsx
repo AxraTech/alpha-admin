@@ -1,8 +1,8 @@
 // Component Imports
-import DealerTable from '@/views/admin/lists/DealerTable'
+import AdminTable from '@/views/admin/lists/AdminTable'
 
 const eCommerceProductsCategory = () => {
-  return <DealerTable />
+  return <AdminTable />
 }
 
 export default eCommerceProductsCategory

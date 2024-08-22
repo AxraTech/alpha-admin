@@ -155,6 +155,14 @@ export const CHANGE_ORDER_STATUS = gql`
     }
   }
 `
+export const CHANGE_SERVICE_STATUS = gql`
+  mutation changeOrderStatus($id: uuid!, $data: service_tokens_set_input!) {
+    update_service_tokens_by_pk(pk_columns: { id: $id }, _set: $data) {
+      id
+      status
+    }
+  }
+`
 
 export const CHANGE_USER_STATUS = gql`
   mutation changeUserStatus($id: uuid!, $data: users_set_input!) {
@@ -178,6 +186,28 @@ export const CHANGE_INVOICE_STATUS = gql`
     update_invoices_by_pk(pk_columns: { id: $id }, _set: $data) {
       id
       status
+    }
+  }
+`
+export const SEND_QUOTATION_FILE = gql`
+  mutation sendQuotationPdf($id: uuid!, $quotation_file_url: String!) {
+    update_quotations_by_pk(pk_columns: { id: $id }, _set: { quotation_file_url: $quotation_file_url }) {
+      id
+    }
+  }
+`
+export const SEND_INVOICE_FILE = gql`
+  mutation sendQuotationPdf($id: uuid!, $invoice_file_url: String!) {
+    update_invoices_by_pk(pk_columns: { id: $id }, _set: { invoice_file_url: $invoice_file_url }) {
+      id
+    }
+  }
+`
+
+export const DELETE_ADMIN = gql`
+  mutation deleteAdmin($id: uuid!) {
+    delete_admins_by_pk(id: $id) {
+      id
     }
   }
 `

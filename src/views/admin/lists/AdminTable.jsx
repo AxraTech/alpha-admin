@@ -29,14 +29,14 @@ import {
 } from '@tanstack/react-table'
 
 // Component Imports
-import AddDealerDrawer from './AddDealerDrawer'
+import AddDealerDrawer from './AddAdminDrawer'
 import OptionMenu from '@core/components/option-menu'
 
 // Style Imports
 import tableStyles from '@core/styles/table.module.css'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
-import { GET_ALL_DEALERS, GET_PRODUCT_CATEGORIES } from '@/graphql/queries'
-import { DELETE_DEALER, DELETE_PRODUCT_CAT } from '@/graphql/mutations'
+import { GET_ALL_ADMINS, GET_ALL_DEALERS, GET_PRODUCT_CATEGORIES } from '@/graphql/queries'
+import { DELETE_ADMIN, DELETE_DEALER, DELETE_PRODUCT_CAT } from '@/graphql/mutations'
 import Alert from '@/components/helper/Alert'
 import { useApp } from '@/app/ApolloWrapper'
 
@@ -77,19 +77,19 @@ const DebouncedInput = ({ value: initialValue, onChange, debounce = 500, ...prop
 // Column Definitions
 const columnHelper = createColumnHelper()
 
-const DealerTable = () => {
+const AdminTable = () => {
   const { setGlobalMsg } = useApp()
   // States
-  const { data: dealerData } = useSuspenseQuery(GET_ALL_DEALERS)
-  const [deleteDealer] = useMutation(DELETE_DEALER)
+  const { data: adminData } = useSuspenseQuery(GET_ALL_ADMINS)
+  const [deleteAdmin] = useMutation(DELETE_ADMIN)
   const [addDealerOpen, setAddDealerOpen] = useState(false)
   const [rowSelection, setRowSelection] = useState({})
-  const [data, setData] = useState(...[dealerData.dealers])
+  const [data, setData] = useState(...[adminData.admins])
   const [globalFilter, setGlobalFilter] = useState('')
 
   const handleDelete = async id => {
     try {
-      await deleteDealer({ variables: { id: id } })
+      await deleteAdmin({ variables: { id: id } })
       setData(data.filter(item => item.id !== id))
       setGlobalMsg('✅ Delete Successful')
     } catch (e) {
@@ -116,13 +116,13 @@ const DealerTable = () => {
           </div>
         )
       }),
-      columnHelper.accessor('phone', {
-        header: 'Phone',
-        cell: ({ row }) => <Typography>{row.original.phone}</Typography>
+      columnHelper.accessor('email', {
+        header: 'Email',
+        cell: ({ row }) => <Typography>{row.original.email}</Typography>
       }),
-      columnHelper.accessor('address', {
-        header: 'Address',
-        cell: ({ row }) => <Typography>{row.original.address}</Typography>
+      columnHelper.accessor('role', {
+        header: 'Role',
+        cell: ({ row }) => <Typography>{row.original.role}</Typography>
       }),
       columnHelper.accessor('actions', {
         header: 'Actions',
@@ -288,7 +288,7 @@ const DealerTable = () => {
       </Card>
       <AddDealerDrawer
         open={addDealerOpen}
-        dealerData={data}
+        adminData={data}
         setData={setData}
         handleClose={() => setAddDealerOpen(!addDealerOpen)}
       />
@@ -297,4 +297,4 @@ const DealerTable = () => {
   )
 }
 
-export default DealerTable
+export default AdminTable
