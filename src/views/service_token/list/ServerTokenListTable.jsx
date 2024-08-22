@@ -46,11 +46,13 @@ import CustomAvatar from '@core/components/mui/Avatar'
 // Util Imports
 import { getInitials } from '@/utils/getInitials'
 import { getLocalizedUrl } from '@/utils/i18n'
-
+import { statusChipColor } from '@/components/helper/StatusColor'
+import { serviceStatusIcon } from '@/components/helper/StatusIcon'
 // Style Imports
 import tableStyles from '@core/styles/table.module.css'
 import { useSuspenseQuery } from '@apollo/client'
 import { GET_ALL_INVOICES, GET_ALL_QUOTATIONS, GET_ALL_SERVICE_TOKENS } from '@/graphql/queries'
+import { Avatar } from '@mui/material'
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -100,7 +102,7 @@ const columnHelper = createColumnHelper()
 const ServerTokenListTable = () => {
   const { data: serviceTokenDatas } = useSuspenseQuery(GET_ALL_SERVICE_TOKENS)
   const serviceTokenData = serviceTokenDatas?.service_tokens
-  console.log('service tokens ', serviceTokenData)
+
   // States
   const [status, setStatus] = useState('')
   const [rowSelection, setRowSelection] = useState({})
@@ -113,36 +115,14 @@ const ServerTokenListTable = () => {
 
   const columns = useMemo(
     () => [
-      {
-        id: 'select',
-        header: ({ table }) => (
-          <Checkbox
-            {...{
-              checked: table.getIsAllRowsSelected(),
-              indeterminate: table.getIsSomeRowsSelected(),
-              onChange: table.getToggleAllRowsSelectedHandler()
-            }}
-          />
-        ),
-        cell: ({ row }) => (
-          <Checkbox
-            {...{
-              checked: row.getIsSelected(),
-              disabled: !row.getCanSelect(),
-              indeterminate: row.getIsSomeSelected(),
-              onChange: row.getToggleSelectedHandler()
-            }}
-          />
-        )
-      },
       columnHelper.accessor('id', {
-        header: '#',
+        header: 'Token Number',
         cell: ({ row }) => (
           <Typography
             component={Link}
             href={getLocalizedUrl(`/server_token/preview${row.original.id}`, locale)}
             color='primary'
-          >{`#${row.original.id}`}</Typography>
+          >{`${row.original.token_number}`}</Typography>
         )
       }),
       columnHelper.accessor('status', {
@@ -156,9 +136,9 @@ const ServerTokenListTable = () => {
                 </Typography>
                 <br />
                 <Typography variant='body2' component='span' className='text-inherit'>
-                  Balance:
+                  Service Fee:
                 </Typography>{' '}
-                {row.original.balance}
+                {row.original.service_fee}
                 <br />
                 <Typography variant='body2' component='span' className='text-inherit'>
                   Due Date:
@@ -167,44 +147,34 @@ const ServerTokenListTable = () => {
               </div>
             }
           >
-            {/* <CustomAvatar skin='light' color={invoiceStatusObj[row.original.invoiceStatus].color} size={28}>
-              <i className={classnames('bs-4 is-4', invoiceStatusObj[row.original.invoiceStatus].icon)} />
-            </CustomAvatar> */}
+            <CustomAvatar skin='light' color={serviceStatusIcon[row.original.status]} size={28}>
+              <i className={classnames('bs-4 is-4', serviceStatusIcon[row.original.status])} />
+            </CustomAvatar>
           </Tooltip>
         )
       }),
-      columnHelper.accessor('name', {
+      columnHelper.accessor('user.name', {
         header: 'Client',
         cell: ({ row }) => (
           <div className='flex items-center gap-3'>
-            {getAvatar({ avatar: row.original.user?.profile_picture_url, name: row.original?.user.name })}
+            <Avatar src={row.original.user.profile_picture_url} />
             <div className='flex flex-col'>
               <Typography className='font-medium' color='text.primary'>
-                {row.original.name}
+                {row.original.user.name}
               </Typography>
-              <Typography variant='body2'>{row.original.companyEmail}</Typography>
             </div>
           </div>
         )
       }),
-      columnHelper.accessor('total', {
-        header: 'Total',
-        cell: ({ row }) => <Typography>{`$${row.original.total}`}</Typography>
+      columnHelper.accessor('service_fee', {
+        header: 'Service Fee',
+        cell: ({ row }) => <Typography>{`${row.original.service_fee}`} Ks</Typography>
       }),
-      // columnHelper.accessor('issuedDate', {
-      //   header: 'Issued Date',
-      //   cell: ({ row }) => <Typography>{row.original.issuedDate}</Typography>
-      // }),
-      columnHelper.accessor('balance', {
-        header: 'Balance',
-        cell: ({ row }) => {
-          return row.original.balance === 0 ? (
-            <Chip variant='tonal' label='Paid' color='success' size='small' />
-          ) : (
-            <Typography color='text.primary'>{row.original.balance}</Typography>
-          )
-        }
+      columnHelper.accessor('created_at', {
+        header: 'Issued Date',
+        cell: ({ row }) => <Typography>{row.original.created_at.substring(0, 10)}</Typography>
       }),
+
       columnHelper.accessor('action', {
         header: 'Action',
         cell: ({ row }) => (
@@ -213,11 +183,11 @@ const ServerTokenListTable = () => {
               <i className='ri-delete-bin-7-line text-textSecondary' />
             </IconButton>
             <IconButton>
-              <Link href={getLocalizedUrl(`/invoice/preview/${row.original.id}`, locale)} className='flex'>
+              <Link href={getLocalizedUrl(`/service_token/details/${row.original.id}`, locale)} className='flex'>
                 <i className='ri-eye-line text-textSecondary' />
               </Link>
             </IconButton>
-            <OptionMenu
+            {/* <OptionMenu
               iconButtonProps={{ size: 'medium' }}
               iconClassName='text-textSecondary'
               options={[
@@ -229,7 +199,7 @@ const ServerTokenListTable = () => {
                 {
                   text: 'Edit',
                   icon: 'ri-pencil-line',
-                  href: getLocalizedUrl(`/invoice/edit/${row.original.id}`, locale),
+                  href: getLocalizedUrl(`/service_token/edit/${row.original.id}`, locale),
                   linkProps: {
                     className: 'flex items-center is-full plb-2 pli-4 gap-2 text-textSecondary'
                   }
@@ -240,7 +210,7 @@ const ServerTokenListTable = () => {
                   menuItemProps: { className: 'flex items-center gap-2 text-textSecondary' }
                 }
               ]}
-            />
+            /> */}
           </div>
         ),
         enableSorting: false

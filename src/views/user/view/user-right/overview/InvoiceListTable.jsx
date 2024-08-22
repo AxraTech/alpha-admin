@@ -112,7 +112,6 @@ const InvoiceListTable = () => {
             title={
               <div>
                 <Typography variant='body2' component='span' className='text-inherit'>
-                  {console.log('statyos ', row.original.status)}
                   {row.original.status}
                 </Typography>
                 <br />
