@@ -16,19 +16,19 @@ import InputAdornment from '@mui/material/InputAdornment'
 
 // Third-party Imports
 import { useForm, Controller } from 'react-hook-form'
-import { useMutation, useSuspenseQuery } from '@apollo/client'
+import { useMutation, useQuery, useSuspenseQuery } from '@apollo/client'
 import { ADD_ADMIN, ADD_CATEGORY, ADD_DEALERS } from '@/graphql/mutations'
 import Alert from '@/components/helper/Alert'
 import { useApp } from '@/app/ApolloWrapper'
-import { GET_USERS } from '@/graphql/queries'
+import { ADMIN_ROLES, GET_USERS } from '@/graphql/queries'
 
 const AddCategoryDrawer = props => {
   const { setGlobalMsg } = useApp()
   // Props
-  const { open, handleClose, dealerData, setData } = props
+  const { open, handleClose, adminData, setData } = props
   const [userId, setUserId] = useState()
-  const [addDealer] = useMutation(ADD_ADMIN)
-
+  const [addAdmin] = useMutation(ADD_ADMIN)
+  const { data: adminRoles } = useSuspenseQuery(ADMIN_ROLES)
   // Refs
   const fileInputRef = useRef(null)
 
@@ -46,18 +46,16 @@ const AddCategoryDrawer = props => {
 
   // Handle Form Submit
   const handleFormSubmit = async data => {
-    const res = await addDealer({
+    const res = await addAdmin({
       variables: {
-        data: {
-          email: data.email,
-          name: data.name,
-          role: data.role,
-          password: data.password
-        }
+        email: data.email,
+        name: data.name,
+        password: data.password,
+        role: data.role
       }
     })
 
-    setData([...dealerData, res.data.insert_admins_one])
+    setData([...(adminData ?? []), res])
     handleReset()
     setGlobalMsg('➕ Added New Data')
   }
@@ -76,7 +74,9 @@ const AddCategoryDrawer = props => {
       setFileName(files[0].name)
     }
   }
-
+  {
+    console.log('admin roles ', adminRoles)
+  }
   return (
     <>
       <Drawer
@@ -128,20 +128,28 @@ const AddCategoryDrawer = props => {
               )}
             />
             {/* role */}
-            <Controller
-              name='role'
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  fullWidth
-                  label='Role'
-                  placeholder=''
-                  {...(errors.role && { error: true, helperText: 'This field is required.' })}
-                />
-              )}
-            />
+            <FormControl fullWidth>
+              <InputLabel id='country' error={Boolean(errors.role)}>
+                Select Role
+              </InputLabel>
+              {console.log('roles ', adminRoles)}
+              <Controller
+                name='role'
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <Select label='Select Role' {...field} error={Boolean(errors.role)}>
+                    <MenuItem value='sale'>Sale</MenuItem>
+                    <MenuItem value='finance'>Finance</MenuItem>
+                    <MenuItem value='service'>Service</MenuItem>
+                    <MenuItem value='delivery'>Delivery</MenuItem>
+                    <MenuItem value='admin'>Admin</MenuItem>
+                    <MenuItem value='manager'>Manager</MenuItem>
+                  </Select>
+                )}
+              />
+              {errors.role && <FormHelperText error>This field is required.</FormHelperText>}
+            </FormControl>
             {/* phone */}
             <Controller
               name='password'

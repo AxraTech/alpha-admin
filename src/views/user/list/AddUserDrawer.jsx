@@ -16,6 +16,8 @@ import Divider from '@mui/material/Divider'
 
 // Third-party Imports
 import { useForm, Controller } from 'react-hook-form'
+import { useMutation } from '@apollo/client'
+import { ADD_USER } from '@/graphql/mutations'
 
 // Vars
 const initialData = {
@@ -27,7 +29,7 @@ const initialData = {
 const AddUserDrawer = props => {
   // Props
   const { open, handleClose, userData, setData } = props
-
+  const [addUser] = useMutation(ADD_USER)
   // States
   const [formData, setFormData] = useState(initialData)
 
@@ -39,34 +41,27 @@ const AddUserDrawer = props => {
     formState: { errors }
   } = useForm({
     defaultValues: {
-      fullName: '',
-      username: '',
-      email: '',
+      name: '',
+      phone: '',
       role: '',
-      plan: '',
-      status: ''
+      password: ''
     }
   })
 
-  const onSubmit = data => {
-    const newUser = {
-      id: (userData?.length && userData?.length + 1) || 1,
-      avatar: `/images/avatars/${Math.floor(Math.random() * 8) + 1}.png`,
-      fullName: data.fullName,
-      username: data.username,
-      email: data.email,
-      role: data.role,
-      currentPlan: data.plan,
-      status: data.status,
-      company: formData.company,
-      country: formData.country,
-      contact: formData.contact
-    }
+  const onSubmit = async data => {
+    const newUser = await addUser({
+      variables: {
+        name: data.name,
+        phone: data.phone,
+        role: data.role,
+        password: data.password
+      }
+    })
 
     setData([...(userData ?? []), newUser])
     handleClose()
     setFormData(initialData)
-    resetForm({ fullName: '', username: '', email: '', role: '', plan: '', status: '' })
+    resetForm({})
   }
 
   const handleReset = () => {
@@ -93,48 +88,51 @@ const AddUserDrawer = props => {
       <div className='p-5'>
         <form onSubmit={handleSubmit(data => onSubmit(data))} className='flex flex-col gap-5'>
           <Controller
-            name='fullName'
+            name='name'
             control={control}
             rules={{ required: true }}
             render={({ field }) => (
               <TextField
                 {...field}
                 fullWidth
-                label='Full Name'
-                placeholder='John Doe'
-                {...(errors.fullName && { error: true, helperText: 'This field is required.' })}
+                label='Name'
+                placeholder='Enter Name'
+                {...(errors.name && { error: true, helperText: 'This field is required.' })}
               />
             )}
           />
+          {/* phone */}
           <Controller
-            name='username'
+            name='phone'
             control={control}
             rules={{ required: true }}
             render={({ field }) => (
               <TextField
                 {...field}
                 fullWidth
-                label='Username'
-                placeholder='johndoe'
-                {...(errors.username && { error: true, helperText: 'This field is required.' })}
+                label='Phone'
+                placeholder='Enter Phone'
+                {...(errors.phone && { error: true, helperText: 'This field is required.' })}
               />
             )}
           />
+          {/* password */}
           <Controller
-            name='email'
+            name='password'
             control={control}
             rules={{ required: true }}
             render={({ field }) => (
               <TextField
                 {...field}
                 fullWidth
-                type='email'
-                label='Email'
-                placeholder='johndoe@gmail.com'
-                {...(errors.email && { error: true, helperText: 'This field is required.' })}
+                type='password'
+                label='Password'
+                placeholder='Enter Password'
+                {...(errors.password && { error: true, helperText: 'This field is required.' })}
               />
             )}
           />
+          {/* role */}
           <FormControl fullWidth>
             <InputLabel id='country' error={Boolean(errors.role)}>
               Select Role
@@ -145,84 +143,14 @@ const AddUserDrawer = props => {
               rules={{ required: true }}
               render={({ field }) => (
                 <Select label='Select Role' {...field} error={Boolean(errors.role)}>
-                  <MenuItem value='admin'>Admin</MenuItem>
-                  <MenuItem value='author'>Author</MenuItem>
-                  <MenuItem value='editor'>Editor</MenuItem>
-                  <MenuItem value='maintainer'>Maintainer</MenuItem>
-                  <MenuItem value='subscriber'>Subscriber</MenuItem>
+                  <MenuItem value='dealer'>Dealer</MenuItem>
+                  <MenuItem value='consumer'>Consumer</MenuItem>
                 </Select>
               )}
             />
             {errors.role && <FormHelperText error>This field is required.</FormHelperText>}
           </FormControl>
-          <FormControl fullWidth>
-            <InputLabel id='country' error={Boolean(errors.plan)}>
-              Select Plan
-            </InputLabel>
-            <Controller
-              name='plan'
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <Select label='Select Plan' {...field} error={Boolean(errors.plan)}>
-                  <MenuItem value='basic'>Basic</MenuItem>
-                  <MenuItem value='company'>Company</MenuItem>
-                  <MenuItem value='enterprise'>Enterprise</MenuItem>
-                  <MenuItem value='team'>Team</MenuItem>
-                </Select>
-              )}
-            />
-            {errors.plan && <FormHelperText error>This field is required.</FormHelperText>}
-          </FormControl>
-          <FormControl fullWidth>
-            <InputLabel id='country' error={Boolean(errors.status)}>
-              Select Status
-            </InputLabel>
-            <Controller
-              name='status'
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <Select label='Select Status' {...field} error={Boolean(errors.status)}>
-                  <MenuItem value='pending'>Pending</MenuItem>
-                  <MenuItem value='active'>Active</MenuItem>
-                  <MenuItem value='inactive'>Inactive</MenuItem>
-                </Select>
-              )}
-            />
-            {errors.status && <FormHelperText error>This field is required.</FormHelperText>}
-          </FormControl>
-          <TextField
-            label='Company'
-            fullWidth
-            placeholder='Company PVT LTD'
-            value={formData.company}
-            onChange={e => setFormData({ ...formData, company: e.target.value })}
-          />
-          <FormControl fullWidth>
-            <InputLabel id='country'>Select Country</InputLabel>
-            <Select
-              fullWidth
-              id='country'
-              value={formData.country}
-              onChange={e => setFormData({ ...formData, country: e.target.value })}
-              label='Select Country'
-              labelId='country'
-            >
-              <MenuItem value='India'>India</MenuItem>
-              <MenuItem value='USA'>USA</MenuItem>
-              <MenuItem value='Australia'>Australia</MenuItem>
-              <MenuItem value='Germany'>Germany</MenuItem>
-            </Select>
-          </FormControl>
-          <TextField
-            label='Contact'
-            type='number'
-            fullWidth
-            placeholder='(397) 294-5153'
-            value={formData.contact}
-            onChange={e => setFormData({ ...formData, contact: e.target.value })}
-          />
+
           <div className='flex items-center gap-4'>
             <Button variant='contained' type='submit'>
               Submit

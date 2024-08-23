@@ -212,9 +212,19 @@ export const DELETE_ADMIN = gql`
   }
 `
 export const ADD_ADMIN = gql`
-  mutation addAdmin($data: admins_insert_input!) {
-    insert_admins_one(object: { name: $data }) {
-      id
+  mutation aa($email: String!, $password: String!, $name: String!, $role: String!) {
+    AdminSignUp(email: $email, password: $password, name: $name, role: $role) {
+      message
+      token
+    }
+  }
+`
+
+export const ADD_USER = gql`
+  mutation aa($name: String!, $password: String!, $role: String!, $phone: String!) {
+    UserSignUp(name: $name, password: $password, role: $role, phone: $phone) {
+      message
+      token
     }
   }
 `
