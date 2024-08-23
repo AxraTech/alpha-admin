@@ -10,7 +10,7 @@ import { getLocalizedUrl } from '@/utils/i18n'
 
 const defaultSuggestions = [
   {
-    sectionLabel: 'Popular Searches',
+    sectionLabel: 'Searches',
     items: [
       {
         label: 'Analytics',
