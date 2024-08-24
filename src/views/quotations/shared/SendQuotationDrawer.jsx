@@ -64,7 +64,6 @@ const SendQuotationDrawer = ({ open, handleClose, quotationData }) => {
         variables: { id: quotationData.id, quotation_file_url: uploadedFileUrl }
       })
       setFile('')
-      alert('➕ File upload successful')
       setGlobalMsg('➕ Send Quotation file suceessful')
     } catch (e) {
       setGlobalMsg('❌ Send file error')

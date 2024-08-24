@@ -48,8 +48,8 @@ const UserListCards = ({ count, title }) => {
           </Typography>
           <div className='flex items-center gap-2 flex-wrap'>
             <Typography
-              variant='h4'
-              color={`${title === 'disable' ? 'red' : title === 'pending' ? 'blue' : title === 'dealer' ? 'green' : title === 'consumer' ? 'orange' : 'grey'}`}
+              variant='h5'
+              color={`${title === 'Disable' ? 'red' : title === 'Pending Dealer' ? 'orange' : title === 'Dealer' ? 'green' : title === 'Consumer' ? 'blue' : 'grey'}`}
             >
               {title}
             </Typography>

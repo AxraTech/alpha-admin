@@ -211,6 +211,14 @@ export const DELETE_ADMIN = gql`
     }
   }
 `
+export const DELETE_SERVICE_CENTER = gql`
+  mutation deleteServiceCenter($id: uuid!) {
+    delete_service_centers_by_pk(id: $id) {
+      id
+    }
+  }
+`
+
 export const ADD_ADMIN = gql`
   mutation aa($email: String!, $password: String!, $name: String!, $role: String!) {
     AdminSignUp(email: $email, password: $password, name: $name, role: $role) {
@@ -225,6 +233,27 @@ export const ADD_USER = gql`
     UserSignUp(name: $name, password: $password, role: $role, phone: $phone) {
       message
       token
+    }
+  }
+`
+export const ADD_SERVICE_CENTER = gql`
+  mutation addSeriveCenter($data: service_centers_insert_input!) {
+    insert_service_centers_one(object: $data) {
+      id
+    }
+  }
+`
+export const IS_WARRANTY_VALID = gql`
+  mutation iswarrantyValid($id: uuid!, $data: service_tokens_set_input!) {
+    update_service_tokens_by_pk(pk_columns: { id: $id }, _set: $data) {
+      id
+    }
+  }
+`
+export const EDIT_SERVICE_CENTER = gql`
+  mutation editServiceCenter($id: uuid!, $data: String!) {
+    update_service_centers_by_pk(pk_columns: { id: $id }, _set: { name: $data }) {
+      id
     }
   }
 `

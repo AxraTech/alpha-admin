@@ -1,0 +1,176 @@
+// React Imports
+import { useState, useRef, useEffect } from 'react'
+
+// MUI Imports
+import Button from '@mui/material/Button'
+import Drawer from '@mui/material/Drawer'
+import FormControl from '@mui/material/FormControl'
+import IconButton from '@mui/material/IconButton'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
+import Divider from '@mui/material/Divider'
+import InputAdornment from '@mui/material/InputAdornment'
+
+// Third-party Imports
+import { useForm, Controller } from 'react-hook-form'
+import { useMutation, useQuery, useSuspenseQuery } from '@apollo/client'
+import { ADD_ADMIN, ADD_CATEGORY, ADD_DEALERS, EDIT_SERVICE_CENTER } from '@/graphql/mutations'
+import Alert from '@/components/helper/Alert'
+import { useApp } from '@/app/ApolloWrapper'
+import { ADMIN_ROLES, GET_USERS } from '@/graphql/queries'
+
+const EditServiceCenterDrawer = props => {
+  const { setGlobalMsg } = useApp()
+  // Props
+  const { open, handleClose, serviceCenterData, setData } = props
+  const [editAdmin] = useMutation(EDIT_SERVICE_CENTER)
+  const { data: adminRoles } = useSuspenseQuery(ADMIN_ROLES)
+  // Refs
+  const fileInputRef = useRef(null)
+
+  // Hooks
+  const {
+    control,
+    reset: resetForm,
+    handleSubmit
+    // formState: { errors }
+  } = useForm({
+    defaultValues: {
+      title: ''
+    }
+  })
+
+  // useEffect(() => {
+  //   setData([...serviceCenterData])
+  // }, [serviceCenterData])
+
+  // Handle Form Submit
+  const handleFormSubmit = async data => {
+    console.log('----------------')
+    const res = await editAdmin({
+      variables: {
+        id: data.id,
+        data: {
+          phone: data.phone,
+          name: data.name,
+          address: data.address
+        }
+      }
+    })
+    console.log('res ', res)
+    setData([...(adminData ?? []), res])
+    handleReset()
+    setGlobalMsg('➕ Added New Data')
+  }
+
+  // Handle Form Reset
+  const handleReset = () => {
+    handleClose()
+    resetForm({ title: '', description: '' })
+  }
+
+  const handleEdit = async () => {
+    try {
+    } catch (e) {
+      console.log('Edit error ', e)
+    }
+  }
+
+  // Handle File Upload
+  const handleFileUpload = event => {
+    const { files } = event.target
+
+    if (files && files.length !== 0) {
+      setFileName(files[0].name)
+    }
+  }
+
+  return (
+    <>
+      <Drawer
+        open={open}
+        anchor='right'
+        variant='temporary'
+        onClose={handleReset}
+        ModalProps={{ keepMounted: true }}
+        sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
+      >
+        <div className='flex items-center justify-between pli-5 plb-4'>
+          <Typography variant='h5'>Add Admin</Typography>
+          <IconButton size='small' onClick={handleReset}>
+            <i className='ri-close-line text-2xl' />
+          </IconButton>
+        </div>
+        <Divider />
+        <div className='p-5'>
+          <form onSubmit={handleSubmit(data => handleFormSubmit(data))} className='flex flex-col gap-5'>
+            {/* name */}
+
+            <Controller
+              name='name'
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  fullWidth
+                  label='Name'
+                  value={serviceCenterData?.name}
+                  placeholder=''
+                  // {...(errors.name && { error: true, helperText: 'This field is required.' })}
+                />
+              )}
+            />
+            {/* email */}
+            <Controller
+              name='phone'
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  fullWidth
+                  label='Phone'
+                  value={serviceCenterData?.phone}
+                  placeholder=''
+                  // {...(errors.phone && { error: true, helperText: 'This field is required.' })}
+                />
+              )}
+            />
+            {/* address */}
+            <Controller
+              name='address'
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  fullWidth
+                  value={serviceCenterData?.address}
+                  label='Address'
+                  placeholder=''
+                  // {...(errors.address && { error: true, helperText: 'This field is required.' })}
+                />
+              )}
+            />
+
+            <div className='flex items-center gap-4'>
+              <Button variant='contained' type='submit'>
+                Edit
+              </Button>
+              <Button variant='outlined' color='error' type='reset' onClick={handleReset}>
+                Discard
+              </Button>
+            </div>
+          </form>
+        </div>
+      </Drawer>
+      <Alert />
+    </>
+  )
+}
+
+export default EditServiceCenterDrawer

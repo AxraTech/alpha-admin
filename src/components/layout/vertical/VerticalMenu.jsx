@@ -82,6 +82,7 @@ const VerticalMenu = ({ dictionary, scrollMenu }) => {
           <MenuItem href={`/${locale}/products/category`}>{dictionary['navigation'].category}</MenuItem>
           <MenuItem href={`/${locale}/products/brands`}>{dictionary['navigation'].brands}</MenuItem>
         </SubMenu>
+
         {/* newsfeed */}
         <SubMenu
           label={dictionary['navigation'].news}
@@ -91,7 +92,20 @@ const VerticalMenu = ({ dictionary, scrollMenu }) => {
           <MenuItem href={`/${locale}/news/list`}>{dictionary['navigation'].news_list}</MenuItem>
           <MenuItem href={`/${locale}/news/category`}>{dictionary['navigation'].new_category}</MenuItem>
         </SubMenu>
+        {/* service */}
+        <SubMenu
+          label={dictionary['navigation'].services}
+          icon={<i className='ri-store-2-fill' />}
+          //suffix={<Chip label='5' size='small' color='error' />}
+        >
+          <MenuItem href={`/${locale}/services/service_center`}>{dictionary['navigation'].service_center}</MenuItem>
+          <MenuItem href={`/${locale}/services/service_token`}>{dictionary['navigation'].service_token}</MenuItem>
+        </SubMenu>
 
+        {/* service center
+        <MenuItem href={`/${locale}/service_center`} icon={<i className='ri-store-2-fill' />}>
+          {dictionary['navigation'].service_center}
+        </MenuItem> */}
         {/* user level */}
         <MenuItem href={`/${locale}/admin`} icon={<i className='ri-group-3-fill' />}>
           {dictionary['navigation'].admin}
@@ -102,10 +116,10 @@ const VerticalMenu = ({ dictionary, scrollMenu }) => {
           {dictionary['navigation'].quotations}
         </MenuItem>
 
-        {/* server token */}
+        {/* server token
         <MenuItem href={`/${locale}/service_token`} icon={<i className='ri-nft-fill' />}>
           {dictionary['navigation'].service_token}
-        </MenuItem>
+        </MenuItem> */}
 
         {/* invoice */}
         <MenuItem href={`/${locale}/invoice/list`} icon={<i className='ri-bill-line' />}>

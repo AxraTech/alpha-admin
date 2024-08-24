@@ -20,7 +20,7 @@ const ServerTokenList = () => {
       </Grid> */}
 
       <Grid item md={3} xs={12} sm={6}>
-        <ServiceListCards count={userService.users_aggregate.aggregate.count} title='User' />
+        <ServiceListCards count={serviceAggregate.activeService.aggregate.count} title='Active' />
       </Grid>
       <Grid item md={3} xs={12} sm={6}>
         <ServiceListCards count={serviceAggregate.canceledService.aggregate.count} title='Cancel' />

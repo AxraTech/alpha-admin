@@ -9,7 +9,7 @@ import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import Checkbox from '@mui/material/Checkbox'
 import Typography from '@mui/material/Typography'
-
+import Switch from '@mui/material/Switch'
 // Third-party Imports
 import classnames from 'classnames'
 import { rankItem } from '@tanstack/match-sorter-utils'
@@ -31,6 +31,12 @@ import Link from '@components/Link'
 
 // Style Imports
 import tableStyles from '@core/styles/table.module.css'
+import { Button, TextField } from '@mui/material'
+import { useMutation } from '@apollo/client'
+import { IS_WARRANTY_VALID } from '@/graphql/mutations'
+import Alert from '@/components/helper/Alert'
+import { useApp } from '@/app/ApolloWrapper'
+import { check } from 'valibot'
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -44,41 +50,6 @@ const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Return if the item should be filtered in/out
   return itemRank.passed
 }
-
-const serviceData = [
-  {
-    productName: 'OnePlus 7 Pro',
-    productImage: '/images/apps/ecommerce/product-21.png',
-    brand: 'OnePluse',
-    price: 799,
-    quantity: 1,
-    total: 799
-  },
-  {
-    productName: 'Magic Mouse',
-    productImage: '/images/apps/ecommerce/product-22.png',
-    brand: 'Google',
-    price: 89,
-    quantity: 1,
-    total: 89
-  },
-  {
-    productName: 'Wooden Chair',
-    productImage: '/images/apps/ecommerce/product-23.png',
-    brand: 'Insofar',
-    price: 289,
-    quantity: 2,
-    total: 578
-  },
-  {
-    productName: 'Air Jorden',
-    productImage: '/images/apps/ecommerce/product-24.png',
-    brand: 'Nike',
-    price: 299,
-    quantity: 2,
-    total: 598
-  }
-]
 
 // Column Definitions
 const columnHelper = createColumnHelper()
@@ -240,54 +211,117 @@ const OrderTable = ({ serviceData }) => {
 }
 
 const ServiceDetailsCard = ({ serviceData }) => {
+  const { setGlobalMsg } = useApp()
+  const [checked, setChecked] = useState(serviceData.is_warranty_valid ? true : false)
+  const [serviceFee, setServiceFee] = useState()
+  const [errors, setErrors] = useState()
+  const [isWarrantyValid] = useMutation(IS_WARRANTY_VALID)
+  const handleValidOn = event => {
+    setChecked(event.target.checked)
+  }
+  const handleValidOff = async data => {
+    try {
+      if (serviceFee) {
+        await isWarrantyValid({
+          variables: {
+            id: data.id,
+            data: {
+              is_warranty_valid: false,
+              service_fee: serviceFee
+            }
+          }
+        })
+        setServiceFee('')
+        setGlobalMsg('➕ Added service fee')
+      } else {
+        setGlobalMsg('⚠️ Please fill service fee')
+      }
+    } catch (e) {
+      console.log('Error ', e)
+    }
+  }
   return (
-    <Card>
-      <CardHeader
-        title='Service Details'
-        // action={
-        //   <Typography component={Link} color='primary.main' className='font-medium'>
-        //     Edit
-        //   </Typography>
-        // }
-      />
-      {/* <OrderTable serviceData={serviceData} /> */}
-      <CardContent className='flex justify-end'>
-        <div>
-          <div className='flex items-center gap-12'>
-            <Typography color='text.primary' className='min-is-[100px]'>
-              Subtotal:
-            </Typography>
-            <Typography color='text.primary' className='font-medium'>
-              {serviceData?.items_total?.toLocaleString()} Ks
-            </Typography>
+    <>
+      <Card>
+        <CardHeader
+          title='Service Details'
+          action={
+            // <Typography component={Link} color='primary.main' className='font-medium'>
+            //   Edit
+            // </Typography>
+            <>
+              {serviceData.is_warranty_valid && checked ? (
+                <Switch checked={checked} onChange={handleValidOn} inputProps={{ 'aria-label': 'controlled' }} />
+              ) : (
+                <>
+                  {checked !== true ? (
+                    <>
+                      <TextField
+                        size='small'
+                        type='number'
+                        required
+                        sx={{ width: '150px', mr: '1rem' }}
+                        value={serviceFee}
+                        error={serviceFee ? false : true}
+                        helperText={`${!serviceFee ? 'This field is required' : ''}`}
+                        onChange={e => setServiceFee(e.target.value)}
+                      />
+                      <Button variant='contained' onClick={() => handleValidOff(serviceData)}>
+                        Add service fee
+                      </Button>
+                    </>
+                  ) : (
+                    ''
+                  )}
+                </>
+              )}
+            </>
+          }
+        />
+        {/* <OrderTable serviceData={serviceData} /> */}
+        <CardContent className='flex  flex-col'>
+          <div>
+            <div className='flex items-center gap-12'>
+              <Typography color='text.primary' className='min-is-[100px]'>
+                Description:
+              </Typography>
+              <Typography color='text.primary' className='font-medium'>
+                {serviceData.description}
+              </Typography>
+            </div>
           </div>
-          <div className='flex items-center gap-12'>
-            <Typography color='text.primary' className='min-is-[100px]'>
-              Delivery Fee:
-            </Typography>
-            <Typography color='text.primary' className='font-medium'>
-              {serviceData?.delivery_fee?.toLocaleString()}
-            </Typography>
+          <br />
+          <div className='flex justify-center gap-x-12'>
+            <div>
+              <img src={serviceData.document_photo_url} alt='image' width={50} height='auto' />
+              <Typography color='text.primary' className=' min-is-[100px]'>
+                Document Photo
+              </Typography>
+            </div>
+            <div>
+              {serviceData.issue_media_type === 'image' ? (
+                <>
+                  <img src={serviceData.issue_media_url} alt='image' width={50} height='auto' />
+                  <Typography color='text.primary' className='min-is-[100px]'>
+                    Issue Image
+                  </Typography>
+                </>
+              ) : (
+                <>
+                  <video src={serviceData.issue_media_url} alt='image' width={50} height='auto' />
+                  <Typography color='text.primary' className='min-is-[100px]'>
+                    Issue Video
+                  </Typography>
+                </>
+              )}
+            </div>
           </div>
-          {/* <div className='flex items-center gap-12'>
-            <Typography color='text.primary' className='min-is-[100px]'>
-              Tax:
-            </Typography>
-            <Typography color='text.primary' className='font-medium'>
-              $28
-            </Typography>
-          </div> */}
-          <div className='flex items-center gap-12'>
-            <Typography color='text.primary' className='font-medium min-is-[100px]'>
-              Total:
-            </Typography>
-            <Typography color='text.primary' className='font-medium'>
-              {serviceData?.total?.toLocaleString()} Ks
-            </Typography>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+          <br />
+          <div></div>
+        </CardContent>
+      </Card>
+      <Alert />
+    </>
   )
 }
 

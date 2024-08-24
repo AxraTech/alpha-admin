@@ -175,6 +175,18 @@ const ServerTokenListTable = () => {
       //     </Tooltip>
       //   )
       // }),
+      columnHelper.accessor('is_warranty_valid', {
+        header: 'Is Warranty Valid',
+        cell: ({ row }) => (
+          <div>
+            {row.original.is_warranty_valid === true ? (
+              <Chip color='success' label='Yes' size='small' variant='tonal' />
+            ) : (
+              <Chip label='No' color='error' size='small' variant='tonal' />
+            )}
+          </div>
+        )
+      }),
       columnHelper.accessor('status', {
         header: 'Status',
         cell: ({ row }) => (
@@ -191,10 +203,6 @@ const ServerTokenListTable = () => {
           </div>
         )
       }),
-      columnHelper.accessor('created_at', {
-        header: 'Issued Date',
-        cell: ({ row }) => <Typography>{row.original.created_at.substring(0, 10)}</Typography>
-      }),
 
       columnHelper.accessor('action', {
         header: 'Action',
@@ -204,7 +212,10 @@ const ServerTokenListTable = () => {
               <i className='ri-delete-bin-7-line text-red-500' />
             </IconButton>
             <IconButton>
-              <Link href={getLocalizedUrl(`/service_token/details/${row.original.id}`, locale)} className='flex'>
+              <Link
+                href={getLocalizedUrl(`/services/service_token/details/${row.original.id}`, locale)}
+                className='flex'
+              >
                 <i className='ri-eye-line text-textSecondary' />
               </Link>
             </IconButton>

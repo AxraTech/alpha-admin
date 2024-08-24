@@ -30,9 +30,9 @@ const ServiceDetails = () => {
       </Grid>
       <Grid item xs={12} md={8}>
         <Grid container spacing={6}>
-          {/* <Grid item xs={12}>
+          <Grid item xs={12}>
             <ServiceDetailsCard serviceData={serviceData} />
-          </Grid> */}
+          </Grid>
           <Grid item xs={12}>
             <ShippingActivity serviceData={serviceData} />
           </Grid>

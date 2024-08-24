@@ -15,8 +15,11 @@
     "new_category": "Category",
 
     "quotations": "Quotations",
+    "admin": "Staff",
+
+    "services": "Services",
+    "service_center": "Service Center",
     "service_token": "Service Token",
-    "admin": "User Level",
 
     "analytics": "Analytics",
     "academy": "Academy",

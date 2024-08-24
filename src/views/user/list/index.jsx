@@ -16,17 +16,17 @@ const UserList = () => {
   return (
     <Grid container spacing={6}>
       <Grid item md={3} xs={12} sm={6}>
-        <UserListCards count={userRoleAggregate.consumerUser.aggregate.count} title='consumer' />
+        <UserListCards count={userRoleAggregate.consumerUser.aggregate.count} title='Consumer' />
       </Grid>
       <Grid item md={3} xs={12} sm={6}>
-        <UserListCards count={userRoleAggregate.dealerUser.aggregate.count} title='dealer' />
+        <UserListCards count={userRoleAggregate.dealerUser.aggregate.count} title='Dealer' />
       </Grid>
 
       <Grid item md={3} xs={12} sm={6}>
-        <UserListCards count={userStatusAggregate.pendingUser.aggregate.count} title='pending' />
+        <UserListCards count={userStatusAggregate.pendingUser.aggregate.count} title='Pending Dealer' />
       </Grid>
       <Grid item md={3} xs={12} sm={6}>
-        <UserListCards count={userStatusAggregate.disabelUser.aggregate.count} title='disable' />
+        <UserListCards count={userStatusAggregate.disabelUser.aggregate.count} title='Disable' />
       </Grid>
 
       <Grid item xs={12}>

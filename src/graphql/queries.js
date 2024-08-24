@@ -284,7 +284,18 @@ export const GET_ALL_QUOTATIONS = gql`
     }
   }
 `
-
+export const GET_ALL_SERVICE_CENTERS = gql`
+  query serviceCenters {
+    service_centers(order_by: { updated_at: desc }) {
+      id
+      name
+      address
+      phone
+      created_at
+      updated_at
+    }
+  }
+`
 export const QUOTATION_STATUS = gql`
   query aa {
     quotation_status {
@@ -302,16 +313,27 @@ export const QUOTATION_BY_ID = gql`
       total_amount
       quotation_number
       status
-      quotation_file_url
-      status
       user {
         id
         name
+        phone
+      }
+      quotation_items {
+        id
+        quantity
+        product {
+          price
+          title
+
+          brand {
+            id
+            title
+          }
+        }
       }
     }
   }
 `
-
 export const GET_ALL_SERVICE_TOKENS = gql`
   query getAllServiceTokens {
     service_tokens(order_by: { updated_at: desc }) {
@@ -342,7 +364,6 @@ export const GET_ALL_SERVICE_TOKENS = gql`
     }
   }
 `
-
 export const SERVICE_TOKEN_BY_ID = gql`
   query serviceTokensById($id: uuid!) {
     service_tokens_by_pk(id: $id) {
@@ -374,7 +395,6 @@ export const SERVICE_TOKEN_BY_ID = gql`
     }
   }
 `
-
 export const GET_ALL_ORDERS = gql`
   query getAllOrders {
     orders(order_by: { updated_at: desc }) {
@@ -412,7 +432,6 @@ export const GET_ALL_ORDERS = gql`
     }
   }
 `
-
 export const ORDERS_BY_ID = gql`
   query ordersById($id: uuid!) {
     orders_by_pk(id: $id) {
@@ -468,7 +487,6 @@ export const ORDERS_BY_ID = gql`
     }
   }
 `
-
 export const ORDERS_AGGREGATE = gql`
   query orderAggregate {
     activeOrder: orders_aggregate(
@@ -525,7 +543,6 @@ export const GET_ALL_ADMINS = gql`
     }
   }
 `
-
 export const USER_ROLES = gql`
   query userRoles {
     user_roles {
@@ -598,6 +615,13 @@ export const USERS_ROLE_AGGREGATES = gql`
 export const SERVICE_AGGREGATE = gql`
   query userAggregate {
     completedService: service_tokens_aggregate(where: { status: { _eq: "complete" } }) {
+      aggregate {
+        count
+      }
+    }
+    activeService: service_tokens_aggregate(
+      where: { _and: [{ status: { _neq: "completed" } }, { status: { _neq: "canceled" } }] }
+    ) {
       aggregate {
         count
       }

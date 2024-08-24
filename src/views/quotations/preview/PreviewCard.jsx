@@ -16,38 +16,6 @@ import { INVOICE_BY_ID } from '@/graphql/queries'
 import { useParams } from 'next/navigation'
 import { Chip } from '@mui/material'
 
-// Vars
-const data = [
-  {
-    Item: 'Premium Branding Package',
-    Description: 'Branding & Promotion',
-    Hours: 48,
-    Qty: 1,
-    Total: '$32'
-  },
-  {
-    Item: 'Social Media',
-    Description: 'Social media templates',
-    Hours: 42,
-    Qty: 1,
-    Total: '$28'
-  },
-  {
-    Item: 'Web Design',
-    Description: 'Web designing package',
-    Hours: 46,
-    Qty: 1,
-    Total: '$24'
-  },
-  {
-    Item: 'SEO',
-    Description: 'Search engine optimization',
-    Hours: 40,
-    Qty: 1,
-    Total: '$22'
-  }
-]
-
 export const statusChipColor = {
   pending: 'warning',
   completed: 'success',
@@ -86,7 +54,7 @@ const PreviewCard = ({ quotationData }) => {
               </div>
             </div>
           </Grid>
-          {/* <Grid item xs={12}>
+          <Grid item xs={12}>
             <Grid container spacing={6}>
               <Grid item xs={12} sm={6}>
                 <div className='flex flex-col gap-4'>
@@ -133,8 +101,8 @@ const PreviewCard = ({ quotationData }) => {
                 </div>
               </Grid>
             </Grid>
-          </Grid> */}
-          {/* <Grid item xs={12}>
+          </Grid>
+          <Grid item xs={12}>
             <div className='overflow-x-auto border rounded'>
               <table className={tableStyles.table}>
                 <thead>
@@ -147,11 +115,9 @@ const PreviewCard = ({ quotationData }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {console.log('order items ', quotationData)}
-                  {quotationData?.order?.order_items.map((item, index) => (
+                  {quotationData?.quotation_items.map((item, index) => (
                     <tr key={index}>
                       <td>
-                        {console.log('item ', item)}
                         <Typography color='text.primary'>{item.product.title}</Typography>
                       </td>
 
@@ -172,8 +138,8 @@ const PreviewCard = ({ quotationData }) => {
                 </tbody>
               </table>
             </div>
-          </Grid> */}
-          {/* <Grid item xs={12}>
+          </Grid>
+          <Grid item xs={12}>
             <div className='flex justify-between flex-col gap-y-4 sm:flex-row'>
               <div className='flex flex-col gap-1 order-2 sm:order-[unset]'>
                 <div className='flex items-center gap-2'>
@@ -197,13 +163,13 @@ const PreviewCard = ({ quotationData }) => {
                     {quotationData?.order?.discount}
                   </Typography>
                 </div>
-                {/* <div className='flex items-center justify-between'>
+                <div className='flex items-center justify-between'>
                   <Typography>Tax:</Typography>
                   <Typography className='font-medium' color='text.primary'>
                     21%
                   </Typography>
-                </div> */}
-          {/* <Divider className='mlb-2' />
+                </div>
+                <Divider className='mlb-2' />
                 <div className='flex items-center justify-between'>
                   <Typography>Total:</Typography>
                   <Typography className='font-medium' color='text.primary'>
@@ -212,7 +178,7 @@ const PreviewCard = ({ quotationData }) => {
                 </div>
               </div>
             </div>
-          </Grid> */}
+          </Grid>
           {/* <Grid item xs={12}>
             <Divider className='border-dashed' />
           </Grid>
