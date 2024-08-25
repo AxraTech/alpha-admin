@@ -8,7 +8,7 @@ import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
-import { useQuery } from '@apollo/client'
+import { useSuspenseQuery } from '@apollo/client'
 import { NEWS_CATS } from '@/graphql/queries'
 
 // Vars
@@ -18,7 +18,7 @@ const productStockObj = {
 }
 
 const TableFilters = ({ setData, newData }) => {
-  const { data: newsCats } = useQuery(NEWS_CATS)
+  const { data: newsCats } = useSuspenseQuery(NEWS_CATS)
 
   // States
   const [category, setCategory] = useState('')

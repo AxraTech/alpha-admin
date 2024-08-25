@@ -74,9 +74,7 @@ const AddCategoryDrawer = props => {
       setFileName(files[0].name)
     }
   }
-  {
-    console.log('admin roles ', adminRoles)
-  }
+
   return (
     <>
       <Drawer

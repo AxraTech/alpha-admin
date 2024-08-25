@@ -182,9 +182,9 @@ const ProductListTable = () => {
         header: 'Actions',
         cell: ({ row }) => (
           <div className='flex items-center'>
-            <IconButton size='small'>
+            {/* <IconButton size='small'>
               <i className='ri-edit-box-line text-[22px] text-textSecondary' />
-            </IconButton>
+            </IconButton> */}
             <IconButton size='small' onClick={() => handleDelete(row?.original?.id)}>
               <i className='ri-delete-bin-7-line text-[22px] text-red-500' />
             </IconButton>

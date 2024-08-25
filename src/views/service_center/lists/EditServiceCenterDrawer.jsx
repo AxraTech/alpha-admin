@@ -49,7 +49,6 @@ const EditServiceCenterDrawer = props => {
 
   // Handle Form Submit
   const handleFormSubmit = async data => {
-    console.log('----------------')
     const res = await editAdmin({
       variables: {
         id: data.id,
@@ -60,7 +59,7 @@ const EditServiceCenterDrawer = props => {
         }
       }
     })
-    console.log('res ', res)
+
     setData([...(adminData ?? []), res])
     handleReset()
     setGlobalMsg('➕ Added New Data')

@@ -1,21 +1,16 @@
 'use client'
 
 // React Imports
-import { useState, useEffect, useMemo } from 'react'
-
-// Next Imports
-import Link from 'next/link'
-import { useParams } from 'next/navigation'
+import { useState, useMemo, useEffect } from 'react'
 
 // MUI Imports
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
-import Chip from '@mui/material/Chip'
+import LinearProgress from '@mui/material/LinearProgress'
 import TextField from '@mui/material/TextField'
-import TablePagination from '@mui/material/TablePagination'
+import Card from '@mui/material/Card'
+import CardHeader from '@mui/material/CardHeader'
 
-// Third-party Imports
+// THird-party Imports
 import classnames from 'classnames'
 import { rankItem } from '@tanstack/match-sorter-utils'
 import {
@@ -32,26 +27,84 @@ import {
 } from '@tanstack/react-table'
 
 // Component Imports
-import OptionMenu from '@core/components/option-menu'
-
-// Util Imports
-import { getLocalizedUrl } from '@/utils/i18n'
+import CustomAvatar from '@core/components/mui/Avatar'
 
 // Style Imports
 import tableStyles from '@core/styles/table.module.css'
 
-export const paymentStatus = {
-  1: { text: 'Paid', color: 'success' },
-  2: { text: 'Pending', color: 'warning' },
-  3: { text: 'Cancelled', color: 'secondary' },
-  4: { text: 'Failed', color: 'error' }
-}
-export const statusChipColor = {
-  Delivered: { color: 'success' },
-  'Out for Delivery': { color: 'primary' },
-  'Ready to Pickup': { color: 'info' },
-  Dispatched: { color: 'warning' }
-}
+// Vars
+const projectTable = [
+  {
+    id: 1,
+    hours: '18:42',
+    progressValue: 78,
+    totalTask: '122/240',
+    progressColor: 'success',
+    projectType: 'React Project',
+    projectTitle: 'BGC eCommerce App',
+    img: '/images/logos/react-bg.png'
+  },
+  {
+    id: 2,
+    hours: '20:42',
+    progressValue: 18,
+    totalTask: '9/56',
+    progressColor: 'error',
+    projectType: 'Figma Project',
+    projectTitle: 'Falcon Logo Design',
+    img: '/images/logos/figma-bg.png'
+  },
+  {
+    id: 3,
+    hours: '120:87',
+    progressValue: 62,
+    totalTask: '290/320',
+    progressColor: 'primary',
+    projectType: 'VueJs Project',
+    projectTitle: 'Dashboard Design',
+    img: '/images/logos/vue-bg.png'
+  },
+  {
+    id: 4,
+    hours: '89:19',
+    progressValue: 8,
+    totalTask: '7/63',
+    progressColor: 'error',
+    projectType: 'Xamarin Project',
+    projectTitle: 'Foodista Mobile App',
+    img: '/images/icons/mobile-bg.png'
+  },
+  {
+    id: 5,
+    hours: '230:10',
+    progressValue: 49,
+    totalTask: '120/186',
+    progressColor: 'warning',
+    projectType: 'Python Project',
+    projectTitle: 'Dojo React Project',
+    img: '/images/logos/python-bg.png'
+  },
+  {
+    id: 6,
+    hours: '342:41',
+    progressValue: 92,
+    totalTask: '99/109',
+    progressColor: 'success',
+    projectType: 'Sketch Project',
+    projectTitle: 'Blockchain Website',
+    img: '/images/logos/sketch-bg.png'
+  },
+  {
+    id: 7,
+    hours: '12:45',
+    progressValue: 88,
+    totalTask: '98/110',
+    progressColor: 'success',
+    projectType: 'HTML Project',
+    projectTitle: 'Hoffman Website',
+    img: '/images/logos/html-bg.png'
+  }
+]
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -88,84 +141,59 @@ const DebouncedInput = ({ value: initialValue, onChange, debounce = 500, ...prop
 // Column Definitions
 const columnHelper = createColumnHelper()
 
-const OrderListTable = ({ orderData }) => {
+const ProjectListTable = () => {
   // States
   const [rowSelection, setRowSelection] = useState({})
-  const [data, setData] = useState(...[orderData])
+
+  const [data, setData] = useState(...[projectTable])
   const [globalFilter, setGlobalFilter] = useState('')
 
   // Hooks
-  const { lang: locale } = useParams()
-
   const columns = useMemo(
     () => [
-      columnHelper.accessor('order', {
-        header: 'order',
+      columnHelper.accessor('projectTitle', {
+        header: 'Project',
         cell: ({ row }) => (
-          <Typography
-            // component={Link}
-            // href={getLocalizedUrl(`/orders/details/${row.original.order_number}`, locale)}
-            color='primary'
-          >
-            {`#${row.original.order}`}
-          </Typography>
-        )
-      }),
-
-      columnHelper.accessor('date', {
-        header: 'Date',
-        cell: ({ row }) => <Typography>{`${new Date(row.original.created_at).toDateString()}`}</Typography>
-      }),
-      columnHelper.accessor('status', {
-        header: 'Status',
-        cell: ({ row }) => (
-          <Chip
-            label={row.original.status}
-            color={statusChipColor[row.original.status].color}
-            variant='tonal'
-            size='small'
-          />
-        )
-      }),
-      columnHelper.accessor('total', {
-        header: 'Total',
-        cell: ({ row }) => <Typography>${row.original.total}</Typography>
-      }),
-      columnHelper.accessor('action', {
-        header: 'Actions',
-        cell: ({ row }) => (
-          <div className='flex items-center'>
-            {/* <OptionMenu
-              iconButtonProps={{ size: 'medium' }}
-              iconClassName='text-textSecondary text-[22px]'
-              options={[
-                {
-                  text: 'View',
-                  icon: 'ri-eye-line',
-                  href: getLocalizedUrl(`/orders/details/${row.original.order}`, locale),
-                  linkProps: { className: 'flex items-center gap-2 is-full plb-1.5 pli-4' }
-                },
-                {
-                  text: 'Delete',
-                  icon: 'ri-delete-bin-7-line text-[22px]',
-                  menuItemProps: {
-                    onClick: () => setData(data?.filter(order => order.id !== row.original.id)),
-                    className: 'gap-2'
-                  }
-                }
-              ]}
-            /> */}
+          <div className='flex items-center gap-4'>
+            <CustomAvatar src={row.original.img} size={34} />
+            <div className='flex flex-col'>
+              <Typography className='font-medium' color='text.primary'>
+                {row.original.projectTitle}
+              </Typography>
+              <Typography variant='body2'>{row.original.projectType}</Typography>
+            </div>
           </div>
-        ),
-        enableSorting: false
+        )
+      }),
+      columnHelper.accessor('totalTask', {
+        header: 'Total Task',
+        cell: ({ row }) => <Typography color='text.primary'>{row.original.totalTask}</Typography>
+      }),
+      columnHelper.accessor('progressValue', {
+        header: 'Progress',
+        cell: ({ row }) => (
+          <>
+            <Typography color='text.primary'>{`${row.original.progressValue}%`}</Typography>
+            <LinearProgress
+              color={row.original.progressColor}
+              value={row.original.progressValue}
+              variant='determinate'
+              className='is-full'
+            />
+          </>
+        )
+      }),
+      columnHelper.accessor('hours', {
+        header: 'Hours',
+        cell: ({ row }) => <Typography>{row.original.hours}</Typography>
       })
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data]
+    []
   )
 
   const table = useReactTable({
-    data: data,
+    data,
     columns,
     filterFns: {
       fuzzy: fuzzyFilter
@@ -176,7 +204,7 @@ const OrderListTable = ({ orderData }) => {
     },
     initialState: {
       pagination: {
-        pageSize: 10
+        pageSize: 7
       }
     },
     enableRowSelection: true, //enable row selection for all rows
@@ -195,15 +223,18 @@ const OrderListTable = ({ orderData }) => {
 
   return (
     <Card>
-      <CardContent className='flex justify-between flex-col items-start sm:flex-row sm:items-center gap-y-4'>
-        <Typography variant='h5'>Orders Placed</Typography>
-        <DebouncedInput
-          value={globalFilter ?? ''}
-          onChange={value => setGlobalFilter(String(value))}
-          placeholder='Search Order'
-          className='max-sm:is-full'
-        />
-      </CardContent>
+      <CardHeader
+        title='Project List'
+        className='flex flex-wrap gap-4'
+        action={
+          <DebouncedInput
+            value={globalFilter ?? ''}
+            onChange={value => setGlobalFilter(String(value))}
+            placeholder='Search Project'
+          />
+        }
+      />
+
       <div className='overflow-x-auto'>
         <table className={tableStyles.table}>
           <thead>
@@ -259,23 +290,8 @@ const OrderListTable = ({ orderData }) => {
           )}
         </table>
       </div>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 50, 100]}
-        component='div'
-        className='border-bs'
-        count={table.getFilteredRowModel().rows.length}
-        rowsPerPage={table.getState().pagination.pageSize}
-        page={table.getState().pagination.pageIndex}
-        SelectProps={{
-          inputProps: { 'aria-label': 'rows per page' }
-        }}
-        onPageChange={(_, page) => {
-          table.setPageIndex(page)
-        }}
-        onRowsPerPageChange={e => table.setPageSize(Number(e.target.value))}
-      />
     </Card>
   )
 }
 
-export default OrderListTable
+export default ProjectListTable

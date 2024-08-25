@@ -10,33 +10,25 @@ import UserRight from '@views/user/view/user-right'
 
 // Data Imports
 
-const OverViewTab = dynamic(() => import('@views/user/view/user-right/overview'))
-const SecurityTab = dynamic(() => import('@views/user/view/user-right/security'))
+// const OverViewTab = dynamic(() => import('@views/user/view/user-right/overview'))
+// const SecurityTab = dynamic(() => import('@views/user/view/user-right/security'))
 const NotificationsTab = dynamic(() => import('@views/user/view/user-right/notifications'))
+const OrderViewTab = dynamic(() => import('@views/user/view/user-right/order'))
+const InvoiceViewTab = dynamic(() => import('@views/user/view/user-right/invoice'))
+const QuotationViewTab = dynamic(() => import('@views/user/view/user-right/quotation'))
+const ServiceTokenViewTab = dynamic(() => import('@views/user/view/user-right/service_token'))
 
 // Vars
 const tabContentList = data => ({
-  overview: <OverViewTab />,
-  security: <SecurityTab />,
-  notifications: <NotificationsTab />
+  // overview: <OverViewTab />,
+  // security: <SecurityTab />,
+  notifications: <NotificationsTab />,
+  order: <OrderViewTab />,
+  invoice: <InvoiceViewTab />,
+  quotation: <QuotationViewTab />,
+  service_token: <ServiceTokenViewTab />
 })
 
-/**
- * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the
- * ! `.env` file found at root of your project and also update the API endpoints like `/pages/pricing` in below example.
- * ! Also, remove the above server action import and the action itself from the `src/app/server/actions.ts` file to clean up unused code
- * ! because we've used the server action for getting our static data.
- */
-/* const getPricingData = async () => {
-  // Vars
-  const res = await fetch(`${process.env.API_URL}/pages/pricing`)
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch data')
-  }
-
-  return res.json()
-} */
 const UserViewTab = async () => {
   return (
     <Grid container spacing={6}>

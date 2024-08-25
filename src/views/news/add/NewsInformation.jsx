@@ -158,7 +158,6 @@ const NewsInformation = ({ setTitle, title, setDescription, description, errors 
               onChange={e => setDescription(e.target.value)}
             />
           </CardContent>
-          {console.log('description ', description)}
         </Card>
       </CardContent>
     </Card>

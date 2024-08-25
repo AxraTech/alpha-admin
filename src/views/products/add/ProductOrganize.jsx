@@ -12,12 +12,12 @@ import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import TextField from '@mui/material/TextField'
-
+import Autocomplete from '@mui/material/Autocomplete'
 // Component Imports
 import CustomIconButton from '@core/components/mui/IconButton'
 import { useSuspenseQuery } from '@apollo/client'
 import { PRODUCT_BRANDs, PRODUCT_CATS } from '@/graphql/queries'
-import { FormHelperText } from '@mui/material'
+import { Checkbox, FormHelperText } from '@mui/material'
 
 const ProductOrganize = ({ brandId, setBrandId, catId, setCatId, errors }) => {
   const { data: brands } = useSuspenseQuery(PRODUCT_BRANDs)
@@ -45,8 +45,31 @@ const ProductOrganize = ({ brandId, setBrandId, catId, setCatId, errors }) => {
             </Select>
             <FormHelperText sx={{ color: 'red' }}>{errors?.brandId}</FormHelperText>
           </FormControl>
-          <div className='flex items-center gap-4'>
-            <FormControl fullWidth>
+          {/* <div className='flex items-center gap-4'> */}
+          <Autocomplete
+            // multiple
+            value={catId}
+            onChange={(event, newValue) => {
+              setCatId(newValue.id)
+            }}
+            // inputValue={inputValue}
+            // onInputChange={(event, newInputValue) => {
+            //   setInputValue(newInputValue)
+            // }}
+            className='overflow-y-auto h-[40vh]'
+            id='checkboxes-tags-demo'
+            options={cats?.product_categories || []}
+            disableCloseOnSelect
+            getOptionLabel={options => options?.title || ''}
+            renderOption={(props, option, { selected }) => (
+              <li {...props} key={option.id}>
+                <Checkbox style={{ marginRight: 8 }} checked={selected} />
+                {option.title}
+              </li>
+            )}
+            renderInput={params => <TextField {...params} label='Category' placeholder='select category' />}
+          />
+          {/* <FormControl fullWidth>
               <InputLabel>Select Product Category</InputLabel>
               <Select
                 label='Select Category'
@@ -61,11 +84,12 @@ const ProductOrganize = ({ brandId, setBrandId, catId, setCatId, errors }) => {
                 ))}
               </Select>
               <FormHelperText sx={{ color: 'red' }}>{errors?.catId}</FormHelperText>
-            </FormControl>
-            {/* <CustomIconButton size='large' variant='outlined' color='primary' className='min-is-fit'>
+            </FormControl> */}
+
+          {/* <CustomIconButton size='large' variant='outlined' color='primary' className='min-is-fit'>
               <i className='ri-add-line' />
             </CustomIconButton> */}
-          </div>
+
           {/* <FormControl fullWidth>
             <InputLabel>Select Collection</InputLabel>
             <Select label='Select Collection' value={collection} onChange={e => setCollection(e.target.value)}>

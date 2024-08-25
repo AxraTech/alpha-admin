@@ -21,3 +21,11 @@ export const orderStatusColor = {
   refunded: 'warning',
   canceled: 'error'
 }
+
+export const invoiceStatusColor = {
+  paid: 'secondary',
+  'partially paid': 'info',
+  completed: 'success',
+  unpaid: 'error',
+  pending: 'primary'
+}

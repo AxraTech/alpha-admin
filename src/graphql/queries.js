@@ -205,6 +205,31 @@ export const GET_ALL_INVOICES = gql`
     }
   }
 `
+export const INVOICE_TABS = gql`
+  query invoiceTabs($user_id: uuid!) {
+    invoices(where: { user_id: { _eq: $user_id } }) {
+      id
+      invoice_number
+      status
+      balance
+      total
+      discount
+      invoice_status {
+        id
+        name
+      }
+      user {
+        id
+        name
+        profile_picture_url
+      }
+      created_at
+      updated_at
+
+      invoice_file_url
+    }
+  }
+`
 
 export const INVOICE_STATUS = gql`
   query invoiceStatus {
@@ -264,6 +289,29 @@ export const PRODUCT_SELECT = gql`
 export const GET_ALL_QUOTATIONS = gql`
   query getAllQuotations {
     quotations(order_by: { updated_at: desc }) {
+      id
+      dealer_remark
+      created_at
+      updated_at
+      status
+      quotation_status {
+        id
+        name
+      }
+      user {
+        id
+        name
+        profile_picture_url
+      }
+      quotation_file_url
+      quotation_number
+      total_amount
+    }
+  }
+`
+export const QUOTATION_TABS = gql`
+  query quotationTabs($user_id: uuid!) {
+    quotations(where: { user_id: { _eq: $user_id } }) {
       id
       dealer_remark
       created_at
@@ -364,6 +412,36 @@ export const GET_ALL_SERVICE_TOKENS = gql`
     }
   }
 `
+export const SERVICE_TOKEN_TABS = gql`
+  query serviceTokenTabs($user_id: uuid!) {
+    service_tokens(where: { user_id: { _eq: $user_id } }) {
+      id
+      completed_at
+      created_at
+      description
+      delivering_at
+      document_photo_url
+      is_warranty_valid
+      issue_media_type
+      issue_media_url
+      picking_up_at
+      product
+      processing_at
+      service_fee
+      service_status {
+        name
+      }
+      status
+      token_number
+      updated_at
+      user {
+        name
+        id
+        profile_picture_url
+      }
+    }
+  }
+`
 export const SERVICE_TOKEN_BY_ID = gql`
   query serviceTokensById($id: uuid!) {
     service_tokens_by_pk(id: $id) {
@@ -407,6 +485,42 @@ export const GET_ALL_ORDERS = gql`
   query getAllOrders {
     orders(order_by: { updated_at: desc }) {
       id
+      order_number
+      completion_photo_url
+      completed_at
+      created_at
+      delivering_at
+      delivery_fee
+      discount
+      items_total
+      order_status {
+        name
+        id
+      }
+      ordered_at
+      preparing_at
+      receiver_address
+      receiver_name
+      receiver_phone
+      remark
+      status
+      total
+      updated_at
+      user {
+        id
+        name
+        profile_picture_url
+        user_role {
+          role_name
+        }
+      }
+      user_id
+    }
+  }
+`
+export const ORDERS_TABS = gql`
+  query orderTabs($user_id: uuid!) {
+    orders(where: { user_id: { _eq: $user_id } }) {
       order_number
       completion_photo_url
       completed_at
@@ -541,6 +655,30 @@ export const PRODUCT_AGGREGATE = gql`
       }
     }
     activeProduct: products_aggregate(where: { disabled: { _eq: false } }) {
+      aggregate {
+        count
+      }
+    }
+  }
+`
+export const NEWS_AGGREGATE = gql`
+  query productAggregate {
+    totalNews: news_aggregate {
+      aggregate {
+        count
+      }
+    }
+    categoryNews: news_aggregate(distinct_on: news_category_id) {
+      aggregate {
+        count
+      }
+    }
+    disableNews: news_aggregate(where: { disabled: { _eq: true } }) {
+      aggregate {
+        count
+      }
+    }
+    activeNews: news_aggregate(where: { disabled: { _eq: false } }) {
       aggregate {
         count
       }

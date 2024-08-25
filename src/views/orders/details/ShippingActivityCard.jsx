@@ -60,7 +60,6 @@ const ShippingActivity = ({ orderData }) => {
           </TimelineItem>
           <TimelineItem>
             <TimelineSeparator>
-              {console.log('preparing at ', orderData.preparing_at)}
               <TimelineDot
                 variant={orderData.preparing_at === null ? 'outlined' : 'contained'}
                 color={orderData.preparing_at === null ? 'grey' : 'primary'}

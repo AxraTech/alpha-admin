@@ -23,7 +23,7 @@ const UserRight = ({ tabContentList }) => {
   const { data: users } = useSuspenseQuery(GET_USER_BY_ID, { variables: { userId: userId } })
 
   // States
-  const [activeTab, setActiveTab] = useState('overview')
+  const [activeTab, setActiveTab] = useState('order')
   const [changeUserStatus] = useMutation(CHANGE_USER_STATUS)
   const handleChange = (event, value) => {
     setActiveTab(value)
@@ -44,10 +44,22 @@ const UserRight = ({ tabContentList }) => {
     <>
       <TabContext value={activeTab}>
         <Grid container spacing={6}>
-          {/* <Grid item xs={12}>
+          <Grid item xs={12}>
             <CustomTabList onChange={handleChange} variant='scrollable' pill='true'>
-              <Tab icon={<i className='ri-user-3-line' />} value='overview' label='Overview' iconPosition='start' />
-              <Tab icon={<i className='ri-lock-line' />} value='security' label='Security' iconPosition='start' />
+              <Tab icon={<i className='ri-shopping-cart-line' />} value='order' label='Order' iconPosition='start' />
+              <Tab icon={<i className='ri-bill-line' />} value='invoice' label='Invoice' iconPosition='start' />
+              <Tab
+                icon={<i className='ri-chat-quote-line' />}
+                value='quotation'
+                label='Quotation'
+                iconPosition='start'
+              />
+              <Tab
+                icon={<i className='ri-nft-fill' />}
+                value='service_token'
+                label='Service Token'
+                iconPosition='start'
+              />
               <Tab
                 icon={<i className='ri-notification-2-line' />}
                 value='notifications'
@@ -55,7 +67,7 @@ const UserRight = ({ tabContentList }) => {
                 iconPosition='start'
               />
             </CustomTabList>
-          </Grid> */}
+          </Grid>
           <Grid item xs={12} className='flex gap-4'>
             <Button
               variant='outlined'

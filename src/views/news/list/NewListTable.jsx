@@ -131,7 +131,7 @@ const NewListTable = () => {
       columnHelper.accessor('title', {
         header: 'News',
         cell: ({ row }) => (
-          <div className='flex items-center gap-4'>
+          <div className='flex items-center gap-4 w-80 text-wrap'>
             <img src={row.original?.image_url} width={38} height={38} className='rounded bg-actionHover' />
 
             <div className='flex flex-col'>
@@ -166,9 +166,9 @@ const NewListTable = () => {
         header: 'Actions',
         cell: ({ row }) => (
           <div className='flex items-center'>
-            <IconButton size='small'>
+            {/* <IconButton size='small'>
               <i className='ri-edit-box-line text-[22px] text-textSecondary' />
-            </IconButton>
+            </IconButton> */}
             <IconButton size='small' onClick={() => handleDelete(row?.original?.id)}>
               <i className='ri-delete-bin-7-line text-[22px] text-red-500' />
             </IconButton>
