@@ -13,8 +13,6 @@ import OrderCard from './OrderCard'
 import { Card } from '@mui/material'
 
 const OrderList = () => {
-  const { data } = useSuspenseQuery(GET_ALL_ORDERS)
-  const orderData = data?.orders
   const { data: orderAggregate } = useSuspenseQuery(ORDERS_AGGREGATE)
 
   return (
@@ -34,7 +32,7 @@ const OrderList = () => {
         </Grid>
 
         <Grid item xs={12}>
-          <OrderListTable orderData={orderData} />
+          <OrderListTable />
         </Grid>
       </Grid>
     </>

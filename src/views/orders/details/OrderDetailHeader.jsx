@@ -68,12 +68,12 @@ const OrderDetailHeader = ({ orderData }) => {
             color={statusChipColor[orderData?.status || '']}
             size='small'
           />
-          <Chip
+          {/* <Chip
             variant='tonal'
             // label={paymentStatus[orderData?.payment ?? 0].text}
             // color={paymentStatus[orderData?.payment ?? 0].color}
             size='small'
-          />
+          /> */}
         </div>
         <Typography>{`${new Date(orderData?.ordered_at ?? '').toLocaleString()}`}</Typography>
       </div>

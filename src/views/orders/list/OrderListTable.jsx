@@ -1,3 +1,5 @@
+'use client'
+
 // React Imports
 import { useState, useEffect, useMemo } from 'react'
 
@@ -12,8 +14,14 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Checkbox from '@mui/material/Checkbox'
 import Chip from '@mui/material/Chip'
-import TablePagination from '@mui/material/TablePagination'
+import IconButton from '@mui/material/IconButton'
 import TextField from '@mui/material/TextField'
+import FormControl from '@mui/material/FormControl'
+import InputLabel from '@mui/material/InputLabel'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
+import Tooltip from '@mui/material/Tooltip'
+import TablePagination from '@mui/material/TablePagination'
 
 // Third-party Imports
 import classnames from 'classnames'
@@ -32,32 +40,20 @@ import {
 } from '@tanstack/react-table'
 
 // Component Imports
-import CustomAvatar from '@core/components/mui/Avatar'
 import OptionMenu from '@core/components/option-menu'
-
+import CustomAvatar from '@core/components/mui/Avatar'
+import { quotationstatusChipColor } from '@/components/helper/StatusColor'
 // Util Imports
 import { getInitials } from '@/utils/getInitials'
 import { getLocalizedUrl } from '@/utils/i18n'
-import { useApp } from '@/app/ApolloWrapper'
+
 // Style Imports
 import tableStyles from '@core/styles/table.module.css'
-import { Avatar, IconButton } from '@mui/material'
-import { useMutation } from '@apollo/client'
-import { DELETE_ORDERS } from '@/graphql/mutations'
-
-export const paymentStatus = {
-  1: { text: 'Paid', color: 'success', colorClassName: 'text-success' },
-  2: { text: 'Pending', color: 'warning', colorClassName: 'text-warning' },
-  3: { text: 'Cancelled', color: 'secondary', colorClassName: 'text-secondary' },
-  4: { text: 'Failed', color: 'error', colorClassName: 'text-error' }
-}
-export const statusChipColor = {
-  ordered: 'warning',
-  completed: 'success',
-  preparing: 'info',
-  delivering: 'primary'
-}
-
+import { useMutation, useSuspenseQuery } from '@apollo/client'
+import { GET_ALL_INVOICES, GET_ALL_ORDERS, GET_ALL_QUOTATIONS, ORDER_STATUS, QUOTATION_STATUS } from '@/graphql/queries'
+import { Avatar } from '@mui/material'
+import { CHANGE_QUOTATION_STATUS } from '@/graphql/mutations'
+import { orderStatusColor } from '@/components/helper/StatusColor'
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
   const itemRank = rankItem(row.getValue(columnId), value)
@@ -90,22 +86,33 @@ const DebouncedInput = ({ value: initialValue, onChange, debounce = 500, ...prop
   return <TextField {...props} value={value} onChange={e => setValue(e.target.value)} size='small' />
 }
 
+// Vars
+const invoiceStatusObj = {
+  Sent: { color: 'secondary', icon: 'ri-send-plane-2-line' },
+  Paid: { color: 'success', icon: 'ri-check-line' },
+  Draft: { color: 'primary', icon: 'ri-mail-line' },
+  'Partial Payment': { color: 'warning', icon: 'ri-pie-chart-2-line' },
+  'Past Due': { color: 'error', icon: 'ri-information-line' },
+  Downloaded: { color: 'info', icon: 'ri-arrow-down-line' }
+}
+
 // Column Definitions
 const columnHelper = createColumnHelper()
 
-const OrderListTable = ({ orderData }) => {
+const OrderListTable = () => {
+  const { data: orderDatas } = useSuspenseQuery(GET_ALL_ORDERS)
+
+  const { data: orderStatus } = useSuspenseQuery(ORDER_STATUS)
+
   // States
-  const { setGlobalMsg } = useApp()
+  const [status, setStatus] = useState('')
   const [rowSelection, setRowSelection] = useState({})
-  const [data, setData] = useState(...[orderData])
+  const [data, setData] = useState(...[orderDatas.orders])
+  const [filteredData, setFilteredData] = useState(data)
   const [globalFilter, setGlobalFilter] = useState('')
 
   // Hooks
   const { lang: locale } = useParams()
-
-  // Vars
-  const paypal = '/images/apps/ecommerce/paypal.png'
-  const mastercard = '/images/apps/ecommerce/mastercard.png'
 
   const columns = useMemo(
     () => [
@@ -131,113 +138,114 @@ const OrderListTable = ({ orderData }) => {
       //     />
       //   )
       // },
-      columnHelper.accessor('order_number', {
-        header: 'Order',
+      columnHelper.accessor('id', {
+        header: 'Order Number',
         cell: ({ row }) => (
           <Typography
             component={Link}
-            href={getLocalizedUrl(`/orders/details/${row.original.order_number}`, locale)}
+            href={getLocalizedUrl(`/orders/details/${row.original.id}`, locale)}
             color='primary'
           >{`${row.original.order_number}`}</Typography>
         )
       }),
 
-      columnHelper.accessor('user?.name', {
-        header: 'Customers',
+      columnHelper.accessor('user.name ', {
+        header: 'Client',
         cell: ({ row }) => (
           <div className='flex items-center gap-3'>
-            <Avatar src={row.original.user.profile_picture_url} />
+            <Avatar src={row.original.user.profile_picture_url} width='100px' height='100px' />
             <div className='flex flex-col'>
-              <Typography
-                component={Link}
-                href={getLocalizedUrl('/apps/ecommerce/customers/details/879861', locale)}
-                color='text.primary'
-                className='font-medium hover:text-primary'
-              >
-                {row.original.user?.name}
+              <Typography className='font-medium' color='text.primary'>
+                {row.original.user.name}
               </Typography>
-              <Typography variant='body2'>{row.original.email}</Typography>
             </div>
           </div>
         )
       }),
-
-      columnHelper.accessor('total', {
-        header: 'Total',
+      columnHelper.accessor('receiver_name ', {
+        header: 'Receiver Name',
         cell: ({ row }) => (
-          <div className='flex items-center'>
-            {/* <div className='flex justify-center items-center bg-[#F6F8FA] rounded-sm is-[29px] bs-[18px]'>
-              <img
-                src={row.original.method === 'mastercard' ? mastercard : paypal}
-                height={row.original.method === 'mastercard' ? 11 : 14}
-              />
-            </div> */}
-            <Typography>{row.original.total.toLocaleString()} Ks</Typography>
+          <div className='flex items-center gap-3'>
+            <div className='flex flex-col'>
+              <Typography className='font-medium' color='text.primary'>
+                {row.original.receiver_name}
+              </Typography>
+            </div>
           </div>
         )
       }),
-      columnHelper.accessor('ordered_at', {
-        header: 'Date',
-        cell: ({ row }) => <Typography>{`${new Date(row.original.ordered_at).toLocaleDateString()}`}</Typography>
+      columnHelper.accessor('total', {
+        header: 'Total',
+        cell: ({ row }) => <Typography>{`${row.original.total !== null ? row.original.total : '-'}`}</Typography>
       }),
       columnHelper.accessor('status', {
         header: 'Status',
         cell: ({ row }) => (
-          <Chip
-            label={row.original.status}
-            color={statusChipColor[row.original.status]}
-            style={{ textTransform: 'capitalize' }}
-            variant='tonal'
-            size='small'
-          />
+          <div className='flex items-center gap-3'>
+            <div className='flex flex-col'>
+              <Chip
+                label={row.original.status}
+                color={orderStatusColor[row.original.status]}
+                style={{ textTransform: 'capitalize' }}
+                variant='tonal'
+                size='small'
+              />
+            </div>
+          </div>
         )
       }),
+      // columnHelper.accessor('issuedDate', {
+      //   header: 'Issued Date',
+      //   cell: ({ row }) => <Typography>{row.original.issuedDate}</Typography>
+      // }),
+
       columnHelper.accessor('action', {
         header: 'Action',
         cell: ({ row }) => (
           <div className='flex items-center'>
-            {/* <OptionMenu
-              iconButtonProps={{ size: 'medium' }}
-              iconClassName='text-[22px]'
-              options={[
-                {
-                  text: 'View',
-                  icon: 'ri-eye-line',
-                  href: getLocalizedUrl(`/orders/details/${row.original.order}`, locale),
-                  linkProps: { className: 'flex items-center is-full gap-2 plb-2 pli-4' }
-                },
-                {
-                  text: 'Delete',
-                  icon: 'ri-delete-bin-7-line text-[22px]',
-                  menuItemProps: {
-                    onClick: () => setData(data?.filter(order => order.id !== row.original.id)),
-                    className: 'flex items-center gap-2'
-                  }
-                }
-              ]}
-            /> */}
+            {/* <IconButton onClick={() => setData(data?.filter(invoice => invoice.id !== row.original.id))}>
+              <i className='ri-delete-bin-7-line text-textSecondary' />
+            </IconButton> */}
             <IconButton>
-              <Link href={getLocalizedUrl('/orders/details/' + row.original.id, locale)} className='flex'>
+              <Link href={getLocalizedUrl(`/orders/details/${row.original.id}`, locale)} className='flex'>
                 <i className='ri-eye-line text-textSecondary' />
               </Link>
             </IconButton>
-            {/* <IconButton size='small'>
-              <i className='ri-edit-box-line text-[22px] text-textSecondary' />
-            </IconButton> */}
-            {/* <IconButton size='small' onClick={() => handleDelete(row?.original?.id)}>
-              <i className='ri-delete-bin-7-line text-[22px] text-red-500' />
-            </IconButton> */}
+            {/* <OptionMenu
+              iconButtonProps={{ size: 'medium' }}
+              iconClassName='text-textSecondary'
+              options={[
+                {
+                  text: 'Download',
+                  icon: 'ri-download-line',
+                  menuItemProps: { className: 'flex items-center gap-2 text-textSecondary' }
+                },
+                {
+                  text: 'Edit',
+                  icon: 'ri-pencil-line',
+                  href: getLocalizedUrl(`/invoice/edit/${row.original.id}`, locale),
+                  linkProps: {
+                    className: 'flex items-center is-full plb-2 pli-4 gap-2 text-textSecondary'
+                  }
+                },
+                {
+                  text: 'Duplicate',
+                  icon: 'ri-file-copy-line',
+                  menuItemProps: { className: 'flex items-center gap-2 text-textSecondary' }
+                }
+              ]}
+            /> */}
           </div>
         ),
         enableSorting: false
       })
     ],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data]
+
+    [data, filteredData]
   )
 
   const table = useReactTable({
-    data: data,
+    data: filteredData,
     columns,
     filterFns: {
       fuzzy: fuzzyFilter
@@ -266,31 +274,58 @@ const OrderListTable = ({ orderData }) => {
   })
 
   const getAvatar = params => {
-    const { avatar, customer } = params
+    const { avatar, name } = params
 
     if (avatar) {
       return <CustomAvatar src={avatar} skin='light' size={34} />
     } else {
       return (
         <CustomAvatar skin='light' size={34}>
-          {getInitials(customer)}
+          {getInitials(name)}
         </CustomAvatar>
       )
     }
   }
 
+  useEffect(() => {
+    const filteredData = data?.filter(invoice => {
+      if (status && invoice.status.toLowerCase().replace(/\s+/g, '-') !== status) return false
+
+      return true
+    })
+
+    setFilteredData(filteredData)
+  }, [status, data, setFilteredData])
+
   return (
     <Card>
-      <CardContent className='flex justify-between max-sm:flex-col sm:items-center gap-4'>
-        <DebouncedInput
-          value={globalFilter ?? ''}
-          onChange={value => setGlobalFilter(String(value))}
-          placeholder='Search Order'
-          className='sm:is-auto'
-        />
-        <Button variant='outlined' color='secondary' startIcon={<i className='ri-upload-2-line' />}>
-          Export
-        </Button>
+      <CardContent className='flex justify-between gap-4 flex-wrap flex-col sm:flex-row items-center'>
+        <div className='flex flex-col sm:flex-row max-sm:is-full items-center gap-4'>
+          <DebouncedInput
+            value={globalFilter ?? ''}
+            onChange={value => setGlobalFilter(String(value))}
+            placeholder='Search Quotation'
+            className='max-sm:is-full min-is-[200px]'
+          />
+          <FormControl fullWidth size='small' className='min-is-[175px]'>
+            <InputLabel id='status-select'>Quotation Status</InputLabel>
+            <Select
+              fullWidth
+              id='select-status'
+              value={status}
+              onChange={e => setStatus(e.target.value)}
+              label='Invoice Status'
+              labelId='status-select'
+            >
+              <MenuItem value=''>none</MenuItem>
+              {orderStatus.order_status.map(s => (
+                <MenuItem value={s.name} key={s.id}>
+                  {s.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
       </CardContent>
       <div className='overflow-x-auto'>
         <table className={tableStyles.table}>
@@ -348,7 +383,7 @@ const OrderListTable = ({ orderData }) => {
         </table>
       </div>
       <TablePagination
-        rowsPerPageOptions={[10, 25, 50, 100]}
+        rowsPerPageOptions={[10, 25, 50]}
         component='div'
         className='border-bs'
         count={table.getFilteredRowModel().rows.length}

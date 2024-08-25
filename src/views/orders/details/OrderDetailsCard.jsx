@@ -118,13 +118,13 @@ const OrderTable = ({ orderData }) => {
 
       columnHelper.accessor('title', {
         header: 'Product',
-        // size: '200px',
+
         cell: ({ row }) => (
-          <div className='flex items-center gap-3 ' style={{ width: '200px' }}>
+          <div className='flex items-center gap-3 text-wrap'>
             {/* <img src={row.original.productImage} alt={row.original.productName} height={34} className='rounded' /> */}
 
             <div className='flex flex-col items-start  '>
-              <Typography color='text.primary' className='font-medium '>
+              <Typography color='text.primary' className='font-medium w-60 text-wrap'>
                 {row.original.product.title}
               </Typography>
               <Typography variant='body2'>{row.original.product.brand.title}</Typography>

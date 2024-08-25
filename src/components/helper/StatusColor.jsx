@@ -12,3 +12,12 @@ export const quotationstatusChipColor = {
   accepted: 'info',
   rejected: 'error'
 }
+
+export const orderStatusColor = {
+  delivering: 'secondary',
+  completed: 'success',
+  ordered: 'info',
+  preparing: 'primary',
+  refunded: 'warning',
+  canceled: 'error'
+}

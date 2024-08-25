@@ -395,6 +395,14 @@ export const SERVICE_TOKEN_BY_ID = gql`
     }
   }
 `
+export const ORDER_STATUS = gql`
+  query OrderStatus {
+    order_status {
+      id
+      name
+    }
+  }
+`
 export const GET_ALL_ORDERS = gql`
   query getAllOrders {
     orders(order_by: { updated_at: desc }) {
