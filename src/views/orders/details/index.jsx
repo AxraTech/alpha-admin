@@ -13,7 +13,7 @@ import ShippingAddress from './ShippingAddressCard'
 import BillingAddress from './BillingAddressCard'
 import { useParams } from 'next/navigation'
 import { ORDERS_BY_ID } from '@/graphql/queries'
-import { useQuery, useSuspenseQuery } from '@apollo/client'
+import { useSuspenseQuery } from '@apollo/client'
 
 const OrderDetails = () => {
   const { id } = useParams()

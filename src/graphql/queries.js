@@ -523,6 +523,30 @@ export const ORDERS_AGGREGATE = gql`
     }
   }
 `
+export const PRODUCT_AGGREGATE = gql`
+  query productAggregate {
+    brandProduct: products_aggregate(distinct_on: brand_id) {
+      aggregate {
+        count
+      }
+    }
+    categoryProduct: products_aggregate(distinct_on: category_id) {
+      aggregate {
+        count
+      }
+    }
+    disableProduct: products_aggregate(where: { disabled: { _eq: true } }) {
+      aggregate {
+        count
+      }
+    }
+    activeProduct: products_aggregate(where: { disabled: { _eq: false } }) {
+      aggregate {
+        count
+      }
+    }
+  }
+`
 export const GET_ALL_DEALERS = gql`
   query getAllDealers {
     dealers {
@@ -564,6 +588,42 @@ export const ADMIN_ROLES = gql`
     admin_roles {
       id
       role_name
+    }
+  }
+`
+export const ADMIN_ROLES_AGGREGATE = gql`
+  query orderAggregate {
+    saleRole: admin_roles_aggregate(where: { role_name: { _eq: "sale" } }) {
+      aggregate {
+        count
+      }
+    }
+    financeRole: admin_roles_aggregate(where: { role_name: { _eq: "finance" } }) {
+      aggregate {
+        count
+      }
+    }
+    serviceRole: admin_roles_aggregate(where: { role_name: { _eq: "service" } }) {
+      aggregate {
+        count
+      }
+    }
+    adminRole: admin_roles_aggregate(where: { role_name: { _eq: "admin" } }) {
+      aggregate {
+        count
+      }
+    }
+
+    managerRole: admin_roles_aggregate(where: { role_name: { _eq: "manager" } }) {
+      aggregate {
+        count
+      }
+    }
+
+    deliveryRole: admin_roles_aggregate(where: { role_name: { _eq: "delivery" } }) {
+      aggregate {
+        count
+      }
     }
   }
 `

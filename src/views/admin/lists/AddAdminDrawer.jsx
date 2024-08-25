@@ -132,7 +132,7 @@ const AddCategoryDrawer = props => {
               <InputLabel id='country' error={Boolean(errors.role)}>
                 Select Role
               </InputLabel>
-              {console.log('roles ', adminRoles)}
+
               <Controller
                 name='role'
                 control={control}
