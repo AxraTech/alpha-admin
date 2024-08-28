@@ -39,13 +39,14 @@ import OptionMenu from '@core/components/option-menu'
 import CustomAvatar from '@core/components/mui/Avatar'
 import { quotationStatusIcon } from '@/components/helper/StatusIcon'
 import { quotationstatusChipColor } from '@/components/helper/StatusColor'
+
 // Util Imports
 import { getLocalizedUrl } from '@/utils/i18n'
 
 // Style Imports
-import tableStyles from '@core/styles/table.module.css'
 import { useSuspenseQuery } from '@apollo/client'
-import { GET_ALL_INVOICES, GET_USER_BY_ID, QUOTATION_TABS } from '@/graphql/queries'
+import tableStyles from '@core/styles/table.module.css'
+import { GET_USER_BY_ID, QUOTATION_TABS } from '@/graphql/queries'
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item

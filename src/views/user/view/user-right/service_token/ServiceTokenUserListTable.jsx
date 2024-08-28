@@ -33,6 +33,8 @@ import {
   getPaginationRowModel,
   getSortedRowModel
 } from '@tanstack/react-table'
+import { useSuspenseQuery } from '@apollo/client'
+import { GET_USER_BY_ID, SERVICE_TOKEN_TABS } from '@/graphql/queries'
 
 // Component Imports
 import OptionMenu from '@core/components/option-menu'
@@ -42,10 +44,9 @@ import CustomAvatar from '@core/components/mui/Avatar'
 import { getLocalizedUrl } from '@/utils/i18n'
 import { serviceStatusChipColor } from '@/components/helper/StatusColor'
 import { serviceStatusIcon } from '@/components/helper/StatusIcon'
+
 // Style Imports
 import tableStyles from '@core/styles/table.module.css'
-import { useSuspenseQuery } from '@apollo/client'
-import { GET_ALL_INVOICES, GET_USER_BY_ID, SERVICE_TOKEN_TABS } from '@/graphql/queries'
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item

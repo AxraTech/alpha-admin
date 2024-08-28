@@ -53,7 +53,7 @@ const AddCategoryDrawer = props => {
       setLoading(true)
       const fileUploadUrl = await getFileUploadUrl({
         variables: {
-          content_type: 'pdf',
+          content_type: 'image',
           folder: 'quotations'
         }
       })

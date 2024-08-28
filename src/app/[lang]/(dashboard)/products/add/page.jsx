@@ -12,12 +12,12 @@ import ProductInventory from '@views/products/add/ProductInventory'
 import ProductPricing from '@views/products/add/ProductPricing'
 import ProductOrganize from '@views/products/add/ProductOrganize'
 import { useMutation } from '@apollo/client'
-import { ADD_PRODUCT } from '@/graphql/mutations'
+import { ADD_PRODUCT, IMGAE_UPLOAD } from '@/graphql/mutations'
 import { useState } from 'react'
 import Alert from '@/components/helper/Alert'
 import { useApp } from '@/app/ApolloWrapper'
 import { AlertTitle, Box } from '@mui/material'
-
+import { uploadFile } from '@/utils/helper'
 const eCommerceProductsAdd = () => {
   const { setGlobalMsg, loading, setLoading } = useApp()
   const [title, setTitle] = useState()
@@ -27,7 +27,9 @@ const eCommerceProductsAdd = () => {
   const [price, setPrice] = useState()
   const [sNo, setSNo] = useState()
   const [errors, setErrors] = useState()
+  const [productMedia, setProductMedia] = useState([])
   const [addProduct] = useMutation(ADD_PRODUCT)
+  const [getFileUploadUrl] = useMutation(IMGAE_UPLOAD)
   const handleAddProduct = async () => {
     setLoading(true)
     let errObj = {}
@@ -66,15 +68,37 @@ const eCommerceProductsAdd = () => {
       return
     }
     try {
+      const productMediaUrls = await Promise.all(
+        productMedia.map(async item => {
+          const uploadUrl = await getFileUploadUrl({
+            variables: {
+              // content_type: item.type.split('/')[0],
+              content_type: 'image',
+              folder: 'products'
+            }
+          })
+
+          const fileUrl = await uploadFile(item, uploadUrl.data.getFileUploadUrl.fileUploadUrl, 'image')
+
+          return {
+            media_type: 'image',
+            media_url: fileUrl
+            // width: item.width,
+            // height: item.height
+          }
+        })
+      )
+
       await addProduct({
         variables: {
-          data: {
-            title: title,
-            description_html: description,
-            brand_id: brandId,
-            category_id: catId,
-            serial_number: sNo,
-            price: price
+          title: title,
+          description_html: description,
+          brand_id: brandId,
+          category_id: catId,
+          serial_number: sNo,
+          price: price,
+          product_medias: {
+            data: productMediaUrls
           }
         }
       })
@@ -122,9 +146,9 @@ const eCommerceProductsAdd = () => {
                 errors={errors}
               />
             </Grid>
-            {/* <Grid item xs={12}>
-              <ProductImage />
-            </Grid> */}
+            <Grid item xs={12}>
+              <ProductImage files={productMedia} setFiles={setProductMedia} />
+            </Grid>
             {/* <Grid item xs={12}>
               <ProductVariants />
             </Grid> */}

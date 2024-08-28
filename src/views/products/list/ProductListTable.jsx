@@ -132,7 +132,7 @@ const ProductListTable = () => {
       columnHelper.accessor('title', {
         header: 'Product',
         cell: ({ row }) => (
-          <div className='flex items-center gap-4'>
+          <div className='flex items-center gap-4 '>
             <img
               src={row.original?.product_medias[0]?.media_url}
               width={38}
@@ -140,7 +140,7 @@ const ProductListTable = () => {
               className='rounded bg-actionHover'
             />
 
-            <div className='flex flex-col'>
+            <div className='flex flex-col w-60 text-wrap'>
               <Typography className='font-medium' color='text.primary'>
                 {row.original.title}
               </Typography>
@@ -182,12 +182,17 @@ const ProductListTable = () => {
         header: 'Actions',
         cell: ({ row }) => (
           <div className='flex items-center'>
-            {/* <IconButton size='small'>
-              <i className='ri-edit-box-line text-[22px] text-textSecondary' />
-            </IconButton> */}
-            <IconButton size='small' onClick={() => handleDelete(row?.original?.id)}>
-              <i className='ri-delete-bin-7-line text-[22px] text-red-500' />
+            <IconButton size='small'>
+              <Link href={getLocalizedUrl(`/products/edit/${row.original.id}`, locale)} className='flex'>
+                <i className='ri-edit-box-line text-[22px] text-warning' />
+              </Link>
             </IconButton>
+            <IconButton>
+              <Link href={getLocalizedUrl(`/products/details/${row.original.id}`, locale)} className='flex'>
+                <i className='ri-eye-line text-textSecondary' />
+              </Link>
+            </IconButton>
+
             {/* <OptionMenu
               iconButtonProps={{ size: 'medium' }}
               iconClassName='text-textSecondary text-[22px]'

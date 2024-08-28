@@ -304,11 +304,11 @@ const OrderListTable = () => {
           <DebouncedInput
             value={globalFilter ?? ''}
             onChange={value => setGlobalFilter(String(value))}
-            placeholder='Search Quotation'
+            placeholder='Search Order'
             className='max-sm:is-full min-is-[200px]'
           />
           <FormControl fullWidth size='small' className='min-is-[175px]'>
-            <InputLabel id='status-select'>Quotation Status</InputLabel>
+            <InputLabel id='status-select'>Order Status</InputLabel>
             <Select
               fullWidth
               id='select-status'

@@ -30,28 +30,24 @@ const EditServiceCenterDrawer = props => {
   const { data: adminRoles } = useSuspenseQuery(ADMIN_ROLES)
   // Refs
   const fileInputRef = useRef(null)
-
+  console.log('servie data ', serviceCenterData)
   // Hooks
   const {
     control,
     reset: resetForm,
-    handleSubmit
-    // formState: { errors }
+    handleSubmit,
+    formState: { errors }
   } = useForm({
     defaultValues: {
       title: ''
     }
   })
 
-  // useEffect(() => {
-  //   setData([...serviceCenterData])
-  // }, [serviceCenterData])
-
   // Handle Form Submit
   const handleFormSubmit = async data => {
     const res = await editAdmin({
       variables: {
-        id: data.id,
+        id: serviceCenterData.id,
         data: {
           phone: data.phone,
           name: data.name,
@@ -60,15 +56,29 @@ const EditServiceCenterDrawer = props => {
       }
     })
 
-    setData([...(adminData ?? []), res])
+    setData(prevData =>
+      prevData.map(item =>
+        item.id === serviceCenterData?.id ? { ...item, ...res.data.update_service_centers_by_pk } : item
+      )
+    )
     handleReset()
-    setGlobalMsg('➕ Added New Data')
+    setGlobalMsg('➕ Service Data has been updated')
   }
+
+  useEffect(() => {
+    if (serviceCenterData) {
+      resetForm({
+        name: serviceCenterData.name,
+        address: serviceCenterData.address,
+        phone: serviceCenterData.phone
+      })
+    }
+  }, [serviceCenterData])
 
   // Handle Form Reset
   const handleReset = () => {
     handleClose()
-    resetForm({ title: '', description: '' })
+    resetForm({})
   }
 
   const handleEdit = async () => {
@@ -117,9 +127,8 @@ const EditServiceCenterDrawer = props => {
                   {...field}
                   fullWidth
                   label='Name'
-                  value={serviceCenterData?.name}
                   placeholder=''
-                  // {...(errors.name && { error: true, helperText: 'This field is required.' })}
+                  {...(errors.name && { error: true, helperText: 'This field is required.' })}
                 />
               )}
             />
@@ -133,9 +142,8 @@ const EditServiceCenterDrawer = props => {
                   {...field}
                   fullWidth
                   label='Phone'
-                  value={serviceCenterData?.phone}
                   placeholder=''
-                  // {...(errors.phone && { error: true, helperText: 'This field is required.' })}
+                  {...(errors.phone && { error: true, helperText: 'This field is required.' })}
                 />
               )}
             />
@@ -148,10 +156,9 @@ const EditServiceCenterDrawer = props => {
                 <TextField
                   {...field}
                   fullWidth
-                  value={serviceCenterData?.address}
                   label='Address'
                   placeholder=''
-                  // {...(errors.address && { error: true, helperText: 'This field is required.' })}
+                  {...(errors.address && { error: true, helperText: 'This field is required.' })}
                 />
               )}
             />

@@ -43,9 +43,9 @@ import { orderStausIcon } from '@/components/helper/StatusIcon'
 import { getLocalizedUrl } from '@/utils/i18n'
 
 // Style Imports
-import tableStyles from '@core/styles/table.module.css'
 import { useSuspenseQuery } from '@apollo/client'
 import { GET_ALL_INVOICES, GET_USER_BY_ID, ORDERS_TABS } from '@/graphql/queries'
+import tableStyles from '@core/styles/table.module.css'
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -74,11 +74,12 @@ const columnHelper = createColumnHelper()
 
 const OrderUserListTable = () => {
   const { userId } = useParams()
+
   const { data: userIds } = useSuspenseQuery(GET_USER_BY_ID, {
     variables: { userId: userId }
   })
 
-  const { data: orderTabs } = useSuspenseQuery(ORDERS_TABS, { variables: { user_id: userIds.users_by_pk.id } })
+  const { data: orderTabs } = useSuspenseQuery(ORDERS_TABS, { variables: { user_id: userIds?.users_by_pk?.id } })
 
   // States
   const [rowSelection, setRowSelection] = useState({})

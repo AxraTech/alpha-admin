@@ -13,6 +13,7 @@ import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material/styles'
+import { uploadFile } from '@/utils/helper'
 
 // Third-party Imports
 import { useDropzone } from 'react-dropzone'
@@ -38,13 +39,14 @@ const Dropzone = styled(AppReactDropzone)(({ theme }) => ({
   }
 }))
 
-const ProductImage = () => {
+const ProductImage = ({ files, setFiles }) => {
   // States
-  const [files, setFiles] = useState([])
-
+  // const [files, setFiles] = useState([])
+  const [productMedia, setProductMedia] = useState([])
   // Hooks
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: acceptedFiles => {
+      // setFiles(acceptedFiles[0])
       setFiles(acceptedFiles.map(file => Object.assign(file)))
     }
   })
@@ -60,7 +62,6 @@ const ProductImage = () => {
   const handleRemoveFile = file => {
     const uploadedFiles = files
     const filtered = uploadedFiles.filter(i => i.name !== file.name)
-
     setFiles([...filtered])
   }
 
@@ -87,6 +88,18 @@ const ProductImage = () => {
 
   const handleRemoveAllFiles = () => {
     setFiles([])
+  }
+
+  const handleMultiFileChange = e => {
+    const files = e.target.files
+    const urls = []
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i]
+      const url = URL.createObjectURL(file)
+      urls.push({ file: url, type: file.type.split('/')[0] })
+    }
+    setProductMedia(urls)
   }
 
   return (

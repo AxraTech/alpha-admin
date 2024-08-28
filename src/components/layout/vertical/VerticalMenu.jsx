@@ -63,14 +63,14 @@ const VerticalMenu = ({ dictionary, scrollMenu }) => {
         menuSectionStyles={menuSectionStyles(verticalNavOptions, theme)}
       >
         {/* dashboard */}
-        <SubMenu
+        {/* <SubMenu
           label={dictionary['navigation'].dashboards}
           icon={<i className='ri-home-smile-line' />}
           suffix={<Chip label='5' size='small' color='error' />}
         >
           <MenuItem href={`/${locale}/dashboards/crm`}>{dictionary['navigation'].crm}</MenuItem>
           <MenuItem href={`/${locale}/dashboards/ecommerce`}>{dictionary['navigation'].eCommerce}</MenuItem>
-        </SubMenu>
+        </SubMenu> */}
 
         {/* products */}
         <SubMenu
@@ -81,6 +81,7 @@ const VerticalMenu = ({ dictionary, scrollMenu }) => {
           <MenuItem href={`/${locale}/products/list`}>{dictionary['navigation'].product_list}</MenuItem>
           <MenuItem href={`/${locale}/products/category`}>{dictionary['navigation'].category}</MenuItem>
           <MenuItem href={`/${locale}/products/brands`}>{dictionary['navigation'].brands}</MenuItem>
+          <MenuItem href={`/${locale}/products/discount/list`}>{dictionary['navigation'].discount}</MenuItem>
         </SubMenu>
 
         {/* newsfeed */}

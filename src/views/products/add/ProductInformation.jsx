@@ -23,6 +23,7 @@ import CustomIconButton from '@core/components/mui/IconButton'
 // Style Imports
 import '@/libs/styles/tiptapEditor.css'
 import { setNonce } from 'react-colorful'
+import { useEffect } from 'react'
 
 const EditorToolbar = ({ editor }) => {
   if (!editor) {
@@ -111,7 +112,7 @@ const EditorToolbar = ({ editor }) => {
   )
 }
 
-const ProductInformation = ({ setTitle, title, setSNo, sNo, setDescription, description, errors }) => {
+const ProductInformation = ({ setTitle, title, setSNo, sNo, setDescription, description, errors, productData }) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -129,6 +130,12 @@ const ProductInformation = ({ setTitle, title, setSNo, sNo, setDescription, desc
     }
   })
 
+  useEffect(() => {
+    if (productData) {
+      setTitle(productData.title)
+      setSNo(productData.serial_number)
+    }
+  })
   return (
     <Card>
       <CardHeader title='Product Information' />

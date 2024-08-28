@@ -39,8 +39,54 @@ export const ADD_BRAND = gql`
   }
 `
 export const ADD_PRODUCT = gql`
-  mutation addProduct($data: products_insert_input!) {
-    insert_products_one(object: $data) {
+  mutation addProduct(
+    $title: String!
+    $description_html: String!
+    $brand_id: uuid!
+    $category_id: uuid!
+    $serial_number: String!
+    $price: numeric!
+    $product_medias: product_medias_arr_rel_insert_input!
+  ) {
+    insert_products_one(
+      object: {
+        title: $title
+        description_html: $description_html
+        brand_id: $brand_id
+        category_id: $category_id
+        serial_number: $serial_number
+        price: $price
+        product_medias: $product_medias
+      }
+    ) {
+      id
+    }
+  }
+`
+
+export const EDIT_RPODUCTS = gql`
+  mutation editProduct(
+    $id: uuid!
+    $title: String!
+    $description_html: String!
+    $brand_id: uuid!
+    $category_id: uuid!
+    $serial_number: String!
+    $price: numeric!
+    $product_medias: product_medias_arr_rel_insert_input!
+  ) {
+    update_products_by_pk(
+      pk_columns: { id: $id }
+      _set: {
+        title: $title
+        description_html: $description_html
+        brand_id: $brand_id
+        category_id: $category_id
+        serial_number: $serial_number
+        price: $price
+        product_medias: $product_medias
+      }
+    ) {
       id
     }
   }
@@ -53,7 +99,6 @@ export const ADD_NEWS = gql`
     }
   }
 `
-
 // delete
 export const DELETE_PRODUCT = gql`
   mutation deleteProduct($id: uuid!) {
@@ -62,7 +107,6 @@ export const DELETE_PRODUCT = gql`
     }
   }
 `
-
 export const DELETE_PRODUCT_BRAND = gql`
   mutation deleteBrand($id: uuid!) {
     delete_brands_by_pk(id: $id) {
@@ -70,7 +114,6 @@ export const DELETE_PRODUCT_BRAND = gql`
     }
   }
 `
-
 export const DELETE_PRODUCT_CAT = gql`
   mutation deleteProductCat($id: uuid!) {
     delete_product_categories_by_pk(id: $id) {
@@ -78,7 +121,6 @@ export const DELETE_PRODUCT_CAT = gql`
     }
   }
 `
-
 export const DELETE_NEW_CAT = gql`
   mutation deleteNewCat($id: uuid!) {
     delete_news_categories_by_pk(id: $id) {
@@ -86,7 +128,6 @@ export const DELETE_NEW_CAT = gql`
     }
   }
 `
-
 export const ADD_NEWS_CAT = gql`
   mutation addNewCat($title: String!) {
     insert_news_categories_one(object: { title: $title }) {
@@ -251,8 +292,46 @@ export const IS_WARRANTY_VALID = gql`
   }
 `
 export const EDIT_SERVICE_CENTER = gql`
-  mutation editServiceCenter($id: uuid!, $data: String!) {
-    update_service_centers_by_pk(pk_columns: { id: $id }, _set: { name: $data }) {
+  mutation editServiceCenter($id: uuid!, $data: service_centers_set_input!) {
+    update_service_centers_by_pk(pk_columns: { id: $id }, _set: $data) {
+      id
+    }
+  }
+`
+
+export const DELETE_PRODUCT_DISCOUNT = gql`
+  mutation deleteProductDiscount($id: uuid!) {
+    delete_product_discounts_by_pk(id: $id) {
+      id
+    }
+  }
+`
+export const ADD_DISCOUNT = gql`
+  mutation addDiscount($data: product_discounts_insert_input!) {
+    insert_product_discounts_one(object: $data) {
+      id
+    }
+  }
+`
+
+export const EDIT_PRODUCT_CATEGORY = gql`
+  mutation editCategory($id: uuid!, $data: product_categories_set_input!) {
+    update_product_categories_by_pk(pk_columns: { id: $id }, _set: $data) {
+      id
+    }
+  }
+`
+export const EDIT_BRAND = gql`
+  mutation eidtBrand($id: uuid!, $data: brands_set_input!) {
+    update_brands_by_pk(pk_columns: { id: $id }, _set: $data) {
+      id
+    }
+  }
+`
+
+export const EDIt_NEWS_CAT = gql`
+  mutation editNewCat($id: uuid!, $title: String!) {
+    update_news_categories_by_pk(pk_columns: { id: $id }, _set: { title: $title }) {
       id
     }
   }

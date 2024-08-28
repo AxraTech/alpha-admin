@@ -39,6 +39,7 @@ import { GET_PRODUCT_CATEGORIES } from '@/graphql/queries'
 import { DELETE_PRODUCT_CAT } from '@/graphql/mutations'
 import Alert from '@/components/helper/Alert'
 import { useApp } from '@/app/ApolloWrapper'
+import EditCategoryDrawer from './EditCategoryDrawer'
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -83,10 +84,12 @@ const ProductCategoryTable = () => {
   const { data: categoryData } = useSuspenseQuery(GET_PRODUCT_CATEGORIES)
   const [deleteCat] = useMutation(DELETE_PRODUCT_CAT)
   const [addCategoryOpen, setAddCategoryOpen] = useState(false)
+  const [editCategoryOpen, setEditCategoryOpen] = useState(false)
   const [rowSelection, setRowSelection] = useState({})
   const [data, setData] = useState(...[categoryData.product_categories])
   const [globalFilter, setGlobalFilter] = useState('')
   const [loading, setLoading] = useState(false)
+  const [editCategoryData, setEditCategoryData] = useState()
 
   const handleDelete = async id => {
     try {
@@ -117,13 +120,21 @@ const ProductCategoryTable = () => {
       }),
       columnHelper.accessor('products_aggregate.aggregate.count', {
         header: 'Total Products',
-        cell: ({ row }) => <Typography>{row.original.products_aggregate.aggregate.count.toLocaleString()}</Typography>
+        cell: ({ row }) => (
+          <Typography>{row?.original?.products_aggregate?.aggregate?.count?.toLocaleString()}</Typography>
+        )
       }),
       columnHelper.accessor('actions', {
         header: 'Actions',
         cell: ({ row }) => (
           <div className='flex items-center'>
-            <IconButton size='small'>
+            <IconButton
+              size='small'
+              onClick={() => {
+                setEditCategoryOpen(!editCategoryOpen)
+                setEditCategoryData(row.original)
+              }}
+            >
               <i className='ri-edit-box-line text-[22px] text-textSecondary' />
             </IconButton>
             <IconButton size='small' onClick={() => handleDelete(row?.original?.id)}>
@@ -281,6 +292,7 @@ const ProductCategoryTable = () => {
           onRowsPerPageChange={e => table.setPageSize(Number(e.target.value))}
         />
       </Card>
+
       <AddCategoryDrawer
         open={addCategoryOpen}
         categoryData={data}
@@ -288,6 +300,15 @@ const ProductCategoryTable = () => {
         loading={loading}
         setLoading={setLoading}
         handleClose={() => setAddCategoryOpen(!addCategoryOpen)}
+      />
+
+      <EditCategoryDrawer
+        open={editCategoryOpen}
+        categoryData={editCategoryData}
+        setData={setData}
+        loading={loading}
+        setLoading={setLoading}
+        handleClose={() => setEditCategoryOpen(!editCategoryOpen)}
       />
       <Alert />
     </>

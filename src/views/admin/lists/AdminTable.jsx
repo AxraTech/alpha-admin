@@ -29,7 +29,8 @@ import {
 } from '@tanstack/react-table'
 
 // Component Imports
-import AddDealerDrawer from './AddAdminDrawer'
+import AddAdminDrawer from './AddAdminDrawer'
+import EditAdminDrawer from './EditAdminDrawer'
 import OptionMenu from '@core/components/option-menu'
 
 // Style Imports
@@ -86,7 +87,8 @@ const AdminTable = () => {
   const [rowSelection, setRowSelection] = useState({})
   const [data, setData] = useState(...[adminData.admins])
   const [globalFilter, setGlobalFilter] = useState('')
-
+  const [editAdminOpen, setEditAdminOpen] = useState(false)
+  const [editAdmin, setEditAdmin] = useState()
   const handleDelete = async id => {
     try {
       await deleteAdmin({ variables: { id: id } })
@@ -96,6 +98,11 @@ const AdminTable = () => {
       setGlobalMsg('❌ Delete Error')
       console.log('Delete Error')
     }
+  }
+
+  const handleEdit = data => {
+    setEditAdmin(data)
+    setEditAdminOpen(!editAdminOpen)
   }
 
   const columns = useMemo(
@@ -128,7 +135,7 @@ const AdminTable = () => {
         header: 'Actions',
         cell: ({ row }) => (
           <div className='flex items-center'>
-            {/* <IconButton size='small'>
+            {/* <IconButton size='small' onClick={() => handleEdit(row.original)}>
               <i className='ri-edit-box-line text-[22px] text-textSecondary' />
             </IconButton> */}
             <IconButton size='small' onClick={() => handleDelete(row?.original?.id)}>
@@ -286,11 +293,18 @@ const AdminTable = () => {
           onRowsPerPageChange={e => table.setPageSize(Number(e.target.value))}
         />
       </Card>
-      <AddDealerDrawer
+      <AddAdminDrawer
         open={addDealerOpen}
         adminData={data}
         setData={setData}
         handleClose={() => setAddDealerOpen(!addDealerOpen)}
+      />
+      {console.log('edit admin ', editAdmin)}
+      <EditAdminDrawer
+        open={editAdminOpen}
+        adminData={editAdmin}
+        setData={setData}
+        handleClose={() => setEditAdminOpen(!addServiceOpen)}
       />
       <Alert />
     </>

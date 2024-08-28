@@ -40,6 +40,7 @@ import { DELETE_NEW_CAT } from '@/graphql/mutations'
 import Alert from '@/components/helper/Alert'
 import { useApp } from '@/app/ApolloWrapper'
 import AddNewCategoryDrawer from './AddNewCategoryDrawer'
+import EditNewCategoryDrawer from './EditNewCategoryDrawer'
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -87,7 +88,9 @@ const ProductCategoryTable = () => {
   const [rowSelection, setRowSelection] = useState({})
   const [data, setData] = useState(...[newData.news_categories])
   const [globalFilter, setGlobalFilter] = useState('')
-
+  const [loading, setLoading] = useState(false)
+  const [editCategoryOpen, setEditCategoryOpen] = useState(false)
+  const [editCategoryData, setEditCategoryData] = useState()
   const handleDelete = async id => {
     try {
       await deleteNewCat({ variables: { id: id } })
@@ -123,7 +126,13 @@ const ProductCategoryTable = () => {
         header: 'Actions',
         cell: ({ row }) => (
           <div className='flex items-center'>
-            <IconButton size='small'>
+            <IconButton
+              size='small'
+              onClick={() => {
+                setEditCategoryOpen(!editCategoryOpen)
+                setEditCategoryData(row.original)
+              }}
+            >
               <i className='ri-edit-box-line text-[22px] text-textSecondary' />
             </IconButton>
             <IconButton size='small' onClick={() => handleDelete(row?.original?.id)}>
@@ -286,6 +295,14 @@ const ProductCategoryTable = () => {
         newData={data}
         setData={setData}
         handleClose={() => setAddNewCategoryOpen(!addNewCategoryOpen)}
+      />
+      <EditNewCategoryDrawer
+        open={editCategoryOpen}
+        newData={editCategoryData}
+        setData={setData}
+        loading={loading}
+        setLoading={setLoading}
+        handleClose={() => setEditCategoryOpen(!editCategoryOpen)}
       />
       <Alert />
     </>

@@ -52,7 +52,7 @@ const AddBrandDrawer = props => {
       setLoading(true)
       const fileUploadUrl = await getFileUploadUrl({
         variables: {
-          content_type: 'pdf',
+          content_type: 'image',
           folder: 'quotations'
         }
       })
@@ -86,7 +86,6 @@ const AddBrandDrawer = props => {
   // Handle File Upload
   const handleFileUpload = event => {
     const { files } = event.target
-
     if (files && files.length !== 0) {
       setFileName(files)
     }

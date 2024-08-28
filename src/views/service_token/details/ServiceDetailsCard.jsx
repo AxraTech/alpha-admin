@@ -10,6 +10,7 @@ import CardContent from '@mui/material/CardContent'
 import Checkbox from '@mui/material/Checkbox'
 import Typography from '@mui/material/Typography'
 import Switch from '@mui/material/Switch'
+
 // Third-party Imports
 import classnames from 'classnames'
 import { rankItem } from '@tanstack/match-sorter-utils'
@@ -31,7 +32,7 @@ import Link from '@components/Link'
 
 // Style Imports
 import tableStyles from '@core/styles/table.module.css'
-import { Button, TextField } from '@mui/material'
+import { Button, Dialog, DialogContent, TextField, Zoom } from '@mui/material'
 import { useMutation } from '@apollo/client'
 import { IS_WARRANTY_VALID } from '@/graphql/mutations'
 import Alert from '@/components/helper/Alert'
@@ -215,6 +216,10 @@ const ServiceDetailsCard = ({ serviceData }) => {
   const [checked, setChecked] = useState(serviceData.is_warranty_valid ? true : false)
   const [serviceFee, setServiceFee] = useState()
   const [errors, setErrors] = useState()
+  const [open, setOpen] = useState(false)
+  const [modalImage, setModalImage] = useState('')
+  const [docOpen, setDocOpen] = useState(false)
+  const [modalDocImage, setModalDocImage] = useState('')
   const [isWarrantyValid] = useMutation(IS_WARRANTY_VALID)
   const handleValidOn = event => {
     setChecked(event.target.checked)
@@ -240,6 +245,25 @@ const ServiceDetailsCard = ({ serviceData }) => {
       console.log('Error ', e)
     }
   }
+  const handleImageClick = imageUrl => {
+    setModalImage(imageUrl)
+    setOpen(true)
+  }
+
+  const handleClose = () => {
+    setOpen(false)
+    setModalImage('')
+  }
+  const handleDocImageClick = imageUrl => {
+    setModalDocImage(imageUrl)
+    setDocOpen(true)
+  }
+
+  const handleDocClose = () => {
+    setDocOpen(false)
+    setModalDocImage('')
+  }
+
   return (
     <>
       <Card>
@@ -293,7 +317,13 @@ const ServiceDetailsCard = ({ serviceData }) => {
           <br />
           <div className='flex justify-center gap-x-12'>
             <div>
-              <img src={serviceData.document_photo_url} alt='image' width={50} height='auto' />
+              <img
+                src={serviceData.document_photo_url}
+                alt='image'
+                width={50}
+                height='auto'
+                onClick={() => handleDocImageClick(serviceData.document_photo_url)}
+              />
               <Typography color='text.primary' className=' min-is-[100px]'>
                 Document Photo
               </Typography>
@@ -301,7 +331,13 @@ const ServiceDetailsCard = ({ serviceData }) => {
             <div>
               {serviceData.issue_media_type === 'image' ? (
                 <>
-                  <img src={serviceData.issue_media_url} alt='image' width={50} height='auto' />
+                  <img
+                    src={serviceData.issue_media_url}
+                    alt='image'
+                    width={50}
+                    height='auto'
+                    onClick={() => handleImageClick(serviceData.issue_media_url)}
+                  />
                   <Typography color='text.primary' className='min-is-[100px]'>
                     Issue Image
                   </Typography>
@@ -320,6 +356,19 @@ const ServiceDetailsCard = ({ serviceData }) => {
           <div></div>
         </CardContent>
       </Card>
+
+      {/* Modal for full-screen image */}
+      <Dialog open={open} onClose={handleClose} maxWidth='md'>
+        <DialogContent>
+          <img src={modalImage} alt='Full Screen' style={{ width: '100%', height: 'auto', overfow: 'hidden' }} />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={docOpen} onClose={handleDocClose} maxWidth='md'>
+        <DialogContent>
+          <img src={modalDocImage} alt='Full Screen' style={{ width: '100%', height: 'auto', overfow: 'hidden' }} />
+        </DialogContent>
+      </Dialog>
       <Alert />
     </>
   )

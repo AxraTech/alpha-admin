@@ -17,7 +17,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 // Third-party Imports
 import { useForm, Controller } from 'react-hook-form'
 import { useMutation, useQuery, useSuspenseQuery } from '@apollo/client'
-import { ADD_ADMIN, ADD_CATEGORY, ADD_DEALERS } from '@/graphql/mutations'
+import { ADD_ADMIN } from '@/graphql/mutations'
 import Alert from '@/components/helper/Alert'
 import { useApp } from '@/app/ApolloWrapper'
 import { ADMIN_ROLES, GET_USERS } from '@/graphql/queries'

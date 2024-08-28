@@ -71,6 +71,7 @@ export const GET_PRODUCTS = gql`
     products(order_by: { updated_at: desc }) {
       id
       title
+      description_html
       serial_number
       product_medias(order_by: { updated_at: desc }, limit: 1) {
         id
@@ -80,6 +81,39 @@ export const GET_PRODUCTS = gql`
         id
         title
         image_url
+      }
+      brand {
+        id
+        title
+        image_url
+      }
+      price
+      sku
+      disabled
+    }
+  }
+`
+
+export const PRODUCTS_BY_ID = gql`
+  query productById($id: uuid!) {
+    products_by_pk(id: $id) {
+      id
+      title
+      serial_number
+      description_html
+      product_medias(order_by: { updated_at: desc }, limit: 1) {
+        id
+        media_url
+      }
+      product_category {
+        id
+        title
+        image_url
+      }
+      product_discounts {
+        id
+        min_order
+        discounted_value
       }
       brand {
         id
@@ -521,6 +555,7 @@ export const GET_ALL_ORDERS = gql`
 export const ORDERS_TABS = gql`
   query orderTabs($user_id: uuid!) {
     orders(where: { user_id: { _eq: $user_id } }) {
+      id
       order_number
       completion_photo_url
       completed_at
@@ -708,6 +743,7 @@ export const GET_ALL_ADMINS = gql`
       name
       email
       role
+      password
       created_at
       updated_at
     }
@@ -950,6 +986,45 @@ export const SERVICE_STATUS = gql`
     service_status {
       id
       name
+    }
+  }
+`
+
+export const GET_ALL_PRODUCT_DISCOUNT = gql`
+  query produtDiscount($product_id: uuid!) {
+    product_discounts(order_by: { updated_at: desc }, where: { product_id: { _eq: $product_id } }) {
+      id
+      customer_type
+      discount_type
+      created_at
+      updated_at
+      discounted_value
+      min_order
+      product {
+        brand {
+          id
+          title
+        }
+      }
+    }
+  }
+`
+export const PRODCUT_DISCOUNT_BY_ID = gql`
+  query productDiscountById($id: uuid!) {
+    product_discounts_by_pk(id: $id) {
+      id
+      customer_type
+      discount_type
+      created_at
+      updated_at
+      discounted_value
+      min_order
+      product {
+        brand {
+          id
+          title
+        }
+      }
     }
   }
 `

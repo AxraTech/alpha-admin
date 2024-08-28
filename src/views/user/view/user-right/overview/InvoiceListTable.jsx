@@ -42,9 +42,9 @@ import CustomAvatar from '@core/components/mui/Avatar'
 import { getLocalizedUrl } from '@/utils/i18n'
 
 // Style Imports
-import tableStyles from '@core/styles/table.module.css'
 import { useSuspenseQuery } from '@apollo/client'
 import { GET_ALL_INVOICES } from '@/graphql/queries'
+import tableStyles from '@core/styles/table.module.css'
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item

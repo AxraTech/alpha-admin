@@ -39,6 +39,7 @@ import { GET_BRANDS, PRODUCT_BRANDs } from '@/graphql/queries'
 import { DELETE_PRODUCT_BRAND } from '@/graphql/mutations'
 import { useApp } from '@/app/ApolloWrapper'
 import Alert from '@/components/helper/Alert'
+import EditCategoryDrawer from './EditBrandDrawer'
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -87,6 +88,8 @@ const ProductBrandTable = () => {
   const [data, setData] = useState(...[brandData.brands])
   const [globalFilter, setGlobalFilter] = useState('')
   const [loading, setLoading] = useState(false)
+  const [editCategoryOpen, setEditCategoryOpen] = useState(false)
+  const [editCategoryData, setEditCategoryData] = useState()
   const handleDelete = async id => {
     try {
       await deleteBrand({ variables: { id: id } })
@@ -125,7 +128,13 @@ const ProductBrandTable = () => {
         header: 'Actions',
         cell: ({ row }) => (
           <div className='flex items-center'>
-            <IconButton size='small'>
+            <IconButton
+              size='small'
+              onClick={() => {
+                setEditCategoryOpen(!editCategoryOpen)
+                setEditCategoryData(row.original)
+              }}
+            >
               <i className='ri-edit-box-line text-[22px] text-textSecondary' />
             </IconButton>
             <IconButton size='small' onClick={() => handleDelete(row?.original?.id)}>
@@ -290,6 +299,14 @@ const ProductBrandTable = () => {
         loading={loading}
         setLoading={setLoading}
         handleClose={() => setAddBrandOpen(!addBrandOpen)}
+      />
+      <EditCategoryDrawer
+        open={editCategoryOpen}
+        brandData={editCategoryData}
+        setData={setData}
+        loading={loading}
+        setLoading={setLoading}
+        handleClose={() => setEditCategoryOpen(!editCategoryOpen)}
       />
       <Alert />
     </>
