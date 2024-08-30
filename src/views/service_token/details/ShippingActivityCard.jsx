@@ -78,26 +78,28 @@ const ShippingActivity = ({ serviceData }) => {
               <Typography className='mbe-2'>Service Token is received</Typography>
             </TimelineContent>
           </TimelineItem> */}
-          <TimelineItem>
-            <TimelineSeparator>
-              <TimelineDot
-                variant={serviceData.picking_up_at === null ? 'outlined' : 'contained'}
-                color={serviceData.picking_up_at === null ? 'grey' : 'primary'}
-              />
-              <TimelineConnector />
-            </TimelineSeparator>
-            <TimelineContent>
-              <div className='flex flex-wrap items-center justify-between gap-x-2 mbe-2.5'>
-                <Typography color='text.primary' className='font-medium'>
-                  Picking Up
-                </Typography>
-                {serviceData.picking_up_at !== null && (
-                  <Typography variant='caption'>{new Date(serviceData?.picking_up_at).toLocaleString()}</Typography>
-                )}
-              </div>
-              <Typography className='mbe-2'>Service is picking </Typography>
-            </TimelineContent>
-          </TimelineItem>
+          {serviceData.user.role === 'dealer' && (
+            <TimelineItem>
+              <TimelineSeparator>
+                <TimelineDot
+                  variant={serviceData.picking_up_at === null ? 'outlined' : 'contained'}
+                  color={serviceData.picking_up_at === null ? 'grey' : 'primary'}
+                />
+                <TimelineConnector />
+              </TimelineSeparator>
+              <TimelineContent>
+                <div className='flex flex-wrap items-center justify-between gap-x-2 mbe-2.5'>
+                  <Typography color='text.primary' className='font-medium'>
+                    Picking Up
+                  </Typography>
+                  {serviceData.picking_up_at !== null && (
+                    <Typography variant='caption'>{new Date(serviceData?.picking_up_at).toLocaleString()}</Typography>
+                  )}
+                </div>
+                <Typography className='mbe-2'>Service is picking </Typography>
+              </TimelineContent>
+            </TimelineItem>
+          )}
           <TimelineItem>
             <TimelineSeparator>
               <TimelineDot

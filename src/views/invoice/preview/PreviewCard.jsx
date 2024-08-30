@@ -17,6 +17,7 @@ import { useParams } from 'next/navigation'
 import { useApp } from '@/app/ApolloWrapper'
 import { CHANGE_INVOICE_STATUS, CHANGE_QUOTATION_STATUS } from '@/graphql/mutations'
 import { Button, Chip } from '@mui/material'
+import PaymentList from './PaymentList'
 
 // Vars
 const data = [
@@ -83,7 +84,7 @@ const PreviewCard = ({ invoiceData }) => {
       <CardContent className='sm:!p-12'>
         <Grid container spacing={6}>
           <Grid item xs={12}>
-            <div className='flex gap-4 mb-4'>
+            {/* <div className='flex gap-4 mb-4'>
               <Button
                 variant='outlined'
                 color='success'
@@ -121,7 +122,7 @@ const PreviewCard = ({ invoiceData }) => {
               >
                 UnPaid
               </Button>
-            </div>
+            </div> */}
             <div className='p-6 bg-actionHover rounded'>
               <div className='flex justify-between gap-y-4 flex-col sm:flex-row'>
                 <div className='flex flex-col gap-6'>
@@ -146,6 +147,7 @@ const PreviewCard = ({ invoiceData }) => {
                     />
                   </div>
                   <div className='flex flex-col gap-1'>
+                    <Typography color='text.primary'>Invoice Number : {invoiceDataId.invoice_number}</Typography>
                     <Typography color='text.primary'>
                       Date Issued : {new Date(invoiceDataId?.created_at).toLocaleDateString()}
                     </Typography>
@@ -174,7 +176,7 @@ const PreviewCard = ({ invoiceData }) => {
                   </div>
                 </div>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              {/* <Grid item xs={12} sm={6}>
                 <div className='flex flex-col gap-4'>
                   <Typography className='font-medium' color='text.primary'>
                     Bill To:
@@ -202,7 +204,7 @@ const PreviewCard = ({ invoiceData }) => {
                     </div>
                   </div>
                 </div>
-              </Grid>
+              </Grid> */}
             </Grid>
           </Grid>
           <Grid item xs={12}>
@@ -218,9 +220,10 @@ const PreviewCard = ({ invoiceData }) => {
                   </tr>
                 </thead>
                 <tbody>
+                  `
                   {invoiceDataId?.order?.order_items.map((item, index) => (
                     <tr key={index}>
-                      <td>
+                      <td className='w-70 text-wrap'>
                         <Typography color='text.primary'>{item.product.title}</Typography>
                       </td>
 
@@ -243,8 +246,8 @@ const PreviewCard = ({ invoiceData }) => {
             </div>
           </Grid>
           <Grid item xs={12}>
-            <div className='flex justify-between flex-col gap-y-4 sm:flex-row'>
-              <div className='flex flex-col gap-1 order-2 sm:order-[unset]'>
+            <div className='flex justify-end flex-col gap-y-4 sm:flex-row'>
+              {/* <div className='flex flex-col gap-1 order-2 sm:order-[unset]'>
                 <div className='flex items-center gap-2'>
                   <Typography className='font-medium' color='text.primary'>
                     Salesperson:
@@ -252,7 +255,7 @@ const PreviewCard = ({ invoiceData }) => {
                   <Typography>-</Typography>
                 </div>
                 <Typography>Thanks for your business</Typography>
-              </div>
+              </div> */}
               <div className='min-is-[200px]'>
                 <div className='flex items-center justify-between'>
                   <Typography>Subtotal:</Typography>
@@ -288,10 +291,13 @@ const PreviewCard = ({ invoiceData }) => {
           <Grid item xs={12}>
             <Typography>
               <Typography component='span' className='font-medium' color='text.primary'>
-                Note:
+                Note :{' '}
               </Typography>
               {invoiceDataId?.note}
             </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <PaymentList invoiceData={invoiceData} />
           </Grid>
         </Grid>
       </CardContent>

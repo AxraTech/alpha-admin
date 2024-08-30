@@ -109,7 +109,7 @@ const AdminTable = () => {
     () => [
       columnHelper.accessor('id', {
         header: 'ID',
-        cell: ({ row }) => <Typography>{row.original.id?.substring(0, 10)}</Typography>
+        cell: ({ row }) => <Typography>{row.id}</Typography>
       }),
       columnHelper.accessor('name', {
         header: 'Name',
@@ -135,12 +135,12 @@ const AdminTable = () => {
         header: 'Actions',
         cell: ({ row }) => (
           <div className='flex items-center'>
-            {/* <IconButton size='small' onClick={() => handleEdit(row.original)}>
+            <IconButton size='small' onClick={() => handleEdit(row.original)}>
               <i className='ri-edit-box-line text-[22px] text-textSecondary' />
-            </IconButton> */}
-            <IconButton size='small' onClick={() => handleDelete(row?.original?.id)}>
-              <i className='ri-delete-bin-7-line text-[22px] text-red-500' />
             </IconButton>
+            {/* <IconButton size='small' onClick={() => handleDelete(row?.original?.id)}>
+              <i className='ri-delete-bin-7-line text-[22px] text-red-500' />
+            </IconButton> */}
             {/* <OptionMenu
               iconButtonProps={{ size: 'medium' }}
               iconClassName='text-textSecondary text-[22px]'

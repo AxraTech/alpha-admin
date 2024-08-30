@@ -53,7 +53,7 @@ import { useSuspenseQuery } from '@apollo/client'
 import { GET_ALL_INVOICES, INVOICE_STATUS } from '@/graphql/queries'
 import { Avatar } from '@mui/material'
 import { CHANGE_INVOICE_STATUS } from '@/graphql/mutations'
-
+import { invoiceStatusColor } from '@components/helper/StatusColor'
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
   const itemRank = rankItem(row.getValue(columnId), value)
@@ -98,13 +98,7 @@ const invoiceStatusObj = {
 
 // Column Definitions
 const columnHelper = createColumnHelper()
-export const statusChipColor = {
-  paid: 'secondary',
-  'partially paid': 'info',
-  completed: 'success',
-  unpaid: 'error',
-  pending: 'primary'
-}
+
 const InvoiceListTable = () => {
   const { data: invoiceDatas } = useSuspenseQuery(GET_ALL_INVOICES)
   const { data: invoiceStatus } = useSuspenseQuery(INVOICE_STATUS)
@@ -194,7 +188,7 @@ const InvoiceListTable = () => {
             <div className='flex flex-col'>
               <Chip
                 label={row.original.status}
-                color={statusChipColor[row.original.status]}
+                color={invoiceStatusColor[row.original.status]}
                 style={{ textTransform: 'capitalize' }}
                 variant='tonal'
                 size='small'

@@ -26,7 +26,7 @@ const ProductOrganize = ({ brandId, setBrandId, catId, setCatId, errors, product
     if (productData) {
       setBrandId(productData.brand.id)
       const selectedCategory = cats?.product_categories.find(cat => cat.id === productData.product_category.id)
-      setCatId(selectedCategory || null)
+      setCatId(selectedCategory.id || null)
     }
   }, [productData, cats])
 

@@ -41,7 +41,7 @@ const Dropzone = styled(AppReactDropzone)(({ theme }) => ({
 
 const ProductImage = ({ files, setFiles, productData }) => {
   // States
-  console.log('rpedata ', productData)
+
   const [productMedia, setProductMedia] = useState([])
   // Hooks
   const { getRootProps, getInputProps } = useDropzone({
@@ -154,7 +154,7 @@ const ProductImage = ({ files, setFiles, productData }) => {
                 <Button color='error' variant='outlined' onClick={handleRemoveAllFiles}>
                   Remove All
                 </Button>
-                <Button variant='contained'>Upload Files</Button>
+                {/* <Button variant='contained'>Upload Files</Button> */}
               </div>
             </>
           ) : null}

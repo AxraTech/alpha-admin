@@ -1,3 +1,4 @@
+'use client'
 // Third-party Imports
 import classnames from 'classnames'
 
@@ -12,6 +13,8 @@ import UserDropdown from '@components/layout/shared/UserDropdown'
 
 // Util Imports
 import { verticalLayoutClasses } from '@layouts/utils/layoutClasses'
+import { useSuspenseQuery } from '@apollo/client'
+import { GET_USERS } from '@/graphql/queries'
 
 // Vars
 const shortcuts = [
@@ -101,6 +104,8 @@ const notifications = [
 ]
 
 const NavbarContent = () => {
+  // const token = req.cookies.get('token')?.value
+  // console.log('token ', token)
   return (
     <div className={classnames(verticalLayoutClasses.navbarContent, 'flex items-center justify-between gap-4 is-full')}>
       <div className='flex items-center gap-[7px]'>
@@ -109,7 +114,7 @@ const NavbarContent = () => {
       </div>
       <div className='flex items-center'>
         <ModeDropdown />
-        <NotificationsDropdown notifications={notifications} />
+        {/* <NotificationsDropdown notifications={notifications} /> */}
         <UserDropdown />
       </div>
     </div>

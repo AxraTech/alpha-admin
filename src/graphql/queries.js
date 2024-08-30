@@ -202,6 +202,15 @@ export const NEW_BY_ID = gql`
       id
       title
       image_url
+      news_category {
+        id
+        title
+      }
+      news_related_products {
+        product {
+          id
+        }
+      }
     }
   }
 `
@@ -279,6 +288,7 @@ export const INVOICE_BY_ID = gql`
     invoices_by_pk(id: $id) {
       id
       balance
+      invoice_number
       status
       note
       total
@@ -308,6 +318,29 @@ export const INVOICE_BY_ID = gql`
           total
         }
       }
+    }
+  }
+`
+
+export const PAYMENT_BY_INVOICE_ID = gql`
+  query payments($invoice_id: uuid!) {
+    payments(where: { invoice_id: { _eq: $invoice_id } }) {
+      id
+      amount
+      payment_date
+      payment_method
+      updated_at
+      created_at
+      invoice_id
+    }
+  }
+`
+export const NEWS_RELATED_PRODUCTS = gql`
+  query newProduct($news_id: uuid!) {
+    news_related_products(where: { news_id: { _eq: $news_id } }) {
+      id
+      news_id
+      product_id
     }
   }
 `
@@ -392,6 +425,7 @@ export const QUOTATION_BY_ID = gql`
       id
       created_at
       updated_at
+      dealer_remark
       total_amount
       quotation_number
       status
@@ -754,6 +788,23 @@ export const USER_ROLES = gql`
     user_roles {
       id
       role_name
+    }
+  }
+`
+export const GET_PAYMENT_METHODS = gql`
+  query paymentMethods {
+    payment_methods {
+      id
+      name
+    }
+  }
+`
+
+export const ADMIN_BY_PK = gql`
+  query adminById($id: uuid!) {
+    admins_by_pk(id: $id) {
+      id
+      name
     }
   }
 `

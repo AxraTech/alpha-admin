@@ -49,6 +49,7 @@ import { getLocalizedUrl } from '@/utils/i18n'
 import tableStyles from '@core/styles/table.module.css'
 import { useQuery } from '@apollo/client'
 import { GET_USERS } from '@/graphql/queries'
+import { userStatusObj } from '@/components/helper/StatusColor'
 
 // Styled Components
 const Icon = styled('i')({})
@@ -83,12 +84,6 @@ const DebouncedInput = ({ value: initialValue, onChange, debounce = 500, ...prop
   }, [value])
 
   return <TextField {...props} value={value} onChange={e => setValue(e.target.value)} size='small' />
-}
-
-const userStatusObj = {
-  active: 'success',
-  pending: 'warning',
-  inactive: 'secondary'
 }
 
 // Column Definitions

@@ -32,22 +32,19 @@ const OrderDetailHeader = ({ orderData }) => {
   const { setGlobalMsg } = useApp()
 
   const [deleteOrder] = useMutation(DELETE_ORDERS)
-  const [changeOrderStatus] = useMutation(CHANGE_ORDER_STATUS)
+  const [changeOrderStatus] = useMutation(CHANGE_ORDER_STATUS, { refetchQueries: [ORDERS_BY_ID] })
   const buttonProps = (children, color, variant) => ({
     children,
     color,
     variant
   })
 
-  const handleChangeOrderStatus = async (id, status, dateObj) => {
+  const handleChangeOrderStatus = async (id, status) => {
     try {
       const result = await changeOrderStatus({
         variables: {
-          data: {
-            ...status,
-            ...dateObj
-          },
-          id: id
+          order_id: id,
+          status: status
         }
       })
 
@@ -78,50 +75,24 @@ const OrderDetailHeader = ({ orderData }) => {
         <Typography>{`${new Date(orderData?.ordered_at ?? '').toLocaleString()}`}</Typography>
       </div>
       <div className='flex gap-4'>
-        <Button
-          variant='outlined'
-          color='success'
-          onClick={() => handleChangeOrderStatus(orderData?.id, { status: 'completed' }, { completed_at: new Date() })}
-        >
+        <Button variant='outlined' color='success' onClick={() => handleChangeOrderStatus(orderData.id, 'completed')}>
           Complete
         </Button>
-        <Button
-          variant='outlined'
-          color='error'
-          onClick={() => handleChangeOrderStatus(orderData?.id, { status: 'canceled' }, { canceled_at: new Date() })}
-        >
+        <Button variant='outlined' color='error' onClick={() => handleChangeOrderStatus(orderData.id, 'canceled')}>
           Cancel
         </Button>
-        <Button
-          variant='outlined'
-          color='warning'
-          onClick={() => handleChangeOrderStatus(orderData?.id, { status: 'refunded' }, { refunding_at: new Date() })}
-        >
+        <Button variant='outlined' color='warning' onClick={() => handleChangeOrderStatus(orderData.id, 'refunded')}>
           Refund
         </Button>
-        <Button
-          variant='outlined'
-          color='primary'
-          onClick={() =>
-            handleChangeOrderStatus(orderData?.id, { status: 'delivering' }, { delivering_at: new Date() })
-          }
-        >
+        <Button variant='outlined' color='primary' onClick={() => handleChangeOrderStatus(orderData.id, 'delivering')}>
           Delivering
         </Button>
-        <Button
-          variant='outlined'
-          color='info'
-          onClick={() => handleChangeOrderStatus(orderData?.id, { status: 'preparing' }, { preparing_at: new Date() })}
-        >
+        <Button variant='outlined' color='info' onClick={() => handleChangeOrderStatus(orderData.id, 'preparing')}>
           Preparing
         </Button>
-        <Button
-          variant='outlined'
-          color='secondary'
-          onClick={() => handleChangeOrderStatus(orderData?.id, { status: 'ordered' }, { ordering_at: new Date() })}
-        >
+        {/* <Button variant='outlined' color='secondary' onClick={() => handleChangeOrderStatus(orderData.id, 'ordered')}>
           Ordered
-        </Button>
+        </Button> */}
       </div>
       {/* <OpenDialogOnElementClick
         element={Button}

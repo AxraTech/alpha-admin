@@ -65,19 +65,20 @@ const EditUserInfo = ({ open, setOpen, data }) => {
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
-                label='First Name'
-                placeholder='John'
-                value={userData?.firstName}
-                onChange={e => setUserData({ ...userData, firstName: e.target.value })}
+                label='Phone'
+                placeholder='Enter Phone'
+                value={userData?.phone}
+                onChange={e => setUserData({ ...userData, phone: e.target.value })}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
-                label='Last Name'
-                placeholder='Doe'
-                value={userData?.lastName}
-                onChange={e => setUserData({ ...userData, lastName: e.target.value })}
+                label='email'
+                type='email'
+                placeholder='Enter Email'
+                value={userData?.email}
+                onChange={e => setUserData({ ...userData, email: e.target.value })}
               />
             </Grid>
             <Grid item xs={12}>
@@ -85,16 +86,16 @@ const EditUserInfo = ({ open, setOpen, data }) => {
                 fullWidth
                 label='User Name'
                 placeholder='JohnDoe'
-                value={userData?.userName}
-                onChange={e => setUserData({ ...userData, userName: e.target.value })}
+                value={userData?.name}
+                onChange={e => setUserData({ ...userData, name: e.target.value })}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            {/* <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
-                label='Billing Email'
-                placeholder='johnDoe@email.com'
-                value={userData?.billingEmail}
+                label='Email'
+                placeholder='Enter Email'
+                value={userData?.email}
                 onChange={e => setUserData({ ...userData, billingEmail: e.target.value })}
               />
             </Grid>
@@ -155,10 +156,10 @@ const EditUserInfo = ({ open, setOpen, data }) => {
                   ))}
                 </Select>
               </FormControl>
-            </Grid>
+            </Grid> */}
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth>
-                <InputLabel>Country</InputLabel>
+                <InputLabel>Role</InputLabel>
                 <Select
                   label='Country'
                   value={userData?.country?.toLowerCase().replace(/\s+/g, '-')}

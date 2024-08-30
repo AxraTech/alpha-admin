@@ -41,7 +41,8 @@ import Alert from '@/components/helper/Alert'
 import { useApp } from '@/app/ApolloWrapper'
 import AddNewCategoryDrawer from './AddNewCategoryDrawer'
 import EditNewCategoryDrawer from './EditNewCategoryDrawer'
-
+import OpenDialogOnElementClick from '@components/dialogs/OpenDialogOnElementClick'
+import ConfirmationDialog from '@components/dialogs/confirmation-dialog'
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
   const itemRank = rankItem(row.getValue(columnId), value)
@@ -91,6 +92,13 @@ const ProductCategoryTable = () => {
   const [loading, setLoading] = useState(false)
   const [editCategoryOpen, setEditCategoryOpen] = useState(false)
   const [editCategoryData, setEditCategoryData] = useState()
+
+  const buttonProps = (children, color, variant) => ({
+    children,
+    color,
+    variant
+  })
+
   const handleDelete = async id => {
     try {
       await deleteNewCat({ variables: { id: id } })
@@ -135,9 +143,18 @@ const ProductCategoryTable = () => {
             >
               <i className='ri-edit-box-line text-[22px] text-textSecondary' />
             </IconButton>
-            <IconButton size='small' onClick={() => handleDelete(row?.original?.id)}>
+            {/* <IconButton size='small' onClick={() => handleDelete(row?.original?.id)}>
               <i className='ri-delete-bin-7-line text-[22px] text-red-500' />
-            </IconButton>
+            </IconButton> */}
+            <OpenDialogOnElementClick
+              element={Button}
+              elementProps={buttonProps(<i className='ri-delete-bin-7-line text-[22px] text-red-500' />, 'error', '')}
+              dialog={ConfirmationDialog}
+              dialogProps={{ type: 'deleteNewCategory' }}
+              dataId={row.original.id}
+              setData={setData}
+              data={data}
+            />
             {/* <OptionMenu
               iconButtonProps={{ size: 'medium' }}
               iconClassName='text-textSecondary text-[22px]'

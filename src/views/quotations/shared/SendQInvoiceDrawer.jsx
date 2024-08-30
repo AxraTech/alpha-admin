@@ -11,10 +11,10 @@ import Chip from '@mui/material/Chip'
 import Divider from '@mui/material/Divider'
 import { useForm } from 'react-hook-form'
 import { useMutation } from '@apollo/client'
-import { IMGAE_UPLOAD, SEND_QUOTATION_FILE } from '@/graphql/mutations'
+import { IMGAE_UPLOAD, SEND_Q_INVOICE_FILE, SEND_QUOTATION_FILE } from '@/graphql/mutations'
 import { uploadFile } from '@/utils/helper'
 import { useApp } from '@/app/ApolloWrapper'
-import { InputAdornment } from '@mui/material'
+import { Grid, InputAdornment } from '@mui/material'
 import Alert from '@/components/helper/Alert'
 // Vars
 const initialData = {
@@ -30,10 +30,10 @@ We have generated a new invoice in the amount of $95.59
 We would appreciate payment of this invoice by 05/11/2019`
 }
 
-const SendQuotationDrawer = ({ open, handleClose, quotationData }) => {
+const SendQInvoiceDrawer = ({ open, handleClose, quotationData }) => {
   const [file, setFile] = useState()
   const [getFileUploadUrl] = useMutation(IMGAE_UPLOAD)
-  const [sendQuotation] = useMutation(SEND_QUOTATION_FILE)
+  const [sendQInvoice] = useMutation(SEND_Q_INVOICE_FILE)
   const { setGlobalMsg } = useApp()
   const fileInputRef = useRef(null)
 
@@ -53,20 +53,19 @@ const SendQuotationDrawer = ({ open, handleClose, quotationData }) => {
   // Handle Form Submit
   const handleFormSubmit = async data => {
     try {
-      const fileUploadUrl = await getFileUploadUrl({
-        variables: {
-          content_type: 'pdf',
-          folder: 'quotations'
-        }
+      // const fileUploadUrl = await getFileUploadUrl({
+      //   variables: {
+      //     content_type: 'pdf',
+      //     folder: 'quotations'
+      //   }
+      // })
+
+      // const uploadedFileUrl = await uploadFile(file[0], fileUploadUrl.data.getFileUploadUrl.fileUploadUrl, 'image')
+      const res = await sendQInvoice({
+        variables: { quotation_id: quotationData.id, discounted_amount: data.price }
       })
 
-      const uploadedFileUrl = await uploadFile(file[0], fileUploadUrl.data.getFileUploadUrl.fileUploadUrl, 'image')
-      const res = await sendQuotation({
-        variables: { quotation_id: quotationData.id, quotation_file_url: uploadedFileUrl }
-      })
-      console.log('res ', res)
-      setFile('')
-      setGlobalMsg('✅ Send Quotation file suceessful')
+      setGlobalMsg('✅ Send Quotation Invoice file suceessful')
     } catch (e) {
       setGlobalMsg('❌ Send file error')
     }
@@ -82,13 +81,17 @@ const SendQuotationDrawer = ({ open, handleClose, quotationData }) => {
   }
 
   const handleReset = () => {
-    setFile('')
-
+    resetForm({
+      price: ''
+    })
+    // handleClose()
     // setFormData(initialData)
   }
+
   const handleCloseDrawer = () => {
     handleClose()
   }
+
   return (
     <>
       <Drawer
@@ -100,7 +103,7 @@ const SendQuotationDrawer = ({ open, handleClose, quotationData }) => {
         sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
       >
         <div className='flex items-center justify-between pli-5 plb-4'>
-          <Typography variant='h5'>Send Quotation File</Typography>
+          <Typography variant='h5'>Send Invoice File</Typography>
           <IconButton size='small' onClick={handleCloseDrawer}>
             <i className='ri-close-line text-2xl' />
           </IconButton>
@@ -109,29 +112,44 @@ const SendQuotationDrawer = ({ open, handleClose, quotationData }) => {
 
         <div className='p-5'>
           <form onSubmit={handleSubmit(data => handleFormSubmit(data))} className='flex flex-col gap-5'>
-            <div className='flex items-center gap-4'>
-              <TextField
-                size='small'
-                placeholder='No file chosen'
-                variant='outlined'
-                value={file}
-                className='flex-auto'
-                InputProps={{
-                  readOnly: true,
-                  endAdornment: file ? (
-                    <InputAdornment position='end'>
-                      <IconButton size='small' edge='end' onClick={() => setFileName('')}>
-                        <i className='ri-close-line' />
-                      </IconButton>
-                    </InputAdornment>
-                  ) : null
-                }}
-              />
-              <Button component='label' variant='outlined' htmlFor='contained-button-file' className='min-is-fit'>
-                Choose
-                <input hidden id='contained-button-file' type='file' onChange={handleFileUpload} ref={fileInputRef} />
-              </Button>
-            </div>
+            <Controller
+              name='price'
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  fullWidth
+                  type='number'
+                  label='Price'
+                  placeholder=''
+                  {...(errors.price && { error: true, helperText: 'This field is required.' })}
+                />
+              )}
+            />
+            {/* <div className='flex items-center gap-4'>
+            <TextField
+              size='small'
+              placeholder='No file chosen'
+              variant='outlined'
+              value={file}
+              className='flex-auto'
+              InputProps={{
+                readOnly: true,
+                endAdornment: file ? (
+                  <InputAdornment position='end'>
+                    <IconButton size='small' edge='end' onClick={() => setFileName('')}>
+                      <i className='ri-close-line' />
+                    </IconButton>
+                  </InputAdornment>
+                ) : null
+              }}
+            />
+            <Button component='label' variant='outlined' htmlFor='contained-button-file' className='min-is-fit'>
+              Choose
+              <input hidden id='contained-button-file' type='file' onChange={handleFileUpload} ref={fileInputRef} />
+            </Button>
+          </div> */}
 
             <div className='flex items-center gap-4'>
               <Button variant='contained' type='submit'>
@@ -144,8 +162,9 @@ const SendQuotationDrawer = ({ open, handleClose, quotationData }) => {
           </form>
         </div>
       </Drawer>
+      <Alert />
     </>
   )
 }
 
-export default SendQuotationDrawer
+export default SendQInvoiceDrawer

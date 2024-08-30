@@ -68,7 +68,7 @@ const UserRight = ({ tabContentList }) => {
               />
             </CustomTabList>
           </Grid>
-          <Grid item xs={12} className='flex gap-4'>
+          {/* <Grid item xs={12} className='flex gap-4'>
             <Button
               variant='outlined'
               color='info'
@@ -104,7 +104,7 @@ const UserRight = ({ tabContentList }) => {
             >
               Disabled
             </Button>
-          </Grid>
+          </Grid> */}
           <Grid item xs={12}>
             <TabPanel value={activeTab} className='p-0'>
               {tabContentList[activeTab]}

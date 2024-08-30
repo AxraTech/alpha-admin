@@ -19,12 +19,10 @@ import { TextAlign } from '@tiptap/extension-text-align'
 
 // Components Imports
 import CustomIconButton from '@core/components/mui/IconButton'
-import ReactHtmlParser from 'react-html-parser'
 
 // Style Imports
 import '@/libs/styles/tiptapEditor.css'
 import { setNonce } from 'react-colorful'
-import { useEffect } from 'react'
 
 const EditorToolbar = ({ editor }) => {
   if (!editor) {
@@ -113,16 +111,7 @@ const EditorToolbar = ({ editor }) => {
   )
 }
 
-const ProductInformation = ({ setTitle, title, setSNo, sNo, setDescription, description, errors, productData }) => {
-  // const htmlDescription = ReactHtmlParser(productData.description_html)
-
-  useEffect(() => {
-    if (productData) {
-      setTitle(productData.title)
-      setSNo(productData.serial_number)
-      setDescription(ReactHtmlParser(productData.description_html)[0]?.props?.children[0])
-    }
-  }, [productData])
+const NewsInformation = ({ setTitle, title, setDescription, description, errors }) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -134,38 +123,26 @@ const ProductInformation = ({ setTitle, title, setSNo, sNo, setDescription, desc
       }),
       Underline
     ],
-    content: description,
+    content: description, // Use the initial description state
     onUpdate: ({ editor }) => {
-      setDescription(editor.getHTML())
+      setDescription(editor.getHTML()) // Update state when content changes
     }
   })
 
   return (
     <Card>
-      <CardHeader title='Product Information' />
+      <CardHeader title='Post Information' />
       <CardContent>
         <Grid container spacing={5} className='mbe-5'>
           <Grid item xs={12}>
             <TextField
               fullWidth
-              label='Product Name'
-              placeholder='Enter Product Name'
+              label='Post Name'
+              placeholder='Enter Post Name'
               value={title}
               onChange={e => setTitle(e.target.value)}
               error={errors?.title ? true : false}
               helperText={errors?.title}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              label='Serial Number'
-              placeholder='0123-4567'
-              value={sNo}
-              onChange={e => setSNo(e.target.value)}
-              error={errors?.sNo ? true : false}
-              helperText={errors?.sNo}
             />
           </Grid>
         </Grid>
@@ -174,7 +151,12 @@ const ProductInformation = ({ setTitle, title, setSNo, sNo, setDescription, desc
           <CardContent className='p-0'>
             <EditorToolbar editor={editor} />
             <Divider className='mli-5' />
-            <EditorContent editor={editor} className='bs-[135px] overflow-y-auto flex ' />
+            <EditorContent
+              editor={editor}
+              className='bs-[135px] overflow-y-auto flex '
+              value={description}
+              onChange={e => setDescription(e.target.value)}
+            />
           </CardContent>
         </Card>
       </CardContent>
@@ -182,4 +164,4 @@ const ProductInformation = ({ setTitle, title, setSNo, sNo, setDescription, desc
   )
 }
 
-export default ProductInformation
+export default NewsInformation

@@ -63,7 +63,6 @@ export const ADD_PRODUCT = gql`
     }
   }
 `
-
 export const EDIT_RPODUCTS = gql`
   mutation editProduct(
     $id: uuid!
@@ -73,7 +72,6 @@ export const EDIT_RPODUCTS = gql`
     $category_id: uuid!
     $serial_number: String!
     $price: numeric!
-    $product_medias: product_medias_arr_rel_insert_input!
   ) {
     update_products_by_pk(
       pk_columns: { id: $id }
@@ -84,14 +82,12 @@ export const EDIT_RPODUCTS = gql`
         category_id: $category_id
         serial_number: $serial_number
         price: $price
-        product_medias: $product_medias
       }
     ) {
       id
     }
   }
 `
-
 export const ADD_NEWS = gql`
   mutation addNews($data: news_insert_input!) {
     insert_news_one(object: $data) {
@@ -177,6 +173,23 @@ export const ADD_NEWS_PRODUCTS = gql`
     }
   }
 `
+export const EDIT_NEWS = gql`
+  mutation editNewProducts($id: uuid!, $data: news_set_input!) {
+    update_news_by_pk(pk_columns: { id: $id }, _set: $data) {
+      id
+    }
+  }
+`
+export const DELETE_NEW_RELATED_PRODUCTS = gql`
+  mutation aa($news_id: uuid!) {
+    delete_news_related_products(where: { news_id: { _eq: $news_id } }) {
+      returning {
+        id
+      }
+    }
+  }
+`
+
 export const IMGAE_UPLOAD = gql`
   mutation aa($content_type: String!, $folder: String!) {
     getFileUploadUrl(content_type: $content_type, folder: $folder) {
@@ -187,12 +200,10 @@ export const IMGAE_UPLOAD = gql`
     }
   }
 `
-
 export const CHANGE_ORDER_STATUS = gql`
-  mutation changeOrderStatus($id: uuid!, $data: orders_set_input!) {
-    update_orders_by_pk(pk_columns: { id: $id }, _set: $data) {
-      id
-      status
+  mutation orderStatus($order_id: uuid!, $status: String!) {
+    updateOrderStatus(order_id: $order_id, status: $status) {
+      message
     }
   }
 `
@@ -204,7 +215,6 @@ export const CHANGE_SERVICE_STATUS = gql`
     }
   }
 `
-
 export const CHANGE_USER_STATUS = gql`
   mutation changeUserStatus($id: uuid!, $data: users_set_input!) {
     update_users_by_pk(pk_columns: { id: $id }, _set: $data) {
@@ -214,11 +224,17 @@ export const CHANGE_USER_STATUS = gql`
     }
   }
 `
+export const CHANGE_USER_ACTIVATE = gql`
+  mutation userStatus($user_id: uuid!, $is_verified: Boolean!) {
+    updateUserStatus(user_id: $user_id, is_verified: $is_verified) {
+      message
+    }
+  }
+`
 export const CHANGE_QUOTATION_STATUS = gql`
-  mutation changeQuotationStatus($id: uuid!, $data: quotations_set_input!) {
-    update_quotations_by_pk(pk_columns: { id: $id }, _set: $data) {
-      id
-      status
+  mutation updateQuotationStatus($quotation_id: uuid!, $status: String!) {
+    updateQuotationStatus(quotation_id: $quotation_id, status: $status) {
+      message
     }
   }
 `
@@ -231,9 +247,29 @@ export const CHANGE_INVOICE_STATUS = gql`
   }
 `
 export const SEND_QUOTATION_FILE = gql`
-  mutation sendQuotationPdf($id: uuid!, $quotation_file_url: String!) {
-    update_quotations_by_pk(pk_columns: { id: $id }, _set: { quotation_file_url: $quotation_file_url }) {
-      id
+  mutation updateQuotationStatus($quotation_file_url: String!, $quotation_id: uuid!) {
+    sendQuotationFIle(quotation_file_url: $quotation_file_url, quotation_id: $quotation_id) {
+      message
+    }
+  }
+`
+
+export const ADD_PARYMENT = gql`
+  mutation addPayment($amount: numeric!, $invoice_id: uuid!, $payment_date: timestamp!, $payment_method: String!) {
+    addInvoicePayment(
+      amount: $amount
+      invoice_id: $invoice_id
+      payment_date: $payment_date
+      payment_method: $payment_method
+    ) {
+      message
+    }
+  }
+`
+export const SEND_Q_INVOICE_FILE = gql`
+  mutation sendQInvoice($discounted_amount: numeric!, $quotation_id: uuid!) {
+    sendInvoice(discounted_amount: $discounted_amount, quotation_id: $quotation_id) {
+      message
     }
   }
 `
@@ -244,7 +280,6 @@ export const SEND_INVOICE_FILE = gql`
     }
   }
 `
-
 export const DELETE_ADMIN = gql`
   mutation deleteAdmin($id: uuid!) {
     delete_admins_by_pk(id: $id) {
@@ -259,7 +294,6 @@ export const DELETE_SERVICE_CENTER = gql`
     }
   }
 `
-
 export const ADD_ADMIN = gql`
   mutation aa($email: String!, $password: String!, $name: String!, $role: String!) {
     AdminSignUp(email: $email, password: $password, name: $name, role: $role) {
@@ -268,7 +302,6 @@ export const ADD_ADMIN = gql`
     }
   }
 `
-
 export const ADD_USER = gql`
   mutation aa($name: String!, $password: String!, $role: String!, $phone: String!) {
     UserSignUp(name: $name, password: $password, role: $role, phone: $phone) {
@@ -285,9 +318,10 @@ export const ADD_SERVICE_CENTER = gql`
   }
 `
 export const IS_WARRANTY_VALID = gql`
-  mutation iswarrantyValid($id: uuid!, $data: service_tokens_set_input!) {
+  mutation editService($id: uuid!, $data: service_tokens_set_input!) {
     update_service_tokens_by_pk(pk_columns: { id: $id }, _set: $data) {
       id
+      service_fee
     }
   }
 `
@@ -298,7 +332,6 @@ export const EDIT_SERVICE_CENTER = gql`
     }
   }
 `
-
 export const DELETE_PRODUCT_DISCOUNT = gql`
   mutation deleteProductDiscount($id: uuid!) {
     delete_product_discounts_by_pk(id: $id) {
@@ -313,7 +346,6 @@ export const ADD_DISCOUNT = gql`
     }
   }
 `
-
 export const EDIT_PRODUCT_CATEGORY = gql`
   mutation editCategory($id: uuid!, $data: product_categories_set_input!) {
     update_product_categories_by_pk(pk_columns: { id: $id }, _set: $data) {
@@ -328,7 +360,6 @@ export const EDIT_BRAND = gql`
     }
   }
 `
-
 export const EDIt_NEWS_CAT = gql`
   mutation editNewCat($id: uuid!, $title: String!) {
     update_news_categories_by_pk(pk_columns: { id: $id }, _set: { title: $title }) {

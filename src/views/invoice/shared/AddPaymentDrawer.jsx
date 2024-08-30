@@ -1,3 +1,4 @@
+'use client'
 // React Imports
 import { useState } from 'react'
 
@@ -16,7 +17,10 @@ import Divider from '@mui/material/Divider'
 
 // Styled Component Imports
 import AppReactDatepicker from '@/libs/styles/AppReactDatepicker'
-
+import { useMutation } from '@apollo/client'
+import { ADD_PARYMENT } from '@/graphql/mutations'
+import Alert from '@/components/helper/Alert'
+import { useApp } from '@/app/ApolloWrapper'
 // Vars
 const initialData = {
   paymentDate: new Date(),
@@ -25,14 +29,33 @@ const initialData = {
   paymentNote: ''
 }
 
-const AddPaymentDrawer = ({ open, handleClose }) => {
+const AddPaymentDrawer = ({ open, handleClose, invoiceData, paymentMethods }) => {
   // States
-  const [formData, setFormData] = useState(initialData)
+  const { setGlobalMsg } = useApp()
+  const [loading, setLoading] = useState(false)
 
-  const handleSubmit = e => {
+  const [formData, setFormData] = useState(initialData)
+  const [addPayments] = useMutation(ADD_PARYMENT)
+  const handleSubmit = async e => {
     e.preventDefault()
-    handleClose()
-    setFormData(initialData)
+
+    try {
+      setLoading(true)
+      const res = await addPayments({
+        variables: {
+          amount: formData.amount,
+          invoice_id: invoiceData.id,
+          payment_date: formData.payment_date,
+          payment_method: formData.payment_method
+        }
+      })
+      setLoading(false)
+      setGlobalMsg('✅ Payment Send Successful')
+      setFormData('')
+      handleClose()
+    } catch (e) {
+      console.log('Error ', e)
+    }
   }
 
   const handleReset = () => {
@@ -41,55 +64,78 @@ const AddPaymentDrawer = ({ open, handleClose }) => {
   }
 
   return (
-    <Drawer
-      open={open}
-      anchor='right'
-      variant='temporary'
-      onClose={handleReset}
-      ModalProps={{ keepMounted: true }}
-      sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
-    >
-      <div className='flex items-center justify-between pli-5 plb-4'>
-        <Typography variant='h5'>Add New User</Typography>
-        <IconButton size='small' onClick={handleReset}>
-          <i className='ri-close-line text-2xl' />
-        </IconButton>
-      </div>
-      <Divider />
-      <div className='p-5'>
-        <form onSubmit={handleSubmit} className='flex flex-col gap-5'>
-          <TextField
+    <>
+      <Drawer
+        open={open}
+        anchor='right'
+        variant='temporary'
+        onClose={handleReset}
+        ModalProps={{ keepMounted: true }}
+        sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
+      >
+        <div className='flex items-center justify-between pli-5 plb-4'>
+          <Typography variant='h5'>Add Payment</Typography>
+          <IconButton size='small' onClick={handleReset}>
+            <i className='ri-close-line text-2xl' />
+          </IconButton>
+        </div>
+        <Divider />
+        <div className='p-5'>
+          <Typography className='flex justify-end text-red-600'>
+            Balance : {invoiceData.balance ? invoiceData.balance.toLocaleString() : 0}
+          </Typography>
+          <form onSubmit={handleSubmit} className='flex flex-col gap-5 mt-5'>
+            {/* <TextField
             fullWidth
             id='invoice-balance'
             label='Invoice Balance'
             InputProps={{ disabled: true }}
             defaultValue='5000.00'
-          />
-          <TextField
-            fullWidth
-            id='payment-amount'
-            label='Payment Amount'
-            type='number'
-            InputProps={{
-              startAdornment: <InputAdornment position='start'>$</InputAdornment>
-            }}
-            value={formData.paymentAmount}
-            onChange={e => setFormData({ ...formData, paymentAmount: +e.target.value })}
-          />
-          <AppReactDatepicker
-            selected={formData.paymentDate}
-            id='payment-date'
-            onChange={date => date !== null && setFormData({ ...formData, paymentDate: date })}
-            customInput={<TextField fullWidth label='Payment Date' />}
-          />
-          <FormControl fullWidth>
-            <InputLabel htmlFor='payment-method'>Payment Method</InputLabel>
+          /> */}
+            <TextField
+              fullWidth
+              id='amount'
+              label='Payment Amount'
+              type='number'
+              InputProps={{
+                startAdornment: <InputAdornment position='start'></InputAdornment>
+              }}
+              value={formData.amount}
+              onChange={e => setFormData({ ...formData, amount: +e.target.value })}
+            />
+            <AppReactDatepicker
+              selected={formData.payment_date}
+              id='payment-date'
+              onChange={date => date !== null && setFormData({ ...formData, payment_date: date })}
+              customInput={<TextField fullWidth label='Payment Date' />}
+            />
+            <FormControl fullWidth>
+              <InputLabel htmlFor='payment-method'>Payment Method</InputLabel>
+              <Select
+                label='Payment Method'
+                labelId='payment-method'
+                id='payment-method-select'
+                value={formData.payment_method}
+                onChange={e => setFormData({ ...formData, payment_method: e.target.value })}
+              >
+                <MenuItem value='select-method' disabled>
+                  Select Payment Method
+                </MenuItem>
+                {paymentMethods.payment_methods.map(method => (
+                  <MenuItem value={method.name} key={method.id}>
+                    {method.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            {/* <FormControl fullWidth>
+            <InputLabel htmlFor='payment-method'>Payment Status</InputLabel>
             <Select
               label='Payment Method'
               labelId='payment-method'
               id='payment-method-select'
-              value={formData.paymentMethod}
-              onChange={e => setFormData({ ...formData, paymentMethod: e.target.value })}
+              value={formData.status}
+              onChange={e => setFormData({ ...formData, status: e.target.value })}
             >
               <MenuItem value='select-method' disabled>
                 Select Payment Method
@@ -100,8 +146,8 @@ const AddPaymentDrawer = ({ open, handleClose }) => {
               <MenuItem value='debit'>Debit</MenuItem>
               <MenuItem value='paypal'>Paypal</MenuItem>
             </Select>
-          </FormControl>
-          <TextField
+          </FormControl> */}
+            {/* <TextField
             rows={6}
             multiline
             fullWidth
@@ -109,18 +155,20 @@ const AddPaymentDrawer = ({ open, handleClose }) => {
             placeholder='Internal Payment Note'
             value={formData.paymentNote}
             onChange={e => setFormData({ ...formData, paymentNote: e.target.value })}
-          />
-          <div className='flex items-center gap-4'>
-            <Button size='large' variant='contained' type='submit'>
-              Send
-            </Button>
-            <Button size='large' variant='outlined' color='secondary' type='reset' onClick={handleReset}>
-              Cancel
-            </Button>
-          </div>
-        </form>
-      </div>
-    </Drawer>
+          /> */}
+            <div className='flex items-center gap-4'>
+              <Button loading={loading} size='large' variant='contained' type='submit'>
+                Send
+              </Button>
+              <Button size='large' variant='outlined' color='secondary' type='reset' onClick={handleReset}>
+                Cancel
+              </Button>
+            </div>
+          </form>
+        </div>
+      </Drawer>
+      <Alert />
+    </>
   )
 }
 

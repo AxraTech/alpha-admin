@@ -16,12 +16,14 @@ import SendInvoiceNewDrawer from '@views/invoice/shared/SendInvoiceNewDrawer'
 
 // Util Imports
 import { getLocalizedUrl } from '@/utils/i18n'
+import { useSuspenseQuery } from '@apollo/client'
+import { GET_PAYMENT_METHODS } from '@/graphql/queries'
 
 const PreviewActions = ({ id, onButtonClick, invoiceData }) => {
   // States
   const [paymentDrawerOpen, setPaymentDrawerOpen] = useState(false)
   const [sendDrawerOpen, setSendDrawerOpen] = useState(false)
-
+  const { data: paymentMethods } = useSuspenseQuery(GET_PAYMENT_METHODS)
   // Hooks
   const { lang: locale } = useParams()
 
@@ -36,12 +38,12 @@ const PreviewActions = ({ id, onButtonClick, invoiceData }) => {
             startIcon={<i className='ri-send-plane-line' />}
             onClick={() => setSendDrawerOpen(true)}
           >
-            Send Invoice
+            Send Invoice File
           </Button>
-          <Button fullWidth color='secondary' variant='outlined' className='capitalize'>
+          {/* <Button fullWidth color='secondary' variant='outlined' className='capitalize'>
             Download
-          </Button>
-          <div className='flex items-center gap-4'>
+          </Button> */}
+          {/* <div className='flex items-center gap-4'>
             <Button fullWidth color='secondary' variant='outlined' className='capitalize' onClick={onButtonClick}>
               Print
             </Button>
@@ -55,7 +57,7 @@ const PreviewActions = ({ id, onButtonClick, invoiceData }) => {
             >
               Edit
             </Button>
-          </div>
+          </div> */}
           <Button
             fullWidth
             color='success'
@@ -68,7 +70,12 @@ const PreviewActions = ({ id, onButtonClick, invoiceData }) => {
           </Button>
         </CardContent>
       </Card>
-      <AddPaymentDrawer open={paymentDrawerOpen} handleClose={() => setPaymentDrawerOpen(false)} />
+      <AddPaymentDrawer
+        open={paymentDrawerOpen}
+        handleClose={() => setPaymentDrawerOpen(false)}
+        invoiceData={invoiceData}
+        paymentMethods={paymentMethods}
+      />
       <SendInvoiceNewDrawer
         open={sendDrawerOpen}
         handleClose={() => setSendDrawerOpen(false)}

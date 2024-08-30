@@ -17,7 +17,7 @@ import { SERVICE_TOKEN_BY_ID } from '@/graphql/queries'
 
 const ServiceDetails = () => {
   const { id } = useParams()
-  const { data } = useSuspenseQuery(SERVICE_TOKEN_BY_ID, { variables: { id: id } })
+  const { data } = useSuspenseQuery(SERVICE_TOKEN_BY_ID, { variables: { id: id }, fetchPolicy: 'network-only' })
   const serviceData = data?.service_tokens_by_pk
   const handleButtonClick = () => {
     window.print()

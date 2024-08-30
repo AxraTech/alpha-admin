@@ -1,7 +1,7 @@
 'use client'
 
 // React Imports
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 // MUI Imports
 import Card from '@mui/material/Card'
@@ -13,7 +13,6 @@ import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material/styles'
-import { uploadFile } from '@/utils/helper'
 
 // Third-party Imports
 import { useDropzone } from 'react-dropzone'
@@ -24,6 +23,8 @@ import CustomAvatar from '@core/components/mui/Avatar'
 
 // Styled Component Imports
 import AppReactDropzone from '@/libs/styles/AppReactDropzone'
+import { useMutation } from '@apollo/client'
+import { IMGAE_UPLOAD } from '@/graphql/mutations'
 
 // Styled Dropzone Component
 const Dropzone = styled(AppReactDropzone)(({ theme }) => ({
@@ -39,23 +40,29 @@ const Dropzone = styled(AppReactDropzone)(({ theme }) => ({
   }
 }))
 
-const ProductImage = ({ files, setFiles }) => {
+const NewImage = ({ files, setFiles, newData }) => {
   // States
-  // const [files, setFiles] = useState([])
-  const [productMedia, setProductMedia] = useState([])
+
   // Hooks
   const { getRootProps, getInputProps } = useDropzone({
+    multiple: true,
     onDrop: acceptedFiles => {
-      // setFiles(acceptedFiles[0])
       setFiles(acceptedFiles.map(file => Object.assign(file)))
     }
   })
 
+  useEffect(() => {
+    if (newData) {
+      setFiles(newData.image_url)
+    }
+  }, [newData])
+
   const renderFilePreview = file => {
-    if (file.type.startsWith('image')) {
+    if (file?.type?.startsWith('image')) {
       return <img width={38} height={38} alt={file.name} src={URL.createObjectURL(file)} />
     } else {
-      return <i className='ri-file-text-line' />
+      return <img width={38} height={38} alt={file.name} src={files} />
+      // return <i className='ri-file-text-line' />
     }
   }
 
@@ -64,42 +71,33 @@ const ProductImage = ({ files, setFiles }) => {
     const filtered = uploadedFiles.filter(i => i.name !== file.name)
     setFiles([...filtered])
   }
-
-  const fileList = files.map(file => (
-    <ListItem key={file.name} className='pis-4 plb-3'>
+  const fileList = () => {
+    /* // const fileList = files.map(file => ( ; */
+    ;<ListItem className='pis-4 plb-3'>
       <div className='file-details'>
-        <div className='file-preview'>{renderFilePreview(file)}</div>
+        {/* <div className='file-preview'>{renderFilePreview(files)}</div> */}
+        <div className='file-preview'>
+          <img width={38} height={38} alt='image' src={files} />
+        </div>
         <div>
           <Typography className='file-name font-medium' color='text.primary'>
-            {file.name}
+            {files?.name}
           </Typography>
           <Typography className='file-size' variant='body2'>
-            {Math.round(file.size / 100) / 10 > 1000
-              ? `${(Math.round(file.size / 100) / 10000).toFixed(1)} mb`
-              : `${(Math.round(file.size / 100) / 10).toFixed(1)} kb`}
+            {Math.round(files?.size / 100) / 10 > 1000
+              ? `${(Math.round(files?.size / 100) / 10000).toFixed(1)} mb`
+              : `${(Math.round(files?.size / 100) / 10).toFixed(1)} kb`}
           </Typography>
         </div>
       </div>
-      <IconButton onClick={() => handleRemoveFile(file)}>
+      <IconButton onClick={() => handleRemoveFile(files)}>
         <i className='ri-close-line text-xl' />
       </IconButton>
     </ListItem>
-  ))
+  }
 
   const handleRemoveAllFiles = () => {
     setFiles([])
-  }
-
-  const handleMultiFileChange = e => {
-    const files = e.target.files
-    const urls = []
-
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i]
-      const url = URL.createObjectURL(file)
-      urls.push({ file: url, type: file.type.split('/')[0] })
-    }
-    setProductMedia(urls)
   }
 
   return (
@@ -128,9 +126,32 @@ const ProductImage = ({ files, setFiles }) => {
               </Button>
             </div>
           </div>
+
           {files.length ? (
             <>
-              <List>{fileList}</List>
+              <List>
+                <ListItem className='pis-4 plb-3'>
+                  <div className='file-details'>
+                    {/* <div className='file-preview'>{renderFilePreview(files)}</div> */}
+                    <div className='file-preview'>
+                      <img width={38} height={38} alt='image' src={files} />
+                    </div>
+                    <div>
+                      <Typography className='file-name font-medium' color='text.primary'>
+                        {files?.name}
+                      </Typography>
+                      <Typography className='file-size' variant='body2'>
+                        {Math.round(files?.size / 100) / 10 > 1000
+                          ? `${(Math.round(files?.size / 100) / 10000).toFixed(1)} mb`
+                          : `${(Math.round(files?.size / 100) / 10).toFixed(1)} kb`}
+                      </Typography>
+                    </div>
+                  </div>
+                  <IconButton onClick={() => handleRemoveFile(files)}>
+                    <i className='ri-close-line text-xl' />
+                  </IconButton>
+                </ListItem>
+              </List>
               <div className='buttons'>
                 <Button color='error' variant='outlined' onClick={handleRemoveAllFiles}>
                   Remove All
@@ -145,4 +166,4 @@ const ProductImage = ({ files, setFiles }) => {
   )
 }
 
-export default ProductImage
+export default NewImage

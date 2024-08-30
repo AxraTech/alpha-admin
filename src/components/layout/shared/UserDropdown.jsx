@@ -27,7 +27,10 @@ import { useSettings } from '@core/hooks/useSettings'
 
 // Util Imports
 import { getLocalizedUrl } from '@/utils/i18n'
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie'
+import { jwtDecode } from 'jwt-decode'
+import { useMutation, useSuspenseQuery } from '@apollo/client'
+import { ADMIN_BY_PK, GET_USER_BY_ID } from '../../../graphql/queries'
 
 // Styled component for badge content
 const BadgeContentSpan = styled('span')({
@@ -42,6 +45,8 @@ const BadgeContentSpan = styled('span')({
 const UserDropdown = () => {
   // States
   const [open, setOpen] = useState(false)
+  const userData = Cookies.get('token')
+  const userById = jwtDecode(userData)
 
   // Refs
   const anchorRef = useRef(null)
@@ -71,8 +76,8 @@ const UserDropdown = () => {
   const handleUserLogout = async () => {
     try {
       // Sign out from the app
-      Cookies.remove("token")
-      router.push("/en/login")
+      Cookies.remove('token')
+      router.push('/en/login')
     } catch (error) {
       console.error(error)
 
@@ -93,7 +98,7 @@ const UserDropdown = () => {
         <Avatar
           ref={anchorRef}
           alt={session?.user?.name || ''}
-          src={session?.user?.image || ''}
+          src={userById?.admins_by_pk || ''}
           onClick={handleDropdownOpen}
           className='cursor-pointer bs-[38px] is-[38px]'
         />
@@ -120,28 +125,28 @@ const UserDropdown = () => {
                     <Avatar alt={session?.user?.name || ''} src={session?.user?.image || ''} />
                     <div className='flex items-start flex-col'>
                       <Typography className='font-medium' color='text.primary'>
-                        {session?.user?.name || ''}
+                        {userById.role ? userById.role : 'hello'}
                       </Typography>
                       <Typography variant='caption'>{session?.user?.email || ''}</Typography>
                     </div>
                   </div>
                   <Divider className='mlb-1' />
-                  <MenuItem className='gap-3' onClick={e => handleDropdownClose(e, '/pages/user-profile')}>
+                  {/* <MenuItem className='gap-3' onClick={e => handleDropdownClose(e, '/pages/user-profile')}>
                     <i className='ri-user-3-line' />
                     <Typography color='text.primary'>My Profile</Typography>
-                  </MenuItem>
-                  <MenuItem className='gap-3' onClick={e => handleDropdownClose(e, '/pages/account-settings')}>
+                  </MenuItem> */}
+                  {/* <MenuItem className='gap-3' onClick={e => handleDropdownClose(e, '/pages/account-settings')}>
                     <i className='ri-settings-4-line' />
                     <Typography color='text.primary'>Settings</Typography>
-                  </MenuItem>
-                  <MenuItem className='gap-3' onClick={e => handleDropdownClose(e, '/pages/pricing')}>
+                  </MenuItem> */}
+                  {/* <MenuItem className='gap-3' onClick={e => handleDropdownClose(e, '/pages/pricing')}>
                     <i className='ri-money-dollar-circle-line' />
                     <Typography color='text.primary'>Pricing</Typography>
-                  </MenuItem>
-                  <MenuItem className='gap-3' onClick={e => handleDropdownClose(e, '/pages/faq')}>
+                  </MenuItem> */}
+                  {/* <MenuItem className='gap-3' onClick={e => handleDropdownClose(e, '/pages/faq')}>
                     <i className='ri-question-line' />
                     <Typography color='text.primary'>FAQ</Typography>
-                  </MenuItem>
+                  </MenuItem> */}
                   <div className='flex items-center plb-2 pli-4'>
                     <Button
                       fullWidth

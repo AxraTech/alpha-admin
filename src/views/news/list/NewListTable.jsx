@@ -52,7 +52,8 @@ import Avatar from '@mui/material/Avatar'
 import { DELETE_NEWS, DELETE_PRODUCT } from '@/graphql/mutations'
 import { useApp } from '@/app/ApolloWrapper'
 import Alert from '@/components/helper/Alert'
-
+import OpenDialogOnElementClick from '@components/dialogs/OpenDialogOnElementClick'
+import ConfirmationDialog from '@components/dialogs/confirmation-dialog'
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
   const itemRank = rankItem(row.getValue(columnId), value)
@@ -115,6 +116,12 @@ const NewListTable = () => {
   // Hooks
   const { lang: locale } = useParams()
 
+  const buttonProps = (children, color, variant) => ({
+    children,
+    color,
+    variant
+  })
+
   const handleDelete = async id => {
     try {
       await deletNew({ variables: { id: id } })
@@ -166,12 +173,23 @@ const NewListTable = () => {
         header: 'Actions',
         cell: ({ row }) => (
           <div className='flex items-center'>
-            {/* <IconButton size='small'>
-              <i className='ri-edit-box-line text-[22px] text-textSecondary' />
-            </IconButton> */}
-            <IconButton size='small' onClick={() => handleDelete(row?.original?.id)}>
-              <i className='ri-delete-bin-7-line text-[22px] text-red-500' />
+            <IconButton size='small'>
+              <Link href={getLocalizedUrl(`/news/edit/${row.original.id}`, locale)} className='flex'>
+                <i className='ri-edit-box-line text-[22px] ' />
+              </Link>
             </IconButton>
+            {/* <IconButton size='small' onClick={() => handleDelete(row?.original?.id)}>
+              <i className='ri-delete-bin-7-line text-[22px] text-red-500' />
+            </IconButton> */}
+            <OpenDialogOnElementClick
+              element={Button}
+              elementProps={buttonProps(<i className='ri-delete-bin-7-line text-[22px] text-red-500' />, 'error', '')}
+              dialog={ConfirmationDialog}
+              dialogProps={{ type: 'deletePost' }}
+              dataId={row.original.id}
+              setData={setData}
+              data={data}
+            />
           </div>
         ),
         enableSorting: false

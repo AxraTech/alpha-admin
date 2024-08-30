@@ -73,7 +73,7 @@ const UserDetails = () => {
               <Typography variant='h5'>Details</Typography>
               <Chip
                 label={data.users_by_pk.status}
-                color={`${data.users_by_pk.status === 'pending' ? 'primary' : data.users_by_pk.status === 'active' ? 'success' : 'error'}`}
+                color={`${data.users_by_pk.status === 'pending' ? 'primary' : data.users_by_pk.status === 'verified' ? 'success' : 'error'}`}
                 size='small'
                 // variant='tonal'
               />
@@ -120,17 +120,33 @@ const UserDetails = () => {
             </div>
           </div>
           <div className='flex gap-4 justify-center'>
-            <OpenDialogOnElementClick
+            {/* <OpenDialogOnElementClick
               element={Button}
               elementProps={buttonProps('Edit', 'primary', 'contained')}
               dialog={EditUserInfo}
               dialogProps={{ data: data.users_by_pk }}
-            />
+            /> */}
+            {data.users_by_pk.status !== 'disable' && (
+              <OpenDialogOnElementClick
+                element={Button}
+                elementProps={buttonProps(`Disable`, `error`, 'outlined')}
+                dialog={ConfirmationDialog}
+                dialogProps={{ type: 'disable-account' }}
+                data={data.users_by_pk}
+              />
+            )}
             <OpenDialogOnElementClick
               element={Button}
-              elementProps={buttonProps('Suspend', 'error', 'outlined')}
+              elementProps={buttonProps(
+                `${data.users_by_pk.status === 'verified' ? 'Unverified' : 'Verified'}`,
+                `${data.users_by_pk.status === 'verified' ? 'error' : 'success'}`,
+                'outlined'
+              )}
               dialog={ConfirmationDialog}
-              dialogProps={{ type: 'suspend-account' }}
+              dialogProps={{
+                type: `${data.users_by_pk.status === 'verified' ? 'unverified-account' : 'verified-account'}`
+              }}
+              userData={data.users_by_pk}
             />
           </div>
         </CardContent>

@@ -22,17 +22,27 @@ const Preview = () => {
   }
 
   return (
-    <Grid container spacing={6}>
-      <Grid item xs={12} md={9}>
-        <QuotationStatus quotationData={quotationData.quotations_by_pk} />
+    <>
+      {/* <Grid container spacing={6}>
+        <Grid item xs={12} md={12} paddingBottom={10}>
+          <QuotationStatus quotationData={quotationData.quotations_by_pk} />
+        </Grid>
+      </Grid> */}
+      <Grid container spacing={6}>
+        {/* <Grid item xs={12} md={9}>
+          <QuotationStatus quotationData={quotationData.quotations_by_pk} />
+        </Grid> */}
+        <Grid item xs={12} md={9}>
+          <PreviewCard quotationData={quotationData.quotations_by_pk} />
+        </Grid>
+        <Grid item xs={12} md={3} className='flex flex-col gap-5'>
+          <QuotationStatus quotationData={quotationData.quotations_by_pk} />
+          {quotationData.quotations_by_pk.status === 'accepted' && (
+            <PreviewActions onButtonClick={handleButtonClick} quotationData={quotationData.quotations_by_pk} />
+          )}
+        </Grid>
       </Grid>
-      <Grid item xs={12} md={9}>
-        <PreviewCard quotationData={quotationData.quotations_by_pk} />
-      </Grid>
-      <Grid item xs={12} md={3}>
-        <PreviewActions onButtonClick={handleButtonClick} quotationData={quotationData.quotations_by_pk} />
-      </Grid>
-    </Grid>
+    </>
   )
 }
 

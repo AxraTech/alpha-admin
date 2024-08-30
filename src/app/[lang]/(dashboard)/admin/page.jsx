@@ -4,7 +4,7 @@ import { ADMIN_ROLES_AGGREGATE } from '@/graphql/queries'
 import AdminCard from '@/views/admin/lists/AdminCard'
 // Component Imports
 import AdminTable from '@/views/admin/lists/AdminTable'
-import { useQuery, useSuspenseQuery } from '@apollo/client'
+import { useSuspenseQuery } from '@apollo/client'
 import { Grid } from '@mui/material'
 
 const eCommerceProductsCategory = () => {

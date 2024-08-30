@@ -148,7 +148,7 @@ const AddBrandDrawer = props => {
           </div>
 
           <div className='flex items-center gap-4'>
-            <Button variant='contained' type='submit'>
+            <Button variant='contained' type='submit' loading={loading}>
               Add
             </Button>
             <Button variant='outlined' color='error' type='reset' onClick={handleReset}>

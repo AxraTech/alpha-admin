@@ -31,13 +31,13 @@ const EditProducts = () => {
   const [sNo, setSNo] = useState()
   const [errors, setErrors] = useState()
   const [productMedia, setProductMedia] = useState([])
-  const [addProduct] = useMutation(EDIT_RPODUCTS)
+  const [editProduct] = useMutation(EDIT_RPODUCTS)
   const [getFileUploadUrl] = useMutation(IMGAE_UPLOAD)
   const { data } = useSuspenseQuery(PRODUCTS_BY_ID, { variables: { id: id } })
 
   const productData = data.products_by_pk
 
-  const handleAddProduct = async () => {
+  const handleEditProduct = async () => {
     setLoading(true)
     let errObj = {}
     let isErrExit = false
@@ -96,7 +96,7 @@ const EditProducts = () => {
         })
       )
 
-      await addProduct({
+      await editProduct({
         variables: {
           id: productData.id,
           title: title,
@@ -104,10 +104,7 @@ const EditProducts = () => {
           brand_id: brandId,
           category_id: catId,
           serial_number: sNo,
-          price: price,
-          product_medias: {
-            data: productMediaUrls
-          }
+          price: price
         }
       })
       setLoading(false)
@@ -117,7 +114,7 @@ const EditProducts = () => {
       setSNo('')
       setBrandId('')
       setCatId('')
-      setGlobalMsg('➕ Add New Product')
+      setGlobalMsg('✅ Product has been updated')
     } catch (err) {
       setGlobalMsg('❌ Add Product Error')
       console.log(err.response)
@@ -141,7 +138,7 @@ const EditProducts = () => {
         <Grid item xs={12}>
           <ProductAddHeader
             handleDiscardProduct={handleDiscardProduct}
-            handleAddProduct={handleAddProduct}
+            handleEditProduct={handleEditProduct}
             productData={productData}
           />
         </Grid>

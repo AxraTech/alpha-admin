@@ -208,9 +208,9 @@ const ServerTokenListTable = () => {
         header: 'Action',
         cell: ({ row }) => (
           <div className='flex items-center'>
-            <IconButton onClick={() => setData(data?.filter(invoice => invoice.id !== row.original.id))}>
+            {/* <IconButton onClick={() => setData(data?.filter(invoice => invoice.id !== row.original.id))}>
               <i className='ri-delete-bin-7-line text-red-500' />
-            </IconButton>
+            </IconButton> */}
             <IconButton>
               <Link
                 href={getLocalizedUrl(`/services/service_token/details/${row.original.id}`, locale)}

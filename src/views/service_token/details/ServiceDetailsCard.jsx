@@ -269,38 +269,12 @@ const ServiceDetailsCard = ({ serviceData }) => {
       <Card>
         <CardHeader
           title='Service Details'
-          action={
-            // <Typography component={Link} color='primary.main' className='font-medium'>
-            //   Edit
-            // </Typography>
-            <>
-              {serviceData.is_warranty_valid && checked ? (
-                <Switch checked={checked} onChange={handleValidOn} inputProps={{ 'aria-label': 'controlled' }} />
-              ) : (
-                <>
-                  {checked !== true ? (
-                    <>
-                      <TextField
-                        size='small'
-                        type='number'
-                        required
-                        sx={{ width: '150px', mr: '1rem' }}
-                        value={serviceFee}
-                        error={serviceFee ? false : true}
-                        helperText={`${!serviceFee ? 'This field is required' : ''}`}
-                        onChange={e => setServiceFee(e.target.value)}
-                      />
-                      <Button variant='contained' onClick={() => handleValidOff(serviceData)}>
-                        Add service fee
-                      </Button>
-                    </>
-                  ) : (
-                    ''
-                  )}
-                </>
-              )}
-            </>
-          }
+          // action={
+          //   <Typography component={Link} color='primary.main' className='font-medium'>
+          //     Edit
+          //   </Typography>
+
+          // }
         />
         {/* <OrderTable serviceData={serviceData} /> */}
         <CardContent className='flex  flex-col'>
@@ -313,9 +287,27 @@ const ServiceDetailsCard = ({ serviceData }) => {
                 {serviceData.description}
               </Typography>
             </div>
+            <br />
+            <div className='flex items-center gap-12'>
+              <Typography color='text.primary' className='min-is-[100px]'>
+                Warranty Valid:
+              </Typography>
+              <Typography color='text.primary' className='font-medium'>
+                {serviceData.is_warranty_valid ? 'Yes' : 'No'}
+              </Typography>
+            </div>
+            <br />
+            <div className='flex items-center gap-12'>
+              <Typography color='text.primary' className='min-is-[100px]'>
+                Service Fee:
+              </Typography>
+              <Typography color='text.primary' className='font-medium'>
+                {serviceData.service_fee}
+              </Typography>
+            </div>
           </div>
           <br />
-          <div className='flex justify-center gap-x-12'>
+          <div className='flex justify-center  flex-col gap-x-12'>
             <div>
               <img
                 src={serviceData.document_photo_url}
@@ -328,6 +320,7 @@ const ServiceDetailsCard = ({ serviceData }) => {
                 Document Photo
               </Typography>
             </div>
+            <br />
             <div>
               {serviceData.issue_media_type === 'image' ? (
                 <>

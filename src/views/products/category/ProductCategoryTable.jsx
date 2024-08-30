@@ -40,7 +40,8 @@ import { DELETE_PRODUCT_CAT } from '@/graphql/mutations'
 import Alert from '@/components/helper/Alert'
 import { useApp } from '@/app/ApolloWrapper'
 import EditCategoryDrawer from './EditCategoryDrawer'
-
+import OpenDialogOnElementClick from '@components/dialogs/OpenDialogOnElementClick'
+import ConfirmationDialog from '@components/dialogs/confirmation-dialog'
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
   const itemRank = rankItem(row.getValue(columnId), value)
@@ -82,7 +83,7 @@ const ProductCategoryTable = () => {
   const { setGlobalMsg } = useApp()
   // States
   const { data: categoryData } = useSuspenseQuery(GET_PRODUCT_CATEGORIES)
-  const [deleteCat] = useMutation(DELETE_PRODUCT_CAT)
+
   const [addCategoryOpen, setAddCategoryOpen] = useState(false)
   const [editCategoryOpen, setEditCategoryOpen] = useState(false)
   const [rowSelection, setRowSelection] = useState({})
@@ -90,6 +91,12 @@ const ProductCategoryTable = () => {
   const [globalFilter, setGlobalFilter] = useState('')
   const [loading, setLoading] = useState(false)
   const [editCategoryData, setEditCategoryData] = useState()
+
+  const buttonProps = (children, color, variant) => ({
+    children,
+    color,
+    variant
+  })
 
   const handleDelete = async id => {
     try {
@@ -137,9 +144,19 @@ const ProductCategoryTable = () => {
             >
               <i className='ri-edit-box-line text-[22px] text-textSecondary' />
             </IconButton>
-            <IconButton size='small' onClick={() => handleDelete(row?.original?.id)}>
+            <OpenDialogOnElementClick
+              element={Button}
+              elementProps={buttonProps(<i className='ri-delete-bin-7-line text-[22px] text-red-500' />, 'error', '')}
+              dialog={ConfirmationDialog}
+              dialogProps={{ type: 'deleteProductCategory' }}
+              dataId={row.original.id}
+              setData={setData}
+              data={data}
+            />
+
+            {/* <IconButton size='small' onClick={() => handleDelete(row?.original?.id)}>
               <i className='ri-delete-bin-7-line text-[22px] text-red-500' />
-            </IconButton>
+            </IconButton> */}
             {/* <OptionMenu
               iconButtonProps={{ size: 'medium' }}
               iconClassName='text-textSecondary text-[22px]'
@@ -310,7 +327,8 @@ const ProductCategoryTable = () => {
         setLoading={setLoading}
         handleClose={() => setEditCategoryOpen(!editCategoryOpen)}
       />
-      <Alert />
+
+      {/* <Alert /> */}
     </>
   )
 }

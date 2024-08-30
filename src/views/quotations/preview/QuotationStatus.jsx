@@ -1,32 +1,31 @@
 import { useApp } from '@/app/ApolloWrapper'
 import { CHANGE_QUOTATION_STATUS } from '@/graphql/mutations'
+import { QUOTATION_BY_ID } from '@/graphql/queries'
 import { useMutation } from '@apollo/client'
 import { Button } from '@mui/material'
 import React from 'react'
 
 const QuotationStatus = ({ quotationData }) => {
   const { setGlobalMsg } = useApp()
-  const [changeQuotationStatus] = useMutation(CHANGE_QUOTATION_STATUS)
+  const [changeQuotationStatus] = useMutation(CHANGE_QUOTATION_STATUS, { refetchQueries: [QUOTATION_BY_ID] })
   const handleChangeOrderStatus = async (id, status) => {
     try {
       const result = await changeQuotationStatus({
         variables: {
-          data: {
-            ...status
-          },
-          id: id
+          quotation_id: id,
+          status: status
         }
       })
 
-      setGlobalMsg('Change Order Status')
+      setGlobalMsg('✅ Change Quotation Status')
     } catch (e) {
       console.log('Change Status Error ', e)
     }
   }
   return (
     <div>
-      <div className='flex gap-4'>
-        <Button
+      <div className='flex gap-4 justify-end'>
+        {/* <Button
           variant='outlined'
           color='success'
           onClick={() =>
@@ -34,28 +33,31 @@ const QuotationStatus = ({ quotationData }) => {
           }
         >
           Complete
-        </Button>
-        <Button
-          variant='outlined'
-          color='error'
-          onClick={() => handleChangeOrderStatus(quotationData?.id, { status: 'rejected' })}
-        >
-          Reject
-        </Button>
+        </Button> */}
         <Button
           variant='outlined'
           color='info'
-          onClick={() => handleChangeOrderStatus(quotationData?.id, { status: 'accepted' })}
+          size='large'
+          onClick={() => handleChangeOrderStatus(quotationData?.id, 'accepted')}
         >
           Accepted
         </Button>
         <Button
           variant='outlined'
+          color='error'
+          size='large'
+          onClick={() => handleChangeOrderStatus(quotationData?.id, 'rejected')}
+        >
+          Reject
+        </Button>
+
+        {/* <Button
+          variant='outlined'
           color='warning'
           onClick={() => handleChangeOrderStatus(quotationData?.id, { status: 'pending' })}
         >
           Pending
-        </Button>
+        </Button> */}
       </div>
     </div>
   )
