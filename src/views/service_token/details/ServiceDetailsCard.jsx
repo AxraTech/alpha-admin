@@ -37,7 +37,6 @@ import { useMutation } from '@apollo/client'
 import { IS_WARRANTY_VALID } from '@/graphql/mutations'
 import Alert from '@/components/helper/Alert'
 import { useApp } from '@/app/ApolloWrapper'
-import { check } from 'valibot'
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
