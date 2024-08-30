@@ -47,52 +47,51 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData }) => {
   }
 
   const handleConfirmation = async value => {
-    // if (value === true) {
-    //   try {
-    //     if (type === 'disable-account') {
-    //       const reslt = await changeUserStatus({
-    //         variables: {
-    //           id: userId,
-    //           data: {
-    //             status: 'disable'
-    //           }
-    //         }
-    //       })
-    //     }
-    //     if (type === 'verified-account') {
-    //       await changeUserActivate({ variables: { user_id: userId, is_verified: true } })
-    //     }
-    //     if (type === 'unverified-account') {
-    //       await changeUserActivate({ variables: { user_id: userId, is_verified: false } })
-    //     }
-    //     if (type === 'deleteProductCategory') {
-    //       await deleteCat({ variables: { id: dataId } })
-    //       setData(data.filter(item => item.id !== dataId))
-    //     }
-    //     if (type === 'deleteProductBrand') {
-    //       await deleteBrand({ variables: { id: dataId } })
-    //       setData(data.filter(item => item.id !== dataId))
-    //     }
-    //     if (type === 'deletePost') {
-    //       await deletNew({ variables: { id: dataId } })
-    //       setData(data.filter(item => item.id !== dataId))
-    //     }
-    //     if (type === 'deleteNewCategory') {
-    //       await deleteNewCat({ variables: { id: dataId } })
-    //       setData(data.filter(item => item.id !== dataId))
-    //     }
+    if (value === true) {
+      try {
+        if (type === 'disable-account') {
+          const reslt = await changeUserStatus({
+            variables: {
+              id: userId,
+              data: {
+                status: 'disable'
+              }
+            }
+          })
+        }
+        if (type === 'verified-account') {
+          await changeUserActivate({ variables: { user_id: userId, is_verified: true } })
+        }
+        if (type === 'unverified-account') {
+          await changeUserActivate({ variables: { user_id: userId, is_verified: false } })
+        }
+        if (type === 'deleteProductCategory') {
+          await deleteCat({ variables: { id: dataId } })
+          setData(data.filter(item => item.id !== dataId))
+        }
+        if (type === 'deleteProductBrand') {
+          await deleteBrand({ variables: { id: dataId } })
+          setData(data.filter(item => item.id !== dataId))
+        }
+        if (type === 'deletePost') {
+          await deletNew({ variables: { id: dataId } })
+          setData(data.filter(item => item.id !== dataId))
+        }
+        if (type === 'deleteNewCategory') {
+          await deleteNewCat({ variables: { id: dataId } })
+          setData(data.filter(item => item.id !== dataId))
+        }
 
-    //     setUserInput(value)
-    //     setOpen(false)
-    //   } catch (e) {
-    //     console.log('Error', e)
-    //   }
-    // } else {
-    //   setOpen(false)
-    // }
+        setUserInput(value)
+        setOpen(false)
+      } catch (e) {
+        console.log('Error', e)
+      }
+    } else {
+      setOpen(false)
+    }
 
-    await deletNew({ variables: { id: dataId } })
-    setData(data.filter(item => item.id !== dataId))
+  
     setUserInput(value)
     setSecondDialog(true)
     setOpen(false)
