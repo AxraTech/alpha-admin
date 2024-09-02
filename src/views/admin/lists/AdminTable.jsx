@@ -206,7 +206,7 @@ const AdminTable = () => {
             className='max-sm:is-full'
           />
           <div className='flex items-center max-sm:flex-col gap-4 max-sm:is-full is-auto'>
-            <Button
+            {/* <Button
               color='secondary'
               fullWidth
               variant='outlined'
@@ -214,7 +214,7 @@ const AdminTable = () => {
               startIcon={<i className='ri-upload-2-line' />}
             >
               Export
-            </Button>
+            </Button> */}
             <Button
               variant='contained'
               className='max-sm:is-full is-auto'

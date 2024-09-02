@@ -28,9 +28,10 @@ const TableFilters = ({ setData, productData }) => {
     () => {
       const filteredData = productData?.filter(product => {
         if (category && product.product_category.title !== category) return false
-        if (stock && product.stock !== productStockObj[stock]) return false
-        if (status && product.disabled !== status) return false
 
+        if (stock && product.stock !== productStockObj[stock]) return false
+        // if (status && product.disabled !== status) return false
+        if (status !== '' && product.disabled !== (status === 'false')) return false
         return true
       })
 

@@ -86,7 +86,6 @@ const AddCategoryDrawer = props => {
   // Handle File Upload
   const handleFileUpload = event => {
     const { files } = event.target
-
     if (files && files.length !== 0) {
       setFileName(files)
     }

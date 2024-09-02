@@ -29,7 +29,8 @@ const TableFilters = ({ setData, newData }) => {
     () => {
       const filteredData = newData?.filter(product => {
         if (category && product?.news_category?.title !== category) return false
-        if (status && product.disabled !== status) return false
+        // if (status && product.disabled !== status) return false
+        if (status !== '' && product.disabled !== (status === 'false')) return false
         return true
       })
       setData(filteredData ?? [])
@@ -53,8 +54,8 @@ const TableFilters = ({ setData, newData }) => {
               labelId='status-select'
             >
               <MenuItem value=''>Select Status</MenuItem>
-              <MenuItem value='false'>Enable</MenuItem>
-              <MenuItem value='true'>Disable</MenuItem>
+              <MenuItem value='true'>Enable</MenuItem>
+              <MenuItem value='false'>Disable</MenuItem>
             </Select>
           </FormControl>
         </Grid>

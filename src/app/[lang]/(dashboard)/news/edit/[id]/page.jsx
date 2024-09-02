@@ -33,6 +33,7 @@ const EditNews = () => {
   const [image, setImage] = useState([])
   const [productId, setProductId] = useState([])
   const [errors, setErrors] = useState()
+  const [isImageChange, setIsImageChange] = useState(false)
   const [editNews] = useMutation(EDIT_NEWS)
   const [addNewProduct] = useMutation(ADD_NEWS_PRODUCTS)
   const [getFileUploadUrl] = useMutation(IMGAE_UPLOAD)
@@ -46,7 +47,7 @@ const EditNews = () => {
       setDescription(ReactHtmlParser(newData.body_html)[0]?.props?.children[0])
     }
   }, [newData])
-
+  console.log('image ', image, 'image url ', newData.image_url)
   const handleEditNews = async () => {
     setLoading(true)
     let errObj = {}
@@ -79,12 +80,13 @@ const EditNews = () => {
     }
     try {
       let uploadedFileUrl = newData.image_url
-
       if (image && image !== newData?.image_url) {
+        setIsImageChange(true)
         const { data: uploadData } = await getFileUploadUrl({
           variables: { content_type: 'image', folder: 'products' }
         })
-        uploadedFileUrl = await uploadFile(fileName, uploadData.getFileUploadUrl.fileUploadUrl, 'image')
+
+        uploadedFileUrl = await uploadFile(image, uploadData.getFileUploadUrl.fileUploadUrl, 'image')
       }
       const result = await editNews({
         variables: {
@@ -151,7 +153,7 @@ const EditNews = () => {
             </Grid>
 
             <Grid item xs={12}>
-              <NewImage files={image} setFiles={setImage} newData={newData} />
+              <NewImage files={image} setFiles={setImage} newData={newData} isImageChange={isImageChange} />
             </Grid>
             {/* <Grid item xs={12}>
             <ProductVariants />

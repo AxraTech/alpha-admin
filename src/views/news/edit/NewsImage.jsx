@@ -40,9 +40,9 @@ const Dropzone = styled(AppReactDropzone)(({ theme }) => ({
   }
 }))
 
-const NewImage = ({ files, setFiles, newData }) => {
+const NewImage = ({ files, setFiles, newData, isImageChange }) => {
   // States
-
+  console.log('is iamge change ', isImageChange)
   // Hooks
   const { getRootProps, getInputProps } = useDropzone({
     multiple: true,
@@ -75,10 +75,19 @@ const NewImage = ({ files, setFiles, newData }) => {
     /* // const fileList = files.map(file => ( ; */
     ;<ListItem className='pis-4 plb-3'>
       <div className='file-details'>
-        {/* <div className='file-preview'>{renderFilePreview(files)}</div> */}
-        <div className='file-preview'>
-          <img width={38} height={38} alt='image' src={files} />
-        </div>
+        {!isImageChange && (
+          <div className='file-preview'>
+            <img width={38} height={38} alt='image' src={files} />
+          </div>
+        )}
+        {isImageChange && (
+          <>
+            <div className='file-preview'>{renderFilePreview(files)}</div>
+            <Typography className='file-name font-medium' color='text.primary'>
+              {files?.name}
+            </Typography>
+          </>
+        )}
         <div>
           <Typography className='file-name font-medium' color='text.primary'>
             {files?.name}

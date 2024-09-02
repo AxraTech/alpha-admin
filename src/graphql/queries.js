@@ -52,7 +52,7 @@ export const GET_USER_BY_ID = gql`
 // product
 export const GET_PRODUCT_CATEGORIES = gql`
   query getProductCategories {
-    product_categories {
+    product_categories(order_by: { updated_at: desc }) {
       id
       title
       image_url

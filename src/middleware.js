@@ -4,7 +4,7 @@ import { adminRoutes, deliveryRoutes, financeRoutes, managerRoutes, saleRoutes, 
 
 export function middleware(req) {
   const token = req.cookies.get('token')?.value
-  console.log('token --------', token)
+
   let role = null
   if (token) {
     role = jwtDecode(token).role
