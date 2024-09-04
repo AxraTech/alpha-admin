@@ -63,7 +63,7 @@ const ProductOrganize = ({ brandId, setBrandId, catId, setCatId, errors }) => {
             getOptionLabel={options => options?.title || ''}
             renderOption={(props, option, { selected }) => (
               <li {...props} key={option.id}>
-                <Checkbox style={{ marginRight: 8 }} checked={selected} />
+                {/* <Checkbox style={{ marginRight: 8 }} checked={selected} /> */}
                 {option.title}
               </li>
             )}

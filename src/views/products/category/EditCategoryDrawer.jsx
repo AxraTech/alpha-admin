@@ -53,7 +53,6 @@ const EditCategoryDrawer = props => {
       setLoading(true)
 
       let uploadedFileUrl = categoryData.image_url
-
       if (fileName && fileName !== categoryData?.image_url) {
         const { data: uploadData } = await getFileUploadUrl({
           variables: { content_type: 'image', folder: 'products' }
@@ -82,7 +81,6 @@ const EditCategoryDrawer = props => {
       console.log('Error ', e)
     }
   }
-
   useEffect(() => {
     if (categoryData) {
       setFilePreview(categoryData?.image_url)
@@ -105,8 +103,8 @@ const EditCategoryDrawer = props => {
     const { files } = event.target
     if (files && files.length > 0) {
       const selectedFile = files[0]
-      setFileName(selectedFile) // Set the file name for display
-      setFilePreview(URL.createObjectURL(selectedFile)) // Generate a preview URL
+      setFileName(selectedFile)
+      setFilePreview(URL.createObjectURL(selectedFile))
     }
   }
 

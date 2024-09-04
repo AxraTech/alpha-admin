@@ -104,7 +104,7 @@ const Login = ({ mode }) => {
         }
       })
       Cookies.set('token', res.data.AdminSignIn.token)
-      const redirectURL = searchParams.get('redirectTo') ?? '/'
+      const redirectURL = searchParams.get('redirectTo') ?? '/en/user/list'
       router.replace(redirectURL)
     } catch (e) {
       setErrorState(e.message)

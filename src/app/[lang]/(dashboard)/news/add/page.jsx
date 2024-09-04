@@ -20,6 +20,7 @@ import { useApp } from '@/app/ApolloWrapper'
 import { Box } from '@mui/material'
 import { useRouter } from 'next/router'
 import { uploadFile } from '@/utils/helper'
+import { GET_NEWS } from '@/graphql/queries'
 
 const eCommerceProductsAdd = () => {
   // const router = useRouter()
@@ -30,7 +31,7 @@ const eCommerceProductsAdd = () => {
   const [image, setImage] = useState([])
   const [productId, setProductId] = useState([])
   const [errors, setErrors] = useState()
-  const [addNews] = useMutation(ADD_NEWS)
+  const [addNews] = useMutation(ADD_NEWS, { refetchQueries: [GET_NEWS] })
   const [addNewProduct] = useMutation(ADD_NEWS_PRODUCTS)
   const [getFileUploadUrl] = useMutation(IMGAE_UPLOAD)
 

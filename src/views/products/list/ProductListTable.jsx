@@ -161,7 +161,7 @@ const ProductListTable = () => {
       }),
       columnHelper.accessor('serial_number', {
         header: 'Serial No.',
-        cell: ({ row }) => <Typography>{row.original.serial_number}-</Typography>
+        cell: ({ row }) => <Typography>{row.original.serial_number ? row.original.serial_number : '-'}</Typography>
       }),
       columnHelper.accessor('price', {
         header: 'Price',
@@ -246,7 +246,7 @@ const ProductListTable = () => {
     getFacetedUniqueValues: getFacetedUniqueValues(),
     getFacetedMinMaxValues: getFacetedMinMaxValues()
   })
-
+  console.log('data ', data)
   return (
     <>
       <Card>
@@ -261,14 +261,14 @@ const ProductListTable = () => {
             className='max-sm:is-full'
           />
           <div className='flex items-center max-sm:flex-col gap-4 max-sm:is-full is-auto'>
-            <Button
+            {/* <Button
               color='secondary'
               variant='outlined'
               className='max-sm:is-full is-auto'
               startIcon={<i className='ri-upload-2-line' />}
             >
               Export
-            </Button>
+            </Button> */}
             <Button
               variant='contained'
               component={Link}

@@ -252,6 +252,18 @@ const ServerTokenListTable = () => {
     [data, filteredData]
   )
 
+  useEffect(() => {
+    const filteredData = data?.filter(service => {
+      // if (status && service.status.toLowerCase().replace(/\s+/g, '-') !== status) return false
+      if (status && service.status.toLowerCase().replace(/\s+/g, '-') !== status.toLowerCase().replace(/\s+/g, '-')) {
+        return false
+      }
+      return true
+    })
+
+    setFilteredData(filteredData)
+  }, [status, data, , setFilteredData])
+
   const table = useReactTable({
     data: filteredData,
     columns,
@@ -294,16 +306,6 @@ const ServerTokenListTable = () => {
       )
     }
   }
-
-  useEffect(() => {
-    const filteredData = data?.filter(service => {
-      if (status && service.status.toLowerCase().replace(/\s+/g, '-') !== status) return false
-
-      return true
-    })
-
-    setFilteredData(filteredData)
-  }, [status, data, setFilteredData])
 
   return (
     <Card>

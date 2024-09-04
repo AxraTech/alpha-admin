@@ -91,7 +91,6 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData }) => {
       setOpen(false)
     }
 
-  
     setUserInput(value)
     setSecondDialog(true)
     setOpen(false)
