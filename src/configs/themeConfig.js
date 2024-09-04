@@ -18,7 +18,7 @@
 const themeConfig = {
   templateName: 'ALPHA',
   homePageUrl: '/dashboards/crm',
-  settingsCookieName: 'materio-mui-next-demo-1',
+  settingsCookieName: 'Alpha',
   mode: 'system', // 'system', 'light', 'dark'
   skin: 'default', // 'default', 'bordered'
   semiDark: false, // true, false

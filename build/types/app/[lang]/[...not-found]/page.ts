@@ -1,4 +1,4 @@
-// File: D:\projects\alpha-admin\src\app\[lang]\[...not-found]\page.jsx
+// File: /home/axra/AXRA/office-cicd/alpha-admin/src/app/[lang]/[...not-found]/page.jsx
 import * as entry from '../../../../../src/app/[lang]/[...not-found]/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

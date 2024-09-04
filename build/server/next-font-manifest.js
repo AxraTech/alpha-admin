@@ -1,1 +1,1 @@
-self.__NEXT_FONT_MANIFEST='{"pages":{},"app":{},"appUsingSizeAdjust":false,"pagesUsingSizeAdjust":false}';
+self.__NEXT_FONT_MANIFEST='{"pages":{},"app":{"/home/axra/AXRA/office-cicd/alpha-admin/src/app/[lang]/[...not-found]/page":["static/media/a34f9d1faa5f3315-s.p.woff2"],"/home/axra/AXRA/office-cicd/alpha-admin/src/app/[lang]/(blank-layout-pages)/layout":["static/media/a34f9d1faa5f3315-s.p.woff2"],"/home/axra/AXRA/office-cicd/alpha-admin/src/app/[lang]/(dashboard)/layout":["static/media/a34f9d1faa5f3315-s.p.woff2"]},"appUsingSizeAdjust":true,"pagesUsingSizeAdjust":false}';

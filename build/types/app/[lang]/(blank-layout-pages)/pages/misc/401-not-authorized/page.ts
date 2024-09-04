@@ -1,4 +1,4 @@
-// File: D:\projects\alpha-admin\src\app\[lang]\(blank-layout-pages)\pages\misc\401-not-authorized\page.jsx
+// File: /home/axra/AXRA/office-cicd/alpha-admin/src/app/[lang]/(blank-layout-pages)/pages/misc/401-not-authorized/page.jsx
 import * as entry from '../../../../../../../../src/app/[lang]/(blank-layout-pages)/pages/misc/401-not-authorized/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

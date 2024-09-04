@@ -15,6 +15,8 @@ import themeConfig from '@configs/themeConfig'
 // Hook Imports
 import useVerticalNav from '@menu/hooks/useVerticalNav'
 import { useSettings } from '@core/hooks/useSettings'
+import Image from 'next/image'
+import logo from '@assets/logo.jpg'
 
 const LogoText = styled.span`
   color: ${({ color }) => color ?? 'var(--mui-palette-text-primary)'};
@@ -60,7 +62,7 @@ const Logo = ({ color }) => {
 
   return (
     <div className='flex items-center min-bs-[24px]'>
-      <MaterioLogo className='text-[22px] text-primary' />
+      <Image src={logo} width={42} height={42} className='rounded-full bg-contain' placeholder='blur' />
       <LogoText
         color={color}
         ref={logoTextRef}

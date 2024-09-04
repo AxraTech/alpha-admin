@@ -1,4 +1,4 @@
-// File: D:\projects\alpha-admin\src\app\api\apps\user-list\route.js
+// File: /home/axra/AXRA/office-cicd/alpha-admin/src/app/api/apps/user-list/route.js
 import * as entry from '../../../../../../src/app/api/apps/user-list/route.js'
 import type { NextRequest } from 'next/server.js'
 
