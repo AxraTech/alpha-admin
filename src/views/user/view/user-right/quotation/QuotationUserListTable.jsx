@@ -47,6 +47,7 @@ import { getLocalizedUrl } from '@/utils/i18n'
 import { useSuspenseQuery } from '@apollo/client'
 import tableStyles from '@core/styles/table.module.css'
 import { GET_USER_BY_ID, QUOTATION_TABS } from '@/graphql/queries'
+import { Chip } from '@mui/material'
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -109,29 +110,38 @@ const InvoiceListTable = () => {
       columnHelper.accessor('status', {
         header: 'Status',
         cell: ({ row }) => (
-          <Tooltip
-            title={
-              <div>
-                <Typography variant='body2' component='span' className='text-inherit'>
-                  {row.original.status}
-                </Typography>
-                <br />
-                <Typography variant='body2' component='span' className='text-inherit'>
-                  Total Amount:
-                </Typography>
-                {row.original.total_amount ? row.original.total_amount.toLocaleString() : '-'}
-                <br />
-                <Typography variant='body2' component='span' className='text-inherit'>
-                  Due Date:
-                </Typography>
-                {row.original.created_at.substring(0, 10)}
-              </div>
-            }
-          >
-            <CustomAvatar skin='light' color={quotationstatusChipColor[row.original.status]} size={28}>
-              <i className={classnames('text-base', quotationStatusIcon[row.original.status])} />
-            </CustomAvatar>
-          </Tooltip>
+          // <Tooltip
+          //   title={
+          //     <div>
+          //       <Typography variant='body2' component='span' className='text-inherit'>
+          //         {row.original.status}
+          //       </Typography>
+          //       <br />
+          //       <Typography variant='body2' component='span' className='text-inherit'>
+          //         Total Amount:
+          //       </Typography>
+          //       {row.original.total_amount ? row.original.total_amount.toLocaleString() : '-'}
+          //       <br />
+          //       <Typography variant='body2' component='span' className='text-inherit'>
+          //         Due Date:
+          //       </Typography>
+          //       {row.original.created_at.substring(0, 10)}
+          //     </div>
+          //   }
+          // >
+          //   <CustomAvatar skin='light' color={quotationstatusChipColor[row.original.status]} size={28}>
+          //     <i className={classnames('text-base', quotationStatusIcon[row.original.status])} />
+          //   </CustomAvatar>
+          // </Tooltip>
+          <div className='flex items-center gap-3'>
+            <Chip
+              variant='tonal'
+              label={row.original.status}
+              size='small'
+              color={quotationstatusChipColor[row.original.status]}
+              className='capitalize'
+            />
+          </div>
         )
       }),
       columnHelper.accessor('action', {

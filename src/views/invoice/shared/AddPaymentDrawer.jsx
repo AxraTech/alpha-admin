@@ -21,6 +21,7 @@ import { useMutation } from '@apollo/client'
 import { ADD_PARYMENT } from '@/graphql/mutations'
 import Alert from '@/components/helper/Alert'
 import { useApp } from '@/app/ApolloWrapper'
+
 // Vars
 const initialData = {
   paymentDate: new Date(),
@@ -33,7 +34,6 @@ const AddPaymentDrawer = ({ open, handleClose, invoiceData, paymentMethods }) =>
   // States
   const { setGlobalMsg } = useApp()
   const [loading, setLoading] = useState(false)
-
   const [formData, setFormData] = useState(initialData)
   const [addPayments] = useMutation(ADD_PARYMENT)
   const handleSubmit = async e => {
@@ -81,7 +81,7 @@ const AddPaymentDrawer = ({ open, handleClose, invoiceData, paymentMethods }) =>
         </div>
         <Divider />
         <div className='p-5'>
-          <Typography className='flex justify-end text-red-600'>
+          <Typography className='flex justify-end text-white'>
             Balance : {invoiceData.balance ? invoiceData.balance.toLocaleString() : 0}
           </Typography>
           <form onSubmit={handleSubmit} className='flex flex-col gap-5 mt-5'>

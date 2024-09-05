@@ -1,1 +1,166 @@
-{"node":{"0186323bfae827b8edd9a5f4e410807870837c57":{"workers":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"54989","app/[lang]/(dashboard)/invoice/add/page":"54989","app/[lang]/(dashboard)/dashboards/ecommerce/page":"54989","app/[lang]/(dashboard)/orders/list/page":"54989","app/[lang]/(dashboard)/products/discount/list/page":"54989","app/[lang]/(dashboard)/quotations/add/page":"54989","app/[lang]/(dashboard)/services/service_token/add/page":"54989","app/[lang]/(dashboard)/user/view/[userId]/page":"54989"},"layer":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"rsc","app/[lang]/(dashboard)/invoice/add/page":"rsc","app/[lang]/(dashboard)/dashboards/ecommerce/page":"rsc","app/[lang]/(dashboard)/orders/list/page":"rsc","app/[lang]/(dashboard)/products/discount/list/page":"rsc","app/[lang]/(dashboard)/quotations/add/page":"rsc","app/[lang]/(dashboard)/services/service_token/add/page":"rsc","app/[lang]/(dashboard)/user/view/[userId]/page":"rsc"}},"02bc7bf8ba612af5d41c53805884f4f1e08b16da":{"workers":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"54989","app/[lang]/(dashboard)/invoice/add/page":"54989","app/[lang]/(dashboard)/dashboards/ecommerce/page":"54989","app/[lang]/(dashboard)/orders/list/page":"54989","app/[lang]/(dashboard)/products/discount/list/page":"54989","app/[lang]/(dashboard)/quotations/add/page":"54989","app/[lang]/(dashboard)/services/service_token/add/page":"54989","app/[lang]/(dashboard)/user/view/[userId]/page":"54989"},"layer":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"rsc","app/[lang]/(dashboard)/invoice/add/page":"rsc","app/[lang]/(dashboard)/dashboards/ecommerce/page":"rsc","app/[lang]/(dashboard)/orders/list/page":"rsc","app/[lang]/(dashboard)/products/discount/list/page":"rsc","app/[lang]/(dashboard)/quotations/add/page":"rsc","app/[lang]/(dashboard)/services/service_token/add/page":"rsc","app/[lang]/(dashboard)/user/view/[userId]/page":"rsc"}},"08162b6fce42a1646a85d8e6685b600fe4e9c98c":{"workers":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"54989","app/[lang]/(dashboard)/invoice/add/page":"54989","app/[lang]/(dashboard)/dashboards/ecommerce/page":"54989","app/[lang]/(dashboard)/orders/list/page":"54989","app/[lang]/(dashboard)/products/discount/list/page":"54989","app/[lang]/(dashboard)/quotations/add/page":"54989","app/[lang]/(dashboard)/services/service_token/add/page":"54989","app/[lang]/(dashboard)/user/view/[userId]/page":"54989"},"layer":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"rsc","app/[lang]/(dashboard)/invoice/add/page":"rsc","app/[lang]/(dashboard)/dashboards/ecommerce/page":"rsc","app/[lang]/(dashboard)/orders/list/page":"rsc","app/[lang]/(dashboard)/products/discount/list/page":"rsc","app/[lang]/(dashboard)/quotations/add/page":"rsc","app/[lang]/(dashboard)/services/service_token/add/page":"rsc","app/[lang]/(dashboard)/user/view/[userId]/page":"rsc"}},"08abb9c56c5cfa245d6aa52b4c441acf61b4101f":{"workers":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"54989","app/[lang]/(dashboard)/invoice/add/page":"54989","app/[lang]/(dashboard)/dashboards/ecommerce/page":"54989","app/[lang]/(dashboard)/orders/list/page":"54989","app/[lang]/(dashboard)/products/discount/list/page":"54989","app/[lang]/(dashboard)/quotations/add/page":"54989","app/[lang]/(dashboard)/services/service_token/add/page":"54989","app/[lang]/(dashboard)/user/view/[userId]/page":"54989"},"layer":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"rsc","app/[lang]/(dashboard)/invoice/add/page":"rsc","app/[lang]/(dashboard)/dashboards/ecommerce/page":"rsc","app/[lang]/(dashboard)/orders/list/page":"rsc","app/[lang]/(dashboard)/products/discount/list/page":"rsc","app/[lang]/(dashboard)/quotations/add/page":"rsc","app/[lang]/(dashboard)/services/service_token/add/page":"rsc","app/[lang]/(dashboard)/user/view/[userId]/page":"rsc"}},"1638a1076b2f5a450d22038711de03e3c2f29e53":{"workers":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"54989","app/[lang]/(dashboard)/invoice/add/page":"54989","app/[lang]/(dashboard)/dashboards/ecommerce/page":"54989","app/[lang]/(dashboard)/orders/list/page":"54989","app/[lang]/(dashboard)/products/discount/list/page":"54989","app/[lang]/(dashboard)/quotations/add/page":"54989","app/[lang]/(dashboard)/services/service_token/add/page":"54989","app/[lang]/(dashboard)/user/view/[userId]/page":"54989"},"layer":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"rsc","app/[lang]/(dashboard)/invoice/add/page":"rsc","app/[lang]/(dashboard)/dashboards/ecommerce/page":"rsc","app/[lang]/(dashboard)/orders/list/page":"rsc","app/[lang]/(dashboard)/products/discount/list/page":"rsc","app/[lang]/(dashboard)/quotations/add/page":"rsc","app/[lang]/(dashboard)/services/service_token/add/page":"rsc","app/[lang]/(dashboard)/user/view/[userId]/page":"rsc"}},"1b974eeac0b1d1b1ecafc29cde692cab03249a99":{"workers":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"54989","app/[lang]/(dashboard)/invoice/add/page":"54989","app/[lang]/(dashboard)/dashboards/ecommerce/page":"54989","app/[lang]/(dashboard)/orders/list/page":"54989","app/[lang]/(dashboard)/products/discount/list/page":"54989","app/[lang]/(dashboard)/quotations/add/page":"54989","app/[lang]/(dashboard)/services/service_token/add/page":"54989","app/[lang]/(dashboard)/user/view/[userId]/page":"54989"},"layer":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"rsc","app/[lang]/(dashboard)/invoice/add/page":"rsc","app/[lang]/(dashboard)/dashboards/ecommerce/page":"rsc","app/[lang]/(dashboard)/orders/list/page":"rsc","app/[lang]/(dashboard)/products/discount/list/page":"rsc","app/[lang]/(dashboard)/quotations/add/page":"rsc","app/[lang]/(dashboard)/services/service_token/add/page":"rsc","app/[lang]/(dashboard)/user/view/[userId]/page":"rsc"}},"24715463d66c0a5ab0e5f5543f523bdab8454045":{"workers":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"54989","app/[lang]/(dashboard)/invoice/add/page":"54989","app/[lang]/(dashboard)/dashboards/ecommerce/page":"54989","app/[lang]/(dashboard)/orders/list/page":"54989","app/[lang]/(dashboard)/products/discount/list/page":"54989","app/[lang]/(dashboard)/quotations/add/page":"54989","app/[lang]/(dashboard)/services/service_token/add/page":"54989","app/[lang]/(dashboard)/user/view/[userId]/page":"54989"},"layer":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"rsc","app/[lang]/(dashboard)/invoice/add/page":"rsc","app/[lang]/(dashboard)/dashboards/ecommerce/page":"rsc","app/[lang]/(dashboard)/orders/list/page":"rsc","app/[lang]/(dashboard)/products/discount/list/page":"rsc","app/[lang]/(dashboard)/quotations/add/page":"rsc","app/[lang]/(dashboard)/services/service_token/add/page":"rsc","app/[lang]/(dashboard)/user/view/[userId]/page":"rsc"}},"28d616b9ece9c96c7322ea7915d5d3fe53a4231e":{"workers":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"54989","app/[lang]/(dashboard)/invoice/add/page":"54989","app/[lang]/(dashboard)/dashboards/ecommerce/page":"54989","app/[lang]/(dashboard)/orders/list/page":"54989","app/[lang]/(dashboard)/products/discount/list/page":"54989","app/[lang]/(dashboard)/quotations/add/page":"54989","app/[lang]/(dashboard)/services/service_token/add/page":"54989","app/[lang]/(dashboard)/user/view/[userId]/page":"54989"},"layer":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"rsc","app/[lang]/(dashboard)/invoice/add/page":"rsc","app/[lang]/(dashboard)/dashboards/ecommerce/page":"rsc","app/[lang]/(dashboard)/orders/list/page":"rsc","app/[lang]/(dashboard)/products/discount/list/page":"rsc","app/[lang]/(dashboard)/quotations/add/page":"rsc","app/[lang]/(dashboard)/services/service_token/add/page":"rsc","app/[lang]/(dashboard)/user/view/[userId]/page":"rsc"}},"3eaa40efbfce74e8c9b610c5a02dc5dbb9dee12c":{"workers":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"54989","app/[lang]/(dashboard)/invoice/add/page":"54989","app/[lang]/(dashboard)/dashboards/ecommerce/page":"54989","app/[lang]/(dashboard)/orders/list/page":"54989","app/[lang]/(dashboard)/products/discount/list/page":"54989","app/[lang]/(dashboard)/quotations/add/page":"54989","app/[lang]/(dashboard)/services/service_token/add/page":"54989","app/[lang]/(dashboard)/user/view/[userId]/page":"54989"},"layer":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"rsc","app/[lang]/(dashboard)/invoice/add/page":"rsc","app/[lang]/(dashboard)/dashboards/ecommerce/page":"rsc","app/[lang]/(dashboard)/orders/list/page":"rsc","app/[lang]/(dashboard)/products/discount/list/page":"rsc","app/[lang]/(dashboard)/quotations/add/page":"rsc","app/[lang]/(dashboard)/services/service_token/add/page":"rsc","app/[lang]/(dashboard)/user/view/[userId]/page":"rsc"}},"4f81f9297853ef5b6f845f60f4cb75e92080469d":{"workers":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"54989","app/[lang]/(dashboard)/invoice/add/page":"54989","app/[lang]/(dashboard)/dashboards/ecommerce/page":"54989","app/[lang]/(dashboard)/orders/list/page":"54989","app/[lang]/(dashboard)/products/discount/list/page":"54989","app/[lang]/(dashboard)/quotations/add/page":"54989","app/[lang]/(dashboard)/services/service_token/add/page":"54989","app/[lang]/(dashboard)/user/view/[userId]/page":"54989"},"layer":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"rsc","app/[lang]/(dashboard)/invoice/add/page":"rsc","app/[lang]/(dashboard)/dashboards/ecommerce/page":"rsc","app/[lang]/(dashboard)/orders/list/page":"rsc","app/[lang]/(dashboard)/products/discount/list/page":"rsc","app/[lang]/(dashboard)/quotations/add/page":"rsc","app/[lang]/(dashboard)/services/service_token/add/page":"rsc","app/[lang]/(dashboard)/user/view/[userId]/page":"rsc"}},"5324cb514c3eb68897ddfcc5d3f369f0ff879144":{"workers":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"54989","app/[lang]/(dashboard)/invoice/add/page":"54989","app/[lang]/(dashboard)/dashboards/ecommerce/page":"54989","app/[lang]/(dashboard)/orders/list/page":"54989","app/[lang]/(dashboard)/products/discount/list/page":"54989","app/[lang]/(dashboard)/quotations/add/page":"54989","app/[lang]/(dashboard)/services/service_token/add/page":"54989","app/[lang]/(dashboard)/user/view/[userId]/page":"54989"},"layer":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"rsc","app/[lang]/(dashboard)/invoice/add/page":"rsc","app/[lang]/(dashboard)/dashboards/ecommerce/page":"rsc","app/[lang]/(dashboard)/orders/list/page":"rsc","app/[lang]/(dashboard)/products/discount/list/page":"rsc","app/[lang]/(dashboard)/quotations/add/page":"rsc","app/[lang]/(dashboard)/services/service_token/add/page":"rsc","app/[lang]/(dashboard)/user/view/[userId]/page":"rsc"}},"5adda0ed693a77704ef483b0e70b33c15dcaedac":{"workers":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"54989","app/[lang]/(dashboard)/invoice/add/page":"54989","app/[lang]/(dashboard)/dashboards/ecommerce/page":"54989","app/[lang]/(dashboard)/orders/list/page":"54989","app/[lang]/(dashboard)/products/discount/list/page":"54989","app/[lang]/(dashboard)/quotations/add/page":"54989","app/[lang]/(dashboard)/services/service_token/add/page":"54989","app/[lang]/(dashboard)/user/view/[userId]/page":"54989"},"layer":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"rsc","app/[lang]/(dashboard)/invoice/add/page":"rsc","app/[lang]/(dashboard)/dashboards/ecommerce/page":"rsc","app/[lang]/(dashboard)/orders/list/page":"rsc","app/[lang]/(dashboard)/products/discount/list/page":"rsc","app/[lang]/(dashboard)/quotations/add/page":"rsc","app/[lang]/(dashboard)/services/service_token/add/page":"rsc","app/[lang]/(dashboard)/user/view/[userId]/page":"rsc"}},"5b08a00e97cf952b30e5a8cd25f5be1bdcdca867":{"workers":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"54989","app/[lang]/(dashboard)/invoice/add/page":"54989","app/[lang]/(dashboard)/dashboards/ecommerce/page":"54989","app/[lang]/(dashboard)/orders/list/page":"54989","app/[lang]/(dashboard)/products/discount/list/page":"54989","app/[lang]/(dashboard)/quotations/add/page":"54989","app/[lang]/(dashboard)/services/service_token/add/page":"54989","app/[lang]/(dashboard)/user/view/[userId]/page":"54989"},"layer":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"rsc","app/[lang]/(dashboard)/invoice/add/page":"rsc","app/[lang]/(dashboard)/dashboards/ecommerce/page":"rsc","app/[lang]/(dashboard)/orders/list/page":"rsc","app/[lang]/(dashboard)/products/discount/list/page":"rsc","app/[lang]/(dashboard)/quotations/add/page":"rsc","app/[lang]/(dashboard)/services/service_token/add/page":"rsc","app/[lang]/(dashboard)/user/view/[userId]/page":"rsc"}},"80fdf525309b3da6fd6fc36022fcc92cd5fb1e48":{"workers":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"54989","app/[lang]/(dashboard)/invoice/add/page":"54989","app/[lang]/(dashboard)/dashboards/ecommerce/page":"54989","app/[lang]/(dashboard)/orders/list/page":"54989","app/[lang]/(dashboard)/products/discount/list/page":"54989","app/[lang]/(dashboard)/quotations/add/page":"54989","app/[lang]/(dashboard)/services/service_token/add/page":"54989","app/[lang]/(dashboard)/user/view/[userId]/page":"54989"},"layer":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"rsc","app/[lang]/(dashboard)/invoice/add/page":"rsc","app/[lang]/(dashboard)/dashboards/ecommerce/page":"rsc","app/[lang]/(dashboard)/orders/list/page":"rsc","app/[lang]/(dashboard)/products/discount/list/page":"rsc","app/[lang]/(dashboard)/quotations/add/page":"rsc","app/[lang]/(dashboard)/services/service_token/add/page":"rsc","app/[lang]/(dashboard)/user/view/[userId]/page":"rsc"}},"87102cfb1c1c3cb241e7ab5748bb5d4f3ffe53fc":{"workers":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"54989","app/[lang]/(dashboard)/invoice/add/page":"54989","app/[lang]/(dashboard)/dashboards/ecommerce/page":"54989","app/[lang]/(dashboard)/orders/list/page":"54989","app/[lang]/(dashboard)/products/discount/list/page":"54989","app/[lang]/(dashboard)/quotations/add/page":"54989","app/[lang]/(dashboard)/services/service_token/add/page":"54989","app/[lang]/(dashboard)/user/view/[userId]/page":"54989"},"layer":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"rsc","app/[lang]/(dashboard)/invoice/add/page":"rsc","app/[lang]/(dashboard)/dashboards/ecommerce/page":"rsc","app/[lang]/(dashboard)/orders/list/page":"rsc","app/[lang]/(dashboard)/products/discount/list/page":"rsc","app/[lang]/(dashboard)/quotations/add/page":"rsc","app/[lang]/(dashboard)/services/service_token/add/page":"rsc","app/[lang]/(dashboard)/user/view/[userId]/page":"rsc"}},"943be0808710d332ef888e0b2eac381f79e9229a":{"workers":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"54989","app/[lang]/(dashboard)/invoice/add/page":"54989","app/[lang]/(dashboard)/dashboards/ecommerce/page":"54989","app/[lang]/(dashboard)/orders/list/page":"54989","app/[lang]/(dashboard)/products/discount/list/page":"54989","app/[lang]/(dashboard)/quotations/add/page":"54989","app/[lang]/(dashboard)/services/service_token/add/page":"54989","app/[lang]/(dashboard)/user/view/[userId]/page":"54989"},"layer":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"rsc","app/[lang]/(dashboard)/invoice/add/page":"rsc","app/[lang]/(dashboard)/dashboards/ecommerce/page":"rsc","app/[lang]/(dashboard)/orders/list/page":"rsc","app/[lang]/(dashboard)/products/discount/list/page":"rsc","app/[lang]/(dashboard)/quotations/add/page":"rsc","app/[lang]/(dashboard)/services/service_token/add/page":"rsc","app/[lang]/(dashboard)/user/view/[userId]/page":"rsc"}},"9f9fdb13fe867b4e65ffe9efc8a32ca43e9784fd":{"workers":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"54989","app/[lang]/(dashboard)/invoice/add/page":"54989","app/[lang]/(dashboard)/dashboards/ecommerce/page":"54989","app/[lang]/(dashboard)/orders/list/page":"54989","app/[lang]/(dashboard)/products/discount/list/page":"54989","app/[lang]/(dashboard)/quotations/add/page":"54989","app/[lang]/(dashboard)/services/service_token/add/page":"54989","app/[lang]/(dashboard)/user/view/[userId]/page":"54989"},"layer":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"rsc","app/[lang]/(dashboard)/invoice/add/page":"rsc","app/[lang]/(dashboard)/dashboards/ecommerce/page":"rsc","app/[lang]/(dashboard)/orders/list/page":"rsc","app/[lang]/(dashboard)/products/discount/list/page":"rsc","app/[lang]/(dashboard)/quotations/add/page":"rsc","app/[lang]/(dashboard)/services/service_token/add/page":"rsc","app/[lang]/(dashboard)/user/view/[userId]/page":"rsc"}},"b0f0de7c2e241e476021af97f12fdee1e27bae0f":{"workers":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"54989","app/[lang]/(dashboard)/invoice/add/page":"54989","app/[lang]/(dashboard)/dashboards/ecommerce/page":"54989","app/[lang]/(dashboard)/orders/list/page":"54989","app/[lang]/(dashboard)/products/discount/list/page":"54989","app/[lang]/(dashboard)/quotations/add/page":"54989","app/[lang]/(dashboard)/services/service_token/add/page":"54989","app/[lang]/(dashboard)/user/view/[userId]/page":"54989"},"layer":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"rsc","app/[lang]/(dashboard)/invoice/add/page":"rsc","app/[lang]/(dashboard)/dashboards/ecommerce/page":"rsc","app/[lang]/(dashboard)/orders/list/page":"rsc","app/[lang]/(dashboard)/products/discount/list/page":"rsc","app/[lang]/(dashboard)/quotations/add/page":"rsc","app/[lang]/(dashboard)/services/service_token/add/page":"rsc","app/[lang]/(dashboard)/user/view/[userId]/page":"rsc"}},"ba244d2dcb85c1845ef8c5082fed0c22f35086b3":{"workers":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"54989","app/[lang]/(dashboard)/invoice/add/page":"54989","app/[lang]/(dashboard)/dashboards/ecommerce/page":"54989","app/[lang]/(dashboard)/orders/list/page":"54989","app/[lang]/(dashboard)/products/discount/list/page":"54989","app/[lang]/(dashboard)/quotations/add/page":"54989","app/[lang]/(dashboard)/services/service_token/add/page":"54989","app/[lang]/(dashboard)/user/view/[userId]/page":"54989"},"layer":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"rsc","app/[lang]/(dashboard)/invoice/add/page":"rsc","app/[lang]/(dashboard)/dashboards/ecommerce/page":"rsc","app/[lang]/(dashboard)/orders/list/page":"rsc","app/[lang]/(dashboard)/products/discount/list/page":"rsc","app/[lang]/(dashboard)/quotations/add/page":"rsc","app/[lang]/(dashboard)/services/service_token/add/page":"rsc","app/[lang]/(dashboard)/user/view/[userId]/page":"rsc"}},"e287104b4c355b2062d4fd6f67e251ea527375c3":{"workers":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"54989","app/[lang]/(dashboard)/invoice/add/page":"54989","app/[lang]/(dashboard)/dashboards/ecommerce/page":"54989","app/[lang]/(dashboard)/orders/list/page":"54989","app/[lang]/(dashboard)/products/discount/list/page":"54989","app/[lang]/(dashboard)/quotations/add/page":"54989","app/[lang]/(dashboard)/services/service_token/add/page":"54989","app/[lang]/(dashboard)/user/view/[userId]/page":"54989"},"layer":{"app/[lang]/(dashboard)/invoice/edit/[id]/page":"rsc","app/[lang]/(dashboard)/invoice/add/page":"rsc","app/[lang]/(dashboard)/dashboards/ecommerce/page":"rsc","app/[lang]/(dashboard)/orders/list/page":"rsc","app/[lang]/(dashboard)/products/discount/list/page":"rsc","app/[lang]/(dashboard)/quotations/add/page":"rsc","app/[lang]/(dashboard)/services/service_token/add/page":"rsc","app/[lang]/(dashboard)/user/view/[userId]/page":"rsc"}}},"edge":{},"encryptionKey":"PxVUSqe102zb0eDUshZyj2m7zoBU+JvxzsCd4J5H9m4="}
+{
+  "node": {
+    "9217cb5e3fccacbbdeb066b805de9d1ffc1d72dc": {
+      "workers": {
+        "app/[lang]/(dashboard)/orders/list/page": "[project]/.next-internal/server/app/[lang]/(dashboard)/orders/list/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/server/actions.js [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)"
+      },
+      "layer": {
+        "app/[lang]/(dashboard)/orders/list/page": "rsc"
+      }
+    },
+    "3b05b2d64fdbb4275d6d5759d4d70478f8479bb6": {
+      "workers": {
+        "app/[lang]/(dashboard)/orders/list/page": "[project]/.next-internal/server/app/[lang]/(dashboard)/orders/list/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/server/actions.js [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)"
+      },
+      "layer": {
+        "app/[lang]/(dashboard)/orders/list/page": "rsc"
+      }
+    },
+    "62ac6bf52b5295dfc041bd5f93c6403b3e53fdec": {
+      "workers": {
+        "app/[lang]/(dashboard)/orders/list/page": "[project]/.next-internal/server/app/[lang]/(dashboard)/orders/list/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/server/actions.js [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)"
+      },
+      "layer": {
+        "app/[lang]/(dashboard)/orders/list/page": "rsc"
+      }
+    },
+    "387ed6bf9564d831f74e6f082c88703e5af26a18": {
+      "workers": {
+        "app/[lang]/(dashboard)/orders/list/page": "[project]/.next-internal/server/app/[lang]/(dashboard)/orders/list/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/server/actions.js [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)"
+      },
+      "layer": {
+        "app/[lang]/(dashboard)/orders/list/page": "rsc"
+      }
+    },
+    "209129b393668b6f171fd11bd76e1f5077cd1e11": {
+      "workers": {
+        "app/[lang]/(dashboard)/orders/list/page": "[project]/.next-internal/server/app/[lang]/(dashboard)/orders/list/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/server/actions.js [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)"
+      },
+      "layer": {
+        "app/[lang]/(dashboard)/orders/list/page": "rsc"
+      }
+    },
+    "24d18f7d620948ff17fd715227bd7fa563fd7fb3": {
+      "workers": {
+        "app/[lang]/(dashboard)/orders/list/page": "[project]/.next-internal/server/app/[lang]/(dashboard)/orders/list/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/server/actions.js [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)"
+      },
+      "layer": {
+        "app/[lang]/(dashboard)/orders/list/page": "rsc"
+      }
+    },
+    "45841ed7a4b78e804ee5ebaafadd24fbca4cc7ad": {
+      "workers": {
+        "app/[lang]/(dashboard)/orders/list/page": "[project]/.next-internal/server/app/[lang]/(dashboard)/orders/list/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/server/actions.js [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)"
+      },
+      "layer": {
+        "app/[lang]/(dashboard)/orders/list/page": "rsc"
+      }
+    },
+    "9542d9a5b964455d4df1a45e3085a0eb136b35cd": {
+      "workers": {
+        "app/[lang]/(dashboard)/orders/list/page": "[project]/.next-internal/server/app/[lang]/(dashboard)/orders/list/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/server/actions.js [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)"
+      },
+      "layer": {
+        "app/[lang]/(dashboard)/orders/list/page": "rsc"
+      }
+    },
+    "ace901efe342cd81762619fc4525688940a87fd0": {
+      "workers": {
+        "app/[lang]/(dashboard)/orders/list/page": "[project]/.next-internal/server/app/[lang]/(dashboard)/orders/list/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/server/actions.js [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)"
+      },
+      "layer": {
+        "app/[lang]/(dashboard)/orders/list/page": "rsc"
+      }
+    },
+    "12b61b7d5e776948e06a432118314fa9c7d9509d": {
+      "workers": {
+        "app/[lang]/(dashboard)/orders/list/page": "[project]/.next-internal/server/app/[lang]/(dashboard)/orders/list/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/server/actions.js [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)"
+      },
+      "layer": {
+        "app/[lang]/(dashboard)/orders/list/page": "rsc"
+      }
+    },
+    "6e609c7bf36bfd2bac65c4448529e49c4a044508": {
+      "workers": {
+        "app/[lang]/(dashboard)/orders/list/page": "[project]/.next-internal/server/app/[lang]/(dashboard)/orders/list/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/server/actions.js [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)"
+      },
+      "layer": {
+        "app/[lang]/(dashboard)/orders/list/page": "rsc"
+      }
+    },
+    "18bd95e03deaa32bb0346b06bee9e028f7759938": {
+      "workers": {
+        "app/[lang]/(dashboard)/orders/list/page": "[project]/.next-internal/server/app/[lang]/(dashboard)/orders/list/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/server/actions.js [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)"
+      },
+      "layer": {
+        "app/[lang]/(dashboard)/orders/list/page": "rsc"
+      }
+    },
+    "127eff30e4e1fa05a2d041b819781cfcb8cc109d": {
+      "workers": {
+        "app/[lang]/(dashboard)/orders/list/page": "[project]/.next-internal/server/app/[lang]/(dashboard)/orders/list/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/server/actions.js [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)"
+      },
+      "layer": {
+        "app/[lang]/(dashboard)/orders/list/page": "rsc"
+      }
+    },
+    "98b80fdee78fc2acd2cb50255d765859c0b6891a": {
+      "workers": {
+        "app/[lang]/(dashboard)/orders/list/page": "[project]/.next-internal/server/app/[lang]/(dashboard)/orders/list/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/server/actions.js [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)"
+      },
+      "layer": {
+        "app/[lang]/(dashboard)/orders/list/page": "rsc"
+      }
+    },
+    "15f547054091792c6f241e41ed8dbdce15b80e8c": {
+      "workers": {
+        "app/[lang]/(dashboard)/orders/list/page": "[project]/.next-internal/server/app/[lang]/(dashboard)/orders/list/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/server/actions.js [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)"
+      },
+      "layer": {
+        "app/[lang]/(dashboard)/orders/list/page": "rsc"
+      }
+    },
+    "9bde9a3c897159b710cac3c2d9736cc4587b849e": {
+      "workers": {
+        "app/[lang]/(dashboard)/orders/list/page": "[project]/.next-internal/server/app/[lang]/(dashboard)/orders/list/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/server/actions.js [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)"
+      },
+      "layer": {
+        "app/[lang]/(dashboard)/orders/list/page": "rsc"
+      }
+    },
+    "e110801f2b058ae6e7ab52f3a65efa5091818df6": {
+      "workers": {
+        "app/[lang]/(dashboard)/orders/list/page": "[project]/.next-internal/server/app/[lang]/(dashboard)/orders/list/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/server/actions.js [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)"
+      },
+      "layer": {
+        "app/[lang]/(dashboard)/orders/list/page": "rsc"
+      }
+    },
+    "8e1949543f829e483c88d3934abf4bd2bee60ed0": {
+      "workers": {
+        "app/[lang]/(dashboard)/orders/list/page": "[project]/.next-internal/server/app/[lang]/(dashboard)/orders/list/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/server/actions.js [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)"
+      },
+      "layer": {
+        "app/[lang]/(dashboard)/orders/list/page": "rsc"
+      }
+    },
+    "1209e131c46229fdabe0f8b9db1be95618d645f6": {
+      "workers": {
+        "app/[lang]/(dashboard)/orders/list/page": "[project]/.next-internal/server/app/[lang]/(dashboard)/orders/list/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/server/actions.js [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)"
+      },
+      "layer": {
+        "app/[lang]/(dashboard)/orders/list/page": "rsc"
+      }
+    },
+    "8334282aa33b92faf91cdd5a878c1fe10484547f": {
+      "workers": {
+        "app/[lang]/(dashboard)/orders/list/page": "[project]/.next-internal/server/app/[lang]/(dashboard)/orders/list/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/app/server/actions.js [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)"
+      },
+      "layer": {
+        "app/[lang]/(dashboard)/orders/list/page": "rsc"
+      }
+    }
+  },
+  "edge": {},
+  "encryptionKey": "xzT9aY6apm2YneM8mikxYEtvsTfbqoMXD7+RJQHPHJE="
+}

@@ -178,6 +178,11 @@ const OrderListTable = () => {
         header: 'Total',
         cell: ({ row }) => <Typography>{`${row.original.total !== null ? row.original.total : '-'}`}</Typography>
       }),
+      columnHelper.accessor('created_at', {
+        header: 'Date',
+        cell: ({ row }) => <Typography>{new Date(row.original.created_at).toLocaleString()}</Typography>
+      }),
+
       columnHelper.accessor('status', {
         header: 'Status',
         cell: ({ row }) => (
@@ -194,10 +199,6 @@ const OrderListTable = () => {
           </div>
         )
       }),
-      // columnHelper.accessor('issuedDate', {
-      //   header: 'Issued Date',
-      //   cell: ({ row }) => <Typography>{row.original.issuedDate}</Typography>
-      // }),
 
       columnHelper.accessor('action', {
         header: 'Action',

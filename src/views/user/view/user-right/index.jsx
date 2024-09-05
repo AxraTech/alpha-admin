@@ -60,12 +60,12 @@ const UserRight = ({ tabContentList }) => {
                 label='Service Token'
                 iconPosition='start'
               />
-              <Tab
+              {/* <Tab
                 icon={<i className='ri-notification-2-line' />}
                 value='notifications'
                 label='Notifications'
                 iconPosition='start'
-              />
+              /> */}
             </CustomTabList>
           </Grid>
           {/* <Grid item xs={12} className='flex gap-4'>

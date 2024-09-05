@@ -36,9 +36,10 @@ const PreviewCard = ({ quotationData }) => {
                     <Logo />
                   </div>
                   <div>
-                    <Typography color='text.primary'>Office 149, 450 South Brand Brooklyn</Typography>
-                    <Typography color='text.primary'>San Diego County, CA 91905, USA</Typography>
-                    <Typography color='text.primary'>+1 (123) 456 7891, +44 (876) 543 2198</Typography>
+                    <Typography color='text.primary'>No. 297, Marlar Myaing Street,</Typography>
+                    <Typography color='text.primary'>Tharkayta Industrial Zone,</Typography>
+                    <Typography color='text.primary'>Yangon, Myanmar</Typography>
+                    <Typography color='text.primary'>09- 428 694 996 09- 762 509 157</Typography>
                   </div>
                 </div>
                 {/* <div className='flex flex-ro gap-3'>
@@ -54,7 +55,7 @@ const PreviewCard = ({ quotationData }) => {
                 </div> */}
                 <div className='flex flex-col gap-6'>
                   <div className='flex flex-row gap-3'>
-                    <Typography variant='h5'>{`Invoice #`}</Typography>
+                    <Typography variant='h5'>{`Quotation`}</Typography>
                     <Chip
                       label={quotationData?.status}
                       color={statusChipColor[quotationData.status]}
@@ -78,15 +79,12 @@ const PreviewCard = ({ quotationData }) => {
               <Grid item xs={12} sm={6}>
                 <div className='flex flex-col gap-4'>
                   <Typography className='font-medium' color='text.primary'>
-                    Invoice To:
+                    Delivery Address To:
                   </Typography>
                   <div>
-                    <Typography>{quotationData?.user.name}</Typography>
-
-                    <Typography>{quotationData?.company}</Typography>
-                    <Typography>{quotationData?.address}</Typography>
-                    <Typography>{quotationData?.user.phone}</Typography>
-                    <Typography>{quotationData?.user.email}</Typography>
+                    <Typography>{quotationData.user.orders[0].receiver_name}</Typography>
+                    <Typography className='my-1'>{quotationData?.user.orders[0].receiver_phone}</Typography>
+                    <Typography>{quotationData?.user.orders[0].receiver_address}</Typography>
                   </div>
                 </div>
               </Grid>
@@ -130,14 +128,16 @@ const PreviewCard = ({ quotationData }) => {
                     <th className='!bg-transparent'>Brand</th>
                     <th className='!bg-transparent'>Price</th>
                     <th className='!bg-transparent'>Qty</th>
-                    <th className='!bg-transparent'>Total</th>
+                    {/* <th className='!bg-transparent'>Total</th> */}
                   </tr>
                 </thead>
                 <tbody>
                   {quotationData?.quotation_items.map((item, index) => (
                     <tr key={index}>
                       <td>
-                        <Typography color='text.primary'>{item.product.title}</Typography>
+                        <Typography color='text.primary' className='w-60 text-wrap'>
+                          {item.product.title}
+                        </Typography>
                       </td>
 
                       <td>
@@ -149,9 +149,9 @@ const PreviewCard = ({ quotationData }) => {
                       <td>
                         <Typography color='text.primary'>{item.quantity}</Typography>
                       </td>
-                      <td>
+                      {/* <td>
                         <Typography color='text.primary'>{item.total}</Typography>
-                      </td>
+                      </td> */}
                     </tr>
                   ))}
                 </tbody>
@@ -182,12 +182,12 @@ const PreviewCard = ({ quotationData }) => {
                     {quotationData?.order?.discount}
                   </Typography>
                 </div>
-                <div className='flex items-center justify-between'>
+                {/* <div className='flex items-center justify-between'>
                   <Typography>Tax:</Typography>
                   <Typography className='font-medium' color='text.primary'>
                     21%
                   </Typography>
-                </div>
+                </div> */}
                 <Divider className='mlb-2' />
                 <div className='flex items-center justify-between'>
                   <Typography>Total:</Typography>

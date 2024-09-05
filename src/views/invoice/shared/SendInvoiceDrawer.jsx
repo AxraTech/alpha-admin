@@ -84,7 +84,7 @@ const SendInvoiceDrawer = ({ open, handleClose }) => {
   //   handleClose()
   //   setFormData(initialData)
   // }
-
+  console.log('fiel name ', fileName)
   const handleReset = () => {
     handleClose()
     setFormData(initialData)
@@ -186,7 +186,7 @@ const SendInvoiceDrawer = ({ open, handleClose }) => {
               size='small'
               placeholder='No file chosen'
               variant='outlined'
-              value={fileName}
+              value={fileName[0]?.name}
               className='flex-auto'
               InputProps={{
                 readOnly: true,

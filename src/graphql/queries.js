@@ -13,6 +13,7 @@ export const GET_USERS = gql`
       delivery_name
       delivery_phone
       delivery_address
+      created_at
       dealer {
         id
         name
@@ -57,6 +58,7 @@ export const GET_PRODUCT_CATEGORIES = gql`
       title
       image_url
       created_at
+      updated_at
       products_aggregate {
         aggregate {
           count
@@ -71,6 +73,8 @@ export const GET_PRODUCTS = gql`
     products(order_by: { updated_at: desc }) {
       id
       title
+      created_at
+      updated_at
       description_html
       serial_number
       product_medias(order_by: { updated_at: desc }, limit: 1) {
@@ -149,6 +153,8 @@ export const GET_BRANDS = gql`
       id
       title
       image_url
+      created_at
+      updated_at
       products_aggregate {
         aggregate {
           count
@@ -162,6 +168,8 @@ export const GET_NEWS_CATS = gql`
     news_categories {
       id
       title
+      created_at
+      updated_at
       news_aggregate {
         aggregate {
           count
@@ -188,6 +196,7 @@ export const GET_NEWS = gql`
       body_html
       image_url
       disabled
+      created_at
       news_category_id
       news_category {
         id
@@ -230,6 +239,7 @@ export const GET_ALL_INVOICES = gql`
       invoice_number
       status
       balance
+      created_at
       total
       discount
       invoice_status {
@@ -317,6 +327,9 @@ export const INVOICE_BY_ID = gql`
           quantity
           total
         }
+        receiver_name
+        receiver_phone
+        receiver_address
       }
     }
   }
@@ -433,6 +446,11 @@ export const QUOTATION_BY_ID = gql`
         id
         name
         phone
+        orders {
+          receiver_address
+          receiver_name
+          receiver_phone
+        }
       }
       quotation_items {
         id

@@ -130,14 +130,15 @@ const PreviewCard = ({ invoiceData }) => {
                     <Logo />
                   </div>
                   <div>
-                    <Typography color='text.primary'>Office 149, 450 South Brand Brooklyn</Typography>
-                    <Typography color='text.primary'>San Diego County, CA 91905, USA</Typography>
-                    <Typography color='text.primary'>+1 (123) 456 7891, +44 (876) 543 2198</Typography>
+                    <Typography color='text.primary'>No. 297, Marlar Myaing Street,</Typography>
+                    <Typography color='text.primary'>Tharkayta Industrial Zone,</Typography>
+                    <Typography color='text.primary'>Yangon, Myanmar</Typography>
+                    <Typography color='text.primary'>09- 428 694 996 09- 762 509 157</Typography>
                   </div>
                 </div>
                 <div className='flex flex-col gap-6'>
                   <div className='flex flex-row gap-3'>
-                    <Typography variant='h5'>{`Invoice #`}</Typography>
+                    <Typography variant='h5'>{`Invoice `}</Typography>
                     <Chip
                       label={invoiceDataId?.status}
                       color={statusChipColor[invoiceDataId?.status]}
@@ -164,15 +165,12 @@ const PreviewCard = ({ invoiceData }) => {
               <Grid item xs={12} sm={6}>
                 <div className='flex flex-col gap-4'>
                   <Typography className='font-medium' color='text.primary'>
-                    Invoice To:
+                    Delivery Address To:
                   </Typography>
                   <div>
-                    <Typography>{invoiceDataId?.user.name}</Typography>
-
-                    <Typography>{invoiceDataId?.company}</Typography>
-                    <Typography>{invoiceDataId?.address}</Typography>
-                    <Typography>{invoiceDataId?.user.phone}</Typography>
-                    <Typography>{invoiceDataId?.user.email}</Typography>
+                    <Typography>{invoiceDataId.order.receiver_name}</Typography>
+                    <Typography className='my-1'>{invoiceDataId?.order.receiver_phone}</Typography>
+                    <Typography>{invoiceDataId?.order.receiver_address}</Typography>
                   </div>
                 </div>
               </Grid>
@@ -260,13 +258,14 @@ const PreviewCard = ({ invoiceData }) => {
                 <div className='flex items-center justify-between'>
                   <Typography>Subtotal:</Typography>
                   <Typography className='font-medium' color='text.primary'>
-                    {invoiceDataId?.order?.items_total}
+                    {invoiceDataId.order.items_total}
                   </Typography>
                 </div>
-                <div className='flex items-center justify-between'>
-                  <Typography>Discount:</Typography>
+                <div className='flex items-center justify-between mt-2'>
+                  <Typography>Balance:</Typography>
+
                   <Typography className='font-medium' color='text.primary'>
-                    {invoiceDataId?.order?.discount}
+                    {invoiceDataId.balance}
                   </Typography>
                 </div>
                 {/* <div className='flex items-center justify-between'>
@@ -279,7 +278,7 @@ const PreviewCard = ({ invoiceData }) => {
                 <div className='flex items-center justify-between'>
                   <Typography>Total:</Typography>
                   <Typography className='font-medium' color='text.primary'>
-                    {invoiceDataId?.total}
+                    {invoiceDataId.total}
                   </Typography>
                 </div>
               </div>

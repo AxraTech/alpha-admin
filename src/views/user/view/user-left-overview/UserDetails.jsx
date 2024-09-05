@@ -79,6 +79,7 @@ const UserDetails = () => {
               />
             </div>
             <Divider className='mlb-4' />
+
             <div className='flex flex-col gap-2'>
               <div className='flex items-center flex-wrap gap-x-1.5'>
                 <Typography className='font-medium' color='text.primary'>
@@ -88,35 +89,68 @@ const UserDetails = () => {
               </div>
               <div className='flex items-center flex-wrap gap-x-1.5'>
                 <Typography className='font-medium' color='text.primary'>
-                  Billing Email:
+                  Phone :
                 </Typography>
-                <Typography>{data.users_by_pk.billingEmail}</Typography>
+                <Typography>{data.users_by_pk.phone}</Typography>
               </div>
 
+              <Typography className='text-primary mt-4'>Delivery Information</Typography>
+              <Divider />
               <div className='flex items-center flex-wrap gap-x-1.5'>
                 <Typography className='font-medium' color='text.primary'>
-                  Tax ID:
+                  Delivery Name:
                 </Typography>
-                <Typography color='text.primary'>{data.users_by_pk.taxId}</Typography>
+                <Typography color='text.primary'>{data.users_by_pk.delivery_name}</Typography>
               </div>
               <div className='flex items-center flex-wrap gap-x-1.5'>
                 <Typography className='font-medium' color='text.primary'>
-                  Contact:
+                  Delivery Phone :
                 </Typography>
-                <Typography color='text.primary'>{data.users_by_pk.contact}</Typography>
+                <Typography color='text.primary'>{data.users_by_pk.delivery_phone}</Typography>
               </div>
               <div className='flex items-center flex-wrap gap-x-1.5'>
                 <Typography className='font-medium' color='text.primary'>
-                  Language:
+                  Delivery Address :
                 </Typography>
-                <Typography color='text.primary'>{data.users_by_pk.language}</Typography>
+                <Typography color='text.primary'>{data.users_by_pk.delivery_address}</Typography>
               </div>
-              <div className='flex items-center flex-wrap gap-x-1.5'>
-                <Typography className='font-medium' color='text.primary'>
-                  Country:
-                </Typography>
-                <Typography color='text.primary'>{data.users_by_pk.country}</Typography>
-              </div>
+
+              {data.users_by_pk.role === 'dealer' && (
+                <>
+                  <Typography className='text-primary mt-4'>Dealer Information</Typography>
+                  <Divider />
+                  <div className='flex items-center flex-wrap gap-x-1.5'>
+                    <Typography className='font-medium' color='text.primary'>
+                      Shop Name :
+                    </Typography>
+                    <Typography color='text.primary'>{data.users_by_pk.dealer.name}</Typography>
+                  </div>
+                  <div className='flex items-center flex-wrap gap-x-1.5'>
+                    <Typography className='font-medium' color='text.primary'>
+                      Shop Phone :
+                    </Typography>
+                    <Typography color='text.primary'>{data.users_by_pk.dealer.phone}</Typography>
+                  </div>
+                  <div className='flex items-center flex-wrap gap-x-1.5'>
+                    <Typography className='font-medium' color='text.primary'>
+                      Shop Address :
+                    </Typography>
+                    <Typography color='text.primary'>{data.users_by_pk.dealer.address}</Typography>
+                  </div>
+                  <div className='flex items-center flex-wrap gap-x-1.5'>
+                    <Typography className='font-medium' color='text.primary'>
+                      Shop City Name :
+                    </Typography>
+                    <Typography color='text.primary'>{data.users_by_pk.dealer.city_name}</Typography>
+                  </div>
+                  <div className='flex items-center flex-wrap gap-x-1.5'>
+                    <Typography className='font-medium' color='text.primary'>
+                      Shop Township Name :
+                    </Typography>
+                    <Typography color='text.primary'>{data.users_by_pk.dealer.township_name}</Typography>
+                  </div>
+                </>
+              )}
             </div>
           </div>
           <div className='flex gap-4 justify-center'>
@@ -126,7 +160,7 @@ const UserDetails = () => {
               dialog={EditUserInfo}
               dialogProps={{ data: data.users_by_pk }}
             /> */}
-            {data.users_by_pk.status !== 'disable' && (
+            {data.users_by_pk.status !== 'disable' ? (
               <OpenDialogOnElementClick
                 element={Button}
                 elementProps={buttonProps(`Disable`, `error`, 'outlined')}
@@ -134,20 +168,30 @@ const UserDetails = () => {
                 dialogProps={{ type: 'disable-account' }}
                 data={data.users_by_pk}
               />
+            ) : (
+              <OpenDialogOnElementClick
+                element={Button}
+                elementProps={buttonProps(`Enable`, `success`, 'outlined')}
+                dialog={ConfirmationDialog}
+                dialogProps={{ type: 'enable-account' }}
+                data={data.users_by_pk}
+              />
             )}
-            <OpenDialogOnElementClick
-              element={Button}
-              elementProps={buttonProps(
-                `${data.users_by_pk.status === 'verified' ? 'Unverified' : 'Verified'}`,
-                `${data.users_by_pk.status === 'verified' ? 'error' : 'success'}`,
-                'outlined'
-              )}
-              dialog={ConfirmationDialog}
-              dialogProps={{
-                type: `${data.users_by_pk.status === 'verified' ? 'unverified-account' : 'verified-account'}`
-              }}
-              userData={data.users_by_pk}
-            />
+            {data.users_by_pk.role === 'dealer' && (
+              <OpenDialogOnElementClick
+                element={Button}
+                elementProps={buttonProps(
+                  `${data.users_by_pk.status === 'verified' ? 'Unverify' : 'Verify'}`,
+                  `${data.users_by_pk.status === 'verified' ? 'error' : 'success'}`,
+                  'outlined'
+                )}
+                dialog={ConfirmationDialog}
+                dialogProps={{
+                  type: `${data.users_by_pk.status === 'verified' ? 'unverified-account' : 'verified-account'}`
+                }}
+                userData={data.users_by_pk}
+              />
+            )}
           </div>
         </CardContent>
       </Card>

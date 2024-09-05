@@ -54,7 +54,8 @@ const PaymentList = ({ invoiceData }) => {
   // States
 
   const { data: paymentDatas } = useSuspenseQuery(PAYMENT_BY_INVOICE_ID, {
-    variables: { invoice_id: invoiceData.invoices_by_pk.id }
+    variables: { invoice_id: invoiceData.invoices_by_pk.id },
+    fetchPolicy: 'network-only'
   })
   const [rowSelection, setRowSelection] = useState({})
   const [data, setData] = useState(...[paymentDatas.payments])
@@ -87,6 +88,7 @@ const PaymentList = ({ invoiceData }) => {
 
       columnHelper.accessor('#', {
         header: '#',
+
         cell: ({ row }) => (
           <div className='flex items-center gap-3 text-wrap'>
             {/* <img src={row.original.productImage} alt={row.original.productName} height={34} className='rounded' /> */}

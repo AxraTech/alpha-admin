@@ -47,6 +47,7 @@ import { serviceStatusIcon } from '@/components/helper/StatusIcon'
 
 // Style Imports
 import tableStyles from '@core/styles/table.module.css'
+import { Chip } from '@mui/material'
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -109,29 +110,38 @@ const InvoiceListTable = () => {
       columnHelper.accessor('status', {
         header: 'Status',
         cell: ({ row }) => (
-          <Tooltip
-            title={
-              <div>
-                <Typography variant='body2' component='span' className='text-inherit'>
-                  {row.original.status}
-                </Typography>
-                <br />
-                <Typography variant='body2' component='span' className='text-inherit'>
-                  isWarrantyValid:
-                </Typography>
-                {row.original.is_warranty_valid ? 'Yes' : 'No'}
-                <br />
-                <Typography variant='body2' component='span' className='text-inherit'>
-                  Due Date:
-                </Typography>
-                {row.original.created_at.substring(0, 10)}
-              </div>
-            }
-          >
-            <CustomAvatar skin='light' color={serviceStatusChipColor[row.original.status]} size={28}>
-              <i className={classnames('text-base', serviceStatusIcon[row.original.status])} />
-            </CustomAvatar>
-          </Tooltip>
+          // <Tooltip
+          //   title={
+          //     <div>
+          //       <Typography variant='body2' component='span' className='text-inherit'>
+          //         {row.original.status}
+          //       </Typography>
+          //       <br />
+          //       <Typography variant='body2' component='span' className='text-inherit'>
+          //         isWarrantyValid:
+          //       </Typography>
+          //       {row.original.is_warranty_valid ? 'Yes' : 'No'}
+          //       <br />
+          //       <Typography variant='body2' component='span' className='text-inherit'>
+          //         Due Date:
+          //       </Typography>
+          //       {row.original.created_at.substring(0, 10)}
+          //     </div>
+          //   }
+          // >
+          //   <CustomAvatar skin='light' color={serviceStatusChipColor[row.original.status]} size={28}>
+          //     <i className={classnames('text-base', serviceStatusIcon[row.original.status])} />
+          //   </CustomAvatar>
+          // </Tooltip>
+          <div className='flex items-center gap-3'>
+            <Chip
+              variant='tonal'
+              label={row.original.status}
+              size='small'
+              color={serviceStatusChipColor[row.original.status]}
+              className='capitalize'
+            />
+          </div>
         )
       }),
       columnHelper.accessor('action', {

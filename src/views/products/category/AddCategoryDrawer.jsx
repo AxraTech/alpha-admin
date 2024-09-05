@@ -90,7 +90,7 @@ const AddCategoryDrawer = props => {
       setFileName(files)
     }
   }
-
+  console.log('rile name ', fileName)
   return (
     <>
       <Drawer
@@ -129,7 +129,7 @@ const AddCategoryDrawer = props => {
                 size='small'
                 placeholder='No file chosen'
                 variant='outlined'
-                value={fileName}
+                value={fileName[0]?.name}
                 className='flex-auto'
                 InputProps={{
                   readOnly: true,

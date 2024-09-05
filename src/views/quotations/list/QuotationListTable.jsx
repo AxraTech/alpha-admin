@@ -179,6 +179,10 @@ const QuotationListTable = () => {
           <Typography>{`${row.original.total_amount !== null ? row.original.total_amount : '-'}`}</Typography>
         )
       }),
+      columnHelper.accessor('created_at', {
+        header: 'Date',
+        cell: ({ row }) => <Typography>{row.original.created_at.substring(0, 10)}</Typography>
+      }),
       columnHelper.accessor('status', {
         header: 'Status',
         cell: ({ row }) => (
@@ -195,10 +199,6 @@ const QuotationListTable = () => {
           </div>
         )
       }),
-      // columnHelper.accessor('issuedDate', {
-      //   header: 'Issued Date',
-      //   cell: ({ row }) => <Typography>{row.original.issuedDate}</Typography>
-      // }),
 
       columnHelper.accessor('action', {
         header: 'Action',

@@ -46,6 +46,7 @@ import { getLocalizedUrl } from '@/utils/i18n'
 import { useSuspenseQuery } from '@apollo/client'
 import { GET_ALL_INVOICES, GET_USER_BY_ID, ORDERS_TABS } from '@/graphql/queries'
 import tableStyles from '@core/styles/table.module.css'
+import { Chip } from '@mui/material'
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -58,15 +59,6 @@ const fuzzyFilter = (row, columnId, value, addMeta) => {
 
   // Return if the item should be filtered in/out
   return itemRank.passed
-}
-
-// Vars
-const invoiceStatusColorObj = {
-  paid: 'secondary',
-  'partially paid': 'info',
-  completed: 'success',
-  unpaid: 'error',
-  pending: 'primary'
 }
 
 // Column Definitions
@@ -114,29 +106,38 @@ const OrderUserListTable = () => {
       columnHelper.accessor('status', {
         header: 'Status',
         cell: ({ row }) => (
-          <Tooltip
-            title={
-              <div>
-                <Typography variant='body2' component='span' className='text-inherit'>
-                  {row.original.status}
-                </Typography>
-                <br />
-                <Typography variant='body2' component='span' className='text-inherit'>
-                  Receiver Name:
-                </Typography>
-                {row.original.receiver_name}
-                <br />
-                <Typography variant='body2' component='span' className='text-inherit'>
-                  Due Date:
-                </Typography>
-                {row.original.created_at.substring(0, 10)}
-              </div>
-            }
-          >
-            <CustomAvatar skin='light' color={orderStatusColor[row.original.status]} size={28}>
-              <i className={classnames('text-base', orderStausIcon[row.original.status])} />
-            </CustomAvatar>
-          </Tooltip>
+          // <Tooltip
+          //   title={
+          //     <div>
+          //       <Typography variant='body2' component='span' className='text-inherit'>
+          //         {row.original.status}
+          //       </Typography>
+          //       <br />
+          //       <Typography variant='body2' component='span' className='text-inherit'>
+          //         Receiver Name:
+          //       </Typography>
+          //       {row.original.receiver_name}
+          //       <br />
+          //       <Typography variant='body2' component='span' className='text-inherit'>
+          //         Due Date:
+          //       </Typography>
+          //       {row.original.created_at.substring(0, 10)}
+          //     </div>
+          //   }
+          // >
+          //   <CustomAvatar skin='light' color={orderStatusColor[row.original.status]} size={28}>
+          //     <i className={classnames('text-base', orderStausIcon[row.original.status])} />
+          //   </CustomAvatar>
+          // </Tooltip>
+          <div className='flex items-center gap-3'>
+            <Chip
+              variant='tonal'
+              label={row.original.status}
+              size='small'
+              color={orderStatusColor[row.original.status]}
+              className='capitalize'
+            />
+          </div>
         )
       }),
       columnHelper.accessor('action', {

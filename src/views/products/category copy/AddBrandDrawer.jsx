@@ -69,6 +69,7 @@ const AddBrandDrawer = props => {
 
       setData([...brandData, res.data.insert_brands_one])
       setGlobalMsg('➕ Add New Product Brand')
+      setLoading(false)
       handleReset()
     } catch (e) {
       setGlobalMsg('❌ Add Brand Error')
@@ -78,9 +79,11 @@ const AddBrandDrawer = props => {
 
   // Handle Form Reset
   const handleReset = () => {
-    handleClose()
-    resetForm({ title: '', description: '' })
+    resetForm({})
     setFileName('')
+  }
+  const handleCloseBtn = () => {
+    handleClose()
   }
 
   // Handle File Upload
@@ -102,7 +105,7 @@ const AddBrandDrawer = props => {
     >
       <div className='flex items-center justify-between pli-5 plb-4'>
         <Typography variant='h5'>Add Brand</Typography>
-        <IconButton size='small' onClick={handleReset}>
+        <IconButton size='small' onClick={handleCloseBtn}>
           <i className='ri-close-line text-2xl' />
         </IconButton>
       </div>
@@ -128,7 +131,7 @@ const AddBrandDrawer = props => {
               size='small'
               placeholder='No file chosen'
               variant='outlined'
-              value={fileName}
+              value={fileName[0]?.name}
               className='flex-auto'
               InputProps={{
                 readOnly: true,

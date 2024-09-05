@@ -47,6 +47,8 @@ import { useSuspenseQuery } from '@apollo/client'
 import { GET_ALL_INVOICES, GET_USER_BY_ID, INVOICE_TABS } from '@/graphql/queries'
 import { invoiceStatusColor } from '@/components/helper/StatusColor'
 import { invoiceStatusIcon } from '@/components/helper/StatusIcon'
+import { Chip } from '@mui/material'
+
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
   const itemRank = rankItem(row.getValue(columnId), value)
@@ -93,34 +95,7 @@ const InvoiceListTable = () => {
           >{`${row.original.invoice_number}`}</Typography>
         )
       }),
-      columnHelper.accessor('status', {
-        header: 'Status',
-        cell: ({ row }) => (
-          <Tooltip
-            title={
-              <div>
-                <Typography variant='body2' component='span' className='text-inherit'>
-                  {row.original.status}
-                </Typography>
-                <br />
-                <Typography variant='body2' component='span' className='text-inherit'>
-                  Balance:
-                </Typography>
-                {row.original.balance}
-                <br />
-                <Typography variant='body2' component='span' className='text-inherit'>
-                  Due Date:
-                </Typography>
-                {row.original.created_at.substring(0, 10)}
-              </div>
-            }
-          >
-            <CustomAvatar skin='light' color={invoiceStatusColor[row.original.status]} size={28}>
-              <i className={classnames('text-base', invoiceStatusIcon[row.original.status])} />
-            </CustomAvatar>
-          </Tooltip>
-        )
-      }),
+
       columnHelper.accessor('total', {
         header: 'Total',
         cell: ({ row }) => <Typography>{`${row.original.total.toLocaleString()}`}</Typography>
@@ -128,6 +103,43 @@ const InvoiceListTable = () => {
       columnHelper.accessor('created_at', {
         header: 'Issued Date',
         cell: ({ row }) => <Typography>{row.original.created_at.substring(0, 10)}</Typography>
+      }),
+      columnHelper.accessor('status', {
+        header: 'Status',
+        cell: ({ row }) => (
+          // <Tooltip
+          //   title={
+          //     <div>
+          //       <Typography variant='body2' component='span' className='text-inherit'>
+          //         {row.original.status}
+          //       </Typography>
+          //       <br />
+          //       <Typography variant='body2' component='span' className='text-inherit'>
+          //         Balance:
+          //       </Typography>
+          //       {row.original.balance}
+          //       <br />
+          //       <Typography variant='body2' component='span' className='text-inherit'>
+          //         Due Date:
+          //       </Typography>
+          //       {row.original.created_at.substring(0, 10)}
+          //     </div>
+          //   }
+          // >
+          //   <CustomAvatar skin='light' color={invoiceStatusColor[row.original.status]} size={28}>
+          //     <i className={classnames('text-base', invoiceStatusIcon[row.original.status])} />
+          //   </CustomAvatar>
+          // </Tooltip>
+          <div className='flex items-center gap-3'>
+            <Chip
+              variant='tonal'
+              label={row.original.status}
+              size='small'
+              color={invoiceStatusColor[row.original.status]}
+              className='capitalize'
+            />
+          </div>
+        )
       }),
       columnHelper.accessor('action', {
         header: 'Action',

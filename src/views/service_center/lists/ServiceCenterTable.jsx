@@ -124,6 +124,7 @@ const ServiceCenterTable = () => {
           </div>
         )
       }),
+
       columnHelper.accessor('phone', {
         header: 'Phone',
         cell: ({ row }) => <Typography type='phone'>{row.original.phone}</Typography>
@@ -132,6 +133,10 @@ const ServiceCenterTable = () => {
         header: 'Address',
 
         cell: ({ row }) => <Typography className='w-80 text-wrap'>{row.original.address}</Typography>
+      }),
+      columnHelper.accessor('created_at', {
+        header: 'Date',
+        cell: ({ row }) => <Typography>{row.original.created_at.substring(0, 10)}</Typography>
       }),
       columnHelper.accessor('actions', {
         header: 'Actions',

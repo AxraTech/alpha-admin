@@ -83,7 +83,7 @@ const SendQuotationDrawer = ({ open, handleClose, quotationData }) => {
 
   const handleReset = () => {
     setFile('')
-
+    handleClose()
     // setFormData(initialData)
   }
   const handleCloseDrawer = () => {
@@ -114,7 +114,7 @@ const SendQuotationDrawer = ({ open, handleClose, quotationData }) => {
                 size='small'
                 placeholder='No file chosen'
                 variant='outlined'
-                value={file}
+                value={file ? file[0].name : ''}
                 className='flex-auto'
                 InputProps={{
                   readOnly: true,

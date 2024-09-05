@@ -36,7 +36,7 @@ const ShippingAddress = ({ orderData }) => {
     <Card>
       <CardContent className='flex flex-col gap-6'>
         <div className='flex justify-between items-center'>
-          <Typography variant='h5'>Shipping Address</Typography>
+          <Typography variant='h5'>Delivery Address</Typography>
           {/* <OpenDialogOnElementClick
             element={Typography}
             elementProps={typographyProps('Edit', 'primary', 'cursor-pointer font-medium')}

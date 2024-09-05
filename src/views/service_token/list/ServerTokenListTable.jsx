@@ -132,7 +132,7 @@ const ServerTokenListTable = () => {
       columnHelper.accessor('product', {
         header: 'Product',
         cell: ({ row }) => (
-          <div className='flex items-center gap-3'>
+          <div className='flex items-center gap-3 w-40 text-wrap'>
             <div className='flex flex-col'>
               <Typography className='font-medium' color='text.primary'>
                 {row.original.product}
@@ -141,12 +141,12 @@ const ServerTokenListTable = () => {
           </div>
         )
       }),
-      columnHelper.accessor('service_fee', {
-        header: 'Service Fee',
-        cell: ({ row }) => (
-          <Typography>{`${row.original.service_fee !== null ? row.original.service_fee : '-'}`}</Typography>
-        )
-      }),
+      // columnHelper.accessor('service_fee', {
+      //   header: 'Service Fee',
+      //   cell: ({ row }) => (
+      //     <Typography>{`${row.original.service_fee !== null ? row.original.service_fee : '-'}`}</Typography>
+      //   )
+      // }),
       // columnHelper.accessor('status', {
       //   header: 'Status',
       //   cell: ({ row }) => (
@@ -203,7 +203,10 @@ const ServerTokenListTable = () => {
           </div>
         )
       }),
-
+      columnHelper.accessor('created_at', {
+        header: 'Date',
+        cell: ({ row }) => <Typography>{row.original.created_at.substring(0, 10)}</Typography>
+      }),
       columnHelper.accessor('action', {
         header: 'Action',
         cell: ({ row }) => (

@@ -131,7 +131,10 @@ const ProductBrandTable = () => {
           <Typography>{row.original?.products_aggregate?.aggregate?.count.toLocaleString()}</Typography>
         )
       }),
-
+      columnHelper.accessor('created_at', {
+        header: 'Date',
+        cell: ({ row }) => <Typography>{row.original.created_at.substring(0, 10)}</Typography>
+      }),
       columnHelper.accessor('actions', {
         header: 'Actions',
         cell: ({ row }) => (

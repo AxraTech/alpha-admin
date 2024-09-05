@@ -141,6 +141,16 @@ const UserListTable = ({ tableData }) => {
           </div>
         )
       }),
+      columnHelper.accessor('created_at', {
+        header: 'Join Date',
+        cell: ({ row }) => (
+          <div className='flex items-center gap-2'>
+            <Typography className='capitalize' color='text.primary'>
+              {row.original.created_at.substring(0, 10)}
+            </Typography>
+          </div>
+        )
+      }),
       columnHelper.accessor('action', {
         header: 'Action',
         cell: ({ row }) => (
@@ -217,14 +227,14 @@ const UserListTable = ({ tableData }) => {
         <TableFilters setData={setFilteredData} tableData={data} />
         <Divider />
         <div className='flex justify-between p-5 gap-4 flex-col items-start sm:flex-row sm:items-center'>
-          <Button
+          {/* <Button
             color='secondary'
             variant='outlined'
             startIcon={<i className='ri-upload-2-line text-xl' />}
             className='max-sm:is-full'
           >
             Export
-          </Button>
+          </Button> */}
           <div className='flex items-center gap-x-4 gap-4 flex-col max-sm:is-full sm:flex-row'>
             <DebouncedInput
               value={globalFilter ?? ''}

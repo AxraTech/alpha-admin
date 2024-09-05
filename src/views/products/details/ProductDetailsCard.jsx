@@ -264,7 +264,7 @@ const DiscountDetailsCard = ({ productData }) => {
         {/* <OrderTable productData={productData} /> */}
         <CardContent className='flex '>
           <div>
-            <div className='flex items-center gap-12'>
+            <div className='flex items-center gap-12 '>
               <Typography color='text.primary' className='min-is-[100px]'>
                 Description :
               </Typography>
@@ -272,12 +272,20 @@ const DiscountDetailsCard = ({ productData }) => {
                 {productData?.description}
               </Typography>
             </div>
-            <div className='flex items-center gap-12'>
+            <div className='flex items-center gap-12 mt-3'>
               <Typography color='text.primary' className='min-is-[100px]'>
                 Brand :
               </Typography>
               <Typography color='text.primary' className='font-medium'>
                 {productData?.brand?.title}
+              </Typography>
+            </div>
+            <div className='flex items-center gap-12 mt-3'>
+              <Typography color='text.primary' className='min-is-[100px]'>
+                Serial Number :
+              </Typography>
+              <Typography color='text.primary' className='font-medium'>
+                {productData.serial_number}
               </Typography>
             </div>
             {/* <div className='flex items-center gap-12'>
@@ -288,7 +296,7 @@ const DiscountDetailsCard = ({ productData }) => {
               $28
             </Typography>
           </div> */}
-            <div className='flex items-center gap-12'>
+            <div className='flex items-center gap-12 mt-3'>
               <Typography color='text.primary' className='font-medium min-is-[100px]'>
                 Category :
               </Typography>

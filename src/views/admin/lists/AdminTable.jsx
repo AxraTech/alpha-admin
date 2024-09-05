@@ -109,7 +109,7 @@ const AdminTable = () => {
     () => [
       columnHelper.accessor('id', {
         header: 'ID',
-        cell: ({ row }) => <Typography>{row.id}</Typography>
+        cell: ({ row }) => <Typography>{row.index + 1}</Typography>
       }),
       columnHelper.accessor('name', {
         header: 'Name',
@@ -130,6 +130,10 @@ const AdminTable = () => {
       columnHelper.accessor('role', {
         header: 'Role',
         cell: ({ row }) => <Typography>{row.original.role}</Typography>
+      }),
+      columnHelper.accessor('created_at', {
+        header: 'Date',
+        cell: ({ row }) => <Typography>{row.original.created_at.substring(0, 10)}</Typography>
       }),
       columnHelper.accessor('actions', {
         header: 'Actions',

@@ -55,7 +55,7 @@ const SendQuotationDrawer = ({ open, handleClose, invoiceData }) => {
       const fileUploadUrl = await getFileUploadUrl({
         variables: {
           content_type: 'pdf',
-          folder: 'quotations'
+          folder: 'invoices'
         }
       })
 
@@ -101,7 +101,7 @@ const SendQuotationDrawer = ({ open, handleClose, invoiceData }) => {
         </IconButton>
       </div>
       <Divider />
-
+      {console.log('file ', file ? file[0].name : 'null')}
       <div className='p-5'>
         <form onSubmit={handleSubmit(data => handleFormSubmit(data))} className='flex flex-col gap-5'>
           <div className='flex items-center gap-4'>
@@ -109,7 +109,7 @@ const SendQuotationDrawer = ({ open, handleClose, invoiceData }) => {
               size='small'
               placeholder='No file chosen'
               variant='outlined'
-              value={file}
+              value={file ? file[0].name : ''}
               className='flex-auto'
               InputProps={{
                 readOnly: true,

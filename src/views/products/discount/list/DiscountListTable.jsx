@@ -209,11 +209,16 @@ const DiscountListTable = ({ productData }) => {
       //     </div>
       //   )
       // }),
+
       columnHelper.accessor('discounted_value', {
         header: 'Discounted Value',
         cell: ({ row }) => (
           <Typography>{`${row.original.discounted_value !== null ? row.original.discounted_value.toLocaleString() : '-'}`}</Typography>
         )
+      }),
+      columnHelper.accessor('created_at', {
+        header: 'Date',
+        cell: ({ row }) => <Typography>{row.original.created_at.substring(0, 10)}</Typography>
       }),
       // columnHelper.accessor('discount_type', {
       //   header: 'Discount Type',

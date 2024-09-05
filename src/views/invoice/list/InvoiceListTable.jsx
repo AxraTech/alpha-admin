@@ -177,10 +177,10 @@ const InvoiceListTable = () => {
         header: 'Total',
         cell: ({ row }) => <Typography>{`${row.original.total.toLocaleString()}`}</Typography>
       }),
-      // columnHelper.accessor('issuedDate', {
-      //   header: 'Issued Date',
-      //   cell: ({ row }) => <Typography>{row.original.issuedDate}</Typography>
-      // }),
+      columnHelper.accessor('created_at', {
+        header: 'Date',
+        cell: ({ row }) => <Typography>{row.original.created_at.substring(0, 10)}</Typography>
+      }),
       columnHelper.accessor('status ', {
         header: 'Status',
         cell: ({ row }) => (

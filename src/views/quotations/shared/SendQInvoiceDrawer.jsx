@@ -84,7 +84,7 @@ const SendQInvoiceDrawer = ({ open, handleClose, quotationData }) => {
     resetForm({
       price: ''
     })
-    // handleClose()
+    handleClose()
     // setFormData(initialData)
   }
 

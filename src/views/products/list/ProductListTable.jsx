@@ -167,6 +167,10 @@ const ProductListTable = () => {
         header: 'Price',
         cell: ({ row }) => <Typography>{row.original.price.toLocaleString()}</Typography>
       }),
+      columnHelper.accessor('created_at', {
+        header: 'Date',
+        cell: ({ row }) => <Typography>{row.original.created_at.substring(0, 10)}</Typography>
+      }),
       columnHelper.accessor('disabled', {
         header: 'Status',
         cell: ({ row }) => (
@@ -184,7 +188,7 @@ const ProductListTable = () => {
           <div className='flex items-center'>
             <IconButton size='small'>
               <Link href={getLocalizedUrl(`/products/edit/${row.original.id}`, locale)} className='flex'>
-                <i className='ri-edit-box-line text-[22px] text-warning' />
+                <i className='ri-edit-box-line text-[22px] ' />
               </Link>
             </IconButton>
             <IconButton>

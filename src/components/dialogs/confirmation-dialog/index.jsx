@@ -50,11 +50,21 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData }) => {
     if (value === true) {
       try {
         if (type === 'disable-account') {
-          const reslt = await changeUserStatus({
+          await changeUserStatus({
             variables: {
               id: userId,
               data: {
                 status: 'disable'
+              }
+            }
+          })
+        }
+        if (type === 'enable-account') {
+          await changeUserStatus({
+            variables: {
+              id: userId,
+              data: {
+                status: 'verified'
               }
             }
           })
@@ -114,13 +124,16 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData }) => {
               {type === 'delete-customer' && 'Are you sure?'}
             </Typography>
             {type === 'verified-account' && (
-              <Typography color='text.primary'>Are you sure you want to activate your account?</Typography>
+              <Typography color='text.primary'>Are you sure you want to verify your account?</Typography>
             )}
             {type === 'unverified-account' && (
-              <Typography color='text.primary'>Are you sure you want to unactivate your account?</Typography>
+              <Typography color='text.primary'>Are you sure you want to unverify your account?</Typography>
             )}
             {type === 'disable-account' && (
-              <Typography color='text.primary'>You won&#39;t be able to revert user!</Typography>
+              <Typography color='text.primary'>Are you sure you want to disalbe user!</Typography>
+            )}
+            {type === 'enable-account' && (
+              <Typography color='text.primary'>Are you sure you want to enable user!</Typography>
             )}
 
             {type === 'deleteProductCategory' && (
@@ -138,22 +151,24 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData }) => {
         <DialogActions className='justify-center pbs-0 sm:pbe-16 sm:pli-16'>
           <Button variant='contained' onClick={() => handleConfirmation(true)}>
             {type === 'disable-account'
-              ? 'Yes, Suspend User!'
-              : type === 'deleteProductCategory'
-                ? 'Yes, Delete Category!'
-                : type === 'deleteProductBrand'
-                  ? 'Yes, Delete Brand'
-                  : type === 'delete-customer'
-                    ? 'Yes, Delete Customer!'
-                    : type === 'verified-account'
-                      ? 'Yes , User activate'
-                      : type === 'unverified-account'
-                        ? 'Yes, User Unactivate'
-                        : type === 'deletePost'
-                          ? 'Yes, Delete Post'
-                          : type === 'deleteNewCategory'
-                            ? 'Yes, Delete Category'
-                            : 'Yes'}
+              ? 'Yes, Disabel User!'
+              : type === 'enable-account'
+                ? 'Yes, Enable User!'
+                : type === 'deleteProductCategory'
+                  ? 'Yes, Delete Category!'
+                  : type === 'deleteProductBrand'
+                    ? 'Yes, Delete Brand'
+                    : type === 'delete-customer'
+                      ? 'Yes, Delete Customer!'
+                      : type === 'verified-account'
+                        ? 'Yes , User Verify'
+                        : type === 'unverified-account'
+                          ? 'Yes, User Unverify'
+                          : type === 'deletePost'
+                            ? 'Yes, Delete Post'
+                            : type === 'deleteNewCategory'
+                              ? 'Yes, Delete Category'
+                              : 'Yes'}
           </Button>
           <Button
             variant='outlined'
@@ -180,15 +195,16 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData }) => {
           />
           <Typography variant='h4' className='mbe-2'>
             {userInput
-              ? `${type === 'disable-account' ? 'User Disabled' : type === 'verified-account' ? 'User Activate' : type === 'deleteProductCategory' ? 'Delete Category' : type === 'unverified' ? 'User Unactivate' : type === 'deleteProductBrand' ? 'Delete Brand' : type === 'deletePost' ? 'Delete Post' : type === 'deleteNewCategory' ? 'Delete New Category' : 'yes'}`
+              ? `${type === 'disable-account' ? 'User Disabled' : type === 'enable-account' ? 'User Enabled' : type === 'verified-account' ? 'User Verified' : type === 'deleteProductCategory' ? 'Delete Category' : type === 'unverified' ? 'User Unverified' : type === 'deleteProductBrand' ? 'Delete Brand' : type === 'deletePost' ? 'Delete Post' : type === 'deleteNewCategory' ? 'Delete New Category' : 'yes'}`
               : 'Cancelled'}
           </Typography>
           <Typography color='text.primary'>
             {userInput ? (
               <>
-                {type === 'verified-account' && 'Your account has been activated successfully.'}
-                {type === 'unverified-account' && 'Your account has been unactivated successfully.'}
+                {type === 'verified-account' && 'Your account has been verified successfully.'}
+                {type === 'unverified-account' && 'Your account has been unverified successfully.'}
                 {type === 'disable-account' && 'User has been disabled.'}
+                {type === 'enable-account' && 'User has been enabled.'}
                 {type === 'deleteProductCategory' && 'Your Category has been deleted successfully.'}
                 {type === 'deleteNewCategory' && 'Your New Category has been deleted successfully.'}
                 {type === 'deleteProductBrand' && 'Your Category has been deleted successfully.'}
@@ -197,9 +213,8 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData }) => {
               </>
             ) : (
               <>
-                {console.log('use input ', userInput)}
-                {type === 'verified-account' && 'User activation Cancelled!'}
-                {type === 'unverified-account' && 'User inactivation Cancelled!'}
+                {type === 'verified-account' && 'User Verify Cancelled!'}
+                {type === 'unverified-account' && 'User Unverify Cancelled!'}
                 {type === 'disable-account' && 'Cancelled Disabled :)'}
                 {type === 'deleteProductCategory' && 'Category Deletion Cancelled'}
                 {type === 'deleteNewCategory' && 'New Category Deletion Cancelled'}
