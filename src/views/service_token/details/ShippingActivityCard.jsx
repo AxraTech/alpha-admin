@@ -38,7 +38,7 @@ const Timeline = styled(MuiTimeline)({
 const ShippingActivity = ({ serviceData }) => {
   return (
     <Card>
-      <CardHeader title='Shipping Activity' />
+      <CardHeader title='Delivery Activity' />
       <CardContent>
         <Timeline>
           <TimelineItem>
@@ -55,7 +55,7 @@ const ShippingActivity = ({ serviceData }) => {
 
                 <Typography variant='caption'>{new Date(serviceData.received_at).toLocaleString()}</Typography>
               </div>
-              <Typography className='mbe-2'>Order has been placed successfully</Typography>
+              <Typography className='mbe-2'>Received Service Token</Typography>
             </TimelineContent>
           </TimelineItem>
           {/* <TimelineItem>
@@ -103,7 +103,7 @@ const ShippingActivity = ({ serviceData }) => {
           <TimelineItem>
             <TimelineSeparator>
               <TimelineDot
-                variant={serviceData.processing_at === null ? 'outlined' : 'contained'}
+                // variant={serviceData.processing_at === null ? 'contained' : 'outlined'}
                 color={serviceData.processing_at === null ? 'grey' : 'primary'}
               />
               <TimelineConnector />
@@ -123,7 +123,7 @@ const ShippingActivity = ({ serviceData }) => {
           <TimelineItem>
             <TimelineSeparator>
               <TimelineDot
-                variant={serviceData.delivering_at === null ? 'outlined' : 'contained'}
+                // variant={serviceData.delivering_at === null ? 'outlined' : 'contained'}
                 color={serviceData.delivering_at === null ? 'grey' : 'primary'}
               />
               <TimelineConnector />
@@ -143,7 +143,7 @@ const ShippingActivity = ({ serviceData }) => {
           <TimelineItem>
             <TimelineSeparator>
               <TimelineDot
-                variant={serviceData.completed_at === null ? 'outlined' : 'contained'}
+                // variant={serviceData.completed_at === null ? 'outlined' : 'contained'}
                 color={serviceData.completed_at === null ? 'grey' : 'primary'}
               />
               <TimelineConnector />

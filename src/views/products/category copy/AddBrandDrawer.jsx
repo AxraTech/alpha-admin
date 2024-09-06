@@ -1,3 +1,4 @@
+'use client'
 // React Imports
 import { useState, useRef } from 'react'
 
@@ -70,6 +71,7 @@ const AddBrandDrawer = props => {
       setData([...brandData, res.data.insert_brands_one])
       setGlobalMsg('➕ Add New Product Brand')
       setLoading(false)
+      handleClose()
       handleReset()
     } catch (e) {
       setGlobalMsg('❌ Add Brand Error')

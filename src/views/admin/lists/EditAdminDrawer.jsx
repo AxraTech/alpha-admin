@@ -16,21 +16,19 @@ import InputAdornment from '@mui/material/InputAdornment'
 
 // Third-party Imports
 import { useForm, Controller } from 'react-hook-form'
-import { useMutation, useQuery, useSuspenseQuery } from '@apollo/client'
-import { ADD_ADMIN } from '@/graphql/mutations'
+import { useMutation, useSuspenseQuery } from '@apollo/client'
+import { EDIT_ADMIN } from '@/graphql/mutations'
 import Alert from '@/components/helper/Alert'
 import { useApp } from '@/app/ApolloWrapper'
-import { ADMIN_ROLES, GET_USERS } from '@/graphql/queries'
+import { ADMIN_ROLES } from '@/graphql/queries'
 
 const EditAdminDrawer = props => {
   const { setGlobalMsg } = useApp()
   // Props
   const { open, handleClose, adminData, setData } = props
-  const [userId, setUserId] = useState()
-  const [addAdmin] = useMutation(ADD_ADMIN)
+
+  const [editAdmin] = useMutation(EDIT_ADMIN)
   const { data: adminRoles } = useSuspenseQuery(ADMIN_ROLES)
-  // Refs
-  const fileInputRef = useRef(null)
 
   // Hooks
   const {
@@ -40,49 +38,45 @@ const EditAdminDrawer = props => {
     formState: { errors }
   } = useForm({
     defaultValues: {
-      title: ''
+      name: '',
+      email: '',
+      role: ''
     }
   })
 
   // Handle Form Submit
   const handleFormSubmit = async data => {
-    const res = await addAdmin({
+    const res = await editAdmin({
       variables: {
-        email: data.email,
-        name: data.name,
-        password: data.password,
-        role: data.role
+        id: adminData.id,
+        data: {
+          email: data.email,
+          name: data.name,
+          role: data.role
+        }
       }
     })
 
-    setData([...(adminData ?? []), res])
+    setData(prevData =>
+      prevData.map(item => (item.id === adminData?.id ? { ...item, ...res.data.update_admins_by_pk } : item))
+    )
     handleReset()
-    setGlobalMsg('➕ Added New Data')
+    setGlobalMsg('✅ Staff Data has been updated')
   }
-  console.log('adminData', adminData)
+
   useEffect(() => {
     if (adminData) {
       resetForm({
         name: adminData.name,
         email: adminData.email,
-        password: adminData.password,
         role: adminData.role
       })
     }
-  })
+  }, [adminData, resetForm])
   // Handle Form Reset
   const handleReset = () => {
     handleClose()
     resetForm({ title: '', description: '' })
-  }
-
-  // Handle File Upload
-  const handleFileUpload = event => {
-    const { files } = event.target
-
-    if (files && files.length !== 0) {
-      setFileName(files[0].name)
-    }
   }
 
   return (
@@ -158,8 +152,8 @@ const EditAdminDrawer = props => {
               />
               {errors.role && <FormHelperText error>This field is required.</FormHelperText>}
             </FormControl>
-            {/* phone */}
-            <Controller
+            {/* password */}
+            {/* <Controller
               name='password'
               control={control}
               rules={{ required: true }}
@@ -173,11 +167,11 @@ const EditAdminDrawer = props => {
                   {...(errors.password && { error: true, helperText: 'This field is required.' })}
                 />
               )}
-            />
+            /> */}
 
             <div className='flex items-center gap-4'>
               <Button variant='contained' type='submit'>
-                Edit
+                Update
               </Button>
               <Button variant='outlined' color='error' type='reset' onClick={handleReset}>
                 Discard

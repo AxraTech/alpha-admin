@@ -543,6 +543,7 @@ export const SERVICE_TOKEN_BY_ID = gql`
       picking_up_at
       product
       processing_at
+      received_at
       service_fee
       service_status {
         name
@@ -1064,12 +1065,14 @@ export const GET_ALL_PRODUCT_DISCOUNT = gql`
     product_discounts(order_by: { updated_at: desc }, where: { product_id: { _eq: $product_id } }) {
       id
       customer_type
+      product_id
       discount_type
       created_at
       updated_at
       discounted_value
       min_order
       product {
+        title
         brand {
           id
           title
@@ -1087,7 +1090,11 @@ export const PRODCUT_DISCOUNT_BY_ID = gql`
       created_at
       updated_at
       discounted_value
+
       min_order
+      user_role {
+        role_name
+      }
       product {
         brand {
           id

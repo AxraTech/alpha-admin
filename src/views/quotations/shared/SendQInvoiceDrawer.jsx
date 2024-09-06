@@ -103,7 +103,7 @@ const SendQInvoiceDrawer = ({ open, handleClose, quotationData }) => {
         sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
       >
         <div className='flex items-center justify-between pli-5 plb-4'>
-          <Typography variant='h5'>Send Invoice File</Typography>
+          <Typography variant='h5'>Send Discounted Amount</Typography>
           <IconButton size='small' onClick={handleCloseDrawer}>
             <i className='ri-close-line text-2xl' />
           </IconButton>
@@ -121,8 +121,8 @@ const SendQInvoiceDrawer = ({ open, handleClose, quotationData }) => {
                   {...field}
                   fullWidth
                   type='number'
-                  label='Price'
-                  placeholder=''
+                  label='Amount'
+                  placeholder='Enter Amount'
                   {...(errors.price && { error: true, helperText: 'This field is required.' })}
                 />
               )}
@@ -153,7 +153,7 @@ const SendQInvoiceDrawer = ({ open, handleClose, quotationData }) => {
 
             <div className='flex items-center gap-4'>
               <Button variant='contained' type='submit'>
-                Add
+                Send
               </Button>
               <Button variant='outlined' color='error' type='reset' onClick={handleReset}>
                 Discard

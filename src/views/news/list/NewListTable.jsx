@@ -177,11 +177,11 @@ const NewListTable = () => {
         header: 'Actions',
         cell: ({ row }) => (
           <div className='flex items-center'>
-            {/* <IconButton size='small'>
+            <IconButton size='small'>
               <Link href={getLocalizedUrl(`/news/edit/${row.original.id}`, locale)} className='flex'>
                 <i className='ri-edit-box-line text-[22px] ' />
               </Link>
-            </IconButton> */}
+            </IconButton>
             {/* <IconButton size='small' onClick={() => handleDelete(row?.original?.id)}>
               <i className='ri-delete-bin-7-line text-[22px] text-red-500' />
             </IconButton> */}

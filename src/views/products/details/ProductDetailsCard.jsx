@@ -266,12 +266,13 @@ const DiscountDetailsCard = ({ productData }) => {
           <div>
             <div className='flex items-center gap-12 '>
               <Typography color='text.primary' className='min-is-[100px]'>
-                Description :
+                Name :
               </Typography>
               <Typography color='text.primary' className='font-medium'>
-                {productData?.description}
+                {productData?.title}
               </Typography>
             </div>
+
             <div className='flex items-center gap-12 mt-3'>
               <Typography color='text.primary' className='min-is-[100px]'>
                 Brand :
@@ -302,6 +303,14 @@ const DiscountDetailsCard = ({ productData }) => {
               </Typography>
               <Typography color='text.primary' className='font-medium'>
                 {productData?.product_category?.title}
+              </Typography>
+            </div>
+            <div className='flex items-center gap-12 mt-3'>
+              <Typography color='text.primary' className='min-is-[100px]'>
+                Description :
+              </Typography>
+              <Typography color='text.primary' className='font-medium'>
+                {productData?.description}
               </Typography>
             </div>
           </div>

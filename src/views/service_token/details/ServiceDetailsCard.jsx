@@ -352,13 +352,13 @@ const ServiceDetailsCard = ({ serviceData }) => {
       {/* Modal for full-screen image */}
       <Dialog open={open} onClose={handleClose} maxWidth='md'>
         <DialogContent>
-          <img src={modalImage} alt='Full Screen' style={{ width: '100%', height: 'auto', overfow: 'hidden' }} />
+          <img src={modalImage} alt='Full Screen' style={{ width: '400px', height: 'auto', overfow: 'hidden' }} />
         </DialogContent>
       </Dialog>
 
       <Dialog open={docOpen} onClose={handleDocClose} maxWidth='md'>
         <DialogContent>
-          <img src={modalDocImage} alt='Full Screen' style={{ width: '100%', height: 'auto', overfow: 'hidden' }} />
+          <img src={modalDocImage} alt='Full Screen' style={{ width: '400px', height: 'auto', overfow: 'hidden' }} />
         </DialogContent>
       </Dialog>
       <Alert />

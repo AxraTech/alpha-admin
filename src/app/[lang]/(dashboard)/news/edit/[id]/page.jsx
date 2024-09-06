@@ -1,6 +1,5 @@
 'use client'
 // MUI Imports
-
 import Grid from '@mui/material/Grid'
 
 // Component Imports
@@ -17,15 +16,17 @@ import { ADD_NEWS, ADD_NEWS_PRODUCTS, DELETE_NEW_RELATED_PRODUCTS, EDIT_NEWS, IM
 import { useEffect, useState } from 'react'
 import Alert from '@/components/helper/Alert'
 import { useApp } from '@/app/ApolloWrapper'
-import { Box } from '@mui/material'
-import { useRouter } from 'next/router'
+import { Box, Button, Typography } from '@mui/material'
+import { useRouter } from 'next/navigation'
 import { uploadFile } from '@/utils/helper'
 import { useParams } from 'next/navigation'
 import { NEW_BY_ID } from '@/graphql/queries'
 import ReactHtmlParser from 'react-html-parser'
+import Link from '@/components/Link'
 const EditNews = () => {
   const { id } = useParams()
-  // const router = useRouter()
+
+  const router = useRouter()
   const { setGlobalMsg, loading, setLoading } = useApp()
   const [title, setTitle] = useState()
   const [description, setDescription] = useState()
@@ -43,11 +44,12 @@ const EditNews = () => {
 
   useEffect(() => {
     if (newData) {
+      setImage(newData.image_url)
       setTitle(newData.title)
       setDescription(ReactHtmlParser(newData.body_html)[0]?.props?.children[0])
     }
   }, [newData])
-  console.log('image ', image, 'image url ', newData.image_url)
+
   const handleEditNews = async () => {
     setLoading(true)
     let errObj = {}
@@ -80,13 +82,12 @@ const EditNews = () => {
     }
     try {
       let uploadedFileUrl = newData.image_url
+
       if (image && image !== newData?.image_url) {
-        setIsImageChange(true)
         const { data: uploadData } = await getFileUploadUrl({
           variables: { content_type: 'image', folder: 'products' }
         })
-
-        uploadedFileUrl = await uploadFile(image, uploadData.getFileUploadUrl.fileUploadUrl, 'image')
+        uploadedFileUrl = await uploadFile(image[0], uploadData.getFileUploadUrl.fileUploadUrl, 'image')
       }
       const result = await editNews({
         variables: {
@@ -95,7 +96,7 @@ const EditNews = () => {
             title: title,
             body_html: description,
             news_category_id: catId,
-            image_url: uploadedFileUrl
+            image_url: image !== newData.image_url ? uploadedFileUrl : newData.image_url
           }
         }
       })
@@ -118,7 +119,7 @@ const EditNews = () => {
       setDescription('')
       setProductId([])
       setCatId('')
-      setGlobalMsg('✅ New pos has been updated')
+      setGlobalMsg('✅ New post has been updated')
     } catch (err) {
       setGlobalMsg('❌ Add News Error')
       console.log(err.response)
@@ -126,9 +127,7 @@ const EditNews = () => {
   }
 
   const handleDiscardProduct = () => {
-    setTitle('')
-    setDescription('')
-    setCatId('')
+    router.back()
   }
   if (loading) {
     return <Box sx={{ textAlign: 'center' }}>Loading...</Box>
@@ -136,6 +135,12 @@ const EditNews = () => {
 
   return (
     <>
+      <Typography component={Link} to={router.back()}>
+        Back
+      </Typography>
+      <Button variant='contained' onClick={() => router.back()}>
+        ⬅️ Back
+      </Button>
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <NewsAddHeader handleDiscardProduct={handleDiscardProduct} handleEditNews={handleEditNews} />
@@ -153,7 +158,13 @@ const EditNews = () => {
             </Grid>
 
             <Grid item xs={12}>
-              <NewImage files={image} setFiles={setImage} newData={newData} isImageChange={isImageChange} />
+              <NewImage
+                files={image}
+                setFiles={setImage}
+                newData={newData}
+                isImageChange={isImageChange}
+                setIsImageChange={setIsImageChange}
+              />
             </Grid>
             {/* <Grid item xs={12}>
             <ProductVariants />

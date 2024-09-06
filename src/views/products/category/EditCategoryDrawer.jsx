@@ -17,7 +17,7 @@ import { uploadFile } from '@/utils/helper'
 // Third-party Imports
 import { useForm, Controller } from 'react-hook-form'
 import { useMutation } from '@apollo/client'
-import { ADD_CATEGORY, EDIT_PRODUCT_CATEGORY, IMGAE_UPLOAD } from '@/graphql/mutations'
+import { EDIT_PRODUCT_CATEGORY, IMGAE_UPLOAD } from '@/graphql/mutations'
 import Alert from '@/components/helper/Alert'
 import { useApp } from '@/app/ApolloWrapper'
 
@@ -43,7 +43,8 @@ const EditCategoryDrawer = props => {
     formState: { errors }
   } = useForm({
     defaultValues: {
-      title: ''
+      title: '',
+      image_url: ''
     }
   })
 
@@ -76,7 +77,7 @@ const EditCategoryDrawer = props => {
         )
       )
       handleReset()
-      setGlobalMsg('➕ Category has been updated')
+      setGlobalMsg('✅ Category has been updated')
     } catch (e) {
       console.log('Error ', e)
     }
@@ -188,7 +189,7 @@ const EditCategoryDrawer = props => {
             )}
             <div className='flex items-center gap-4'>
               <Button variant='contained' type='submit' loading={loading}>
-                Edit
+                Update
               </Button>
               <Button variant='outlined' color='error' type='reset' onClick={handleReset}>
                 Discard

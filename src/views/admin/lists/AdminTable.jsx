@@ -133,7 +133,7 @@ const AdminTable = () => {
       }),
       columnHelper.accessor('created_at', {
         header: 'Date',
-        cell: ({ row }) => <Typography>{row.original.created_at.substring(0, 10)}</Typography>
+        cell: ({ row }) => <Typography>{row.original.created_at?.substring(0, 10)}</Typography>
       }),
       columnHelper.accessor('actions', {
         header: 'Actions',
@@ -303,12 +303,12 @@ const AdminTable = () => {
         setData={setData}
         handleClose={() => setAddDealerOpen(!addDealerOpen)}
       />
-      {console.log('edit admin ', editAdmin)}
+
       <EditAdminDrawer
         open={editAdminOpen}
         adminData={editAdmin}
         setData={setData}
-        handleClose={() => setEditAdminOpen(!addServiceOpen)}
+        handleClose={() => setEditAdminOpen(!editAdminOpen)}
       />
       <Alert />
     </>

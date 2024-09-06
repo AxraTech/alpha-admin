@@ -1,4 +1,8 @@
 {
   "/[lang]/(dashboard)/dashboards/crm/page": "app/[lang]/(dashboard)/dashboards/crm/page.js",
-  "/[lang]/(dashboard)/orders/list/page": "app/[lang]/(dashboard)/orders/list/page.js"
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/[lang]/(dashboard)/products/list/page": "app/[lang]/(dashboard)/products/list/page.js",
+  "/[lang]/(dashboard)/products/details/[id]/page": "app/[lang]/(dashboard)/products/details/[id]/page.js",
+  "/[lang]/(dashboard)/invoice/list/page": "app/[lang]/(dashboard)/invoice/list/page.js",
+  "/[lang]/(dashboard)/news/list/page": "app/[lang]/(dashboard)/news/list/page.js"
 }

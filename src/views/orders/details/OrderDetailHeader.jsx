@@ -81,9 +81,9 @@ const OrderDetailHeader = ({ orderData }) => {
         <Button variant='outlined' color='error' onClick={() => handleChangeOrderStatus(orderData.id, 'canceled')}>
           Cancel
         </Button>
-        <Button variant='outlined' color='warning' onClick={() => handleChangeOrderStatus(orderData.id, 'refunded')}>
+        {/* <Button variant='outlined' color='warning' onClick={() => handleChangeOrderStatus(orderData.id, 'refunded')}>
           Refund
-        </Button>
+        </Button> */}
         <Button variant='outlined' color='primary' onClick={() => handleChangeOrderStatus(orderData.id, 'delivering')}>
           Delivering
         </Button>

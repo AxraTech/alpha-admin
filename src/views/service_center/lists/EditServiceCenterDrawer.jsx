@@ -1,3 +1,4 @@
+'use client'
 // React Imports
 import { useState, useRef, useEffect } from 'react'
 
@@ -30,7 +31,7 @@ const EditServiceCenterDrawer = props => {
   const { data: adminRoles } = useSuspenseQuery(ADMIN_ROLES)
   // Refs
   const fileInputRef = useRef(null)
-  console.log('servie data ', serviceCenterData)
+
   // Hooks
   const {
     control,
@@ -38,9 +39,7 @@ const EditServiceCenterDrawer = props => {
     handleSubmit,
     formState: { errors }
   } = useForm({
-    defaultValues: {
-      title: ''
-    }
+    defaultValues: { name: '', address: '', phone: '' }
   })
 
   // Handle Form Submit
@@ -62,39 +61,26 @@ const EditServiceCenterDrawer = props => {
       )
     )
     handleReset()
-    setGlobalMsg('➕ Service Data has been updated')
+    setGlobalMsg('✅ Service Data has been updated')
   }
 
   useEffect(() => {
     if (serviceCenterData) {
       resetForm({
-        name: serviceCenterData.name,
-        address: serviceCenterData.address,
-        phone: serviceCenterData.phone
+        name: serviceCenterData.name || '',
+        address: serviceCenterData.address || '',
+        phone: serviceCenterData.phone || ''
       })
     }
-  }, [serviceCenterData])
+  }, [serviceCenterData, resetForm])
 
   // Handle Form Reset
   const handleReset = () => {
     handleClose()
-    resetForm({})
   }
 
-  const handleEdit = async () => {
-    try {
-    } catch (e) {
-      console.log('Edit error ', e)
-    }
-  }
-
-  // Handle File Upload
-  const handleFileUpload = event => {
-    const { files } = event.target
-
-    if (files && files.length !== 0) {
-      setFileName(files[0].name)
-    }
+  const handleCloseBtn = () => {
+    handleClose()
   }
 
   return (
@@ -108,8 +94,8 @@ const EditServiceCenterDrawer = props => {
         sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
       >
         <div className='flex items-center justify-between pli-5 plb-4'>
-          <Typography variant='h5'>Add Admin</Typography>
-          <IconButton size='small' onClick={handleReset}>
+          <Typography variant='h5'>Edit Service Center</Typography>
+          <IconButton size='small' onClick={handleCloseBtn}>
             <i className='ri-close-line text-2xl' />
           </IconButton>
         </div>
@@ -165,7 +151,7 @@ const EditServiceCenterDrawer = props => {
 
             <div className='flex items-center gap-4'>
               <Button variant='contained' type='submit'>
-                Edit
+                Update
               </Button>
               <Button variant='outlined' color='error' type='reset' onClick={handleReset}>
                 Discard

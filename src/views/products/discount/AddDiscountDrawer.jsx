@@ -23,11 +23,12 @@ import { useApp } from '@/app/ApolloWrapper'
 import Autocomplete from '@mui/material/Autocomplete'
 import { USER_ROLES } from '@/graphql/queries'
 import { FormHelperText } from '@mui/material'
+import { GET_ALL_PRODUCT_DISCOUNT, PRODCUT_DISCOUNT_BY_ID } from '../../../graphql/queries'
 const AddDiscountDrawer = props => {
   const { setGlobalMsg } = useApp()
   // Props
   const { open, handleClose, discountData, loading, setLoading, setData } = props
-  const [addDiscount] = useMutation(ADD_DISCOUNT)
+  const [addDiscount] = useMutation(ADD_DISCOUNT, { refetchQueries: [GET_ALL_PRODUCT_DISCOUNT] })
   const [productId, setProductId] = useState()
   const [customerType, setCustomerType] = useState()
   const { data: userRoles } = useSuspenseQuery(USER_ROLES)

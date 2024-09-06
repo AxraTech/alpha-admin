@@ -1,3 +1,4 @@
+'use client'
 // React Imports
 import { useState, useRef } from 'react'
 
@@ -20,15 +21,15 @@ import { useMutation, useQuery, useSuspenseQuery } from '@apollo/client'
 import { ADD_ADMIN, ADD_CATEGORY, ADD_DEALERS, ADD_SERVICE_CENTER } from '@/graphql/mutations'
 import Alert from '@/components/helper/Alert'
 import { useApp } from '@/app/ApolloWrapper'
-import { ADMIN_ROLES, GET_USERS } from '@/graphql/queries'
+import { ADMIN_ROLES, GET_ALL_SERVICE_CENTERS, GET_USERS } from '@/graphql/queries'
 
 const AddServiceCenterDrawer = props => {
   const { setGlobalMsg } = useApp()
   // Props
   const { open, handleClose, serviceCenterData, setData } = props
-  const [userId, setUserId] = useState()
+
   const [addService] = useMutation(ADD_SERVICE_CENTER)
-  const { data: adminRoles } = useSuspenseQuery(ADMIN_ROLES)
+
   // Refs
   const fileInputRef = useRef(null)
 
@@ -59,6 +60,7 @@ const AddServiceCenterDrawer = props => {
     })
 
     setData([...(serviceCenterData ?? []), res.data.insert_service_centers_one])
+
     handleReset()
     setGlobalMsg('➕ Added New Data')
   }

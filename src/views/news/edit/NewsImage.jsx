@@ -40,73 +40,35 @@ const Dropzone = styled(AppReactDropzone)(({ theme }) => ({
   }
 }))
 
-const NewImage = ({ files, setFiles, newData, isImageChange }) => {
-  // States
-  console.log('is iamge change ', isImageChange)
+const NewsImage = ({ files, setFiles, newData, isImageChange, setIsImageChange }) => {
   // Hooks
   const { getRootProps, getInputProps } = useDropzone({
-    multiple: true,
+    multiple: false,
     onDrop: acceptedFiles => {
+      setIsImageChange(true)
       setFiles(acceptedFiles.map(file => Object.assign(file)))
     }
   })
 
-  useEffect(() => {
-    if (newData) {
-      setFiles(newData.image_url)
-    }
-  }, [newData])
-
+  // Render File Preview
   const renderFilePreview = file => {
-    if (file?.type?.startsWith('image')) {
+    if (isImageChange && file instanceof File) {
       return <img width={38} height={38} alt={file.name} src={URL.createObjectURL(file)} />
+    } else if (newData?.image_url) {
+      return <img width={38} height={38} alt='image' src={newData.image_url} />
     } else {
-      return <img width={38} height={38} alt={file.name} src={files} />
-      // return <i className='ri-file-text-line' />
+      return <Typography>No image available</Typography>
     }
   }
 
-  const handleRemoveFile = file => {
-    const uploadedFiles = files
-    const filtered = uploadedFiles.filter(i => i.name !== file.name)
-    setFiles([...filtered])
-  }
-  const fileList = () => {
-    /* // const fileList = files.map(file => ( ; */
-    ;<ListItem className='pis-4 plb-3'>
-      <div className='file-details'>
-        {!isImageChange && (
-          <div className='file-preview'>
-            <img width={38} height={38} alt='image' src={files} />
-          </div>
-        )}
-        {isImageChange && (
-          <>
-            <div className='file-preview'>{renderFilePreview(files)}</div>
-            <Typography className='file-name font-medium' color='text.primary'>
-              {files?.name}
-            </Typography>
-          </>
-        )}
-        <div>
-          <Typography className='file-name font-medium' color='text.primary'>
-            {files?.name}
-          </Typography>
-          <Typography className='file-size' variant='body2'>
-            {Math.round(files?.size / 100) / 10 > 1000
-              ? `${(Math.round(files?.size / 100) / 10000).toFixed(1)} mb`
-              : `${(Math.round(files?.size / 100) / 10).toFixed(1)} kb`}
-          </Typography>
-        </div>
-      </div>
-      <IconButton onClick={() => handleRemoveFile(files)}>
-        <i className='ri-close-line text-xl' />
-      </IconButton>
-    </ListItem>
+  const handleRemoveFile = () => {
+    setFiles([])
+    setIsImageChange(false)
   }
 
   const handleRemoveAllFiles = () => {
     setFiles([])
+    setIsImageChange(false)
   }
 
   return (
@@ -136,43 +98,42 @@ const NewImage = ({ files, setFiles, newData, isImageChange }) => {
             </div>
           </div>
 
-          {files.length ? (
-            <>
-              <List>
-                <ListItem className='pis-4 plb-3'>
-                  <div className='file-details'>
-                    {/* <div className='file-preview'>{renderFilePreview(files)}</div> */}
-                    <div className='file-preview'>
-                      <img width={38} height={38} alt='image' src={files} />
-                    </div>
-                    <div>
-                      <Typography className='file-name font-medium' color='text.primary'>
-                        {files?.name}
-                      </Typography>
-                      <Typography className='file-size' variant='body2'>
-                        {Math.round(files?.size / 100) / 10 > 1000
-                          ? `${(Math.round(files?.size / 100) / 10000).toFixed(1)} mb`
-                          : `${(Math.round(files?.size / 100) / 10).toFixed(1)} kb`}
-                      </Typography>
-                    </div>
+          <List>
+            <ListItem className='pis-4 plb-3'>
+              <div className='file-details'>
+                {/* Render file preview */}
+                <div className='file-preview'>
+                  {files.length > 0 ? renderFilePreview(files[0]) : renderFilePreview(null)}
+                </div>
+                {files.length > 0 && (
+                  <div>
+                    <Typography className='file-name font-medium' color='text.primary'>
+                      {files[0]?.name}
+                    </Typography>
+                    <Typography className='file-size' variant='body2'>
+                      {Math.round(files[0].size / 100) / 10 > 1000
+                        ? `${(Math.round(files[0].size / 100) / 10000).toFixed(1)} mb`
+                        : `${(Math.round(files[0].size / 100) / 10).toFixed(1)} kb`}
+                    </Typography>
                   </div>
-                  <IconButton onClick={() => handleRemoveFile(files)}>
-                    <i className='ri-close-line text-xl' />
-                  </IconButton>
-                </ListItem>
-              </List>
-              <div className='buttons'>
-                <Button color='error' variant='outlined' onClick={handleRemoveAllFiles}>
-                  Remove All
-                </Button>
-                {/* <Button variant='contained'>Upload Files</Button> */}
+                )}
               </div>
-            </>
-          ) : null}
+              {files.length > 0 && (
+                <IconButton onClick={() => handleRemoveFile(files[0])}>
+                  <i className='ri-close-line text-xl' />
+                </IconButton>
+              )}
+            </ListItem>
+          </List>
+          <div className='buttons'>
+            <Button color='error' variant='outlined' onClick={handleRemoveAllFiles}>
+              Remove All
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </Dropzone>
   )
 }
 
-export default NewImage
+export default NewsImage

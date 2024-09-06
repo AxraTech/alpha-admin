@@ -32,6 +32,8 @@ import {
 import AddServiceCenterDrawer from './AddServiceCenterDrawer'
 import EditServiceCenterDrawer from './EditServiceCenterDrawer'
 import OptionMenu from '@core/components/option-menu'
+import OpenDialogOnElementClick from '@components/dialogs/OpenDialogOnElementClick'
+import ConfirmationDialog from '@components/dialogs/confirmation-dialog'
 
 // Style Imports
 import tableStyles from '@core/styles/table.module.css'
@@ -81,14 +83,21 @@ const columnHelper = createColumnHelper()
 const ServiceCenterTable = () => {
   const { setGlobalMsg } = useApp()
   // States
-  const { data: serviceCenterData } = useSuspenseQuery(GET_ALL_SERVICE_CENTERS)
+  const { data: serviceCenterDatas } = useSuspenseQuery(GET_ALL_SERVICE_CENTERS)
+  const serviceCenterData = serviceCenterDatas.service_centers
   const [deleteService] = useMutation(DELETE_SERVICE_CENTER)
   const [addServiceOpen, setAddServiceOpen] = useState(false)
   const [editServiceOpen, setEditServiceOpen] = useState(false)
   const [editService, setEditService] = useState()
   const [rowSelection, setRowSelection] = useState({})
-  const [data, setData] = useState(...[serviceCenterData.service_centers])
+  const [data, setData] = useState(...[serviceCenterData])
   const [globalFilter, setGlobalFilter] = useState('')
+
+  const buttonProps = (children, color, variant) => ({
+    children,
+    color,
+    variant
+  })
 
   const handleDelete = async id => {
     try {
@@ -136,7 +145,7 @@ const ServiceCenterTable = () => {
       }),
       columnHelper.accessor('created_at', {
         header: 'Date',
-        cell: ({ row }) => <Typography>{row.original.created_at.substring(0, 10)}</Typography>
+        cell: ({ row }) => <Typography>{row.original.created_at?.substring(0, 10)}</Typography>
       }),
       columnHelper.accessor('actions', {
         header: 'Actions',
@@ -145,9 +154,18 @@ const ServiceCenterTable = () => {
             <IconButton size='small' onClick={() => handleEdit(row.original)}>
               <i className='ri-edit-box-line text-[22px] text-textSecondary' />
             </IconButton>
-            <IconButton size='small' onClick={() => handleDelete(row?.original?.id)}>
+            <OpenDialogOnElementClick
+              element={Button}
+              elementProps={buttonProps(<i className='ri-delete-bin-7-line text-[22px] text-red-500' />, 'error', '')}
+              dialog={ConfirmationDialog}
+              dialogProps={{ type: 'deleteServiceCenter' }}
+              dataId={row.original.id}
+              setData={setData}
+              data={data}
+            />
+            {/* <IconButton size='small' onClick={() => handleDelete(row?.original?.id)}>
               <i className='ri-delete-bin-7-line text-[22px] text-red-500' />
-            </IconButton>
+            </IconButton> */}
             {/* <OptionMenu
               iconButtonProps={{ size: 'medium' }}
               iconClassName='text-textSecondary text-[22px]'
@@ -311,7 +329,7 @@ const ServiceCenterTable = () => {
         open={editServiceOpen}
         serviceCenterData={editService}
         setData={setData}
-        handleClose={() => setEditServiceOpen(!addServiceOpen)}
+        handleClose={() => setEditServiceOpen(!editServiceOpen)}
       />
       <Alert />
     </>

@@ -1,3 +1,5 @@
+'use client'
+
 // React Imports
 import { useState, useRef, useEffect } from 'react'
 
@@ -59,9 +61,9 @@ const EditNewCategoryDrawer = props => {
       prevData.map(item => (item.id === newData?.id ? { ...item, ...res.data.update_news_categories_by_pk } : item))
     )
     handleReset()
-    setGlobalMsg('✏️ Category Data has been updated')
+    setGlobalMsg('✅ Category Data has been updated')
   }
-  console.log('new data ', newData)
+
   useEffect(() => {
     if (newData) {
       resetForm({
@@ -145,7 +147,7 @@ const EditNewCategoryDrawer = props => {
 
             <div className='flex items-center gap-4'>
               <Button variant='contained' type='submit'>
-                Edit
+                Update
               </Button>
               <Button variant='outlined' color='error' type='reset' onClick={handleReset}>
                 Discard

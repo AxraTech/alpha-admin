@@ -22,7 +22,7 @@ import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import Tooltip from '@mui/material/Tooltip'
 import TablePagination from '@mui/material/TablePagination'
-
+import EditDiscountDrawer from '../EditDiscountDrawer'
 // Third-party Imports
 import classnames from 'classnames'
 import { rankItem } from '@tanstack/match-sorter-utils'
@@ -43,6 +43,8 @@ import {
 import OptionMenu from '@core/components/option-menu'
 import CustomAvatar from '@core/components/mui/Avatar'
 import { quotationstatusChipColor } from '@/components/helper/StatusColor'
+import OpenDialogOnElementClick from '@components/dialogs/OpenDialogOnElementClick'
+import ConfirmationDialog from '@components/dialogs/confirmation-dialog'
 // Util Imports
 import { getInitials } from '@/utils/getInitials'
 import { getLocalizedUrl } from '@/utils/i18n'
@@ -59,8 +61,8 @@ import {
   QUOTATION_STATUS
 } from '@/graphql/queries'
 import { Avatar } from '@mui/material'
-import { CHANGE_QUOTATION_STATUS, DELETE_PRODUCT_DISCOUNT } from '@/graphql/mutations'
-import { orderStatusColor } from '@/components/helper/StatusColor'
+import { DELETE_PRODUCT_DISCOUNT } from '@/graphql/mutations'
+
 import { useApp } from '@/app/ApolloWrapper'
 import Alert from '@/components/helper/Alert'
 const fuzzyFilter = (row, columnId, value, addMeta) => {
@@ -95,16 +97,6 @@ const DebouncedInput = ({ value: initialValue, onChange, debounce = 500, ...prop
   return <TextField {...props} value={value} onChange={e => setValue(e.target.value)} size='small' />
 }
 
-// Vars
-const invoiceStatusObj = {
-  Sent: { color: 'secondary', icon: 'ri-send-plane-2-line' },
-  Paid: { color: 'success', icon: 'ri-check-line' },
-  Draft: { color: 'primary', icon: 'ri-mail-line' },
-  'Partial Payment': { color: 'warning', icon: 'ri-pie-chart-2-line' },
-  'Past Due': { color: 'error', icon: 'ri-information-line' },
-  Downloaded: { color: 'info', icon: 'ri-arrow-down-line' }
-}
-
 // Column Definitions
 const columnHelper = createColumnHelper()
 
@@ -119,11 +111,21 @@ const DiscountListTable = ({ productData }) => {
   // States
   const { setGlobalMsg } = useApp()
   const [status, setStatus] = useState('')
+  const [loading, setLoading] = useState(false)
   const [rowSelection, setRowSelection] = useState({})
   const [data, setData] = useState(...[discountDatas.product_discounts])
+  const [discountedData, setDiscountedData] = useState()
   const [filteredData, setFilteredData] = useState(data)
   const [globalFilter, setGlobalFilter] = useState('')
+  const [editDiscountOpen, setEditDiscountOpen] = useState(false)
   const [deleteDiscount] = useMutation(DELETE_PRODUCT_DISCOUNT)
+
+  const buttonProps = (children, color, variant) => ({
+    children,
+    color,
+    variant
+  })
+
   const handleDelete = async id => {
     try {
       await deleteDiscount({ variables: { id: id } })
@@ -165,8 +167,8 @@ const DiscountListTable = ({ productData }) => {
         header: '#',
         cell: ({ row }) => (
           <Typography
-            component={Link}
-            href={getLocalizedUrl(`/products/discount/${row.original.id}`, locale)}
+            // component={Link}
+            // href={getLocalizedUrl(`/products/discount/${row.original.id}`, locale)}
             color='primary'
           >{`${row.original.id.substring(0, 10)}`}</Typography>
         )
@@ -245,14 +247,28 @@ const DiscountListTable = ({ productData }) => {
         header: 'Action',
         cell: ({ row }) => (
           <div className='flex items-center'>
-            <IconButton onClick={() => handleDelete(row.original.id)}>
-              <i className='ri-delete-bin-7-line text-textSecondary text-red-600' />
+            <OpenDialogOnElementClick
+              element={Button}
+              elementProps={buttonProps(<i className='ri-delete-bin-7-line text-[22px] text-red-500' />, 'error', '')}
+              dialog={ConfirmationDialog}
+              dialogProps={{ type: 'deleteProductDiscount' }}
+              dataId={row.original.id}
+              setData={setData}
+              data={data}
+            />
+            <IconButton
+              onClick={() => {
+                setDiscountedData(row.original)
+                setEditDiscountOpen(true)
+              }}
+            >
+              <i className='ri-pencil-line' />
             </IconButton>
-            <IconButton>
+            {/* <IconButton>
               <Link href={getLocalizedUrl(`/products/discount/details/${row.original.id}`, locale)} className='flex'>
                 <i className='ri-eye-line text-textSecondary' />
               </Link>
-            </IconButton>
+            </IconButton> */}
             {/* <OptionMenu
               iconButtonProps={{ size: 'medium' }}
               iconClassName='text-textSecondary'
@@ -442,6 +458,15 @@ const DiscountListTable = ({ productData }) => {
         />
       </Card>
       <Alert />
+
+      <EditDiscountDrawer
+        open={editDiscountOpen}
+        discountData={discountedData}
+        setData={setData}
+        loading={loading}
+        setLoading={setLoading}
+        handleClose={() => setEditDiscountOpen(!editDiscountOpen)}
+      />
     </>
   )
 }

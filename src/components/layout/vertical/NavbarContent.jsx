@@ -15,6 +15,8 @@ import UserDropdown from '@components/layout/shared/UserDropdown'
 import { verticalLayoutClasses } from '@layouts/utils/layoutClasses'
 import { useSuspenseQuery } from '@apollo/client'
 import { GET_USERS } from '@/graphql/queries'
+import { Button } from '@mui/material'
+import { useRouter } from 'next/navigation'
 
 // Vars
 const shortcuts = [
@@ -104,14 +106,19 @@ const notifications = [
 ]
 
 const NavbarContent = () => {
+  const router = useRouter()
   // const token = req.cookies.get('token')?.value
   // console.log('token ', token)
   return (
     <div className={classnames(verticalLayoutClasses.navbarContent, 'flex items-center justify-between gap-4 is-full')}>
       <div className='flex items-center gap-[7px]'>
         <NavToggle />
+        <Button onClick={() => router.back()} className='text-lg'>
+          ⬅️
+        </Button>
         {/*<NavSearch />*/}
       </div>
+
       <div className='flex items-center'>
         <ModeDropdown />
         {/* <NotificationsDropdown notifications={notifications} /> */}

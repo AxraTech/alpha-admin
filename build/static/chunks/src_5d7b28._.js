@@ -4967,6 +4967,7 @@ const SERVICE_TOKEN_BY_ID = __TURBOPACK__imported__module__$5b$project$5d2f$node
       picking_up_at
       product
       processing_at
+      received_at
       service_fee
       service_status {
         name
@@ -5476,12 +5477,14 @@ const GET_ALL_PRODUCT_DISCOUNT = __TURBOPACK__imported__module__$5b$project$5d2f
     product_discounts(order_by: { updated_at: desc }, where: { product_id: { _eq: $product_id } }) {
       id
       customer_type
+      product_id
       discount_type
       created_at
       updated_at
       discounted_value
       min_order
       product {
+        title
         brand {
           id
           title
@@ -5499,7 +5502,11 @@ const PRODCUT_DISCOUNT_BY_ID = __TURBOPACK__imported__module__$5b$project$5d2f$n
       created_at
       updated_at
       discounted_value
+
       min_order
+      user_role {
+        role_name
+      }
       product {
         brand {
           id

@@ -113,6 +113,8 @@ const eCommerceProductsAdd = () => {
     setTitle('')
     setDescription('')
     setCatId('')
+    // setImage('')
+    setProductId([])
   }
   if (loading) {
     return <Box sx={{ textAlign: 'center' }}>Loading...</Box>

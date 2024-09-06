@@ -94,14 +94,19 @@ const VerticalMenu = ({ dictionary, scrollMenu }) => {
           <MenuItem href={`/${locale}/news/category`}>{dictionary['navigation'].new_category}</MenuItem>
         </SubMenu>
         {/* service */}
-        <SubMenu
+        {/* <SubMenu
           label={dictionary['navigation'].services}
           icon={<i className='ri-store-2-fill' />}
           //suffix={<Chip label='5' size='small' color='error' />}
         >
-          <MenuItem href={`/${locale}/services/service_center`}>{dictionary['navigation'].service_center}</MenuItem>
-          <MenuItem href={`/${locale}/services/service_token`}>{dictionary['navigation'].service_token}</MenuItem>
-        </SubMenu>
+          
+        </SubMenu> */}
+        <MenuItem href={`/${locale}/services/service_center`} icon={<i className='ri-store-2-fill' />}>
+          {dictionary['navigation'].service_center}
+        </MenuItem>
+        <MenuItem href={`/${locale}/services/service_token`} icon={<i className='ri-nft-fill' />}>
+          {dictionary['navigation'].service_token}
+        </MenuItem>
 
         {/* service center
         <MenuItem href={`/${locale}/service_center`} icon={<i className='ri-store-2-fill' />}>

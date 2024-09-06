@@ -92,6 +92,17 @@ export const ADD_NEWS = gql`
   mutation addNews($data: news_insert_input!) {
     insert_news_one(object: $data) {
       id
+      image_url
+      body_html
+      created_at
+      news_category {
+        title
+        id
+      }
+      disabled
+      news_category_id
+      title
+      updated_at
     }
   }
 `
@@ -177,6 +188,17 @@ export const EDIT_NEWS = gql`
   mutation editNewProducts($id: uuid!, $data: news_set_input!) {
     update_news_by_pk(pk_columns: { id: $id }, _set: $data) {
       id
+      image_url
+      body_html
+      created_at
+      news_category {
+        title
+        id
+      }
+      disabled
+      news_category_id
+      title
+      updated_at
     }
   }
 `
@@ -208,10 +230,28 @@ export const CHANGE_ORDER_STATUS = gql`
   }
 `
 export const CHANGE_SERVICE_STATUS = gql`
-  mutation changeOrderStatus($id: uuid!, $data: service_tokens_set_input!) {
-    update_service_tokens_by_pk(pk_columns: { id: $id }, _set: $data) {
-      id
-      status
+  mutation updateServiceStatus($service_token_id: uuid!, $status: String!) {
+    updateServiceStatus(service_token_id: $service_token_id, status: $status) {
+      message
+    }
+  }
+`
+export const ACCEPT_SERVICE_TOKEN = gql`
+  mutation updateServiceStatus($is_warranty_valid: Boolean!, $service_fee: numeric!, $service_token_id: uuid!) {
+    acceptServiceToken(
+      is_warranty_valid: $is_warranty_valid
+      service_fee: $service_fee
+      service_token_id: $service_token_id
+    ) {
+      message
+    }
+  }
+`
+
+export const REJECT_SERVICE_TOKEN = gql`
+  mutation rejectServiceToken($rejected_reason: String!, $service_token_id: uuid!) {
+    rejectServiceToken(rejected_reason: $rejected_reason, service_token_id: $service_token_id) {
+      message
     }
   }
 `
@@ -302,6 +342,16 @@ export const ADD_ADMIN = gql`
     }
   }
 `
+export const EDIT_ADMIN = gql`
+  mutation updateAdmin($id: uuid!, $data: admins_set_input!) {
+    update_admins_by_pk(pk_columns: { id: $id }, _set: $data) {
+      id
+      name
+      email
+      role
+    }
+  }
+`
 export const ADD_USER = gql`
   mutation aa($name: String!, $password: String!, $role: String!, $phone: String!) {
     UserSignUp(name: $name, password: $password, role: $role, phone: $phone) {
@@ -314,6 +364,11 @@ export const ADD_SERVICE_CENTER = gql`
   mutation addSeriveCenter($data: service_centers_insert_input!) {
     insert_service_centers_one(object: $data) {
       id
+      name
+      phone
+      address
+      created_at
+      updated_at
     }
   }
 `
@@ -329,6 +384,9 @@ export const EDIT_SERVICE_CENTER = gql`
   mutation editServiceCenter($id: uuid!, $data: service_centers_set_input!) {
     update_service_centers_by_pk(pk_columns: { id: $id }, _set: $data) {
       id
+      name
+      phone
+      address
     }
   }
 `
@@ -343,13 +401,34 @@ export const ADD_DISCOUNT = gql`
   mutation addDiscount($data: product_discounts_insert_input!) {
     insert_product_discounts_one(object: $data) {
       id
+      min_order
+      discount_type
+      customer_type
+      created_at
+      updated_at
     }
   }
 `
+
+export const EDIT_DISCOUNT = gql`
+  mutation updateProductDiscount($id: uuid!, $data: product_discounts_set_input!) {
+    update_product_discounts_by_pk(pk_columns: { id: $id }, _set: $data) {
+      id
+      min_order
+      discount_type
+      customer_type
+      created_at
+      updated_at
+    }
+  }
+`
+
 export const EDIT_PRODUCT_CATEGORY = gql`
   mutation editCategory($id: uuid!, $data: product_categories_set_input!) {
     update_product_categories_by_pk(pk_columns: { id: $id }, _set: $data) {
       id
+      title
+      image_url
     }
   }
 `
@@ -357,6 +436,8 @@ export const EDIT_BRAND = gql`
   mutation eidtBrand($id: uuid!, $data: brands_set_input!) {
     update_brands_by_pk(pk_columns: { id: $id }, _set: $data) {
       id
+      title
+      image_url
     }
   }
 `
@@ -364,6 +445,7 @@ export const EDIt_NEWS_CAT = gql`
   mutation editNewCat($id: uuid!, $title: String!) {
     update_news_categories_by_pk(pk_columns: { id: $id }, _set: { title: $title }) {
       id
+      title
     }
   }
 `

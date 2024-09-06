@@ -50,7 +50,7 @@ const PreviewActions = ({ id, onButtonClick, quotationData }) => {
             startIcon={<i className='ri-send-plane-line' />}
             onClick={() => setSendQInvoiceDrawerOpen(true)}
           >
-            Send Invoice
+            Discounted Amount
           </Button>
 
           {/* <Button fullWidth color='secondary' variant='outlined' className='capitalize'>

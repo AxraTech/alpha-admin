@@ -20,7 +20,9 @@ import {
   DELETE_NEWS,
   DELETE_ORDERS,
   DELETE_PRODUCT_BRAND,
-  DELETE_PRODUCT_CAT
+  DELETE_PRODUCT_CAT,
+  DELETE_PRODUCT_DISCOUNT,
+  DELETE_SERVICE_CENTER
 } from '@/graphql/mutations'
 import { useParams } from 'next/navigation'
 import { GET_USER_BY_ID, PRODUCT_BRANDs, PRODUCT_CATS } from '@/graphql/queries'
@@ -34,6 +36,8 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData }) => {
   const [deleteBrand] = useMutation(DELETE_PRODUCT_BRAND)
   const [deletNew] = useMutation(DELETE_NEWS)
   const [deleteNewCat] = useMutation(DELETE_NEW_CAT)
+  const [deleteService] = useMutation(DELETE_SERVICE_CENTER)
+  const [deleteDiscount] = useMutation(DELETE_PRODUCT_DISCOUNT)
   // States
   const [secondDialog, setSecondDialog] = useState(false)
   const [userInput, setUserInput] = useState(false)
@@ -91,6 +95,14 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData }) => {
           await deleteNewCat({ variables: { id: dataId } })
           setData(data.filter(item => item.id !== dataId))
         }
+        if (type === 'deleteServiceCenter') {
+          await deleteService({ variables: { id: dataId } })
+          setData(data.filter(item => item.id !== dataId))
+        }
+        if (type === 'deleteProductDiscount') {
+          await deleteDiscount({ variables: { id: dataId } })
+          setData(data.filter(item => item.id !== dataId))
+        }
 
         setUserInput(value)
         setOpen(false)
@@ -139,6 +151,12 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData }) => {
             {type === 'deleteProductCategory' && (
               <Typography color='text.primary'>Are you sure you want to delete?</Typography>
             )}
+            {type === 'deleteProductDiscount' && (
+              <Typography color='text.primary'>Are you sure you want to delete?</Typography>
+            )}
+            {type === 'deleteServiceCenter' && (
+              <Typography color='text.primary'>Are you sure you want to delete?</Typography>
+            )}
             {type === 'deleteProductBrand' && (
               <Typography color='text.primary'>Are you sure you want to delete?</Typography>
             )}
@@ -168,7 +186,11 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData }) => {
                             ? 'Yes, Delete Post'
                             : type === 'deleteNewCategory'
                               ? 'Yes, Delete Category'
-                              : 'Yes'}
+                              : type === 'deleteServiceCenter'
+                                ? 'Yes, Delete Service Center'
+                                : type === 'deleteProductDiscount'
+                                  ? 'Yes, Delete Product Discount'
+                                  : 'Yes'}
           </Button>
           <Button
             variant='outlined'
@@ -195,7 +217,7 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData }) => {
           />
           <Typography variant='h4' className='mbe-2'>
             {userInput
-              ? `${type === 'disable-account' ? 'User Disabled' : type === 'enable-account' ? 'User Enabled' : type === 'verified-account' ? 'User Verified' : type === 'deleteProductCategory' ? 'Delete Category' : type === 'unverified' ? 'User Unverified' : type === 'deleteProductBrand' ? 'Delete Brand' : type === 'deletePost' ? 'Delete Post' : type === 'deleteNewCategory' ? 'Delete New Category' : 'yes'}`
+              ? `${type === 'disable-account' ? 'User Disabled' : type === 'enable-account' ? 'User Enabled' : type === 'verified-account' ? 'User Verified' : type === 'deleteProductCategory' ? 'Delete Category' : type === 'unverified' ? 'User Unverified' : type === 'deleteProductBrand' ? 'Delete Brand' : type === 'deletePost' ? 'Delete Post' : type === 'deleteNewCategory' ? 'Delete New Category' : type === 'deleteServiceCenter' ? 'Delete Service Center' : type === 'deleteProductDiscount' ? 'Delete Product Discount' : 'yes'}`
               : 'Cancelled'}
           </Typography>
           <Typography color='text.primary'>
@@ -206,7 +228,9 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData }) => {
                 {type === 'disable-account' && 'User has been disabled.'}
                 {type === 'enable-account' && 'User has been enabled.'}
                 {type === 'deleteProductCategory' && 'Your Category has been deleted successfully.'}
+                {type === 'deleteServiceCenter' && 'Your Service Center has been deleted successfully.'}
                 {type === 'deleteNewCategory' && 'Your New Category has been deleted successfully.'}
+                {type === 'deleteProductDiscount' && 'Your Product Discount has been deleted successfully.'}
                 {type === 'deleteProductBrand' && 'Your Category has been deleted successfully.'}
                 {type === 'deletePost' && 'Your Post has been deleted successfully.'}
                 {type === 'delete-customer' && 'Your customer removed successfully.'}
@@ -217,6 +241,8 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData }) => {
                 {type === 'unverified-account' && 'User Unverify Cancelled!'}
                 {type === 'disable-account' && 'Cancelled Disabled :)'}
                 {type === 'deleteProductCategory' && 'Category Deletion Cancelled'}
+                {type === 'deleteProductDiscount' && 'Product Discount Deletion Cancelled'}
+                {type === 'deleteServiceCenter' && 'Service Center Deletion Cancelled'}
                 {type === 'deleteNewCategory' && 'New Category Deletion Cancelled'}
                 {type === 'deleteProductBrand' && 'Brand Deletion Cancelled'}
                 {type === 'deletePost' && 'Post Deletion Cancelled!'}

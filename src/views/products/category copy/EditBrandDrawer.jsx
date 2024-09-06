@@ -1,3 +1,5 @@
+'use client'
+
 // React Imports
 import { useState, useRef, useEffect } from 'react'
 
@@ -43,7 +45,7 @@ const editBrandDrawer = props => {
   } = useForm({
     defaultValues: {
       title: '',
-      description: ''
+      image_url: ''
     }
   })
 
@@ -70,7 +72,7 @@ const editBrandDrawer = props => {
       setData(prevData =>
         prevData.map(item => (item.id === brandData?.id ? { ...item, ...res.data.update_brands_by_pk } : item))
       )
-      setGlobalMsg('➕ Brand has been updated')
+      setGlobalMsg('✅ Brand Data has been updated')
       handleReset()
     } catch (e) {
       setGlobalMsg('❌ Add Brand Error')
@@ -181,7 +183,7 @@ const editBrandDrawer = props => {
 
           <div className='flex items-center gap-4'>
             <Button variant='contained' type='submit'>
-              Edit
+              Update
             </Button>
             <Button variant='outlined' color='error' type='reset' onClick={handleReset}>
               Discard

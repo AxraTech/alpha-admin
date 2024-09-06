@@ -920,11 +920,6 @@
   color: rgb(239 68 68 / var(--tw-text-opacity));
 }
 
-#__next .text-red-600 {
-  --tw-text-opacity: 1;
-  color: rgb(220 38 38 / var(--tw-text-opacity));
-}
-
 #__next .text-success {
   color: var(--mui-palette-success-main);
 }

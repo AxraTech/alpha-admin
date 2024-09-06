@@ -1,3 +1,5 @@
+'use client'
+
 // React Imports
 import { useState } from 'react'
 
@@ -20,7 +22,7 @@ import Radio from '@mui/material/Radio'
 // Third-party Imports
 import { useForm, Controller } from 'react-hook-form'
 import { useMutation } from '@apollo/client'
-import { ADD_USER, IS_WARRANTY_VALID } from '@/graphql/mutations'
+import { ACCEPT_SERVICE_TOKEN, ADD_USER, IS_WARRANTY_VALID } from '@/graphql/mutations'
 import { FormLabel } from '@mui/material'
 import { SERVICE_TOKEN_BY_ID } from '@/graphql/queries'
 
@@ -33,12 +35,12 @@ const initialData = {
 
 const EditSeriveDrawer = props => {
   // Props
-  const { open, handleClose, serviceData, serivceStatus } = props
-  const [editService] = useMutation(IS_WARRANTY_VALID)
+  const { open, handleClose, serviceData, serivceStatus, setStatus, setAcceptStatus } = props
+  const [acceptService] = useMutation(ACCEPT_SERVICE_TOKEN)
   // States
   const [formData, setFormData] = useState(initialData)
   const [value, setValue] = useState(true)
-  const [status, setStatus] = useState()
+
   const handleChange = event => {
     setValue(event.target.value)
   }
@@ -54,25 +56,22 @@ const EditSeriveDrawer = props => {
   })
 
   const onSubmit = async data => {
-    const newUser = await editService({
+    await acceptService({
       variables: {
-        id: serviceData.id,
-        data: {
-          service_fee: data.service_fee,
-          status: data.status,
-          is_warranty_valid: data.is_warranty_valid
-        }
+        is_warranty_valid: data.is_warranty_valid,
+        service_fee: data.service_fee,
+        service_token_id: serviceData.id
       },
       refetchQueries: [SERVICE_TOKEN_BY_ID]
     })
+    setStatus('accept')
 
     // setData([...(serviceData ?? []), newUser])
     // setData(prevData =>
     //   prevData.map(item => (item.id === serviceData?.id ? { ...item, ...res.data.update_service_tokens_by_pk } : item))
     // )
+    resetForm({ is_warranty_valid: '', service_fee: '' })
     handleClose()
-    setFormData(initialData)
-    resetForm({})
   }
 
   const handleReset = () => {
@@ -90,7 +89,7 @@ const EditSeriveDrawer = props => {
       sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
     >
       <div className='flex items-center justify-between pli-5 plb-4'>
-        <Typography variant='h5'>Edit Service Data</Typography>
+        <Typography variant='h5'>Service Data</Typography>
         <IconButton size='small' onClick={handleReset}>
           <i className='ri-close-line text-2xl' />
         </IconButton>
@@ -143,7 +142,7 @@ const EditSeriveDrawer = props => {
           />
 
           {/* Service Status */}
-          <FormControl fullWidth>
+          {/* <FormControl fullWidth>
             <InputLabel id='country' error={Boolean(errors.status)}>
               Select Service Status
             </InputLabel>
@@ -162,7 +161,7 @@ const EditSeriveDrawer = props => {
               )}
             />
             {errors.status && <FormHelperText error>This field is required.</FormHelperText>}
-          </FormControl>
+          </FormControl> */}
 
           <div className='flex items-center gap-4'>
             <Button variant='contained' type='submit'>

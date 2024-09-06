@@ -290,6 +290,7 @@ __turbopack_export_value__({
 "use strict";
 
 __turbopack_esm__({
+    "ACCEPT_SERVICE_TOKEN": ()=>ACCEPT_SERVICE_TOKEN,
     "ADD_ADMIN": ()=>ADD_ADMIN,
     "ADD_BRAND": ()=>ADD_BRAND,
     "ADD_CATEGORY": ()=>ADD_CATEGORY,
@@ -321,6 +322,7 @@ __turbopack_esm__({
     "DELETE_PRODUCT_CAT": ()=>DELETE_PRODUCT_CAT,
     "DELETE_PRODUCT_DISCOUNT": ()=>DELETE_PRODUCT_DISCOUNT,
     "DELETE_SERVICE_CENTER": ()=>DELETE_SERVICE_CENTER,
+    "EDIT_ADMIN": ()=>EDIT_ADMIN,
     "EDIT_BRAND": ()=>EDIT_BRAND,
     "EDIT_NEWS": ()=>EDIT_NEWS,
     "EDIT_PRODUCT_CATEGORY": ()=>EDIT_PRODUCT_CATEGORY,
@@ -329,6 +331,7 @@ __turbopack_esm__({
     "EDIt_NEWS_CAT": ()=>EDIt_NEWS_CAT,
     "IMGAE_UPLOAD": ()=>IMGAE_UPLOAD,
     "IS_WARRANTY_VALID": ()=>IS_WARRANTY_VALID,
+    "REJECT_SERVICE_TOKEN": ()=>REJECT_SERVICE_TOKEN,
     "SEND_INVOICE_FILE": ()=>SEND_INVOICE_FILE,
     "SEND_QUOTATION_FILE": ()=>SEND_QUOTATION_FILE,
     "SEND_Q_INVOICE_FILE": ()=>SEND_Q_INVOICE_FILE
@@ -428,6 +431,17 @@ const ADD_NEWS = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f
   mutation addNews($data: news_insert_input!) {
     insert_news_one(object: $data) {
       id
+      image_url
+      body_html
+      created_at
+      news_category {
+        title
+        id
+      }
+      disabled
+      news_category_id
+      title
+      updated_at
     }
   }
 `;
@@ -512,6 +526,17 @@ const EDIT_NEWS = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2
   mutation editNewProducts($id: uuid!, $data: news_set_input!) {
     update_news_by_pk(pk_columns: { id: $id }, _set: $data) {
       id
+      image_url
+      body_html
+      created_at
+      news_category {
+        title
+        id
+      }
+      disabled
+      news_category_id
+      title
+      updated_at
     }
   }
 `;
@@ -542,10 +567,27 @@ const CHANGE_ORDER_STATUS = __TURBOPACK__imported__module__$5b$project$5d2f$node
   }
 `;
 const CHANGE_SERVICE_STATUS = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$graphql$2d$tag$2f$lib$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["gql"]`
-  mutation changeOrderStatus($id: uuid!, $data: service_tokens_set_input!) {
-    update_service_tokens_by_pk(pk_columns: { id: $id }, _set: $data) {
-      id
-      status
+  mutation updateServiceStatus($service_token_id: uuid!, $status: String!) {
+    updateServiceStatus(service_token_id: $service_token_id, status: $status) {
+      message
+    }
+  }
+`;
+const ACCEPT_SERVICE_TOKEN = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$graphql$2d$tag$2f$lib$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["gql"]`
+  mutation updateServiceStatus($is_warranty_valid: Boolean!, $service_fee: numeric!, $service_token_id: uuid!) {
+    acceptServiceToken(
+      is_warranty_valid: $is_warranty_valid
+      service_fee: $service_fee
+      service_token_id: $service_token_id
+    ) {
+      message
+    }
+  }
+`;
+const REJECT_SERVICE_TOKEN = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$graphql$2d$tag$2f$lib$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["gql"]`
+  mutation rejectServiceToken($rejected_reason: String!, $service_token_id: uuid!) {
+    rejectServiceToken(rejected_reason: $rejected_reason, service_token_id: $service_token_id) {
+      message
     }
   }
 `;
@@ -635,6 +677,16 @@ const ADD_ADMIN = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2
     }
   }
 `;
+const EDIT_ADMIN = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$graphql$2d$tag$2f$lib$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["gql"]`
+  mutation updateAdmin($id: uuid!, $data: admins_set_input!) {
+    update_admins_by_pk(pk_columns: { id: $id }, _set: $data) {
+      id
+      name
+      email
+      role
+    }
+  }
+`;
 const ADD_USER = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$graphql$2d$tag$2f$lib$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["gql"]`
   mutation aa($name: String!, $password: String!, $role: String!, $phone: String!) {
     UserSignUp(name: $name, password: $password, role: $role, phone: $phone) {
@@ -647,6 +699,11 @@ const ADD_SERVICE_CENTER = __TURBOPACK__imported__module__$5b$project$5d2f$node_
   mutation addSeriveCenter($data: service_centers_insert_input!) {
     insert_service_centers_one(object: $data) {
       id
+      name
+      phone
+      address
+      created_at
+      updated_at
     }
   }
 `;
@@ -662,6 +719,9 @@ const EDIT_SERVICE_CENTER = __TURBOPACK__imported__module__$5b$project$5d2f$node
   mutation editServiceCenter($id: uuid!, $data: service_centers_set_input!) {
     update_service_centers_by_pk(pk_columns: { id: $id }, _set: $data) {
       id
+      name
+      phone
+      address
     }
   }
 `;
@@ -683,6 +743,8 @@ const EDIT_PRODUCT_CATEGORY = __TURBOPACK__imported__module__$5b$project$5d2f$no
   mutation editCategory($id: uuid!, $data: product_categories_set_input!) {
     update_product_categories_by_pk(pk_columns: { id: $id }, _set: $data) {
       id
+      title
+      image_url
     }
   }
 `;
@@ -690,6 +752,8 @@ const EDIT_BRAND = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$
   mutation eidtBrand($id: uuid!, $data: brands_set_input!) {
     update_brands_by_pk(pk_columns: { id: $id }, _set: $data) {
       id
+      title
+      image_url
     }
   }
 `;
@@ -697,6 +761,7 @@ const EDIt_NEWS_CAT = __TURBOPACK__imported__module__$5b$project$5d2f$node_modul
   mutation editNewCat($id: uuid!, $title: String!) {
     update_news_categories_by_pk(pk_columns: { id: $id }, _set: { title: $title }) {
       id
+      title
     }
   }
 `;

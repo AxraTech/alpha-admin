@@ -38,7 +38,7 @@ const Timeline = styled(MuiTimeline)({
 const ShippingActivity = ({ orderData }) => {
   return (
     <Card>
-      <CardHeader title='Shipping Activity' />
+      <CardHeader title='Delivery Activity' />
       <CardContent>
         <Timeline>
           <TimelineItem>
@@ -61,7 +61,7 @@ const ShippingActivity = ({ orderData }) => {
           <TimelineItem>
             <TimelineSeparator>
               <TimelineDot
-                variant={orderData.preparing_at === null ? 'outlined' : 'contained'}
+                // variant={orderData.preparing_at === null ? 'outlined' : 'contained'}
                 color={orderData.preparing_at === null ? 'grey' : 'primary'}
               />
               <TimelineConnector />
@@ -81,7 +81,7 @@ const ShippingActivity = ({ orderData }) => {
           <TimelineItem>
             <TimelineSeparator>
               <TimelineDot
-                variant={orderData.delivering_at === null ? 'outlined' : 'contained'}
+                // variant={orderData.delivering_at === null ? 'outlined' : 'contained'}
                 color={orderData.delivering_at === null ? 'grey' : 'primary'}
               />
               <TimelineConnector />
@@ -101,7 +101,7 @@ const ShippingActivity = ({ orderData }) => {
           <TimelineItem>
             <TimelineSeparator>
               <TimelineDot
-                variant={orderData.completed_at === null ? 'outlined' : 'contained'}
+                // variant={orderData.completed_at === null ? 'outlined' : 'contained'}
                 color={orderData.completed_at === null ? 'grey' : 'primary'}
               />
               <TimelineConnector />
