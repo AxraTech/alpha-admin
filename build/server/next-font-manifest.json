@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "app": {
     "[project]/src/app/[lang]/(dashboard)/dashboards/crm/page": [
@@ -20,3 +21,6 @@
   "pages": {},
   "pagesUsingSizeAdjust": false
 }
+=======
+{"pages":{},"app":{},"appUsingSizeAdjust":false,"pagesUsingSizeAdjust":false}
+>>>>>>> 44527182998c4519db88e5929896761b783cb2ba

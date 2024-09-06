@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 self.__NEXT_FONT_MANIFEST="{\n  \"app\": {\n    \"[project]/src/app/[lang]/(dashboard)/dashboards/crm/page\": [\n      \"static/media/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw-s.p.7b3669ea.woff2\"\n    ],\n    \"[project]/src/app/[lang]/(dashboard)/products/list/page\": [\n      \"static/media/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw-s.p.7b3669ea.woff2\"\n    ],\n    \"[project]/src/app/[lang]/(dashboard)/products/details/[id]/page\": [\n      \"static/media/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw-s.p.7b3669ea.woff2\"\n    ],\n    \"[project]/src/app/[lang]/(dashboard)/invoice/list/page\": [\n      \"static/media/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw-s.p.7b3669ea.woff2\"\n    ],\n    \"[project]/src/app/[lang]/(dashboard)/news/list/page\": [\n      \"static/media/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw-s.p.7b3669ea.woff2\"\n    ]\n  },\n  \"appUsingSizeAdjust\": true,\n  \"pages\": {},\n  \"pagesUsingSizeAdjust\": false\n}"
+=======
+self.__NEXT_FONT_MANIFEST='{"pages":{},"app":{},"appUsingSizeAdjust":false,"pagesUsingSizeAdjust":false}';
+>>>>>>> 44527182998c4519db88e5929896761b783cb2ba
