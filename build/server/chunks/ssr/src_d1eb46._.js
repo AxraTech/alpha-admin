@@ -84,6 +84,7 @@ __turbopack_esm__({
     "DELETE_SERVICE_CENTER": ()=>DELETE_SERVICE_CENTER,
     "EDIT_ADMIN": ()=>EDIT_ADMIN,
     "EDIT_BRAND": ()=>EDIT_BRAND,
+    "EDIT_DISCOUNT": ()=>EDIT_DISCOUNT,
     "EDIT_NEWS": ()=>EDIT_NEWS,
     "EDIT_PRODUCT_CATEGORY": ()=>EDIT_PRODUCT_CATEGORY,
     "EDIT_RPODUCTS": ()=>EDIT_RPODUCTS,
@@ -496,6 +497,23 @@ const ADD_DISCOUNT = __TURBOPACK__imported__module__$5b$project$5d2f$node_module
   mutation addDiscount($data: product_discounts_insert_input!) {
     insert_product_discounts_one(object: $data) {
       id
+      min_order
+      discount_type
+      customer_type
+      created_at
+      updated_at
+    }
+  }
+`;
+const EDIT_DISCOUNT = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$graphql$2d$tag$2f$lib$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["gql"]`
+  mutation updateProductDiscount($id: uuid!, $data: product_discounts_set_input!) {
+    update_product_discounts_by_pk(pk_columns: { id: $id }, _set: $data) {
+      id
+      min_order
+      discount_type
+      customer_type
+      created_at
+      updated_at
     }
   }
 `;

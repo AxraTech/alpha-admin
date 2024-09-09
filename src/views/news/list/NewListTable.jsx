@@ -54,6 +54,8 @@ import { useApp } from '@/app/ApolloWrapper'
 import Alert from '@/components/helper/Alert'
 import OpenDialogOnElementClick from '@components/dialogs/OpenDialogOnElementClick'
 import ConfirmationDialog from '@components/dialogs/confirmation-dialog'
+import { CSVLink } from 'react-csv'
+
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
   const itemRank = rankItem(row.getValue(columnId), value)
@@ -102,7 +104,13 @@ const newStatusObj = {
 
 // Column Definitions
 const columnHelper = createColumnHelper()
-
+const headers = [
+  { label: 'Product Name', key: 'product_title' },
+  { label: 'Product Category', key: 'title' },
+  { label: 'Status', key: 'disabled' },
+  { label: 'Created At', key: 'created_at' },
+  { label: 'Updated At', key: 'updated_at' }
+]
 const NewListTable = () => {
   const { setGlobalMsg } = useApp()
   const { data: newData } = useSuspenseQuery(GET_NEWS)
@@ -122,6 +130,14 @@ const NewListTable = () => {
     variant
   })
 
+  const temp = filteredData.map(item => ({
+    ...item,
+    product_title: item.title,
+    title: item.news_category.title,
+    disabled: item.disabled === true ? 'Disable' : 'Enable',
+    created_at: new Date(item.created_at).toLocaleString(),
+    updated_at: new Date(item.updated_at).toLocaleString()
+  }))
   const handleDelete = async id => {
     try {
       await deletNew({ variables: { id: id } })
@@ -246,14 +262,21 @@ const NewListTable = () => {
             className='max-sm:is-full'
           />
           <div className='flex items-center max-sm:flex-col gap-4 max-sm:is-full is-auto'>
-            {/* <Button
+            <Button
               color='secondary'
               variant='outlined'
-              className='max-sm:is-full is-auto'
-              startIcon={<i className='ri-upload-2-line' />}
+              startIcon={<i className='ri-upload-2-line text-xl' />}
+              className='max-sm:is-full'
             >
-              Export
-            </Button> */}
+              <CSVLink
+                className='exportBtn'
+                data={temp}
+                headers={headers}
+                filename={`all-newsProducts-${new Date().toISOString()}.csv`}
+              >
+                Export
+              </CSVLink>
+            </Button>
             <Button
               variant='contained'
               component={Link}

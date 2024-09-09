@@ -53,7 +53,7 @@ import tableStyles from '@core/styles/table.module.css'
 import { useSuspenseQuery } from '@apollo/client'
 import { GET_ALL_SERVICE_TOKENS, SERVICE_STATUS } from '@/graphql/queries'
 import { Avatar } from '@mui/material'
-
+import { CSVLink } from 'react-csv'
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
   const itemRank = rankItem(row.getValue(columnId), value)
@@ -88,7 +88,15 @@ const DebouncedInput = ({ value: initialValue, onChange, debounce = 500, ...prop
 
 // Column Definitions
 const columnHelper = createColumnHelper()
-
+const headers = [
+  { label: 'Service Token Number', key: 'token_number' },
+  { label: 'product', key: 'product' },
+  { label: 'Is Warranty Valid', key: 'is_warranty_valid' },
+  { label: 'Service Fee', key: 'service_fee' },
+  { label: 'Status', key: 'status' },
+  { label: 'Created At', key: 'created_at' },
+  { label: 'Updated At', key: 'updated_at' }
+]
 const ServerTokenListTable = () => {
   const { data: serviceTokenDatas } = useSuspenseQuery(GET_ALL_SERVICE_TOKENS)
   const serviceTokenData = serviceTokenDatas?.service_tokens
@@ -102,6 +110,14 @@ const ServerTokenListTable = () => {
 
   // Hooks
   const { lang: locale } = useParams()
+  const temp = filteredData.map(item => ({
+    ...item,
+    name: item.user.name,
+    status: item.status,
+    is_warranty_valid: item.is_warranty_valid === true ? 'Yes' : 'No',
+    created_at: new Date(item.created_at).toLocaleString(),
+    updated_at: new Date(item.updated_at).toLocaleString()
+  }))
 
   const columns = useMemo(
     () => [
@@ -348,6 +364,21 @@ const ServerTokenListTable = () => {
             </Select>
           </FormControl>
         </div>
+        <Button
+          color='secondary'
+          variant='outlined'
+          startIcon={<i className='ri-upload-2-line text-xl' />}
+          className='max-sm:is-full'
+        >
+          <CSVLink
+            className='exportBtn'
+            data={temp}
+            headers={headers}
+            filename={`all-serviceTokens-${new Date().toISOString()}.csv`}
+          >
+            Export
+          </CSVLink>
+        </Button>
       </CardContent>
       <div className='overflow-x-auto'>
         <table className={tableStyles.table}>

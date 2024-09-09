@@ -128,6 +128,7 @@ __turbopack_esm__({
     "DELETE_SERVICE_CENTER": ()=>DELETE_SERVICE_CENTER,
     "EDIT_ADMIN": ()=>EDIT_ADMIN,
     "EDIT_BRAND": ()=>EDIT_BRAND,
+    "EDIT_DISCOUNT": ()=>EDIT_DISCOUNT,
     "EDIT_NEWS": ()=>EDIT_NEWS,
     "EDIT_PRODUCT_CATEGORY": ()=>EDIT_PRODUCT_CATEGORY,
     "EDIT_RPODUCTS": ()=>EDIT_RPODUCTS,
@@ -540,6 +541,23 @@ const ADD_DISCOUNT = __TURBOPACK__imported__module__$5b$project$5d2f$node_module
   mutation addDiscount($data: product_discounts_insert_input!) {
     insert_product_discounts_one(object: $data) {
       id
+      min_order
+      discount_type
+      customer_type
+      created_at
+      updated_at
+    }
+  }
+`;
+const EDIT_DISCOUNT = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$graphql$2d$tag$2f$lib$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["gql"]`
+  mutation updateProductDiscount($id: uuid!, $data: product_discounts_set_input!) {
+    update_product_discounts_by_pk(pk_columns: { id: $id }, _set: $data) {
+      id
+      min_order
+      discount_type
+      customer_type
+      created_at
+      updated_at
     }
   }
 `;
@@ -1669,10 +1687,12 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$graphql$2f$queries$2e
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$graphql$2f$mutations$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/graphql/mutations.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$helper$2f$Alert$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/components/helper/Alert.jsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$ApolloWrapper$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/app/ApolloWrapper.jsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$csv$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/react-csv/index.js [app-client] (ecmascript)");
 "__TURBOPACK__ecmascript__hoisting__location__";
 ;
 var _s = __turbopack_refresh__.signature(), _s1 = __turbopack_refresh__.signature();
 'use client';
+;
 ;
 ;
 ;
@@ -1737,6 +1757,28 @@ _c = DebouncedInput;
 // Vars
 // Column Definitions
 const columnHelper = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$table$2d$core$2f$build$2f$lib$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createColumnHelper"])();
+const headers = [
+    {
+        label: 'Name',
+        key: 'name'
+    },
+    {
+        label: 'Email',
+        key: 'Email'
+    },
+    {
+        label: 'Role',
+        key: 'role'
+    },
+    {
+        label: 'Created At',
+        key: 'created_at'
+    },
+    {
+        label: 'Updated At',
+        key: 'updated_at'
+    }
+];
 const AdminTable = ()=>{
     _s1();
     const { setGlobalMsg } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$ApolloWrapper$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useApp"])();
@@ -1751,6 +1793,11 @@ const AdminTable = ()=>{
     const [globalFilter, setGlobalFilter] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
     const [editAdminOpen, setEditAdminOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [editAdmin, setEditAdmin] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])();
+    const temp = data.map((item)=>({
+            ...item,
+            created_at: new Date(item.created_at).toLocaleString(),
+            updated_at: new Date(item.updated_at).toLocaleString()
+        }));
     const handleDelete = async (id)=>{
         try {
             await deleteAdmin({
@@ -1776,7 +1823,7 @@ const AdminTable = ()=>{
                         children: row.index + 1
                     }, void 0, false, {
                         fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                        lineNumber: 112,
+                        lineNumber: 126,
                         columnNumber: 28
                     }, this)
             }),
@@ -1792,17 +1839,17 @@ const AdminTable = ()=>{
                                 children: row.original.name
                             }, void 0, false, {
                                 fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                                lineNumber: 119,
+                                lineNumber: 133,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                            lineNumber: 118,
+                            lineNumber: 132,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                        lineNumber: 117,
+                        lineNumber: 131,
                         columnNumber: 11
                     }, this)
             }),
@@ -1812,7 +1859,7 @@ const AdminTable = ()=>{
                         children: row.original.email
                     }, void 0, false, {
                         fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                        lineNumber: 128,
+                        lineNumber: 142,
                         columnNumber: 28
                     }, this)
             }),
@@ -1822,7 +1869,7 @@ const AdminTable = ()=>{
                         children: row.original.role
                     }, void 0, false, {
                         fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                        lineNumber: 132,
+                        lineNumber: 146,
                         columnNumber: 28
                     }, this)
             }),
@@ -1832,7 +1879,7 @@ const AdminTable = ()=>{
                         children: row.original.created_at?.substring(0, 10)
                     }, void 0, false, {
                         fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                        lineNumber: 136,
+                        lineNumber: 150,
                         columnNumber: 28
                     }, this)
             }),
@@ -1847,17 +1894,17 @@ const AdminTable = ()=>{
                                 className: "ri-edit-box-line text-[22px] text-textSecondary"
                             }, void 0, false, {
                                 fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                                lineNumber: 143,
+                                lineNumber: 157,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                            lineNumber: 142,
+                            lineNumber: 156,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                        lineNumber: 141,
+                        lineNumber: 155,
                         columnNumber: 11
                     }, this),
                 enableSorting: false
@@ -1908,37 +1955,66 @@ const AdminTable = ()=>{
                                 className: "max-sm:is-full"
                             }, void 0, false, {
                                 fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                                lineNumber: 206,
+                                lineNumber: 220,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "flex items-center max-sm:flex-col gap-4 max-sm:is-full is-auto",
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$Button$2f$Button$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                    variant: "contained",
-                                    className: "max-sm:is-full is-auto",
-                                    onClick: ()=>setAddDealerOpen(!addDealerOpen),
-                                    startIcon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("i", {
-                                        className: "ri-add-line"
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$Button$2f$Button$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                        color: "secondary",
+                                        variant: "outlined",
+                                        startIcon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("i", {
+                                            className: "ri-upload-2-line text-xl"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
+                                            lineNumber: 230,
+                                            columnNumber: 26
+                                        }, void 0),
+                                        className: "max-sm:is-full",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$csv$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CSVLink"], {
+                                            className: "exportBtn",
+                                            data: temp,
+                                            headers: headers,
+                                            filename: `all-staffs-${new Date().toISOString()}.csv`,
+                                            children: "Export"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
+                                            lineNumber: 233,
+                                            columnNumber: 15
+                                        }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                                        lineNumber: 226,
-                                        columnNumber: 26
-                                    }, void 0),
-                                    children: "Add User Role"
-                                }, void 0, false, {
-                                    fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                                    lineNumber: 222,
-                                    columnNumber: 13
-                                }, this)
-                            }, void 0, false, {
+                                        lineNumber: 227,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$Button$2f$Button$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                        variant: "contained",
+                                        className: "max-sm:is-full is-auto",
+                                        onClick: ()=>setAddDealerOpen(!addDealerOpen),
+                                        startIcon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("i", {
+                                            className: "ri-add-line"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
+                                            lineNumber: 246,
+                                            columnNumber: 26
+                                        }, void 0),
+                                        children: "Add User Role"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
+                                        lineNumber: 242,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
                                 fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                                lineNumber: 212,
+                                lineNumber: 226,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                        lineNumber: 205,
+                        lineNumber: 219,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1963,37 +2039,37 @@ const AdminTable = ()=>{
                                                                         className: "ri-arrow-up-s-line text-xl"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                                                                        lineNumber: 250,
+                                                                        lineNumber: 270,
                                                                         columnNumber: 36
                                                                     }, this),
                                                                     desc: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("i", {
                                                                         className: "ri-arrow-down-s-line text-xl"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                                                                        lineNumber: 251,
+                                                                        lineNumber: 271,
                                                                         columnNumber: 37
                                                                     }, this)
                                                                 }[header.column.getIsSorted()] ?? null
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                                                            lineNumber: 241,
+                                                            lineNumber: 261,
                                                             columnNumber: 27
                                                         }, this)
                                                     }, void 0, false)
                                                 }, header.id, false, {
                                                     fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                                                    lineNumber: 238,
+                                                    lineNumber: 258,
                                                     columnNumber: 21
                                                 }, this))
                                         }, headerGroup.id, false, {
                                             fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                                            lineNumber: 236,
+                                            lineNumber: 256,
                                             columnNumber: 17
                                         }, this))
                                 }, void 0, false, {
                                     fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                                    lineNumber: 234,
+                                    lineNumber: 254,
                                     columnNumber: 13
                                 }, this),
                                 table.getFilteredRowModel().rows.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -2004,17 +2080,17 @@ const AdminTable = ()=>{
                                             children: "No data available"
                                         }, void 0, false, {
                                             fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                                            lineNumber: 264,
+                                            lineNumber: 284,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                                        lineNumber: 263,
+                                        lineNumber: 283,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                                    lineNumber: 262,
+                                    lineNumber: 282,
                                     columnNumber: 15
                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
                                     children: table.getRowModel().rows.slice(0, table.getState().pagination.pageSize).map((row)=>{
@@ -2026,29 +2102,29 @@ const AdminTable = ()=>{
                                                     children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$table$2f$build$2f$lib$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["flexRender"])(cell.column.columnDef.cell, cell.getContext())
                                                 }, cell.id, false, {
                                                     fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                                                    lineNumber: 278,
+                                                    lineNumber: 298,
                                                     columnNumber: 27
                                                 }, this))
                                         }, row.id, false, {
                                             fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                                            lineNumber: 276,
+                                            lineNumber: 296,
                                             columnNumber: 23
                                         }, this);
                                     })
                                 }, void 0, false, {
                                     fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                                    lineNumber: 270,
+                                    lineNumber: 290,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                            lineNumber: 233,
+                            lineNumber: 253,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                        lineNumber: 232,
+                        lineNumber: 252,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$TablePagination$2f$TablePagination$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -2068,13 +2144,13 @@ const AdminTable = ()=>{
                         onRowsPerPageChange: (e)=>table.setPageSize(Number(e.target.value))
                     }, void 0, false, {
                         fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                        lineNumber: 287,
+                        lineNumber: 307,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                lineNumber: 204,
+                lineNumber: 218,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$views$2f$admin$2f$lists$2f$AddAdminDrawer$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -2084,7 +2160,7 @@ const AdminTable = ()=>{
                 handleClose: ()=>setAddDealerOpen(!addDealerOpen)
             }, void 0, false, {
                 fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                lineNumber: 300,
+                lineNumber: 320,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$views$2f$admin$2f$lists$2f$EditAdminDrawer$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -2094,12 +2170,12 @@ const AdminTable = ()=>{
                 handleClose: ()=>setEditAdminOpen(!editAdminOpen)
             }, void 0, false, {
                 fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                lineNumber: 307,
+                lineNumber: 327,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$helper$2f$Alert$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                 fileName: "[project]/src/views/admin/lists/AdminTable.jsx",
-                lineNumber: 313,
+                lineNumber: 333,
                 columnNumber: 7
             }, this)
         ]

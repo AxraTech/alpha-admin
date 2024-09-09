@@ -50,7 +50,7 @@ import tableStyles from '@core/styles/table.module.css'
 import { useQuery } from '@apollo/client'
 import { GET_USERS } from '@/graphql/queries'
 import { userStatusObj } from '@/components/helper/StatusColor'
-
+import { CSVLink } from 'react-csv'
 // Styled Components
 const Icon = styled('i')({})
 
@@ -88,6 +88,21 @@ const DebouncedInput = ({ value: initialValue, onChange, debounce = 500, ...prop
 
 // Column Definitions
 const columnHelper = createColumnHelper()
+
+const headers = [
+  { label: 'Username', key: 'name' },
+  { label: 'Phone', key: 'phone' },
+  { label: 'Email', key: 'email' },
+  { label: 'Status', key: 'status' },
+  { label: 'role', key: 'role' },
+  { label: 'Delivery Name', key: 'delivery_name' },
+  { label: 'Delivery Phone', key: 'delivery_phone' },
+  { label: 'Delivery Address', key: 'delivery_address' },
+  { label: 'Created At', key: 'created_at' },
+  { label: 'Updated At', key: 'updated_at' }
+]
+
+let exportData = []
 
 const UserListTable = ({ tableData }) => {
   // States
@@ -185,6 +200,12 @@ const UserListTable = ({ tableData }) => {
     [data, filteredData]
   )
 
+  const temp = filteredData.map(item => ({
+    ...item,
+    created_at: new Date(item.created_at).toLocaleString(),
+    updated_at: new Date(item.updated_at).toLocaleString()
+  }))
+
   const table = useReactTable({
     data: filteredData,
     columns,
@@ -227,14 +248,21 @@ const UserListTable = ({ tableData }) => {
         <TableFilters setData={setFilteredData} tableData={data} />
         <Divider />
         <div className='flex justify-between p-5 gap-4 flex-col items-start sm:flex-row sm:items-center'>
-          {/* <Button
+          <Button
             color='secondary'
             variant='outlined'
             startIcon={<i className='ri-upload-2-line text-xl' />}
             className='max-sm:is-full'
           >
-            Export
-          </Button> */}
+            <CSVLink
+              className='exportBtn'
+              data={temp}
+              headers={headers}
+              filename={`all-users-${new Date().toISOString()}.csv`}
+            >
+              Export
+            </CSVLink>
+          </Button>
           <div className='flex items-center gap-x-4 gap-4 flex-col max-sm:is-full sm:flex-row'>
             <DebouncedInput
               value={globalFilter ?? ''}

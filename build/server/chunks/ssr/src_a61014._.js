@@ -4352,10 +4352,12 @@ const GET_USERS = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2
       profile_picture_url
       role
       status
+      email
       delivery_name
       delivery_phone
       delivery_address
       created_at
+      updated_at
       dealer {
         id
         name
@@ -4530,6 +4532,7 @@ const GET_NEWS = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f
       body_html
       image_url
       disabled
+      updated_at
       created_at
       news_category_id
       news_category {
@@ -4922,6 +4925,19 @@ const GET_ALL_ORDERS = __TURBOPACK__imported__module__$5b$project$5d2f$node_modu
       status
       total
       updated_at
+      order_items {
+        quantity
+        product {
+          price
+          title
+          brand {
+            title
+          }
+          product_category {
+            title
+          }
+        }
+      }
       user {
         id
         name

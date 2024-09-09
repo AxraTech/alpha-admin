@@ -54,6 +54,8 @@ import { GET_ALL_INVOICES, INVOICE_STATUS } from '@/graphql/queries'
 import { Avatar } from '@mui/material'
 import { CHANGE_INVOICE_STATUS } from '@/graphql/mutations'
 import { invoiceStatusColor } from '@components/helper/StatusColor'
+import { CSVLink } from 'react-csv'
+
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
   const itemRank = rankItem(row.getValue(columnId), value)
@@ -98,7 +100,15 @@ const invoiceStatusObj = {
 
 // Column Definitions
 const columnHelper = createColumnHelper()
-
+const headers = [
+  { label: 'Invoice Number', key: 'invoice_number' },
+  { label: 'UserName', key: 'name' },
+  { label: 'Balance', key: 'balance' },
+  { label: 'Total', key: 'total' },
+  { label: 'Status', key: 'status' },
+  { label: 'Created At', key: 'created_at' },
+  { label: 'Updated At', key: 'updated_at' }
+]
 const InvoiceListTable = () => {
   const { data: invoiceDatas } = useSuspenseQuery(GET_ALL_INVOICES)
   const { data: invoiceStatus } = useSuspenseQuery(INVOICE_STATUS)
@@ -113,6 +123,12 @@ const InvoiceListTable = () => {
   // Hooks
   const { lang: locale } = useParams()
 
+  const temp = filteredData.map(item => ({
+    ...item,
+    username: item.user.name,
+    created_at: new Date(item.created_at).toLocaleString(),
+    updated_at: new Date(item.updated_at).toLocaleString()
+  }))
   const columns = useMemo(
     () => [
       // {
@@ -325,6 +341,21 @@ const InvoiceListTable = () => {
             </Select>
           </FormControl>
         </div>
+        <Button
+          color='secondary'
+          variant='outlined'
+          startIcon={<i className='ri-upload-2-line text-xl' />}
+          className='max-sm:is-full'
+        >
+          <CSVLink
+            className='exportBtn'
+            data={temp}
+            headers={headers}
+            filename={`all-invoices-${new Date().toISOString()}.csv`}
+          >
+            Export
+          </CSVLink>
+        </Button>
       </CardContent>
       <div className='overflow-x-auto'>
         <table className={tableStyles.table}>

@@ -1,9 +1,10 @@
 export const serviceStatusChipColor = {
   completed: 'success',
-  canceled: 'error',
+  rejected: 'error',
   'received token': 'info',
   'picking up': 'primary',
-  processing: 'warning'
+  processing: 'warning',
+  delivering: 'secondary'
 }
 
 export const quotationstatusChipColor = {

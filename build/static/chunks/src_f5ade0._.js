@@ -1724,10 +1724,12 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$ApolloWrapper$
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$helper$2f$Alert$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/components/helper/Alert.jsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$dialogs$2f$OpenDialogOnElementClick$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/components/dialogs/OpenDialogOnElementClick.jsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$dialogs$2f$confirmation$2d$dialog$2f$index$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/components/dialogs/confirmation-dialog/index.jsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$csv$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/react-csv/index.js [app-client] (ecmascript)");
 "__TURBOPACK__ecmascript__hoisting__location__";
 ;
 var _s = __turbopack_refresh__.signature(), _s1 = __turbopack_refresh__.signature();
 'use client';
+;
 ;
 ;
 ;
@@ -1792,7 +1794,7 @@ const DebouncedInput = ({ value: initialValue, onChange, debounce = 500, ...prop
         size: "small"
     }, void 0, false, {
         fileName: "[project]/src/views/news/list/NewListTable.jsx",
-        lineNumber: 85,
+        lineNumber: 87,
         columnNumber: 10
     }, this);
 };
@@ -1837,6 +1839,28 @@ const newStatusObj = {
 };
 // Column Definitions
 const columnHelper = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$table$2d$core$2f$build$2f$lib$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createColumnHelper"])();
+const headers = [
+    {
+        label: 'Product Name',
+        key: 'product_title'
+    },
+    {
+        label: 'Product Category',
+        key: 'title'
+    },
+    {
+        label: 'Status',
+        key: 'disabled'
+    },
+    {
+        label: 'Created At',
+        key: 'created_at'
+    },
+    {
+        label: 'Updated At',
+        key: 'updated_at'
+    }
+];
 const NewListTable = ()=>{
     _s1();
     const { setGlobalMsg } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$ApolloWrapper$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useApp"])();
@@ -1856,6 +1880,14 @@ const NewListTable = ()=>{
             color,
             variant
         });
+    const temp = filteredData.map((item)=>({
+            ...item,
+            product_title: item.title,
+            title: item.news_category.title,
+            disabled: item.disabled === true ? 'Disable' : 'Enable',
+            created_at: new Date(item.created_at).toLocaleString(),
+            updated_at: new Date(item.updated_at).toLocaleString()
+        }));
     const handleDelete = async (id)=>{
         try {
             await deletNew({
@@ -1883,7 +1915,7 @@ const NewListTable = ()=>{
                                 className: "rounded bg-actionHover"
                             }, void 0, false, {
                                 fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                                lineNumber: 142,
+                                lineNumber: 158,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1894,18 +1926,18 @@ const NewListTable = ()=>{
                                     children: row.original.title
                                 }, void 0, false, {
                                     fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                                    lineNumber: 145,
+                                    lineNumber: 161,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                                lineNumber: 144,
+                                lineNumber: 160,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                        lineNumber: 141,
+                        lineNumber: 157,
                         columnNumber: 11
                     }, this)
             }),
@@ -1918,12 +1950,12 @@ const NewListTable = ()=>{
                             children: row.original.news_category.title
                         }, void 0, false, {
                             fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                            lineNumber: 156,
+                            lineNumber: 172,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                        lineNumber: 155,
+                        lineNumber: 171,
                         columnNumber: 11
                     }, this)
             }),
@@ -1936,7 +1968,7 @@ const NewListTable = ()=>{
                         size: "small"
                     }, void 0, false, {
                         fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                        lineNumber: 164,
+                        lineNumber: 180,
                         columnNumber: 11
                     }, this)
             }),
@@ -1946,7 +1978,7 @@ const NewListTable = ()=>{
                         children: row.original.created_at.substring(0, 10)
                     }, void 0, false, {
                         fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                        lineNumber: 174,
+                        lineNumber: 190,
                         columnNumber: 28
                     }, this)
             }),
@@ -1964,17 +1996,17 @@ const NewListTable = ()=>{
                                         className: "ri-edit-box-line text-[22px] "
                                     }, void 0, false, {
                                         fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                                        lineNumber: 182,
+                                        lineNumber: 198,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                                    lineNumber: 181,
+                                    lineNumber: 197,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                                lineNumber: 180,
+                                lineNumber: 196,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$dialogs$2f$OpenDialogOnElementClick$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1983,7 +2015,7 @@ const NewListTable = ()=>{
                                     className: "ri-delete-bin-7-line text-[22px] text-red-500"
                                 }, void 0, false, {
                                     fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                                    lineNumber: 190,
+                                    lineNumber: 206,
                                     columnNumber: 41
                                 }, void 0), 'error', ''),
                                 dialog: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$dialogs$2f$confirmation$2d$dialog$2f$index$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"],
@@ -1995,13 +2027,13 @@ const NewListTable = ()=>{
                                 data: data
                             }, void 0, false, {
                                 fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                                lineNumber: 188,
+                                lineNumber: 204,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                        lineNumber: 179,
+                        lineNumber: 195,
                         columnNumber: 11
                     }, this),
                 enableSorting: false
@@ -2048,7 +2080,7 @@ const NewListTable = ()=>{
                         className: "pbe-4"
                     }, void 0, false, {
                         fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                        lineNumber: 238,
+                        lineNumber: 254,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$views$2f$news$2f$list$2f$TableFilters$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -2056,12 +2088,12 @@ const NewListTable = ()=>{
                         newData: data
                     }, void 0, false, {
                         fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                        lineNumber: 239,
+                        lineNumber: 255,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$Divider$2f$Divider$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                         fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                        lineNumber: 240,
+                        lineNumber: 256,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2074,38 +2106,67 @@ const NewListTable = ()=>{
                                 className: "max-sm:is-full"
                             }, void 0, false, {
                                 fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                                lineNumber: 242,
+                                lineNumber: 258,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "flex items-center max-sm:flex-col gap-4 max-sm:is-full is-auto",
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$Button$2f$Button$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                    variant: "contained",
-                                    component: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"],
-                                    href: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$i18n$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getLocalizedUrl"])('/news/add', locale),
-                                    startIcon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("i", {
-                                        className: "ri-add-line"
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$Button$2f$Button$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                        color: "secondary",
+                                        variant: "outlined",
+                                        startIcon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("i", {
+                                            className: "ri-upload-2-line text-xl"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/views/news/list/NewListTable.jsx",
+                                            lineNumber: 268,
+                                            columnNumber: 26
+                                        }, void 0),
+                                        className: "max-sm:is-full",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$csv$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CSVLink"], {
+                                            className: "exportBtn",
+                                            data: temp,
+                                            headers: headers,
+                                            filename: `all-newsProducts-${new Date().toISOString()}.csv`,
+                                            children: "Export"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/views/news/list/NewListTable.jsx",
+                                            lineNumber: 271,
+                                            columnNumber: 15
+                                        }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                                        lineNumber: 261,
-                                        columnNumber: 26
-                                    }, void 0),
-                                    className: "max-sm:is-full is-auto",
-                                    children: "Add News"
-                                }, void 0, false, {
-                                    fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                                    lineNumber: 257,
-                                    columnNumber: 13
-                                }, this)
-                            }, void 0, false, {
+                                        lineNumber: 265,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$Button$2f$Button$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                        variant: "contained",
+                                        component: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"],
+                                        href: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$i18n$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getLocalizedUrl"])('/news/add', locale),
+                                        startIcon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("i", {
+                                            className: "ri-add-line"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/views/news/list/NewListTable.jsx",
+                                            lineNumber: 284,
+                                            columnNumber: 26
+                                        }, void 0),
+                                        className: "max-sm:is-full is-auto",
+                                        children: "Add News"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/views/news/list/NewListTable.jsx",
+                                        lineNumber: 280,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
                                 fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                                lineNumber: 248,
+                                lineNumber: 264,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                        lineNumber: 241,
+                        lineNumber: 257,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2130,37 +2191,37 @@ const NewListTable = ()=>{
                                                                         className: "ri-arrow-up-s-line text-xl"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                                                                        lineNumber: 286,
+                                                                        lineNumber: 309,
                                                                         columnNumber: 36
                                                                     }, this),
                                                                     desc: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("i", {
                                                                         className: "ri-arrow-down-s-line text-xl"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                                                                        lineNumber: 287,
+                                                                        lineNumber: 310,
                                                                         columnNumber: 37
                                                                     }, this)
                                                                 }[header.column.getIsSorted()] ?? null
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                                                            lineNumber: 277,
+                                                            lineNumber: 300,
                                                             columnNumber: 27
                                                         }, this)
                                                     }, void 0, false)
                                                 }, header.id, false, {
                                                     fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                                                    lineNumber: 274,
+                                                    lineNumber: 297,
                                                     columnNumber: 21
                                                 }, this))
                                         }, headerGroup.id, false, {
                                             fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                                            lineNumber: 272,
+                                            lineNumber: 295,
                                             columnNumber: 17
                                         }, this))
                                 }, void 0, false, {
                                     fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                                    lineNumber: 270,
+                                    lineNumber: 293,
                                     columnNumber: 13
                                 }, this),
                                 table.getFilteredRowModel().rows?.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -2171,17 +2232,17 @@ const NewListTable = ()=>{
                                             children: "No data available"
                                         }, void 0, false, {
                                             fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                                            lineNumber: 300,
+                                            lineNumber: 323,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                                        lineNumber: 299,
+                                        lineNumber: 322,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                                    lineNumber: 298,
+                                    lineNumber: 321,
                                     columnNumber: 15
                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
                                     children: table.getRowModel().rows.slice(0, table.getState().pagination.pageSize).map((row)=>{
@@ -2193,29 +2254,29 @@ const NewListTable = ()=>{
                                                     children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$table$2f$build$2f$lib$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["flexRender"])(cell.column.columnDef.cell, cell.getContext())
                                                 }, cell.id, false, {
                                                     fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                                                    lineNumber: 314,
+                                                    lineNumber: 337,
                                                     columnNumber: 27
                                                 }, this))
                                         }, row.id, false, {
                                             fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                                            lineNumber: 312,
+                                            lineNumber: 335,
                                             columnNumber: 23
                                         }, this);
                                     })
                                 }, void 0, false, {
                                     fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                                    lineNumber: 306,
+                                    lineNumber: 329,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                            lineNumber: 269,
+                            lineNumber: 292,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                        lineNumber: 268,
+                        lineNumber: 291,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$TablePagination$2f$TablePagination$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -2235,18 +2296,18 @@ const NewListTable = ()=>{
                         onRowsPerPageChange: (e)=>table.setPageSize(Number(e.target.value))
                     }, void 0, false, {
                         fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                        lineNumber: 323,
+                        lineNumber: 346,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                lineNumber: 237,
+                lineNumber: 253,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$helper$2f$Alert$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                 fileName: "[project]/src/views/news/list/NewListTable.jsx",
-                lineNumber: 336,
+                lineNumber: 359,
                 columnNumber: 7
             }, this)
         ]

@@ -40,7 +40,7 @@ import { GET_ALL_ADMINS, GET_ALL_DEALERS, GET_PRODUCT_CATEGORIES } from '@/graph
 import { DELETE_ADMIN, DELETE_DEALER, DELETE_PRODUCT_CAT } from '@/graphql/mutations'
 import Alert from '@/components/helper/Alert'
 import { useApp } from '@/app/ApolloWrapper'
-
+import { CSVLink } from 'react-csv'
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
   const itemRank = rankItem(row.getValue(columnId), value)
@@ -77,7 +77,13 @@ const DebouncedInput = ({ value: initialValue, onChange, debounce = 500, ...prop
 
 // Column Definitions
 const columnHelper = createColumnHelper()
-
+const headers = [
+  { label: 'Name', key: 'name' },
+  { label: 'Email', key: 'Email' },
+  { label: 'Role', key: 'role' },
+  { label: 'Created At', key: 'created_at' },
+  { label: 'Updated At', key: 'updated_at' }
+]
 const AdminTable = () => {
   const { setGlobalMsg } = useApp()
   // States
@@ -89,6 +95,14 @@ const AdminTable = () => {
   const [globalFilter, setGlobalFilter] = useState('')
   const [editAdminOpen, setEditAdminOpen] = useState(false)
   const [editAdmin, setEditAdmin] = useState()
+
+  const temp = data.map(item => ({
+    ...item,
+
+    created_at: new Date(item.created_at).toLocaleString(),
+    updated_at: new Date(item.updated_at).toLocaleString()
+  }))
+
   const handleDelete = async id => {
     try {
       await deleteAdmin({ variables: { id: id } })
@@ -210,15 +224,21 @@ const AdminTable = () => {
             className='max-sm:is-full'
           />
           <div className='flex items-center max-sm:flex-col gap-4 max-sm:is-full is-auto'>
-            {/* <Button
+            <Button
               color='secondary'
-              fullWidth
               variant='outlined'
-              className='max-sm:is-full is-auto'
-              startIcon={<i className='ri-upload-2-line' />}
+              startIcon={<i className='ri-upload-2-line text-xl' />}
+              className='max-sm:is-full'
             >
-              Export
-            </Button> */}
+              <CSVLink
+                className='exportBtn'
+                data={temp}
+                headers={headers}
+                filename={`all-staffs-${new Date().toISOString()}.csv`}
+              >
+                Export
+              </CSVLink>
+            </Button>
             <Button
               variant='contained'
               className='max-sm:is-full is-auto'

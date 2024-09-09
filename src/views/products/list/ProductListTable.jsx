@@ -52,7 +52,7 @@ import Avatar from '@mui/material/Avatar'
 import { DELETE_PRODUCT } from '@/graphql/mutations'
 import { useApp } from '@/app/ApolloWrapper'
 import Alert from '@/components/helper/Alert'
-
+import { CSVLink } from 'react-csv'
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
   const itemRank = rankItem(row.getValue(columnId), value)
@@ -102,7 +102,15 @@ const productStatusObj = {
 
 // Column Definitions
 const columnHelper = createColumnHelper()
-
+const headers = [
+  { label: 'Product Name', key: 'title' },
+  { label: 'Product Brand', key: 'title' },
+  { label: 'Product Category', key: 'title' },
+  { label: 'Price', key: 'price' },
+  { label: 'Serial Number', key: 'serial_number' },
+  { label: 'Created At', key: 'created_at' },
+  { label: 'Updated At', key: 'updated_at' }
+]
 const ProductListTable = () => {
   const { setGlobalMsg } = useApp()
   const { data: productData } = useSuspenseQuery(GET_PRODUCTS, { fetchPolicy: 'network-only' })
@@ -116,6 +124,13 @@ const ProductListTable = () => {
   // Hooks
   const { lang: locale } = useParams()
 
+  const temp = filteredData.map(item => ({
+    ...item,
+    title: item.brand.title,
+    title: item.product_category.title,
+    created_at: new Date(item.created_at).toLocaleString(),
+    updated_at: new Date(item.updated_at).toLocaleString()
+  }))
   const handleDelete = async id => {
     try {
       await deletProduct({ variables: { id: id } })
@@ -250,7 +265,7 @@ const ProductListTable = () => {
     getFacetedUniqueValues: getFacetedUniqueValues(),
     getFacetedMinMaxValues: getFacetedMinMaxValues()
   })
-  console.log('data ', data)
+
   return (
     <>
       <Card>
@@ -265,14 +280,21 @@ const ProductListTable = () => {
             className='max-sm:is-full'
           />
           <div className='flex items-center max-sm:flex-col gap-4 max-sm:is-full is-auto'>
-            {/* <Button
+            <Button
               color='secondary'
               variant='outlined'
-              className='max-sm:is-full is-auto'
-              startIcon={<i className='ri-upload-2-line' />}
+              startIcon={<i className='ri-upload-2-line text-xl' />}
+              className='max-sm:is-full'
             >
-              Export
-            </Button> */}
+              <CSVLink
+                className='exportBtn'
+                data={temp}
+                headers={headers}
+                filename={`all-products-${new Date().toISOString()}.csv`}
+              >
+                Export
+              </CSVLink>
+            </Button>
             <Button
               variant='contained'
               component={Link}

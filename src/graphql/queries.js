@@ -10,10 +10,12 @@ export const GET_USERS = gql`
       profile_picture_url
       role
       status
+      email
       delivery_name
       delivery_phone
       delivery_address
       created_at
+      updated_at
       dealer {
         id
         name
@@ -196,6 +198,7 @@ export const GET_NEWS = gql`
       body_html
       image_url
       disabled
+      updated_at
       created_at
       news_category_id
       news_category {
@@ -593,6 +596,19 @@ export const GET_ALL_ORDERS = gql`
       status
       total
       updated_at
+      order_items {
+        quantity
+        product {
+          price
+          title
+          brand {
+            title
+          }
+          product_category {
+            title
+          }
+        }
+      }
       user {
         id
         name

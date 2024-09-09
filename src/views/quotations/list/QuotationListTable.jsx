@@ -53,7 +53,7 @@ import { useMutation, useSuspenseQuery } from '@apollo/client'
 import { GET_ALL_INVOICES, GET_ALL_QUOTATIONS, QUOTATION_STATUS } from '@/graphql/queries'
 import { Avatar } from '@mui/material'
 import { CHANGE_QUOTATION_STATUS } from '@/graphql/mutations'
-
+import { CSVLink } from 'react-csv'
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
   const itemRank = rankItem(row.getValue(columnId), value)
@@ -98,7 +98,13 @@ const invoiceStatusObj = {
 
 // Column Definitions
 const columnHelper = createColumnHelper()
-
+const headers = [
+  { label: 'Quotation Number', key: 'quotation_number' },
+  { label: 'UserName', key: 'name' },
+  { label: 'Status', key: 'status' },
+  { label: 'Created At', key: 'created_at' },
+  { label: 'Updated At', key: 'updated_at' }
+]
 const QuotationListTable = () => {
   const { data: quotationDatas } = useSuspenseQuery(GET_ALL_QUOTATIONS)
   const { data: quoStatus } = useSuspenseQuery(QUOTATION_STATUS)
@@ -112,7 +118,13 @@ const QuotationListTable = () => {
 
   // Hooks
   const { lang: locale } = useParams()
-
+  const temp = filteredData.map(item => ({
+    ...item,
+    name: item.user.name,
+    status: item.status,
+    created_at: new Date(item.created_at).toLocaleString(),
+    updated_at: new Date(item.updated_at).toLocaleString()
+  }))
   const columns = useMemo(
     () => [
       // {
@@ -327,6 +339,21 @@ const QuotationListTable = () => {
             </Select>
           </FormControl>
         </div>
+        <Button
+          color='secondary'
+          variant='outlined'
+          startIcon={<i className='ri-upload-2-line text-xl' />}
+          className='max-sm:is-full'
+        >
+          <CSVLink
+            className='exportBtn'
+            data={temp}
+            headers={headers}
+            filename={`all-quotations-${new Date().toISOString()}.csv`}
+          >
+            Export
+          </CSVLink>
+        </Button>
       </CardContent>
       <div className='overflow-x-auto'>
         <table className={tableStyles.table}>

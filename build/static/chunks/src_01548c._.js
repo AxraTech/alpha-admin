@@ -384,6 +384,7 @@ __turbopack_esm__({
     "DELETE_SERVICE_CENTER": ()=>DELETE_SERVICE_CENTER,
     "EDIT_ADMIN": ()=>EDIT_ADMIN,
     "EDIT_BRAND": ()=>EDIT_BRAND,
+    "EDIT_DISCOUNT": ()=>EDIT_DISCOUNT,
     "EDIT_NEWS": ()=>EDIT_NEWS,
     "EDIT_PRODUCT_CATEGORY": ()=>EDIT_PRODUCT_CATEGORY,
     "EDIT_RPODUCTS": ()=>EDIT_RPODUCTS,
@@ -796,6 +797,23 @@ const ADD_DISCOUNT = __TURBOPACK__imported__module__$5b$project$5d2f$node_module
   mutation addDiscount($data: product_discounts_insert_input!) {
     insert_product_discounts_one(object: $data) {
       id
+      min_order
+      discount_type
+      customer_type
+      created_at
+      updated_at
+    }
+  }
+`;
+const EDIT_DISCOUNT = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$graphql$2d$tag$2f$lib$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["gql"]`
+  mutation updateProductDiscount($id: uuid!, $data: product_discounts_set_input!) {
+    update_product_discounts_by_pk(pk_columns: { id: $id }, _set: $data) {
+      id
+      min_order
+      discount_type
+      customer_type
+      created_at
+      updated_at
     }
   }
 `;
@@ -879,6 +897,7 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData })=>{
     const [deletNew] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$apollo$2f$client$2f$react$2f$hooks$2f$useMutation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMutation"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$graphql$2f$mutations$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DELETE_NEWS"]);
     const [deleteNewCat] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$apollo$2f$client$2f$react$2f$hooks$2f$useMutation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMutation"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$graphql$2f$mutations$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DELETE_NEW_CAT"]);
     const [deleteService] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$apollo$2f$client$2f$react$2f$hooks$2f$useMutation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMutation"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$graphql$2f$mutations$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DELETE_SERVICE_CENTER"]);
+    const [deleteDiscount] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$apollo$2f$client$2f$react$2f$hooks$2f$useMutation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMutation"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$graphql$2f$mutations$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DELETE_PRODUCT_DISCOUNT"]);
     // States
     const [secondDialog, setSecondDialog] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [userInput, setUserInput] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
@@ -967,6 +986,14 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData })=>{
                     });
                     setData(data.filter((item)=>item.id !== dataId));
                 }
+                if (type === 'deleteProductDiscount') {
+                    await deleteDiscount({
+                        variables: {
+                            id: dataId
+                        }
+                    });
+                    setData(data.filter((item)=>item.id !== dataId));
+                }
                 setUserInput(value);
                 setOpen(false);
             } catch (e) {
@@ -994,7 +1021,7 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData })=>{
                                 className: "ri-error-warning-line text-[88px] mbe-6 text-warning"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dialogs/confirmation-dialog/index.jsx",
-                                lineNumber: 119,
+                                lineNumber: 125,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Wrapper, {
@@ -1012,7 +1039,7 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData })=>{
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/dialogs/confirmation-dialog/index.jsx",
-                                        lineNumber: 125,
+                                        lineNumber: 131,
                                         columnNumber: 13
                                     }, this),
                                     type === 'verified-account' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$Typography$2f$Typography$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1020,7 +1047,7 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData })=>{
                                         children: "Are you sure you want to verify your account?"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/dialogs/confirmation-dialog/index.jsx",
-                                        lineNumber: 133,
+                                        lineNumber: 139,
                                         columnNumber: 15
                                     }, this),
                                     type === 'unverified-account' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$Typography$2f$Typography$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1028,7 +1055,7 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData })=>{
                                         children: "Are you sure you want to unverify your account?"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/dialogs/confirmation-dialog/index.jsx",
-                                        lineNumber: 136,
+                                        lineNumber: 142,
                                         columnNumber: 15
                                     }, this),
                                     type === 'disable-account' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$Typography$2f$Typography$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1036,7 +1063,7 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData })=>{
                                         children: "Are you sure you want to disalbe user!"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/dialogs/confirmation-dialog/index.jsx",
-                                        lineNumber: 139,
+                                        lineNumber: 145,
                                         columnNumber: 15
                                     }, this),
                                     type === 'enable-account' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$Typography$2f$Typography$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1044,7 +1071,7 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData })=>{
                                         children: "Are you sure you want to enable user!"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/dialogs/confirmation-dialog/index.jsx",
-                                        lineNumber: 142,
+                                        lineNumber: 148,
                                         columnNumber: 15
                                     }, this),
                                     type === 'deleteProductCategory' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$Typography$2f$Typography$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1052,7 +1079,15 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData })=>{
                                         children: "Are you sure you want to delete?"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/dialogs/confirmation-dialog/index.jsx",
-                                        lineNumber: 146,
+                                        lineNumber: 152,
+                                        columnNumber: 15
+                                    }, this),
+                                    type === 'deleteProductDiscount' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$Typography$2f$Typography$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                        color: "text.primary",
+                                        children: "Are you sure you want to delete?"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/dialogs/confirmation-dialog/index.jsx",
+                                        lineNumber: 155,
                                         columnNumber: 15
                                     }, this),
                                     type === 'deleteServiceCenter' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$Typography$2f$Typography$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1060,7 +1095,7 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData })=>{
                                         children: "Are you sure you want to delete?"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/dialogs/confirmation-dialog/index.jsx",
-                                        lineNumber: 149,
+                                        lineNumber: 158,
                                         columnNumber: 15
                                     }, this),
                                     type === 'deleteProductBrand' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$Typography$2f$Typography$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1068,7 +1103,7 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData })=>{
                                         children: "Are you sure you want to delete?"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/dialogs/confirmation-dialog/index.jsx",
-                                        lineNumber: 152,
+                                        lineNumber: 161,
                                         columnNumber: 15
                                     }, this),
                                     type === 'deletePost' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$Typography$2f$Typography$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1076,7 +1111,7 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData })=>{
                                         children: "Are you sure you want to delete?"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/dialogs/confirmation-dialog/index.jsx",
-                                        lineNumber: 154,
+                                        lineNumber: 163,
                                         columnNumber: 39
                                     }, this),
                                     type === 'deleteNewCategory' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$Typography$2f$Typography$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1084,19 +1119,19 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData })=>{
                                         children: "Are you sure you want to delete?"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/dialogs/confirmation-dialog/index.jsx",
-                                        lineNumber: 156,
+                                        lineNumber: 165,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/dialogs/confirmation-dialog/index.jsx",
-                                lineNumber: 120,
+                                lineNumber: 126,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/dialogs/confirmation-dialog/index.jsx",
-                        lineNumber: 118,
+                        lineNumber: 124,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$DialogActions$2f$DialogActions$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1105,10 +1140,10 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData })=>{
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$Button$2f$Button$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                 variant: "contained",
                                 onClick: ()=>handleConfirmation(true),
-                                children: type === 'disable-account' ? 'Yes, Disabel User!' : type === 'enable-account' ? 'Yes, Enable User!' : type === 'deleteProductCategory' ? 'Yes, Delete Category!' : type === 'deleteProductBrand' ? 'Yes, Delete Brand' : type === 'delete-customer' ? 'Yes, Delete Customer!' : type === 'verified-account' ? 'Yes , User Verify' : type === 'unverified-account' ? 'Yes, User Unverify' : type === 'deletePost' ? 'Yes, Delete Post' : type === 'deleteNewCategory' ? 'Yes, Delete Category' : type === 'deleteServiceCenter' ? 'Yes, Delete Service Center' : 'Yes'
+                                children: type === 'disable-account' ? 'Yes, Disabel User!' : type === 'enable-account' ? 'Yes, Enable User!' : type === 'deleteProductCategory' ? 'Yes, Delete Category!' : type === 'deleteProductBrand' ? 'Yes, Delete Brand' : type === 'delete-customer' ? 'Yes, Delete Customer!' : type === 'verified-account' ? 'Yes , User Verify' : type === 'unverified-account' ? 'Yes, User Unverify' : type === 'deletePost' ? 'Yes, Delete Post' : type === 'deleteNewCategory' ? 'Yes, Delete Category' : type === 'deleteServiceCenter' ? 'Yes, Delete Service Center' : type === 'deleteProductDiscount' ? 'Yes, Delete Product Discount' : 'Yes'
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dialogs/confirmation-dialog/index.jsx",
-                                lineNumber: 161,
+                                lineNumber: 170,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$Button$2f$Button$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1120,19 +1155,19 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData })=>{
                                 children: "Cancel"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dialogs/confirmation-dialog/index.jsx",
-                                lineNumber: 184,
+                                lineNumber: 195,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/dialogs/confirmation-dialog/index.jsx",
-                        lineNumber: 160,
+                        lineNumber: 169,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/dialogs/confirmation-dialog/index.jsx",
-                lineNumber: 117,
+                lineNumber: 123,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$Dialog$2f$Dialog$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1151,16 +1186,16 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData })=>{
                                 })
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dialogs/confirmation-dialog/index.jsx",
-                                lineNumber: 199,
+                                lineNumber: 210,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$Typography$2f$Typography$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                 variant: "h4",
                                 className: "mbe-2",
-                                children: userInput ? `${type === 'disable-account' ? 'User Disabled' : type === 'enable-account' ? 'User Enabled' : type === 'verified-account' ? 'User Verified' : type === 'deleteProductCategory' ? 'Delete Category' : type === 'unverified' ? 'User Unverified' : type === 'deleteProductBrand' ? 'Delete Brand' : type === 'deletePost' ? 'Delete Post' : type === 'deleteNewCategory' ? 'Delete New Category' : type === 'deleteServiceCenter' ? 'Delete Service Center' : 'yes'}` : 'Cancelled'
+                                children: userInput ? `${type === 'disable-account' ? 'User Disabled' : type === 'enable-account' ? 'User Enabled' : type === 'verified-account' ? 'User Verified' : type === 'deleteProductCategory' ? 'Delete Category' : type === 'unverified' ? 'User Unverified' : type === 'deleteProductBrand' ? 'Delete Brand' : type === 'deletePost' ? 'Delete Post' : type === 'deleteNewCategory' ? 'Delete New Category' : type === 'deleteServiceCenter' ? 'Delete Service Center' : type === 'deleteProductDiscount' ? 'Delete Product Discount' : 'yes'}` : 'Cancelled'
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dialogs/confirmation-dialog/index.jsx",
-                                lineNumber: 207,
+                                lineNumber: 218,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$Typography$2f$Typography$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1174,6 +1209,7 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData })=>{
                                         type === 'deleteProductCategory' && 'Your Category has been deleted successfully.',
                                         type === 'deleteServiceCenter' && 'Your Service Center has been deleted successfully.',
                                         type === 'deleteNewCategory' && 'Your New Category has been deleted successfully.',
+                                        type === 'deleteProductDiscount' && 'Your Product Discount has been deleted successfully.',
                                         type === 'deleteProductBrand' && 'Your Category has been deleted successfully.',
                                         type === 'deletePost' && 'Your Post has been deleted successfully.',
                                         type === 'delete-customer' && 'Your customer removed successfully.'
@@ -1184,6 +1220,7 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData })=>{
                                         type === 'unverified-account' && 'User Unverify Cancelled!',
                                         type === 'disable-account' && 'Cancelled Disabled :)',
                                         type === 'deleteProductCategory' && 'Category Deletion Cancelled',
+                                        type === 'deleteProductDiscount' && 'Product Discount Deletion Cancelled',
                                         type === 'deleteServiceCenter' && 'Service Center Deletion Cancelled',
                                         type === 'deleteNewCategory' && 'New Category Deletion Cancelled',
                                         type === 'deleteProductBrand' && 'Brand Deletion Cancelled',
@@ -1193,13 +1230,13 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData })=>{
                                 }, void 0, true)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/dialogs/confirmation-dialog/index.jsx",
-                                lineNumber: 212,
+                                lineNumber: 223,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/dialogs/confirmation-dialog/index.jsx",
-                        lineNumber: 198,
+                        lineNumber: 209,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$DialogActions$2f$DialogActions$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1211,26 +1248,27 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData })=>{
                             children: "Ok"
                         }, void 0, false, {
                             fileName: "[project]/src/components/dialogs/confirmation-dialog/index.jsx",
-                            lineNumber: 243,
+                            lineNumber: 256,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/dialogs/confirmation-dialog/index.jsx",
-                        lineNumber: 242,
+                        lineNumber: 255,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/dialogs/confirmation-dialog/index.jsx",
-                lineNumber: 197,
+                lineNumber: 208,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true);
 };
-_s(ConfirmationDialog, "qmrYLYdTDqy6CAhpLFSAuEH4yUo=", false, function() {
+_s(ConfirmationDialog, "F0LlwhnpXl7X8PSQGNEfMYcAJDM=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useParams"],
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$apollo$2f$client$2f$react$2f$hooks$2f$useMutation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMutation"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$apollo$2f$client$2f$react$2f$hooks$2f$useMutation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMutation"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$apollo$2f$client$2f$react$2f$hooks$2f$useMutation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMutation"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$apollo$2f$client$2f$react$2f$hooks$2f$useMutation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMutation"],

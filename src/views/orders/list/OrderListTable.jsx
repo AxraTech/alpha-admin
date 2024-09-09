@@ -54,6 +54,7 @@ import { GET_ALL_INVOICES, GET_ALL_ORDERS, GET_ALL_QUOTATIONS, ORDER_STATUS, QUO
 import { Avatar } from '@mui/material'
 import { CHANGE_QUOTATION_STATUS } from '@/graphql/mutations'
 import { orderStatusColor } from '@/components/helper/StatusColor'
+import { CSVLink } from 'react-csv'
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
   const itemRank = rankItem(row.getValue(columnId), value)
@@ -86,18 +87,22 @@ const DebouncedInput = ({ value: initialValue, onChange, debounce = 500, ...prop
   return <TextField {...props} value={value} onChange={e => setValue(e.target.value)} size='small' />
 }
 
-// Vars
-const invoiceStatusObj = {
-  Sent: { color: 'secondary', icon: 'ri-send-plane-2-line' },
-  Paid: { color: 'success', icon: 'ri-check-line' },
-  Draft: { color: 'primary', icon: 'ri-mail-line' },
-  'Partial Payment': { color: 'warning', icon: 'ri-pie-chart-2-line' },
-  'Past Due': { color: 'error', icon: 'ri-information-line' },
-  Downloaded: { color: 'info', icon: 'ri-arrow-down-line' }
-}
-
 // Column Definitions
 const columnHelper = createColumnHelper()
+const headers = [
+  { label: 'Order Number', key: 'order_number' },
+  { label: 'Username', key: 'name' },
+  { label: 'Receiver Name', key: 'receiver_name' },
+  { label: 'Product Name', key: 'title' },
+  { label: 'Product Brand', key: 'title' },
+  { label: 'Product Category', key: 'title' },
+  { label: 'Price', key: 'price' },
+  { label: 'Quantity', key: 'quantity' },
+  { label: 'SubTotal Amount', key: 'items_total' },
+  { label: 'Total Amount', key: 'total' },
+  { label: 'Created At', key: 'created_at' },
+  { label: 'Updated At', key: 'updated_at' }
+]
 
 const OrderListTable = () => {
   const { data: orderDatas } = useSuspenseQuery(GET_ALL_ORDERS)
@@ -113,6 +118,19 @@ const OrderListTable = () => {
 
   // Hooks
   const { lang: locale } = useParams()
+
+  const temp = filteredData.map(item => ({
+    ...item,
+    order_number: item.order_number,
+    name: item.user.name,
+    price: item.order_items?.map(order => order.product.price),
+    quantity: item.order_items?.map(order => order.quantity),
+    title: item.order_items?.map(order => order.product.title).join('  ,  '),
+    title: item.order_items?.map(order => order.product.brand.title).join('  ,  '),
+    title: item.order_items?.map(order => order.product.product_category.title).join('  ,  '),
+    created_at: new Date(item.created_at).toLocaleString(),
+    updated_at: new Date(item.updated_at).toLocaleString()
+  }))
 
   const columns = useMemo(
     () => [
@@ -327,6 +345,21 @@ const OrderListTable = () => {
             </Select>
           </FormControl>
         </div>
+        <Button
+          color='secondary'
+          variant='outlined'
+          startIcon={<i className='ri-upload-2-line text-xl' />}
+          className='max-sm:is-full'
+        >
+          <CSVLink
+            className='exportBtn'
+            data={temp}
+            headers={headers}
+            filename={`all-orders-${new Date().toISOString()}.csv`}
+          >
+            Export
+          </CSVLink>
+        </Button>
       </CardContent>
       <div className='overflow-x-auto'>
         <table className={tableStyles.table}>
