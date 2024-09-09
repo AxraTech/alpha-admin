@@ -1,4 +1,4 @@
-// File: D:\projects\alpha-admin\src\app\[lang]\(blank-layout-pages)\pages\misc\404-not-found\page.jsx
+// File: D:\ALPHA PROJECT\Admin Dashboard\alpha-admin\src\app\[lang]\(blank-layout-pages)\pages\misc\404-not-found\page.jsx
 import * as entry from '../../../../../../../../src/app/[lang]/(blank-layout-pages)/pages/misc/404-not-found/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

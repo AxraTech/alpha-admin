@@ -1,4 +1,4 @@
-// File: D:\projects\alpha-admin\src\app\[lang]\(blank-layout-pages)\layout.jsx
+// File: D:\ALPHA PROJECT\Admin Dashboard\alpha-admin\src\app\[lang]\(blank-layout-pages)\layout.jsx
 import * as entry from '../../../../../src/app/[lang]/(blank-layout-pages)/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

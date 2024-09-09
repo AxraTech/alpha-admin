@@ -1,4 +1,4 @@
-// File: D:\projects\alpha-admin\src\app\api\apps\ecommerce\route.js
+// File: D:\ALPHA PROJECT\Admin Dashboard\alpha-admin\src\app\api\apps\ecommerce\route.js
 import * as entry from '../../../../../../src/app/api/apps/ecommerce/route.js'
 import type { NextRequest } from 'next/server.js'
 
