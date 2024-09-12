@@ -83,9 +83,9 @@ const PreviewCard = ({ quotationData }) => {
                     Delivery Address To:
                   </Typography>
                   <div>
-                    <Typography>{quotationData.user.orders[0].receiver_name}</Typography>
-                    <Typography className='my-1'>{quotationData?.user.orders[0].receiver_phone}</Typography>
-                    <Typography>{quotationData?.user.orders[0].receiver_address}</Typography>
+                    <Typography>{quotationData?.user?.orders[0]?.receiver_name}</Typography>
+                    <Typography className='my-1'>{quotationData?.user.orders[0]?.receiver_phone}</Typography>
+                    <Typography>{quotationData?.user.orders[0]?.receiver_address}</Typography>
                   </div>
                 </div>
               </Grid>
