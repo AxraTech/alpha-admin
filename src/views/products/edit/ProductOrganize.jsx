@@ -19,7 +19,7 @@ import { useSuspenseQuery } from '@apollo/client'
 import { PRODUCT_BRANDs, PRODUCT_CATS } from '@/graphql/queries'
 import { Checkbox, FormHelperText } from '@mui/material'
 
-const ProductOrganize = ({ brandId, setBrandId, catId, setCatId, errors, productData }) => {
+const ProductOrganize = ({ status, setStatus, brandId, setBrandId, catId, setCatId, errors, productData }) => {
   const { data: brands } = useSuspenseQuery(PRODUCT_BRANDs)
   const { data: cats } = useSuspenseQuery(PRODUCT_CATS)
   useEffect(() => {
@@ -54,6 +54,21 @@ const ProductOrganize = ({ brandId, setBrandId, catId, setCatId, errors, product
               <FormHelperText sx={{ color: 'red' }}>{errors?.brandId}</FormHelperText>
             </FormControl>
           )}
+          {/* <FormControl fullWidth>
+            <InputLabel>Select Status</InputLabel>
+            <Select
+              label='Select Vendor'
+              value={status}
+              onChange={e => setStatus(e.target.value)}
+              error={errors?.stauts ? true : false}
+              helperText={errors?.stauts}
+            >
+              <MenuItem value='true'>Enable</MenuItem>
+              <MenuItem value='false'>Disable</MenuItem>
+            </Select>
+            <FormHelperText sx={{ color: 'red' }}>{errors?.stauts}</FormHelperText>
+          </FormControl> */}
+
           {/* <div className='flex items-center gap-4'> */}
 
           <Autocomplete
@@ -73,7 +88,7 @@ const ProductOrganize = ({ brandId, setBrandId, catId, setCatId, errors, product
             getOptionLabel={options => options?.title || ''}
             renderOption={(props, option, { selected }) => (
               <li {...props} key={option.id}>
-                <Checkbox style={{ marginRight: 8 }} checked={selected} />
+                {/* <Checkbox style={{ marginRight: 8 }} checked={selected} /> */}
                 {option.title}
               </li>
             )}

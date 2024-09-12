@@ -1,3 +1,4 @@
+'use client'
 // React Imports
 import { useState, useRef, useEffect } from 'react'
 

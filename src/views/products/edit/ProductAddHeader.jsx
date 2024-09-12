@@ -1,3 +1,4 @@
+'use client'
 // MUI Imports
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
@@ -7,7 +8,7 @@ const ProductAddHeader = ({ handleDiscardProduct, handleEditProduct, productData
     <div className='flex flex-wrap sm:items-center justify-between max-sm:flex-col gap-6'>
       <div>
         <Typography variant='h4' className='mbe-1'>
-          Edit a product
+          Update
         </Typography>
         <Typography>Orders placed across your store</Typography>
       </div>

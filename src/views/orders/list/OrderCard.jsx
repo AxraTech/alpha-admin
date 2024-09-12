@@ -54,7 +54,7 @@ const OrderCard = ({ count, title, color }) => {
             <div className='flex items-center gap-2 flex-wrap'>
               <Typography
                 variant='h5'
-                color={`${title === 'Active' ? 'primary' : title === 'Completed' ? 'green' : title === 'Refunded' ? 'orange' : 'error'}`}
+                color={`${title === 'Active' ? 'primary' : title === 'Completed' ? 'green' : title === 'Delivering' ? 'orange' : 'error'}`}
               >
                 {title}
               </Typography>

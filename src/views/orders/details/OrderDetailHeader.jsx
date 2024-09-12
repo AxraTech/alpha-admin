@@ -1,3 +1,4 @@
+'use client'
 // MUI Imports
 import Button from '@mui/material/Button'
 import Chip from '@mui/material/Chip'

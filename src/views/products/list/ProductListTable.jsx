@@ -186,17 +186,17 @@ const ProductListTable = () => {
         header: 'Date',
         cell: ({ row }) => <Typography>{row.original.created_at.substring(0, 10)}</Typography>
       }),
-      columnHelper.accessor('disabled', {
-        header: 'Status',
-        cell: ({ row }) => (
-          <Chip
-            label={row.original.disabled === true ? 'Disabled' : 'Enabled'}
-            variant='tonal'
-            color={productStatusObj[row.original.disabled].color}
-            size='small'
-          />
-        )
-      }),
+      // columnHelper.accessor('disabled', {
+      //   header: 'Status',
+      //   cell: ({ row }) => (
+      //     <Chip
+      //       label={row.original.disabled === true ? 'Disabled' : 'Enabled'}
+      //       variant='tonal'
+      //       color={productStatusObj[row.original.disabled].color}
+      //       size='small'
+      //     />
+      //   )
+      // }),
       columnHelper.accessor('actions', {
         header: 'Actions',
         cell: ({ row }) => (

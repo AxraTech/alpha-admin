@@ -25,7 +25,7 @@ const OrderList = () => {
           <OrderCard count={orderAggregate.completeOrder.aggregate.count} title='Completed' color='success' />
         </Grid>
         <Grid item md={3} xs={12} sm={6}>
-          <OrderCard count={orderAggregate.refundedOrder.aggregate.count} title='Refunded' />
+          <OrderCard count={orderAggregate.refundedOrder.aggregate.count} title='Delivering' />
         </Grid>
         <Grid item md={3} xs={12} sm={6}>
           <OrderCard count={orderAggregate.canceledOrder.aggregate.count} title='Canceled' />

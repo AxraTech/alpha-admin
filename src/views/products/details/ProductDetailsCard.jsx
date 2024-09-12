@@ -244,21 +244,31 @@ const DiscountDetailsCard = ({ productData }) => {
   const [loading, setLoading] = useState(false)
   const [discountOpen, setDiscountOpen] = useState(false)
   const [data, setData] = useState(productData)
-  console.log('data ', data)
+
   return (
     <>
       <Card>
         <CardHeader
           title='Product Details'
           action={
-            <Button
-              variant='contained'
-              className='max-sm:is-full is-auto'
-              onClick={() => setDiscountOpen(!discountOpen)}
-              startIcon={<i className='ri-add-line' />}
-            >
-              Discount
-            </Button>
+            <>
+              {/* <Button
+                variant='contained'
+                className='max-sm:is-full is-auto'
+                onClick={() => setDiscountOpen(!discountOpen)}
+                startIcon={<i className='ri-add-line' />}
+              >
+                Disable
+              </Button> */}
+              <Button
+                variant='contained'
+                className='max-sm:is-full is-auto'
+                onClick={() => setDiscountOpen(!discountOpen)}
+                startIcon={<i className='ri-add-line' />}
+              >
+                Discount
+              </Button>
+            </>
           }
         />
         {/* <OrderTable productData={productData} /> */}

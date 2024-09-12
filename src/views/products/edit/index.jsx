@@ -6,11 +6,11 @@ import Grid from '@mui/material/Grid'
 // Component Imports
 import ProductAddHeader from './'
 import ProductInformation from '@views/products/add/ProductInformation'
-import ProductImage from '@views/products/add/ProductImage'
-import ProductVariants from '@views/products/add/ProductVariants'
-import ProductInventory from '@views/products/add/ProductInventory'
-import ProductPricing from '@views/products/add/ProductPricing'
-import ProductOrganize from '@views/products/add/ProductOrganize'
+import ProductImage from '@views/products/edit/ProductImage'
+import ProductVariants from '@views/products/edit/ProductVariants'
+import ProductInventory from '@views/products/edit/ProductInventory'
+import ProductPricing from '@views/products/edit/ProductPricing'
+import ProductOrganize from '@views/products/edit/ProductOrganize'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 import { IMGAE_UPLOAD, ADD_PRODUCT } from '@/graphql/mutations'
 import { PRODUCTS_BY_ID } from '@/graphql/queries'
@@ -28,6 +28,7 @@ const ProductEditDetails = () => {
   const [title, setTitle] = useState()
   const [description, setDescription] = useState()
   const [brandId, setBrandId] = useState()
+  const [status, setStatus] = useState()
   const [catId, setCatId] = useState()
   const [price, setPrice] = useState()
   const [sNo, setSNo] = useState()
@@ -104,6 +105,7 @@ const ProductEditDetails = () => {
           description_html: description,
           brand_id: brandId,
           category_id: catId,
+          // disable: status,
           serial_number: sNo,
           price: price,
           product_medias: {
@@ -182,6 +184,8 @@ const ProductEditDetails = () => {
                 brandId={brandId}
                 setBrandId={setBrandId}
                 catId={catId}
+                status={status}
+                setStatus={setStatus}
                 setCatId={setCatId}
                 errors={errors}
               />

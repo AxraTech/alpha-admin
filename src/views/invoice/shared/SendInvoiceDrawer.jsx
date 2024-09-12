@@ -1,3 +1,4 @@
+'use client'
 // React Imports
 import { useRef, useState } from 'react'
 import { Controller } from 'react-hook-form'
