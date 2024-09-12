@@ -174,17 +174,17 @@ const NewListTable = () => {
         )
       }),
 
-      columnHelper.accessor('disabled', {
-        header: 'Status',
-        cell: ({ row }) => (
-          <Chip
-            label={row.original.disabled ? 'Disabled' : 'Enabled'}
-            variant='tonal'
-            color={newStatusObj[row.original.disabled].color}
-            size='small'
-          />
-        )
-      }),
+      // columnHelper.accessor('disabled', {
+      //   header: 'Status',
+      //   cell: ({ row }) => (
+      //     <Chip
+      //       label={row.original.disabled ? 'Disabled' : 'Enabled'}
+      //       variant='tonal'
+      //       color={newStatusObj[row.original.disabled].color}
+      //       size='small'
+      //     />
+      //   )
+      // }),
       columnHelper.accessor('created_at', {
         header: 'Date',
         cell: ({ row }) => <Typography>{row.original.created_at.substring(0, 10)}</Typography>

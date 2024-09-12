@@ -45,7 +45,7 @@ const TableFilters = ({ setData, productData }) => {
   return (
     <CardContent>
       <Grid container spacing={6}>
-        <Grid item xs={12} sm={4}>
+        {/* <Grid item xs={12} sm={4}>
           <FormControl fullWidth>
             <InputLabel id='status-select'>Status</InputLabel>
             <Select
@@ -61,7 +61,7 @@ const TableFilters = ({ setData, productData }) => {
               <MenuItem value='false'>Disabled</MenuItem>
             </Select>
           </FormControl>
-        </Grid>
+        </Grid> */}
         <Grid item xs={12} sm={4}>
           <FormControl fullWidth>
             <InputLabel id='category-select'>Category</InputLabel>
