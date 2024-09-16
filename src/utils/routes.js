@@ -12,8 +12,8 @@ export const adminRoutes = [
   '/en/service_center'
 ]
 
-export const managerRoutes = ['/en/products', '/en/news']
-export const saleRoutes = ['/en/orders', '/en/invoice', '/en/quotations']
-export const serviceRoutes = ['/en/service_token']
-export const deliveryRoutes = ['']
-export const financeRoutes = ['/en/orders', '/en/invoice']
+export const managerRoutes = [  '/en/dashboards','/en/products', '/en/news']
+export const saleRoutes = [  '/en/dashboards','/en/orders', '/en/invoice', '/en/quotations']
+export const serviceRoutes = [  '/en/dashboards','/en/service_token',  '/en/invoice']
+export const deliveryRoutes = [  '/en/dashboards','/en/orders']
+export const financeRoutes = [  '/en/dashboards','/en/orders', '/en/invoice']

@@ -1,4 +1,0 @@
-{
-  "/[lang]/(blank-layout-pages)/login/page": "app/[lang]/(blank-layout-pages)/login/page.js",
-  "/[lang]/(dashboard)/user/list/page": "app/[lang]/(dashboard)/user/list/page.js"
-}
