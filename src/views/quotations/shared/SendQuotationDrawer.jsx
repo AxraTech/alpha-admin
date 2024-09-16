@@ -1,22 +1,19 @@
 'use client'
 // React Imports
 import { useRef, useState } from 'react'
-import { Controller } from 'react-hook-form'
 // MUI Imports
-import Drawer from '@mui/material/Drawer'
-import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
-import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
-import Chip from '@mui/material/Chip'
-import Divider from '@mui/material/Divider'
-import { useForm } from 'react-hook-form'
-import { useMutation } from '@apollo/client'
+import { useApp } from '@/app/ApolloWrapper'
 import { IMGAE_UPLOAD, SEND_QUOTATION_FILE } from '@/graphql/mutations'
 import { uploadFile } from '@/utils/helper'
-import { useApp } from '@/app/ApolloWrapper'
+import { useMutation } from '@apollo/client'
 import { InputAdornment } from '@mui/material'
-import Alert from '@/components/helper/Alert'
+import Button from '@mui/material/Button'
+import Divider from '@mui/material/Divider'
+import Drawer from '@mui/material/Drawer'
+import IconButton from '@mui/material/IconButton'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
+import { useForm } from 'react-hook-form'
 // Vars
 const initialData = {
   from: 'shelbyComapny@email.com',
@@ -65,7 +62,7 @@ const SendQuotationDrawer = ({ open, handleClose, quotationData }) => {
       const res = await sendQuotation({
         variables: { quotation_id: quotationData.id, quotation_file_url: uploadedFileUrl }
       })
-      console.log('res ', res)
+      
       setFile('')
       setGlobalMsg('✅ Send Quotation file suceessful')
     } catch (e) {

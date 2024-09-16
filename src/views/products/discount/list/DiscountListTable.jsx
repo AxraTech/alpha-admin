@@ -1,67 +1,45 @@
 'use client'
 
 // React Imports
-import { useState, useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 // Next Imports
-import Link from 'next/link'
 import { useParams } from 'next/navigation'
 
 // MUI Imports
+import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
-import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
-import Checkbox from '@mui/material/Checkbox'
-import Chip from '@mui/material/Chip'
 import IconButton from '@mui/material/IconButton'
-import TextField from '@mui/material/TextField'
-import FormControl from '@mui/material/FormControl'
-import InputLabel from '@mui/material/InputLabel'
-import Select from '@mui/material/Select'
-import MenuItem from '@mui/material/MenuItem'
-import Tooltip from '@mui/material/Tooltip'
 import TablePagination from '@mui/material/TablePagination'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
 import EditDiscountDrawer from '../EditDiscountDrawer'
 // Third-party Imports
-import classnames from 'classnames'
 import { rankItem } from '@tanstack/match-sorter-utils'
 import {
   createColumnHelper,
   flexRender,
-  getCoreRowModel,
-  useReactTable,
-  getFilteredRowModel,
-  getFacetedRowModel,
-  getFacetedUniqueValues,
-  getFacetedMinMaxValues,
-  getPaginationRowModel,
-  getSortedRowModel
+  getCoreRowModel, getFacetedMinMaxValues, getFacetedRowModel,
+  getFacetedUniqueValues, getFilteredRowModel, getPaginationRowModel,
+  getSortedRowModel, useReactTable
 } from '@tanstack/react-table'
+import classnames from 'classnames'
 
 // Component Imports
-import OptionMenu from '@core/components/option-menu'
-import CustomAvatar from '@core/components/mui/Avatar'
-import { quotationstatusChipColor } from '@/components/helper/StatusColor'
-import OpenDialogOnElementClick from '@components/dialogs/OpenDialogOnElementClick'
 import ConfirmationDialog from '@components/dialogs/confirmation-dialog'
+import OpenDialogOnElementClick from '@components/dialogs/OpenDialogOnElementClick'
+import CustomAvatar from '@core/components/mui/Avatar'
 // Util Imports
 import { getInitials } from '@/utils/getInitials'
-import { getLocalizedUrl } from '@/utils/i18n'
 
 // Style Imports
-import tableStyles from '@core/styles/table.module.css'
-import { useMutation, useSuspenseQuery } from '@apollo/client'
-import {
-  GET_ALL_INVOICES,
-  GET_ALL_ORDERS,
-  GET_ALL_PRODUCT_DISCOUNT,
-  GET_ALL_QUOTATIONS,
-  ORDER_STATUS,
-  QUOTATION_STATUS
-} from '@/graphql/queries'
-import { Avatar } from '@mui/material'
 import { DELETE_PRODUCT_DISCOUNT } from '@/graphql/mutations'
+import {
+  GET_ALL_PRODUCT_DISCOUNT, ORDER_STATUS
+} from '@/graphql/queries'
+import { useMutation, useSuspenseQuery } from '@apollo/client'
+import tableStyles from '@core/styles/table.module.css'
 
 import { useApp } from '@/app/ApolloWrapper'
 import Alert from '@/components/helper/Alert'
@@ -138,7 +116,7 @@ const DiscountListTable = ({ productData }) => {
 
   // Hooks
   const { lang: locale } = useParams()
-
+console.log('data -----',data)
   const columns = useMemo(
     () => [
       // {

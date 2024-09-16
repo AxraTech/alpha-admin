@@ -4,7 +4,6 @@ import { CHANGE_QUOTATION_STATUS, SEND_Q_INVOICE_FILE } from '@/graphql/mutation
 import { QUOTATION_BY_ID } from '@/graphql/queries'
 import { useMutation } from '@apollo/client'
 import { Button } from '@mui/material'
-import React from 'react'
 
 const QuotationStatus = ({ quotationData }) => {
   const { setGlobalMsg } = useApp()

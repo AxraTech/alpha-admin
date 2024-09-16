@@ -1,0 +1,56 @@
+{
+  "src/views/dashboards/crm/WeeklySales.jsx -> @/libs/styles/AppReactApexCharts": {
+    "id": "src/views/dashboards/crm/WeeklySales.jsx -> @/libs/styles/AppReactApexCharts",
+    "files": [
+      "static/chunks/node_modules_a824fe._.js",
+      "static/chunks/src_libs_c92fce._.js",
+      "static/chunks/node_modules_react-apexcharts_dist_react-apexcharts_min_6e19ec.js",
+      "static/chunks/src_libs_styles_AppReactApexCharts_jsx_8952bb._.js"
+    ]
+  },
+  "src/views/dashboards/crm/RevenueReport.jsx -> @/libs/styles/AppReactApexCharts": {
+    "id": "src/views/dashboards/crm/RevenueReport.jsx -> @/libs/styles/AppReactApexCharts",
+    "files": [
+      "static/chunks/node_modules_a824fe._.js",
+      "static/chunks/src_libs_c92fce._.js",
+      "static/chunks/node_modules_react-apexcharts_dist_react-apexcharts_min_6e19ec.js",
+      "static/chunks/src_libs_styles_AppReactApexCharts_jsx_8952bb._.js"
+    ]
+  },
+  "src/views/dashboards/crm/TotalSales.jsx -> @/libs/styles/AppReactApexCharts": {
+    "id": "src/views/dashboards/crm/TotalSales.jsx -> @/libs/styles/AppReactApexCharts",
+    "files": [
+      "static/chunks/node_modules_a824fe._.js",
+      "static/chunks/src_libs_c92fce._.js",
+      "static/chunks/node_modules_react-apexcharts_dist_react-apexcharts_min_6e19ec.js",
+      "static/chunks/src_libs_styles_AppReactApexCharts_jsx_8952bb._.js"
+    ]
+  },
+  "src/views/dashboards/crm/LineAreaChart.jsx -> @/libs/styles/AppReactApexCharts": {
+    "id": "src/views/dashboards/crm/LineAreaChart.jsx -> @/libs/styles/AppReactApexCharts",
+    "files": [
+      "static/chunks/node_modules_a824fe._.js",
+      "static/chunks/src_libs_c92fce._.js",
+      "static/chunks/node_modules_react-apexcharts_dist_react-apexcharts_min_6e19ec.js",
+      "static/chunks/src_libs_styles_AppReactApexCharts_jsx_8952bb._.js"
+    ]
+  },
+  "src/libs/ApexCharts.jsx -> react-apexcharts": {
+    "id": "src/libs/ApexCharts.jsx -> react-apexcharts",
+    "files": [
+      "static/chunks/node_modules_apexcharts_dist_apexcharts_common_aa2010.js",
+      "static/chunks/node_modules_next_dist_d29c95._.js",
+      "static/chunks/node_modules_f05f42._.js",
+      "static/chunks/node_modules_react-apexcharts_dist_react-apexcharts_min_8fb850.js"
+    ]
+  },
+  "src/views/dashboards/crm/SalesOverview.jsx -> @/libs/styles/AppReactApexCharts": {
+    "id": "src/views/dashboards/crm/SalesOverview.jsx -> @/libs/styles/AppReactApexCharts",
+    "files": [
+      "static/chunks/node_modules_a824fe._.js",
+      "static/chunks/src_libs_c92fce._.js",
+      "static/chunks/node_modules_react-apexcharts_dist_react-apexcharts_min_6e19ec.js",
+      "static/chunks/src_libs_styles_AppReactApexCharts_jsx_8952bb._.js"
+    ]
+  }
+}

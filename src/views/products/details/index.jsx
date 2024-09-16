@@ -4,16 +4,11 @@
 import Grid from '@mui/material/Grid'
 
 // Component Imports
-import OrderDetailHeader from './ProductDetailHeader'
 import ProductDetailsCard from './ProductDetailsCard'
-import ShippingActivity from './ShippingActivityCard'
-import CustomerDetails from './CustomerDetailsCard'
-import ShippingAddress from './ShippingAddressCard'
 
-import BillingAddress from './BillingAddressCard'
-import { useParams } from 'next/navigation'
-import { ORDERS_BY_ID, PRODUCTS_BY_ID } from '@/graphql/queries'
+import { PRODUCTS_BY_ID } from '@/graphql/queries'
 import { useSuspenseQuery } from '@apollo/client'
+import { useParams } from 'next/navigation'
 
 const ProductDetails = () => {
   const { id } = useParams()

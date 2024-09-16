@@ -77,7 +77,6 @@ const EditNews = () => {
     }
     try {
       let uploadedFileUrl = newData.image_url
-
       if (image && image !== newData?.image_url) {
         const { data: uploadData } = await getFileUploadUrl({
           variables: { content_type: 'image', folder: 'products' }

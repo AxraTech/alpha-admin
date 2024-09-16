@@ -1,9 +1,10 @@
 'use client'
 // React Imports
-import { useState, useRef } from 'react'
+import { useRef, useState } from 'react'
 
 // MUI Imports
 import Button from '@mui/material/Button'
+import Divider from '@mui/material/Divider'
 import Drawer from '@mui/material/Drawer'
 import FormControl from '@mui/material/FormControl'
 import IconButton from '@mui/material/IconButton'
@@ -12,22 +13,18 @@ import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import Divider from '@mui/material/Divider'
-import InputAdornment from '@mui/material/InputAdornment'
-import { uploadFile } from '@/utils/helper'
 // Third-party Imports
-import { useForm, Controller } from 'react-hook-form'
-import { useMutation, useSuspenseQuery } from '@apollo/client'
-import { ADD_CATEGORY, ADD_DISCOUNT, IMGAE_UPLOAD } from '@/graphql/mutations'
-import Alert from '@/components/helper/Alert'
 import { useApp } from '@/app/ApolloWrapper'
-import Autocomplete from '@mui/material/Autocomplete'
+import Alert from '@/components/helper/Alert'
+import { ADD_DISCOUNT } from '@/graphql/mutations'
 import { USER_ROLES } from '@/graphql/queries'
+import { useMutation, useSuspenseQuery } from '@apollo/client'
 import { FormHelperText } from '@mui/material'
-import { GET_ALL_PRODUCT_DISCOUNT, PRODCUT_DISCOUNT_BY_ID } from '../../../graphql/queries'
+import { Controller, useForm } from 'react-hook-form'
+import { GET_ALL_PRODUCT_DISCOUNT } from '../../../graphql/queries'
 const AddDiscountDrawer = props => {
   const { setGlobalMsg } = useApp()
-  // Props
+  // Propss
   const { open, handleClose, discountData, loading, setLoading, setData } = props
   const [addDiscount] = useMutation(ADD_DISCOUNT, { refetchQueries: [GET_ALL_PRODUCT_DISCOUNT] })
   const [productId, setProductId] = useState()
@@ -64,8 +61,10 @@ const AddDiscountDrawer = props => {
           }
         }
       })
+      console.log('res ', res)
       setLoading(false)
-      setData(res.data.insert_product_discounts_one)
+      // setData(res.data.insert_product_discounts_one)
+      setData([...discountData, res.data.insert_product_discounts_one])
       handleReset()
       setGlobalMsg('➕ Added New Product Discount')
     } catch (e) {

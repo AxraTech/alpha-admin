@@ -3,29 +3,24 @@
   "middleware": {
     "/": {
       "files": [
-        "prerender-manifest.js",
-        "server/edge-runtime-webpack.js",
-        "server/src/middleware.js"
+        "server/edge/chunks/ssr/_7ac7f2._.js",
+        "server/edge/chunks/ssr/src_7fdd2d._.js",
+        "server/edge/chunks/ssr/edge-wrapper_2a3e59.js",
+        "server/edge/chunks/ssr/edge-wrapper_b9bee5.js"
       ],
-      "name": "src/middleware",
+      "name": "middleware",
       "page": "/",
       "matchers": [
         {
-          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?\\/en(?:\\/((?:[^\\/#\\?]+?)(?:\\/(?:[^\\/#\\?]+?))*))?(.json)?[\\/#\\?]?$",
-          "originalSource": "/en/:path*"
+          "locale": false,
+          "originalSource": "/en/:path*",
+          "regexp": "^/en(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))?$"
         }
-      ],
-      "wasm": [],
-      "assets": [],
-      "environments": {
-        "previewModeId": "1e2628f7178dc5c4e21a436d6299d612",
-        "previewModeSigningKey": "51a6618fbbadc18f33a90fa4ecc6027bd61375453e14bd566f6e6a855c4895a4",
-        "previewModeEncryptionKey": "ffd8ad42d190a10faa1eaa0e254312f5ef2a9ce143c421921c5f44ca97cb9532"
-      }
+      ]
     }
   },
-  "functions": {},
   "sortedMiddleware": [
     "/"
-  ]
+  ],
+  "functions": {}
 }

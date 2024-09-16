@@ -3,24 +3,19 @@
 import { useState } from 'react'
 
 // Next Imports
-import Link from 'next/link'
 import { useParams } from 'next/navigation'
 
 // MUI Imports
+import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
-import Button from '@mui/material/Button'
 
 // Component Imports
-import AddPaymentDrawer from '@views/invoice/shared/AddPaymentDrawer'
-import SendQuotationDrawer from '@views/quotations/shared/SendQuotationDrawer'
-import SendQInvoiceDrawer from '@views/quotations/shared/SendQInvoiceDrawer'
 import SendNegotiationDrawer from '@views/quotations/shared/SendNegotiationDrawer'
+import SendQInvoiceDrawer from '@views/quotations/shared/SendQInvoiceDrawer'
+import SendQuotationDrawer from '@views/quotations/shared/SendQuotationDrawer'
 
 // Util Imports
-import { getLocalizedUrl } from '@/utils/i18n'
-import { Grid } from '@mui/material'
-import QuotationStatus from './QuotationStatus'
 
 const PreviewActions = ({ id, onButtonClick, quotationData }) => {
   // States
@@ -34,9 +29,11 @@ const PreviewActions = ({ id, onButtonClick, quotationData }) => {
 
   return (
     <>
+    
+    {(quotationData.status === 'negotiation' || quotationData.status === 'accepted')  &&
       <Card>
         <CardContent className='flex flex-col gap-4'>
-          <Button
+                    <Button
             fullWidth
             color='success'
             variant='contained'
@@ -46,6 +43,7 @@ const PreviewActions = ({ id, onButtonClick, quotationData }) => {
           >
             Send Quotation File
           </Button>
+          
           {/* {quotationData.status === 'negotiation' && (
             <Button
               fullWidth
@@ -98,6 +96,7 @@ const PreviewActions = ({ id, onButtonClick, quotationData }) => {
           </Button> */}
         </CardContent>
       </Card>
+    }
       {/* <AddPaymentDrawer open={paymentDrawerOpen} handleClose={() => setPaymentDrawerOpen(false)} /> */}
       <SendQuotationDrawer
         open={sendDrawerOpen}

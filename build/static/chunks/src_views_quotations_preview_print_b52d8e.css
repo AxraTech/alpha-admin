@@ -1,0 +1,37 @@
+/* [project]/src/views/quotations/preview/print.css [app-client] (css) */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #__next .sm\:\!p-12 {
+    padding: 0 !important;
+  }
+
+  [data-mui-color-scheme="dark"] {
+    --mui-palette-text-primary: #2e263de6;
+    --mui-palette-action-hover: #2e263d0a;
+    --mui-palette-text-secondary: #2e263db3;
+    --mui-palette-divider: #2e263d1f;
+  }
+
+  .previewCard * {
+    visibility: visible;
+  }
+
+  .previewCard {
+    inline-size: 100%;
+    block-size: 100%;
+    position: fixed;
+    inset: 0;
+    box-sizing: border-box;
+  }
+
+  @media (width <= 600px) {
+    .previewCard {
+      position: relative !important;
+    }
+  }
+}
+
+/*# sourceMappingURL=src_views_quotations_preview_print_b52d8e.css.map*/
