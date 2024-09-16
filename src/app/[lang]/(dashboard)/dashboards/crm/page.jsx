@@ -1,19 +1,20 @@
+
 // MUI Imports
 import Grid from '@mui/material/Grid'
 
 // Components Imports
 import CardStatWithImage from '@components/card-statistics/Character'
 import CardStatVertical from '@components/card-statistics/Vertical'
-import Transactions from '@views/dashboards/crm/Transactions'
-import TotalSales from '@views/dashboards/crm/TotalSales'
+import ActivityTimeline from '@views/dashboards/crm/ActivityTimeline'
+import DeveloperMeetup from '@views/dashboards/crm/DeveloperMeetup'
+import LineAreaChart from '@views/dashboards/crm/LineAreaChart'
+import MeetingSchedule from '@views/dashboards/crm/MeetingSchedule'
 import RevenueReport from '@views/dashboards/crm/RevenueReport'
 import CardWidgetsSalesOverview from '@views/dashboards/crm/SalesOverview'
-import ActivityTimeline from '@views/dashboards/crm/ActivityTimeline'
-import WeeklySales from '@views/dashboards/crm/WeeklySales'
-import LineAreaChart from '@views/dashboards/crm/LineAreaChart'
+import TotalSales from '@views/dashboards/crm/TotalSales'
+import Transactions from '@views/dashboards/crm/Transactions'
 import UpgradePlan from '@views/dashboards/crm/UpgradePlan'
-import MeetingSchedule from '@views/dashboards/crm/MeetingSchedule'
-import DeveloperMeetup from '@views/dashboards/crm/DeveloperMeetup'
+import WeeklySales from '@views/dashboards/crm/WeeklySales'
 
 const DashboardCRM = () => {
   return (

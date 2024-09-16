@@ -1,5 +1,6 @@
 import { useApp } from '@/app/ApolloWrapper'
-import { CHANGE_QUOTATION_STATUS } from '@/graphql/mutations'
+import Alert from '@/components/helper/Alert'
+import { CHANGE_QUOTATION_STATUS, SEND_Q_INVOICE_FILE } from '@/graphql/mutations'
 import { QUOTATION_BY_ID } from '@/graphql/queries'
 import { useMutation } from '@apollo/client'
 import { Button } from '@mui/material'
@@ -8,6 +9,7 @@ import React from 'react'
 const QuotationStatus = ({ quotationData }) => {
   const { setGlobalMsg } = useApp()
   const [changeQuotationStatus] = useMutation(CHANGE_QUOTATION_STATUS, { refetchQueries: [QUOTATION_BY_ID] })
+  const [sendQInvoice] = useMutation(SEND_Q_INVOICE_FILE, { refetchQueries: [QUOTATION_BY_ID] })
   const handleChangeOrderStatus = async (id, status) => {
     try {
       const result = await changeQuotationStatus({
@@ -24,7 +26,18 @@ const QuotationStatus = ({ quotationData }) => {
   }
   return (
     <div>
-      <div className='flex gap-4 justify-end'>
+      <div>
+        <Button
+          variant='outlined'
+          color='primary'
+          size='large'
+          fullWidth
+          onClick={() => handleChangeOrderStatus(quotationData?.id, 'negotiation')}
+        >
+          Negotiate
+        </Button>
+      </div>
+      <div className='flex  justify-center gap-3 mt-4'>
         {/* <Button
           variant='outlined'
           color='success'
@@ -34,14 +47,20 @@ const QuotationStatus = ({ quotationData }) => {
         >
           Complete
         </Button> */}
+
         <Button
           variant='outlined'
           color='info'
           size='large'
-          onClick={() => handleChangeOrderStatus(quotationData?.id, 'accepted')}
+          // onClick={() => handleChangeOrderStatus(quotationData?.id, 'accepted')}
+          onClick={async () => {
+            await sendQInvoice({ variables: { quotation_id: quotationData.id } })
+            setGlobalMsg('✅ Quotation Accepted')
+          }}
         >
           Accepted
         </Button>
+
         <Button
           variant='outlined'
           color='error'
@@ -59,6 +78,7 @@ const QuotationStatus = ({ quotationData }) => {
           Pending
         </Button> */}
       </div>
+      <Alert />
     </div>
   )
 }

@@ -19,7 +19,7 @@ const defaultSuggestions = [
       },
       {
         label: 'CRM',
-        href: '/dashboards/crm',
+        // href: '/dashboards/crm',
         icon: 'ri-pie-chart-2-line'
       },
       {

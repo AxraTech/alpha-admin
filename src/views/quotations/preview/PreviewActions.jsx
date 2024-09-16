@@ -15,6 +15,7 @@ import Button from '@mui/material/Button'
 import AddPaymentDrawer from '@views/invoice/shared/AddPaymentDrawer'
 import SendQuotationDrawer from '@views/quotations/shared/SendQuotationDrawer'
 import SendQInvoiceDrawer from '@views/quotations/shared/SendQInvoiceDrawer'
+import SendNegotiationDrawer from '@views/quotations/shared/SendNegotiationDrawer'
 
 // Util Imports
 import { getLocalizedUrl } from '@/utils/i18n'
@@ -25,6 +26,7 @@ const PreviewActions = ({ id, onButtonClick, quotationData }) => {
   // States
   const [paymentDrawerOpen, setPaymentDrawerOpen] = useState(false)
   const [sendDrawerOpen, setSendDrawerOpen] = useState(false)
+  const [sendNegoOpen, setSendNegoOpen] = useState(false)
   const [sendQInvoiceDrawerOpen, setSendQInvoiceDrawerOpen] = useState(false)
 
   // Hooks
@@ -44,15 +46,27 @@ const PreviewActions = ({ id, onButtonClick, quotationData }) => {
           >
             Send Quotation File
           </Button>
-          <Button
+          {/* {quotationData.status === 'negotiation' && (
+            <Button
+              fullWidth
+              color='primary'
+              variant='contained'
+              className='capitalize'
+              startIcon={<i className='ri-send-plane-line' />}
+              onClick={() => setSendNegoOpen(true)}
+            >
+              Send Negotiate File
+            </Button>
+          )} */}
+          {/* <Button
             fullWidth
             variant='contained'
             className='capitalize'
             startIcon={<i className='ri-send-plane-line' />}
             onClick={() => setSendQInvoiceDrawerOpen(true)}
           >
-            Discounted Amount
-          </Button>
+            Send Invoice
+          </Button> */}
 
           {/* <Button fullWidth color='secondary' variant='outlined' className='capitalize'>
             Download
@@ -93,6 +107,11 @@ const PreviewActions = ({ id, onButtonClick, quotationData }) => {
       <SendQInvoiceDrawer
         open={sendQInvoiceDrawerOpen}
         handleClose={() => setSendQInvoiceDrawerOpen(false)}
+        quotationData={quotationData}
+      />
+      <SendNegotiationDrawer
+        open={sendNegoOpen}
+        handleClose={() => setSendNegoOpen(false)}
         quotationData={quotationData}
       />
     </>

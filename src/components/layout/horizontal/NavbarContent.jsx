@@ -49,7 +49,7 @@ const shortcuts = [
     subtitle: 'Permissions'
   },
   {
-    url: '/dashboards/crm',
+    // url: '/dashboards/crm',
     icon: 'ri-pie-chart-2-line',
     title: 'Dashboard',
     subtitle: 'User Dashboard'

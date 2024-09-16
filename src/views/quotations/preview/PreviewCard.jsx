@@ -16,12 +16,14 @@ import { useQuery } from '@apollo/client'
 import { INVOICE_BY_ID } from '@/graphql/queries'
 import { useParams } from 'next/navigation'
 import { Chip } from '@mui/material'
+import { quotationstatusChipColor } from '@/components/helper/StatusColor'
 
 export const statusChipColor = {
   pending: 'warning',
   completed: 'success',
   accepted: 'info',
-  rejected: 'error'
+  rejected: 'error',
+  negotiation: 'primary'
 }
 
 const PreviewCard = ({ quotationData }) => {
@@ -59,7 +61,8 @@ const PreviewCard = ({ quotationData }) => {
                     <Typography variant='h5'>{`Quotation`}</Typography>
                     <Chip
                       label={quotationData?.status}
-                      color={statusChipColor[quotationData.status]}
+                      //  color={statusChipColor[quotationData.status]}
+                      color={quotationstatusChipColor[quotationData.status]}
                       style={{ textTransform: 'capitalize' }}
                       variant='tonal'
                       size='small'

@@ -226,14 +226,14 @@ const OrderDetailsCard = ({ orderData }) => {
               {orderData?.items_total?.toLocaleString()} Ks
             </Typography>
           </div>
-          <div className='flex items-center gap-12'>
+          {/* <div className='flex items-center gap-12'>
             <Typography color='text.primary' className='min-is-[100px]'>
               Delivery Fee:
             </Typography>
             <Typography color='text.primary' className='font-medium'>
               {orderData?.delivery_fee?.toLocaleString()}
             </Typography>
-          </div>
+          </div> */}
           {/* <div className='flex items-center gap-12'>
             <Typography color='text.primary' className='min-is-[100px]'>
               Tax:

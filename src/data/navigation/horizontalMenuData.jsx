@@ -7,8 +7,8 @@ const horizontalMenuData = dictionary => [
       // This is how you will normally render menu item
       {
         label: dictionary['navigation'].crm,
-        icon: 'ri-pie-chart-2-line',
-        href: '/dashboards/crm'
+        icon: 'ri-pie-chart-2-line'
+        // href: '/dashboards/crm'
       },
       {
         label: dictionary['navigation'].analytics,
@@ -75,7 +75,7 @@ const horizontalMenuData = dictionary => [
           {
             label: dictionary['navigation'].manageReviews,
             href: '/apps/ecommerce/manage-reviews'
-          },
+          }
         ]
       },
       {
@@ -122,7 +122,7 @@ const horizontalMenuData = dictionary => [
             href: '/user/view'
           }
         ]
-      },
+      }
     ]
   },
   {

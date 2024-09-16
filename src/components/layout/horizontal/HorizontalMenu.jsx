@@ -78,9 +78,9 @@ const HorizontalMenu = ({ dictionary }) => {
         }}
       >
         <SubMenu label={dictionary['navigation'].dashboards} icon={<i className='ri-home-smile-line' />}>
-          <MenuItem href={`/${locale}/dashboards/crm`} icon={<i className='ri-pie-chart-2-line' />}>
+          {/* <MenuItem href={`/${locale}/dashboards/crm`} icon={<i className='ri-pie-chart-2-line' />}>
             {dictionary['navigation'].crm}
-          </MenuItem>
+          </MenuItem> */}
           <MenuItem href={`/${locale}/dashboards/ecommerce`} icon={<i className='ri-shopping-bag-3-line' />}>
             {dictionary['navigation'].eCommerce}
           </MenuItem>
@@ -92,46 +92,29 @@ const HorizontalMenu = ({ dictionary }) => {
             <SubMenu label={dictionary['navigation'].products}>
               <MenuItem href={`/${locale}/products/list`}>{dictionary['navigation'].list}</MenuItem>
               <MenuItem href={`/${locale}/products/add`}>{dictionary['navigation'].add}</MenuItem>
-              <MenuItem href={`/${locale}/products/category`}>
-                {dictionary['navigation'].category}
-              </MenuItem>
+              <MenuItem href={`/${locale}/products/category`}>{dictionary['navigation'].category}</MenuItem>
             </SubMenu>
             <SubMenu label={dictionary['navigation'].orders}>
               <MenuItem href={`/${locale}/orders/list`}>{dictionary['navigation'].list}</MenuItem>
-              <MenuItem
-                href={`/${locale}/orders/details/5434`}
-                exactMatch={false}
-                activeUrl='/orders/details'
-              >
+              <MenuItem href={`/${locale}/orders/details/5434`} exactMatch={false} activeUrl='/orders/details'>
                 {dictionary['navigation'].details}
               </MenuItem>
             </SubMenu>
             <SubMenu label={dictionary['navigation'].customers}>
               <MenuItem href={`/${locale}/customers/list`}>{dictionary['navigation'].list}</MenuItem>
-              <MenuItem
-                href={`/${locale}//customers/details/879861`}
-                exactMatch={false}
-                activeUrl='/customers/details'
-              >
+              <MenuItem href={`/${locale}//customers/details/879861`} exactMatch={false} activeUrl='/customers/details'>
                 {dictionary['navigation'].details}
               </MenuItem>
             </SubMenu>
-            <MenuItem href={`/${locale}/manage-reviews`}>
-              {dictionary['navigation'].manageReviews}
-            </MenuItem>
+            <MenuItem href={`/${locale}/manage-reviews`}>{dictionary['navigation'].manageReviews}</MenuItem>
           </SubMenu>
-
 
           <MenuItem href={`/${locale}/chat`} icon={<i className='ri-wechat-line' />}>
             {dictionary['navigation'].chat}
           </MenuItem>
           <SubMenu label={dictionary['navigation'].invoice} icon={<i className='ri-file-list-2-line' />}>
             <MenuItem href={`/${locale}/invoice/list`}>{dictionary['navigation'].list}</MenuItem>
-            <MenuItem
-              href={`/${locale}/invoice/preview/4987`}
-              exactMatch={false}
-              activeUrl='/invoice/preview'
-            >
+            <MenuItem href={`/${locale}/invoice/preview/4987`} exactMatch={false} activeUrl='/invoice/preview'>
               {dictionary['navigation'].preview}
             </MenuItem>
             <MenuItem href={`/${locale}/invoice/edit/4987`} exactMatch={false} activeUrl='/invoice/edit'>
@@ -144,10 +127,6 @@ const HorizontalMenu = ({ dictionary }) => {
             <MenuItem href={`/${locale}/user/view`}>{dictionary['navigation'].view}</MenuItem>
           </SubMenu>
         </SubMenu>
-
-
-
-
       </Menu>
 
       {/* <Menu

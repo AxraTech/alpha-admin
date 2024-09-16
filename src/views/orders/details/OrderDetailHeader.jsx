@@ -11,8 +11,22 @@ import OpenDialogOnElementClick from '@components/dialogs/OpenDialogOnElementCli
 import { useMutation, useQuery, useSuspenseQuery } from '@apollo/client'
 import { ORDERS_BY_ID } from '@/graphql/queries'
 import { CHANGE_ORDER_STATUS, DELETE_ORDERS } from '@/graphql/mutations'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import Alert from '@/components/helper/Alert'
 import { useApp } from '@/app/ApolloWrapper'
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  InputAdornment,
+  List,
+  ListItem,
+  TextField
+} from '@mui/material'
+import { IMGAE_UPLOAD, ORDER_COMPLETE } from '../../../graphql/mutations'
+import { uploadFile } from '@/utils/helper'
 
 export const paymentStatus = {
   1: { text: 'Paid', color: 'success' },
@@ -31,9 +45,13 @@ export const statusChipColor = {
 
 const OrderDetailHeader = ({ orderData }) => {
   const { setGlobalMsg } = useApp()
-
+  const [completeOpen, setCompleteOpen] = useState(false)
   const [deleteOrder] = useMutation(DELETE_ORDERS)
   const [changeOrderStatus] = useMutation(CHANGE_ORDER_STATUS, { refetchQueries: [ORDERS_BY_ID] })
+  const [completeOrder] = useMutation(ORDER_COMPLETE)
+  const [getFileUploadUrl] = useMutation(IMGAE_UPLOAD)
+  const [fileName, setFileName] = useState()
+  const fileInputRef = useRef(null)
   const buttonProps = (children, color, variant) => ({
     children,
     color,
@@ -76,7 +94,10 @@ const OrderDetailHeader = ({ orderData }) => {
         <Typography>{`${new Date(orderData?.ordered_at ?? '').toLocaleString()}`}</Typography>
       </div>
       <div className='flex gap-4'>
-        <Button variant='outlined' color='success' onClick={() => handleChangeOrderStatus(orderData.id, 'completed')}>
+        {/* <Button variant='outlined' color='success' onClick={() => handleChangeOrderStatus(orderData.id, 'completed')}>
+          Complete
+        </Button> */}
+        <Button color='error' variant='outlined' onClick={() => setCompleteOpen(true)}>
           Complete
         </Button>
         <Button variant='outlined' color='error' onClick={() => handleChangeOrderStatus(orderData.id, 'canceled')}>
@@ -101,6 +122,79 @@ const OrderDetailHeader = ({ orderData }) => {
         dialog={ConfirmationDialog}
         dialogProps={{ type: 'delete-order' }}
       /> */}
+      <div>
+        <Dialog
+          fullWidth='md'
+          open={completeOpen}
+          onClose={() => setCompleteOpen(false)}
+          PaperProps={{
+            component: 'form',
+            onSubmit: async event => {
+              event.preventDefault()
+              const formData = new FormData(event.currentTarget)
+              const formJson = Object.fromEntries(formData.entries())
+              const remark = formJson.remark
+              const image = formJson.image
+              const fileUploadUrl = await getFileUploadUrl({
+                variables: {
+                  content_type: 'image',
+                  folder: 'products'
+                }
+              })
+
+              const uploadedFileUrl = await uploadFile(
+                image,
+                fileUploadUrl.data.getFileUploadUrl.fileUploadUrl,
+                'image'
+              )
+              await completeOrder({
+                variables: { completion_photo_url: uploadedFileUrl, id: orderData.id, remark: remark }
+              })
+              await handleChangeOrderStatus(orderData.id, 'completed')
+              setGlobalMsg('✅ Image Send Successfull')
+              setCompleteOpen(false)
+            }
+          }}
+        >
+          <DialogTitle>Order Complete</DialogTitle>
+          <DialogContent>
+            <TextField
+              multiline
+              autoFocus
+              margin='dense'
+              id='remark'
+              name='remark'
+              label='Remark'
+              fullWidth
+              variant='standard'
+            />
+            <br />
+            <br />
+            <br />
+            <TextField
+              type='file'
+              autoFocus
+              margin='dense'
+              id='image'
+              name='image'
+              alt='image'
+              // label='completion_image'
+              fullWidth
+              variant='standard'
+            />
+          </DialogContent>
+
+          <DialogActions>
+            <Button color='error' onClick={() => setCompleteOpen(false)}>
+              Cancel
+            </Button>
+            <Button color='success' type='submit'>
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+      <Alert />
     </div>
   )
 }

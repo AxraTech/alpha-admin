@@ -82,9 +82,14 @@ async function updateNextConfig() {
 
   const redirect = `return [{
     source: '/',
-    destination: '/dashboards/crm',
+    destination: '/user/list',
     permanent: true
   }]`
+  // const redirect = `return [{
+  //   source: '/',
+  //   destination: '/dashboards/crm',
+  //   permanent: true
+  // }]`
 
   const updatedContent = content.replace(redirectsPattern, redirect)
 

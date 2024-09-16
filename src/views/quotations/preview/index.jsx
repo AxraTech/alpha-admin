@@ -37,9 +37,8 @@ const Preview = () => {
         </Grid>
         <Grid item xs={12} md={3} className='flex flex-col gap-5'>
           <QuotationStatus quotationData={quotationData.quotations_by_pk} />
-          {quotationData.quotations_by_pk.status === 'accepted' && (
-            <PreviewActions onButtonClick={handleButtonClick} quotationData={quotationData.quotations_by_pk} />
-          )}
+
+          <PreviewActions onButtonClick={handleButtonClick} quotationData={quotationData.quotations_by_pk} />
         </Grid>
       </Grid>
     </>

@@ -10,8 +10,8 @@ const verticalMenuData = dictionary => [
     children: [
       // This is how you will normally render menu item
       {
-        label: dictionary['navigation'].crm,
-        href: '/dashboards/crm'
+        label: dictionary['navigation'].crm
+        // href: '/dashboards/crm'
       },
       {
         label: dictionary['navigation'].analytics,

@@ -17,7 +17,7 @@
  */
 const themeConfig = {
   templateName: 'ALPHA',
-  homePageUrl: '/dashboards/crm',
+  homePageUrl: '/user/list',
   settingsCookieName: 'Alpha',
   mode: 'system', // 'system', 'light', 'dark'
   skin: 'default', // 'default', 'bordered'

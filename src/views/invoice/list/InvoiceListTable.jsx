@@ -189,6 +189,19 @@ const InvoiceListTable = () => {
           </div>
         )
       }),
+      columnHelper.accessor('discount ', {
+        header: 'Discount Amt',
+        cell: ({ row }) => (
+          <div className='flex items-center gap-3'>
+            {console.log('discount amt ', row.original.discount)}
+            <div className='flex flex-col'>
+              <Typography className='font-medium' color='text.primary'>
+                {row.original.discount.toLocaleString()}
+              </Typography>
+            </div>
+          </div>
+        )
+      }),
       columnHelper.accessor('total', {
         header: 'Total',
         cell: ({ row }) => <Typography>{`${row.original.total.toLocaleString()}`}</Typography>

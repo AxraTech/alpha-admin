@@ -307,8 +307,8 @@ export const ADD_PARYMENT = gql`
   }
 `
 export const SEND_Q_INVOICE_FILE = gql`
-  mutation sendQInvoice($discounted_amount: numeric!, $quotation_id: uuid!) {
-    sendInvoice(discounted_amount: $discounted_amount, quotation_id: $quotation_id) {
+  mutation sendQInvoice($quotation_id: uuid!) {
+    sendInvoice(quotation_id: $quotation_id) {
       message
     }
   }
@@ -397,6 +397,20 @@ export const DELETE_PRODUCT_DISCOUNT = gql`
     }
   }
 `
+
+export const ORDER_COMPLETE = gql`
+  mutation orderComplete($id: uuid!, $completion_photo_url: String!, $remark: String!) {
+    update_orders_by_pk(
+      pk_columns: { id: $id }
+      _set: { completion_photo_url: $completion_photo_url, remark: $remark }
+    ) {
+      id
+      completion_photo_url
+      remark
+    }
+  }
+`
+
 export const ADD_DISCOUNT = gql`
   mutation addDiscount($data: product_discounts_insert_input!) {
     insert_product_discounts_one(object: $data) {

@@ -4,25 +4,20 @@ import Grid from '@mui/material/Grid'
 
 // Component Imports
 
-import NewInformation from '@views/news/edit/NewsInformation'
+import { useApp } from '@/app/ApolloWrapper'
+import Alert from '@/components/helper/Alert'
+import { ADD_NEWS_PRODUCTS, DELETE_NEW_RELATED_PRODUCTS, EDIT_NEWS, IMGAE_UPLOAD } from '@/graphql/mutations'
+import { NEW_BY_ID } from '@/graphql/queries'
+import { uploadFile } from '@/utils/helper'
+import { useMutation, useSuspenseQuery } from '@apollo/client'
+import { Box } from '@mui/material'
 import NewsAddHeader from '@views/news/edit/NewsAddHeader'
 import NewImage from '@views/news/edit/NewsImage'
-import NewsVariants from '@views/news/edit/NewsVariants'
-import NewsInventory from '@views/news/edit/NewsInventory'
-import NewsPricing from '@views/news/edit/NewsPricing'
+import NewInformation from '@views/news/edit/NewsInformation'
 import NewsOrganize from '@views/news/edit/NewsOrganize'
-import { useMutation, useSubscription, useSuspenseQuery } from '@apollo/client'
-import { ADD_NEWS, ADD_NEWS_PRODUCTS, DELETE_NEW_RELATED_PRODUCTS, EDIT_NEWS, IMGAE_UPLOAD } from '@/graphql/mutations'
+import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import Alert from '@/components/helper/Alert'
-import { useApp } from '@/app/ApolloWrapper'
-import { Box, Button, Typography } from '@mui/material'
-import { useRouter } from 'next/navigation'
-import { uploadFile } from '@/utils/helper'
-import { useParams } from 'next/navigation'
-import { NEW_BY_ID } from '@/graphql/queries'
 import ReactHtmlParser from 'react-html-parser'
-import Link from '@/components/Link'
 const EditNews = () => {
   const { id } = useParams()
 
@@ -135,12 +130,7 @@ const EditNews = () => {
 
   return (
     <>
-      <Typography component={Link} to={router.back()}>
-        Back
-      </Typography>
-      <Button variant='contained' onClick={() => router.back()}>
-        ⬅️ Back
-      </Button>
+     
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <NewsAddHeader handleDiscardProduct={handleDiscardProduct} handleEditNews={handleEditNews} />
