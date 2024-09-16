@@ -7,7 +7,7 @@ export function middleware(req) {
 
   let role = null
   if (token) {
-    role = jwtDecode(token).role
+    role = jwtDecode(token)?.role
   }
 
   const { pathname } = req.nextUrl
