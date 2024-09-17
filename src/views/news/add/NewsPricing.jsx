@@ -27,7 +27,7 @@ const ProductPricing = ({ price, setPrice, errors }) => {
             value={price}
             onChange={e => setPrice(e.target.value)}
             error={errors?.price ? true : false}
-            helperText={errors?.price}
+            helpertext={errors?.price}
           />
           {/* <TextField fullWidth label='Discounted Price' placeholder='$499' className='mbe-5' />
           <FormControlLabel control={<Checkbox defaultChecked />} label='Charge tax on this product' />

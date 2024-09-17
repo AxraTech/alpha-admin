@@ -110,7 +110,7 @@ fragment productBaseFields on products {
       title
       serial_number
       description_html
-      product_medias(order_by: { updated_at: desc }, limit: 1) {
+      product_medias {
         id
         media_url
       }

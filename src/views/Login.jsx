@@ -168,7 +168,7 @@ const Login = ({ mode }) => {
                   }}
                   {...((errors.email || errorState !== null) && {
                     error: true,
-                    helperText: errors?.email?.message || errorState
+                    helpertext: errors?.email?.message || errorState
                   })}
                 />
               )}
@@ -203,7 +203,7 @@ const Login = ({ mode }) => {
                       </InputAdornment>
                     )
                   }}
-                  {...(errors.password && { error: true, helperText: errors.password.message })}
+                  {...(errors.password && { error: true, helpertext: errors.password.message })}
                 />
               )}
             />

@@ -46,7 +46,6 @@ export const ADD_PRODUCT = gql`
     $category_id: uuid!
     $serial_number: String!
     $price: numeric!
-    $product_medias: product_medias_arr_rel_insert_input!
   ) {
     insert_products_one(
       object: {
@@ -56,7 +55,6 @@ export const ADD_PRODUCT = gql`
         category_id: $category_id
         serial_number: $serial_number
         price: $price
-        product_medias: $product_medias
       }
     ) {
       id
@@ -416,7 +414,9 @@ export const ADD_DISCOUNT = gql`
     insert_product_discounts_one(object: $data) {
       id
       min_order
+      product_id
       discount_type
+      discounted_value
       customer_type
       created_at
       updated_at
@@ -431,6 +431,7 @@ export const EDIT_DISCOUNT = gql`
       min_order
       discount_type
       customer_type
+      discounted_value
       created_at
       updated_at
     }
@@ -460,6 +461,26 @@ export const EDIt_NEWS_CAT = gql`
     update_news_categories_by_pk(pk_columns: { id: $id }, _set: { title: $title }) {
       id
       title
+    }
+  }
+`
+//product image upload
+export const PRODUCT_IMAGE_UPLOAD = gql`
+  mutation imageUpload($data: product_medias_insert_input!) {
+    insert_product_medias_one(object: $data) {
+      id
+      product_id
+      media_url
+      media_type
+    }
+  }
+`
+export const DELETE_PRODUCT_IMAGE = gql`
+  mutation deleteProductImage($id: uuid!) {
+    delete_product_medias_by_pk(id: $id) {
+      id
+      media_url
+      media_type
     }
   }
 `

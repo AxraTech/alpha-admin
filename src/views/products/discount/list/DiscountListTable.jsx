@@ -20,9 +20,14 @@ import { rankItem } from '@tanstack/match-sorter-utils'
 import {
   createColumnHelper,
   flexRender,
-  getCoreRowModel, getFacetedMinMaxValues, getFacetedRowModel,
-  getFacetedUniqueValues, getFilteredRowModel, getPaginationRowModel,
-  getSortedRowModel, useReactTable
+  getCoreRowModel,
+  getFacetedMinMaxValues,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable
 } from '@tanstack/react-table'
 import classnames from 'classnames'
 
@@ -35,14 +40,13 @@ import { getInitials } from '@/utils/getInitials'
 
 // Style Imports
 import { DELETE_PRODUCT_DISCOUNT } from '@/graphql/mutations'
-import {
-  GET_ALL_PRODUCT_DISCOUNT, ORDER_STATUS
-} from '@/graphql/queries'
+import { GET_ALL_PRODUCT_DISCOUNT, ORDER_STATUS } from '@/graphql/queries'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 import tableStyles from '@core/styles/table.module.css'
 
 import { useApp } from '@/app/ApolloWrapper'
 import Alert from '@/components/helper/Alert'
+import AddDiscountDrawer from '../AddDiscountDrawer'
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
   const itemRank = rankItem(row.getValue(columnId), value)
@@ -78,12 +82,7 @@ const DebouncedInput = ({ value: initialValue, onChange, debounce = 500, ...prop
 // Column Definitions
 const columnHelper = createColumnHelper()
 
-const DiscountListTable = ({ productData }) => {
-  const { data: discountDatas } = useSuspenseQuery(GET_ALL_PRODUCT_DISCOUNT, {
-    variables: { product_id: productData.id },
-    fetchPolicy: 'network-only'
-  })
-
+const DiscountListTable = ({ discountDatas, productId }) => {
   const { data: orderStatus } = useSuspenseQuery(ORDER_STATUS)
 
   // States
@@ -91,8 +90,9 @@ const DiscountListTable = ({ productData }) => {
   const [status, setStatus] = useState('')
   const [loading, setLoading] = useState(false)
   const [rowSelection, setRowSelection] = useState({})
-  const [data, setData] = useState(...[discountDatas.product_discounts])
+  const [data, setData] = useState(discountDatas)
   const [discountedData, setDiscountedData] = useState()
+  const [discountOpen, setDiscountOpen] = useState(false)
   const [filteredData, setFilteredData] = useState(data)
   const [globalFilter, setGlobalFilter] = useState('')
   const [editDiscountOpen, setEditDiscountOpen] = useState(false)
@@ -103,6 +103,10 @@ const DiscountListTable = ({ productData }) => {
     color,
     variant
   })
+
+  useEffect(() => {
+    setData(discountDatas)
+  }, [discountDatas])
 
   const handleDelete = async id => {
     try {
@@ -116,7 +120,7 @@ const DiscountListTable = ({ productData }) => {
 
   // Hooks
   const { lang: locale } = useParams()
-console.log('data -----',data)
+
   const columns = useMemo(
     () => [
       // {
@@ -193,12 +197,12 @@ console.log('data -----',data)
       columnHelper.accessor('discounted_value', {
         header: 'Discounted Value',
         cell: ({ row }) => (
-          <Typography>{`${row.original.discounted_value !== null ? row.original.discounted_value.toLocaleString() : '-'}`}</Typography>
+          <Typography>{`${row.original.discounted_value !== null ? row.original?.discounted_value?.toLocaleString() : '-'}`}</Typography>
         )
       }),
       columnHelper.accessor('created_at', {
         header: 'Date',
-        cell: ({ row }) => <Typography>{row.original.created_at.substring(0, 10)}</Typography>
+        cell: ({ row }) => <Typography>{row.original?.created_at.substring(0, 10)}</Typography>
       }),
       // columnHelper.accessor('discount_type', {
       //   header: 'Discount Type',
@@ -326,7 +330,6 @@ console.log('data -----',data)
   useEffect(() => {
     const filteredData = data?.filter(invoice => {
       if (status && invoice.status.toLowerCase().replace(/\s+/g, '-') !== status) return false
-
       return true
     })
 
@@ -337,13 +340,14 @@ console.log('data -----',data)
     <>
       <Card>
         <CardContent className='flex justify-between gap-4 flex-wrap flex-col sm:flex-row items-center'>
-          <div className='flex flex-col sm:flex-row max-sm:is-full items-center gap-4'>
+          <div className='flex flex-col sm:flex-row max-sm:is-full items-center  gap-4'>
             <DebouncedInput
               value={globalFilter ?? ''}
               onChange={value => setGlobalFilter(String(value))}
               placeholder='Search Product Discount'
               className='max-sm:is-full min-is-[200px]'
             />
+
             {/* <FormControl fullWidth size='small' className='min-is-[175px]'>
               <InputLabel id='status-select'>Quotation Status</InputLabel>
               <Select
@@ -362,6 +366,14 @@ console.log('data -----',data)
                 ))}
               </Select>
             </FormControl> */}
+            <Button
+              variant='contained'
+              className='max-sm:is-full is-auto'
+              onClick={() => setDiscountOpen(!discountOpen)}
+              startIcon={<i className='ri-add-line' />}
+            >
+              Discount
+            </Button>
           </div>
         </CardContent>
         <div className='overflow-x-auto'>
@@ -436,6 +448,16 @@ console.log('data -----',data)
         />
       </Card>
       <Alert />
+
+      <AddDiscountDrawer
+        open={discountOpen}
+        productId={productId}
+        data={data}
+        setData={setData}
+        loading={loading}
+        setLoading={setLoading}
+        handleClose={() => setDiscountOpen(!discountOpen)}
+      />
 
       <EditDiscountDrawer
         open={editDiscountOpen}

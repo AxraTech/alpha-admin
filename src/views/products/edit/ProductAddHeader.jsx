@@ -16,9 +16,8 @@ const ProductAddHeader = ({ handleDiscardProduct, handleEditProduct, productData
         <Button variant='outlined' color='secondary' onClick={handleDiscardProduct}>
           Discard
         </Button>
-
         <Button variant='contained' onClick={handleEditProduct}>
-          Edit Product
+          Update
         </Button>
       </div>
     </div>

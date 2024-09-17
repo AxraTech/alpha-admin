@@ -1,4 +1,4 @@
-"use strict";exports.id=8299,exports.ids=[8299],exports.modules={5330:(e,t,i)=>{i.d(t,{Z:()=>s});var d=i(10326);i(17577);var a=i(38506),n=i(76865);let s=()=>{let{globalMsg:e,setGlobalMsg:t}=(0,n.q)();return d.jsx("div",{children:d.jsx(a.Z,{anchorOrigin:{horizontal:"center",vertical:"top"},open:!!e,autoHideDuration:3e3,onClose:()=>t(null),message:e})})}},24443:(e,t,i)=>{i.d(t,{BM:()=>C,DR:()=>U,Ff:()=>l,HT:()=>g,Hd:()=>y,J2:()=>L,J9:()=>o,JB:()=>M,KN:()=>q,Lh:()=>J,MP:()=>s,MZ:()=>I,O7:()=>z,Qm:()=>T,SB:()=>p,SZ:()=>j,Sf:()=>P,Si:()=>E,Zq:()=>Z,aY:()=>c,bc:()=>W,dE:()=>v,dn:()=>O,en:()=>Q,hB:()=>a,he:()=>F,hq:()=>n,jN:()=>A,ju:()=>$,mU:()=>w,mt:()=>H,oe:()=>m,rV:()=>B,tC:()=>N,tt:()=>b,tz:()=>k,u7:()=>_,uv:()=>u,vl:()=>D,wU:()=>S,yG:()=>f,yn:()=>h,z7:()=>x,zN:()=>r});var d=i(24293);let a=(0,d.Ps)`
+"use strict";exports.id=8299,exports.ids=[8299],exports.modules={5330:(e,t,i)=>{i.d(t,{Z:()=>s});var d=i(10326);i(17577);var a=i(38506),n=i(76865);let s=()=>{let{globalMsg:e,setGlobalMsg:t}=(0,n.q)();return d.jsx("div",{children:d.jsx(a.Z,{anchorOrigin:{horizontal:"center",vertical:"top"},open:!!e,autoHideDuration:3e3,onClose:()=>t(null),message:e})})}},24443:(e,t,i)=>{i.d(t,{BM:()=>C,DR:()=>U,Ff:()=>l,HT:()=>g,Hd:()=>y,J2:()=>L,J9:()=>o,JB:()=>M,KN:()=>q,Lh:()=>H,MP:()=>s,MZ:()=>I,O7:()=>z,Qm:()=>T,SB:()=>p,SZ:()=>j,Sf:()=>P,Si:()=>W,Zq:()=>Z,aY:()=>c,bc:()=>O,dE:()=>v,dn:()=>J,en:()=>Q,hB:()=>a,he:()=>F,hq:()=>n,jN:()=>A,ju:()=>$,mU:()=>w,mt:()=>E,oe:()=>m,pE:()=>G,rV:()=>B,si:()=>K,tC:()=>N,tt:()=>b,tz:()=>k,u7:()=>_,uv:()=>u,vl:()=>D,wU:()=>S,yG:()=>f,yn:()=>h,z7:()=>x,zN:()=>r});var d=i(24293);let a=(0,d.Ps)`
   mutation adminSignIn($email: String!, $password: String!) {
     AdminSignIn(email: $email, password: $password) {
       token
@@ -41,7 +41,6 @@
     $category_id: uuid!
     $serial_number: String!
     $price: numeric!
-    $product_medias: product_medias_arr_rel_insert_input!
   ) {
     insert_products_one(
       object: {
@@ -51,7 +50,6 @@
         category_id: $category_id
         serial_number: $serial_number
         price: $price
-        product_medias: $product_medias
       }
     ) {
       id
@@ -350,7 +348,7 @@
       id
     }
   }
-`,H=(0,d.Ps)`
+`,E=(0,d.Ps)`
   mutation orderComplete($id: uuid!, $completion_photo_url: String!, $remark: String!) {
     update_orders_by_pk(
       pk_columns: { id: $id }
@@ -361,29 +359,32 @@
       remark
     }
   }
-`,J=(0,d.Ps)`
+`,H=(0,d.Ps)`
   mutation addDiscount($data: product_discounts_insert_input!) {
     insert_product_discounts_one(object: $data) {
       id
       min_order
+      product_id
       discount_type
+      discounted_value
       customer_type
       created_at
       updated_at
     }
   }
-`,O=(0,d.Ps)`
+`,J=(0,d.Ps)`
   mutation updateProductDiscount($id: uuid!, $data: product_discounts_set_input!) {
     update_product_discounts_by_pk(pk_columns: { id: $id }, _set: $data) {
       id
       min_order
       discount_type
       customer_type
+      discounted_value
       created_at
       updated_at
     }
   }
-`,W=(0,d.Ps)`
+`,O=(0,d.Ps)`
   mutation editCategory($id: uuid!, $data: product_categories_set_input!) {
     update_product_categories_by_pk(pk_columns: { id: $id }, _set: $data) {
       id
@@ -391,7 +392,7 @@
       image_url
     }
   }
-`,E=(0,d.Ps)`
+`,W=(0,d.Ps)`
   mutation eidtBrand($id: uuid!, $data: brands_set_input!) {
     update_brands_by_pk(pk_columns: { id: $id }, _set: $data) {
       id
@@ -404,6 +405,23 @@
     update_news_categories_by_pk(pk_columns: { id: $id }, _set: { title: $title }) {
       id
       title
+    }
+  }
+`,G=(0,d.Ps)`
+  mutation imageUpload($data: product_medias_insert_input!) {
+    insert_product_medias_one(object: $data) {
+      id
+      product_id
+      media_url
+      media_type
+    }
+  }
+`,K=(0,d.Ps)`
+  mutation deleteProductImage($id: uuid!) {
+    delete_product_medias_by_pk(id: $id) {
+      id
+      media_url
+      media_type
     }
   }
 `},8299:(e,t,i)=>{i.d(t,{Z:()=>S});var d=i(10326),a=i(17577),n=i(19074),s=i(48260),r=i(25609),o=i(78077),u=i(53913),_=i(918),l=i(57329),c=i(56390),m=i(37841),p=i(87700),$=i(99207),g=i(11684),y=i(18753),v=i(24443),h=i(5330),P=i(76865);let b={paymentDate:new Date,paymentMethod:"select-method",paymentAmount:500,paymentNote:""},S=({open:e,handleClose:t,invoiceData:i,paymentMethods:S})=>{let{setGlobalMsg:k}=(0,P.q)(),[w,j]=(0,a.useState)(!1),[x,f]=(0,a.useState)(b),[Z]=(0,y.D)(v.tC),C=async e=>{e.preventDefault();try{j(!0),await Z({variables:{amount:x.amount,invoice_id:i.id,payment_date:x.payment_date,payment_method:x.payment_method}}),j(!1),k("✅ Payment Send Successful"),f(""),t()}catch(e){console.log("Error ",e)}},N=()=>{t(),f(b)};return(0,d.jsxs)(d.Fragment,{children:[(0,d.jsxs)(n.ZP,{open:e,anchor:"right",variant:"temporary",onClose:N,ModalProps:{keepMounted:!0},sx:{"& .MuiDrawer-paper":{width:{xs:300,sm:400}}},children:[(0,d.jsxs)("div",{className:"flex items-center justify-between pli-5 plb-4",children:[d.jsx(r.Z,{variant:"h5",children:"Add Payment"}),d.jsx(s.Z,{size:"small",onClick:N,children:d.jsx("i",{className:"ri-close-line text-2xl"})})]}),d.jsx($.Z,{}),(0,d.jsxs)("div",{className:"p-5",children:[(0,d.jsxs)(r.Z,{className:"flex justify-end text-white",children:["Balance : ",i.balance?i.balance.toLocaleString():0]}),(0,d.jsxs)("form",{onSubmit:C,className:"flex flex-col gap-5 mt-5",children:[d.jsx(o.Z,{fullWidth:!0,id:"amount",label:"Payment Amount",type:"number",InputProps:{startAdornment:d.jsx(l.Z,{position:"start"})},value:x.amount,onChange:e=>f({...x,amount:+e.target.value})}),d.jsx(g.Z,{selected:x.payment_date,id:"payment-date",onChange:e=>null!==e&&f({...x,payment_date:e}),customInput:d.jsx(o.Z,{fullWidth:!0,label:"Payment Date"})}),(0,d.jsxs)(u.Z,{fullWidth:!0,children:[d.jsx(_.Z,{htmlFor:"payment-method",children:"Payment Method"}),(0,d.jsxs)(c.Z,{label:"Payment Method",labelId:"payment-method",id:"payment-method-select",value:x.payment_method,onChange:e=>f({...x,payment_method:e.target.value}),children:[d.jsx(m.Z,{value:"select-method",disabled:!0,children:"Select Payment Method"}),S.payment_methods.map(e=>d.jsx(m.Z,{value:e.name,children:e.name},e.id))]})]}),(0,d.jsxs)("div",{className:"flex items-center gap-4",children:[d.jsx(p.Z,{loading:w,size:"large",variant:"contained",type:"submit",children:"Send"}),d.jsx(p.Z,{size:"large",variant:"outlined",color:"secondary",type:"reset",onClick:N,children:"Cancel"})]})]})]})]}),d.jsx(h.Z,{})]})}}};

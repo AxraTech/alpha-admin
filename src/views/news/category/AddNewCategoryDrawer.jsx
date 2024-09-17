@@ -105,7 +105,7 @@ const AddNewCategoryDrawer = props => {
                   fullWidth
                   label='Title'
                   placeholder=''
-                  {...(errors.title && { error: true, helperText: 'This field is required.' })}
+                  {...(errors.title && { error: true, helpertext: 'This field is required.' })}
                 />
               )}
             />

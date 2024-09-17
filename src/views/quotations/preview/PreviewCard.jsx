@@ -173,7 +173,7 @@ const PreviewCard = ({ quotationData }) => {
                 </div>
                 <Typography>Thanks for your business</Typography>
               </div> */}
-              <div className='min-is-[200px]'>
+              {/* <div className='min-is-[200px]'>
                 <div className='flex items-center justify-between'>
                   <Typography>Subtotal:</Typography>
                   <Typography className='font-medium' color='text.primary'>
@@ -186,12 +186,12 @@ const PreviewCard = ({ quotationData }) => {
                     {quotationData?.order?.discount}
                   </Typography>
                 </div>
-                {/* <div className='flex items-center justify-between'>
+                <div className='flex items-center justify-between'>
                   <Typography>Tax:</Typography>
                   <Typography className='font-medium' color='text.primary'>
                     21%
                   </Typography>
-                </div> */}
+                </div>
                 <Divider className='mlb-2' />
                 <div className='flex items-center justify-between'>
                   <Typography>Total:</Typography>
@@ -199,7 +199,7 @@ const PreviewCard = ({ quotationData }) => {
                     {quotationData?.total}
                   </Typography>
                 </div>
-              </div>
+              </div> */}
             </div>
           </Grid>
           <Grid item xs={12}>

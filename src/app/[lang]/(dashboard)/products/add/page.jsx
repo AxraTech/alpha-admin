@@ -68,26 +68,26 @@ const eCommerceProductsAdd = () => {
       return
     }
     try {
-      const productMediaUrls = await Promise.all(
-        productMedia.map(async item => {
-          const uploadUrl = await getFileUploadUrl({
-            variables: {
-              // content_type: item.type.split('/')[0],
-              content_type: 'image',
-              folder: 'products'
-            }
-          })
+      // const productMediaUrls = await Promise.all(
+      //   productMedia.map(async item => {
+      //     const uploadUrl = await getFileUploadUrl({
+      //       variables: {
+      //         // content_type: item.type.split('/')[0],
+      //         content_type: 'image',
+      //         folder: 'products'
+      //       }
+      //     })
 
-          const fileUrl = await uploadFile(item, uploadUrl.data.getFileUploadUrl.fileUploadUrl, 'image')
+      //     const fileUrl = await uploadFile(item, uploadUrl.data.getFileUploadUrl.fileUploadUrl, 'image')
 
-          return {
-            media_type: 'image',
-            media_url: fileUrl
-            // width: item.width,
-            // height: item.height
-          }
-        })
-      )
+      //     return {
+      //       media_type: 'image',
+      //       media_url: fileUrl
+      //       // width: item.width,
+      //       // height: item.height
+      //     }
+      //   })
+      // )
 
       await addProduct({
         variables: {
@@ -96,10 +96,10 @@ const eCommerceProductsAdd = () => {
           brand_id: brandId,
           category_id: catId,
           serial_number: sNo,
-          price: price,
-          product_medias: {
-            data: productMediaUrls
-          }
+          price: price
+          // product_medias: {
+          //   data: productMediaUrls
+          // }
         }
       })
       setLoading(false)
@@ -146,9 +146,9 @@ const eCommerceProductsAdd = () => {
                 errors={errors}
               />
             </Grid>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <ProductImage files={productMedia} setFiles={setProductMedia} />
-            </Grid>
+            </Grid> */}
             {/* <Grid item xs={12}>
               <ProductVariants />
             </Grid> */}

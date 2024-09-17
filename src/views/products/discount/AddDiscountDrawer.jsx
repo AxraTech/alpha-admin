@@ -21,13 +21,13 @@ import { USER_ROLES } from '@/graphql/queries'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 import { FormHelperText } from '@mui/material'
 import { Controller, useForm } from 'react-hook-form'
-import { GET_ALL_PRODUCT_DISCOUNT } from '../../../graphql/queries'
+import { GET_ALL_PRODUCT_DISCOUNT, PRODCUT_DISCOUNT_BY_ID, PRODUCTS_BY_ID } from '../../../graphql/queries'
 const AddDiscountDrawer = props => {
   const { setGlobalMsg } = useApp()
   // Propss
-  const { open, handleClose, discountData, loading, setLoading, setData } = props
-  const [addDiscount] = useMutation(ADD_DISCOUNT, { refetchQueries: [GET_ALL_PRODUCT_DISCOUNT] })
-  const [productId, setProductId] = useState()
+  const { open, handleClose, data, productId, loading, setLoading, setData } = props
+  const [addDiscount] = useMutation(ADD_DISCOUNT)
+
   const [customerType, setCustomerType] = useState()
   const { data: userRoles } = useSuspenseQuery(USER_ROLES)
   // States
@@ -47,24 +47,33 @@ const AddDiscountDrawer = props => {
   })
 
   // Handle Form Submit
-  const handleFormSubmit = async data => {
+  const handleFormSubmit = async datas => {
     try {
       setLoading(true)
 
       const res = await addDiscount({
         variables: {
           data: {
-            min_order: Number(data.min_order),
+            min_order: Number(datas.min_order),
             customer_type: customerType,
-            discounted_value: Number(data.discounted_value),
-            product_id: discountData?.id
+            discounted_value: Number(datas.discounted_value),
+            product_id: productId
           }
         }
       })
       console.log('res ', res)
       setLoading(false)
-      // setData(res.data.insert_product_discounts_one)
-      setData([...discountData, res.data.insert_product_discounts_one])
+      resetForm({})
+      setData([...data, res.data.insert_product_discounts_one])
+      //setData(res.data.insert_product_discounts_one)
+      // setData(prevData => [...(Array.isArray(prevData) ? prevData : [prevData]), res.data.insert_product_discounts_one])
+
+      // setData(prevData =>
+      //   prevData.map(item =>
+      //     item.id === discountData?.id ? { ...item, ...res.data.insert_product_discounts_one } : item
+      //   )
+      // )
+
       handleReset()
       setGlobalMsg('➕ Added New Product Discount')
     } catch (e) {
