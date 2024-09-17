@@ -85,21 +85,6 @@ const DebouncedInput = ({ value: initialValue, onChange, debounce = 500, ...prop
   return <TextField {...props} value={value} onChange={e => setValue(e.target.value)} size='small' />
 }
 
-// Vars
-const productCategoryObj = {
-  Accessories: { icon: 'ri-headphone-line', color: 'error' },
-  'Home Decor': { icon: 'ri-home-6-line', color: 'info' },
-  Electronics: { icon: 'ri-computer-line', color: 'primary' },
-  Shoes: { icon: 'ri-footprint-line', color: 'success' },
-  Office: { icon: 'ri-briefcase-line', color: 'warning' },
-  Games: { icon: 'ri-gamepad-line', color: 'secondary' }
-}
-
-const productStatusObj = {
-  false: { title: 'Enabled', color: 'success' },
-  true: { title: 'Disabled', color: 'error' }
-}
-
 // Column Definitions
 const columnHelper = createColumnHelper()
 const headers = [

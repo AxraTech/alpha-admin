@@ -59,7 +59,7 @@ const PreviewActions = ({ id, onButtonClick, invoiceData }) => {
               Edit
             </Button>
           </div> */}
-          <Button
+          {/* <Button
             fullWidth
             color='success'
             variant='contained'
@@ -68,7 +68,7 @@ const PreviewActions = ({ id, onButtonClick, invoiceData }) => {
             startIcon={<i className='ri-money-dollar-circle-line' />}
           >
             Add Payment
-          </Button>
+          </Button> */}
         </CardContent>
       </Card>
       <AddPaymentDrawer

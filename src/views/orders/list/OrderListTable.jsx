@@ -264,7 +264,7 @@ const OrderListTable = () => {
   )
 
   const table = useReactTable({
-    data: filteredData,
+    data: temp,
     columns,
     filterFns: {
       fuzzy: fuzzyFilter

@@ -24,10 +24,10 @@ export const orderStatusColor = {
 }
 
 export const invoiceStatusColor = {
-  paid: 'primary',
+  paid: 'secondary',
   'partially paid': 'info',
-  completed: 'success',
-  unpaid: 'error',
+  rejected: 'error',
+  unpaid: 'primary',
   pending: 'warning'
 }
 

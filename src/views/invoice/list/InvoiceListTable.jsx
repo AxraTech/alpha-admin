@@ -189,19 +189,19 @@ const InvoiceListTable = () => {
           </div>
         )
       }),
-      columnHelper.accessor('discount ', {
-        header: 'Discount Amt',
-        cell: ({ row }) => (
-          <div className='flex items-center gap-3'>
-            {console.log('discount amt ', row.original.discount)}
-            <div className='flex flex-col'>
-              <Typography className='font-medium' color='text.primary'>
-                {row.original.discount.toLocaleString()}
-              </Typography>
-            </div>
-          </div>
-        )
-      }),
+      // columnHelper.accessor('discount ', {
+      //   header: 'Discount Amt',
+      //   cell: ({ row }) => (
+      //     <div className='flex items-center gap-3'>
+      //       {console.log('discount amt ', row.original.discount)}
+      //       <div className='flex flex-col'>
+      //         <Typography className='font-medium' color='text.primary'>
+      //           {row.original.discount.toLocaleString()}
+      //         </Typography>
+      //       </div>
+      //     </div>
+      //   )
+      // }),
       columnHelper.accessor('total', {
         header: 'Total',
         cell: ({ row }) => <Typography>{`${row.original.total.toLocaleString()}`}</Typography>
@@ -332,11 +332,11 @@ const InvoiceListTable = () => {
           <DebouncedInput
             value={globalFilter ?? ''}
             onChange={value => setGlobalFilter(String(value))}
-            placeholder='Search Quotation'
+            placeholder='Search Invoice'
             className='max-sm:is-full min-is-[200px]'
           />
           <FormControl fullWidth size='small' className='min-is-[175px]'>
-            <InputLabel id='status-select'>Quotation Status</InputLabel>
+            <InputLabel id='status-select'>Invoice Status</InputLabel>
             <Select
               fullWidth
               id='select-status'

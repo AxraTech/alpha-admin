@@ -19,46 +19,7 @@ import { useApp } from '@/app/ApolloWrapper'
 import { CHANGE_INVOICE_STATUS, CHANGE_QUOTATION_STATUS } from '@/graphql/mutations'
 import { Button, Chip } from '@mui/material'
 import PaymentList from './PaymentList'
-
-// Vars
-const data = [
-  {
-    Item: 'Premium Branding Package',
-    Description: 'Branding & Promotion',
-    Hours: 48,
-    Qty: 1,
-    Total: '$32'
-  },
-  {
-    Item: 'Social Media',
-    Description: 'Social media templates',
-    Hours: 42,
-    Qty: 1,
-    Total: '$28'
-  },
-  {
-    Item: 'Web Design',
-    Description: 'Web designing package',
-    Hours: 46,
-    Qty: 1,
-    Total: '$24'
-  },
-  {
-    Item: 'SEO',
-    Description: 'Search engine optimization',
-    Hours: 40,
-    Qty: 1,
-    Total: '$22'
-  }
-]
-
-export const statusChipColor = {
-  paid: 'secondary',
-  'partially paid': 'info',
-  completed: 'success',
-  unpaid: 'error',
-  pending: 'primary'
-}
+import { invoiceStatusColor } from '@components/helper/StatusColor'
 
 const PreviewCard = ({ invoiceData }) => {
   const invoiceDataId = invoiceData?.invoices_by_pk
@@ -66,7 +27,7 @@ const PreviewCard = ({ invoiceData }) => {
   const [changeInvoiceStatus] = useMutation(CHANGE_INVOICE_STATUS)
   const handleChangeInvoiceStatus = async (id, status) => {
     try {
-      const result = await changeInvoiceStatus({
+      await changeInvoiceStatus({
         variables: {
           data: {
             ...status
@@ -74,8 +35,7 @@ const PreviewCard = ({ invoiceData }) => {
           id: id
         }
       })
-
-      setGlobalMsg('Change Order Status')
+      setGlobalMsg('✅ Change Order Status')
     } catch (e) {
       console.log('Change Status Error ', e)
     }
@@ -85,16 +45,7 @@ const PreviewCard = ({ invoiceData }) => {
       <CardContent className='sm:!p-12'>
         <Grid container spacing={6}>
           <Grid item xs={12}>
-            {/* <div className='flex gap-4 mb-4'>
-              <Button
-                variant='outlined'
-                color='success'
-                onClick={() =>
-                  handleChangeInvoiceStatus(invoiceDataId?.id, { status: 'completed' }, { completed_at: new Date() })
-                }
-              >
-                Complete
-              </Button>
+            <div className='flex gap-4 mb-4'>
               <Button
                 variant='outlined'
                 color='secondary'
@@ -109,6 +60,14 @@ const PreviewCard = ({ invoiceData }) => {
               >
                 Partially Paid
               </Button>
+
+              <Button
+                variant='outlined'
+                color='primary'
+                onClick={() => handleChangeInvoiceStatus(invoiceDataId?.id, { status: 'unpaid' })}
+              >
+                UnPaid
+              </Button>
               <Button
                 variant='outlined'
                 color='warning'
@@ -119,11 +78,13 @@ const PreviewCard = ({ invoiceData }) => {
               <Button
                 variant='outlined'
                 color='error'
-                onClick={() => handleChangeInvoiceStatus(invoiceDataId?.id, { status: 'unpaid' })}
+                onClick={() =>
+                  handleChangeInvoiceStatus(invoiceDataId?.id, { status: 'rejected' }, { completed_at: new Date() })
+                }
               >
-                UnPaid
+                Reject
               </Button>
-            </div> */}
+            </div>
             <div className='p-6 bg-actionHover rounded'>
               <div className='flex justify-between gap-y-4 flex-col sm:flex-row'>
                 <div className='flex flex-col gap-6'>
@@ -142,7 +103,7 @@ const PreviewCard = ({ invoiceData }) => {
                     <Typography variant='h5'>{`Invoice `}</Typography>
                     <Chip
                       label={invoiceDataId?.status}
-                      color={statusChipColor[invoiceDataId?.status]}
+                      color={invoiceStatusColor[invoiceDataId?.status]}
                       style={{ textTransform: 'capitalize' }}
                       variant='tonal'
                       size='small'
@@ -255,7 +216,7 @@ const PreviewCard = ({ invoiceData }) => {
                 </div>
                 <Typography>Thanks for your business</Typography>
               </div> */}
-              <div className='min-is-[200px]'>
+              {/* <div className='min-is-[200px]'>
                 <div className='flex items-center justify-between'>
                   <Typography>Subtotal:</Typography>
                   <Typography className='font-medium' color='text.primary'>
@@ -269,12 +230,12 @@ const PreviewCard = ({ invoiceData }) => {
                     {invoiceDataId.balance}
                   </Typography>
                 </div>
-                {/* <div className='flex items-center justify-between'>
+                <div className='flex items-center justify-between'>
                   <Typography>Tax:</Typography>
                   <Typography className='font-medium' color='text.primary'>
                     21%
                   </Typography>
-                </div> */}
+                </div>
                 <Divider className='mlb-2' />
                 <div className='flex items-center justify-between'>
                   <Typography>Total:</Typography>
@@ -282,7 +243,7 @@ const PreviewCard = ({ invoiceData }) => {
                     {invoiceDataId.total}
                   </Typography>
                 </div>
-              </div>
+              </div> */}
             </div>
           </Grid>
           <Grid item xs={12}>
@@ -296,9 +257,9 @@ const PreviewCard = ({ invoiceData }) => {
               {invoiceDataId?.note}
             </Typography>
           </Grid>
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <PaymentList invoiceData={invoiceData} />
-          </Grid>
+          </Grid> */}
         </Grid>
       </CardContent>
     </Card>

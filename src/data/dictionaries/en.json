@@ -4,24 +4,19 @@
     "dashboard": "Dashboard",
     "crm": "CRM",
     "eCommerce": "eCommerce",
-
     "products": "Product",
     "product_list": "All Products",
     "category": "Category",
     "brands": "Brands",
     "discount": "Discount",
-
     "news": "News",
     "news_list": "All Post",
     "new_category": "Category",
-
     "quotations": "Quotations",
     "admin": "Staff",
-
     "services": "Services",
     "service_center": "Service Center",
     "service_token": "Service Token",
-
     "analytics": "Analytics",
     "academy": "Academy",
     "logistics": "Logistics",
@@ -33,10 +28,8 @@
     "helpCenter": "Help Center",
     "appsPages": "Apps & Pages",
     "apps": "Apps",
-
     "list": "List",
     "add": "Add",
-
     "orders": "Orders",
     "details": "Details",
     "customers": "Customers",
