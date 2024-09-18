@@ -3,6 +3,7 @@
 import { useState } from 'react'
 
 // MUI Imports
+import LoadingButton from '@mui/lab/LoadingButton'
 import Button from '@mui/material/Button'
 import Drawer from '@mui/material/Drawer'
 import FormControl from '@mui/material/FormControl'
@@ -14,11 +15,12 @@ import TextField from '@mui/material/TextField'
 import FormHelperText from '@mui/material/FormHelperText'
 import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
-
+import Alert from '@/components/helper/Alert'
 // Third-party Imports
 import { useForm, Controller } from 'react-hook-form'
 import { useMutation } from '@apollo/client'
 import { ADD_USER } from '@/graphql/mutations'
+import { useApp } from '@/app/ApolloWrapper'
 
 // Vars
 const initialData = {
@@ -29,6 +31,7 @@ const initialData = {
 
 const AddUserDrawer = props => {
   // Props
+  const { setGlobalMsg, loading, setLoading } = useApp()
   const { open, handleClose, userData, setData } = props
   const [addUser] = useMutation(ADD_USER)
   // States
@@ -50,19 +53,25 @@ const AddUserDrawer = props => {
   })
 
   const onSubmit = async data => {
-    const newUser = await addUser({
-      variables: {
-        name: data.name,
-        phone: data.phone,
-        role: data.role,
-        password: data.password
-      }
-    })
-
-    setData([...(userData ?? []), newUser])
-    handleClose()
-    setFormData(initialData)
-    resetForm({})
+    setLoading(true)
+    try {
+      const newUser = await addUser({
+        variables: {
+          name: data.name,
+          phone: data.phone,
+          role: data.role,
+          password: data.password
+        }
+      })
+      setLoading(false)
+      setGlobalMsg('✅ Added New User')
+      setData([...(userData ?? []), newUser])
+      handleClose()
+      setFormData(initialData)
+      resetForm({})
+    } catch (e) {
+      setGlobalMsg(`❌  ${e.message}`)
+    }
   }
 
   const handleReset = () => {
@@ -153,15 +162,16 @@ const AddUserDrawer = props => {
           </FormControl>
 
           <div className='flex items-center gap-4'>
-            <Button variant='contained' type='submit'>
+            <LoadingButton variant='contained' type='submit' loading={loading}>
               Submit
-            </Button>
+            </LoadingButton>
             <Button variant='outlined' color='error' type='reset' onClick={() => handleReset()}>
               Cancel
             </Button>
           </div>
         </form>
       </div>
+      <Alert />
     </Drawer>
   )
 }

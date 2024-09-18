@@ -161,7 +161,7 @@ const UserListTable = ({ tableData }) => {
         cell: ({ row }) => (
           <div className='flex items-center gap-2'>
             <Typography className='capitalize' color='text.primary'>
-              {row.original.created_at.substring(0, 10)}
+              {row.original?.created_at?.substring(0, 10)}
             </Typography>
           </div>
         )

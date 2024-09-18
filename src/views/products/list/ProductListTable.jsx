@@ -258,6 +258,8 @@ const ProductListTable = () => {
         <TableFilters setData={setFilteredData} productData={data} />
         <Divider />
         <div className='flex justify-between flex-col items-start sm:flex-row sm:items-center gap-y-4 p-5'>
+          {console.log('gloabl filter ', globalFilter)}
+          {console.log('filter data ', filteredData)}
           <DebouncedInput
             value={globalFilter ?? ''}
             onChange={value => setGlobalFilter(String(value))}

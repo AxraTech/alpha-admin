@@ -50,10 +50,10 @@ const ShippingActivity = ({ orderData }) => {
             <TimelineContent>
               <div className='flex flex-wrap items-center justify-between gap-x-2 mbe-2.5'>
                 <Typography color='text.primary' className='font-medium'>
-                  Order was placed (Order ID: #{orderData.order_number})
+                  Order was placed (Order ID: #{orderData?.order_number})
                 </Typography>
 
-                <Typography variant='caption'>{new Date(orderData.ordered_at).toLocaleString()}</Typography>
+                <Typography variant='caption'>{new Date(orderData.ordered_at)?.toLocaleString()}</Typography>
               </div>
               <Typography className='mbe-2'>Order has been placed successfully</Typography>
             </TimelineContent>
@@ -62,7 +62,7 @@ const ShippingActivity = ({ orderData }) => {
             <TimelineSeparator>
               <TimelineDot
                 // variant={orderData.preparing_at === null ? 'outlined' : 'contained'}
-                color={orderData.preparing_at === null ? 'grey' : 'primary'}
+                color={orderData?.preparing_at === null ? 'grey' : 'primary'}
               />
               <TimelineConnector />
             </TimelineSeparator>
@@ -71,7 +71,7 @@ const ShippingActivity = ({ orderData }) => {
                 <Typography color='text.primary' className='font-medium'>
                   Preparing
                 </Typography>
-                {orderData.preparing_at !== null && (
+                {orderData?.preparing_at !== null && (
                   <Typography variant='caption'>{new Date(orderData?.preparing_at).toLocaleString()}</Typography>
                 )}
               </div>
@@ -82,7 +82,7 @@ const ShippingActivity = ({ orderData }) => {
             <TimelineSeparator>
               <TimelineDot
                 // variant={orderData.delivering_at === null ? 'outlined' : 'contained'}
-                color={orderData.delivering_at === null ? 'grey' : 'primary'}
+                color={orderData?.delivering_at === null ? 'grey' : 'primary'}
               />
               <TimelineConnector />
             </TimelineSeparator>
@@ -91,7 +91,7 @@ const ShippingActivity = ({ orderData }) => {
                 <Typography color='text.primary' className='font-medium'>
                   Delivering
                 </Typography>
-                {orderData.delivering_at !== null && (
+                {orderData?.delivering_at !== null && (
                   <Typography variant='caption'>{new Date(orderData?.delivering_at).toLocaleString()}</Typography>
                 )}
               </div>
@@ -102,7 +102,7 @@ const ShippingActivity = ({ orderData }) => {
             <TimelineSeparator>
               <TimelineDot
                 // variant={orderData.completed_at === null ? 'outlined' : 'contained'}
-                color={orderData.completed_at === null ? 'grey' : 'primary'}
+                color={orderData?.completed_at === null ? 'grey' : 'primary'}
               />
               <TimelineConnector />
             </TimelineSeparator>
@@ -111,7 +111,7 @@ const ShippingActivity = ({ orderData }) => {
                 <Typography color='text.primary' className='font-medium'>
                   Completed
                 </Typography>
-                {orderData.completed_at !== null && (
+                {orderData?.completed_at !== null && (
                   <Typography variant='caption'>{new Date(orderData?.completed_at).toLocaleString()}</Typography>
                 )}
               </div>

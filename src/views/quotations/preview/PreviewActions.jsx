@@ -29,22 +29,21 @@ const PreviewActions = ({ id, onButtonClick, quotationData }) => {
 
   return (
     <>
-    
-    {(quotationData.status === 'negotiation' || quotationData.status === 'accepted')  &&
-      <Card>
-        <CardContent className='flex flex-col gap-4'>
-                    <Button
-            fullWidth
-            color='success'
-            variant='contained'
-            className='capitalize'
-            startIcon={<i className='ri-send-plane-line' />}
-            onClick={() => setSendDrawerOpen(true)}
-          >
-            Send Quotation File
-          </Button>
-          
-          {/* {quotationData.status === 'negotiation' && (
+      {(quotationData?.status === 'negotiation' || quotationData?.status === 'accepted') && (
+        <Card>
+          <CardContent className='flex flex-col gap-4'>
+            <Button
+              fullWidth
+              color='success'
+              variant='contained'
+              className='capitalize'
+              startIcon={<i className='ri-send-plane-line' />}
+              onClick={() => setSendDrawerOpen(true)}
+            >
+              Send Quotation File
+            </Button>
+
+            {/* {quotationData.status === 'negotiation' && (
             <Button
               fullWidth
               color='primary'
@@ -56,7 +55,7 @@ const PreviewActions = ({ id, onButtonClick, quotationData }) => {
               Send Negotiate File
             </Button>
           )} */}
-          {/* <Button
+            {/* <Button
             fullWidth
             variant='contained'
             className='capitalize'
@@ -66,10 +65,10 @@ const PreviewActions = ({ id, onButtonClick, quotationData }) => {
             Send Invoice
           </Button> */}
 
-          {/* <Button fullWidth color='secondary' variant='outlined' className='capitalize'>
+            {/* <Button fullWidth color='secondary' variant='outlined' className='capitalize'>
             Download
           </Button> */}
-          {/* <div className='flex items-center gap-4'>
+            {/* <div className='flex items-center gap-4'>
             <Button fullWidth color='secondary' variant='outlined' className='capitalize' onClick={onButtonClick}>
               Print
             </Button>
@@ -84,7 +83,7 @@ const PreviewActions = ({ id, onButtonClick, quotationData }) => {
               Edit
             </Button>
           </div> */}
-          {/* <Button
+            {/* <Button
             fullWidth
             color='success'
             variant='contained'
@@ -94,9 +93,9 @@ const PreviewActions = ({ id, onButtonClick, quotationData }) => {
           >
             Add Payment
           </Button> */}
-        </CardContent>
-      </Card>
-    }
+          </CardContent>
+        </Card>
+      )}
       {/* <AddPaymentDrawer open={paymentDrawerOpen} handleClose={() => setPaymentDrawerOpen(false)} /> */}
       <SendQuotationDrawer
         open={sendDrawerOpen}

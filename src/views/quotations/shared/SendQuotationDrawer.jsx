@@ -14,6 +14,7 @@ import IconButton from '@mui/material/IconButton'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { useForm } from 'react-hook-form'
+import LoadingButton from '@mui/lab/LoadingButton'
 // Vars
 const initialData = {
   from: 'shelbyComapny@email.com',
@@ -32,7 +33,7 @@ const SendQuotationDrawer = ({ open, handleClose, quotationData }) => {
   const [file, setFile] = useState()
   const [getFileUploadUrl] = useMutation(IMGAE_UPLOAD)
   const [sendQuotation] = useMutation(SEND_QUOTATION_FILE)
-  const { setGlobalMsg } = useApp()
+  const { setGlobalMsg, loading, setLoading } = useApp()
   const fileInputRef = useRef(null)
 
   // Hooks
@@ -51,6 +52,7 @@ const SendQuotationDrawer = ({ open, handleClose, quotationData }) => {
   // Handle Form Submit
   const handleFormSubmit = async data => {
     try {
+      setLoading(true)
       const fileUploadUrl = await getFileUploadUrl({
         variables: {
           content_type: 'pdf',
@@ -62,11 +64,12 @@ const SendQuotationDrawer = ({ open, handleClose, quotationData }) => {
       const res = await sendQuotation({
         variables: { quotation_id: quotationData.id, quotation_file_url: uploadedFileUrl }
       })
-      
+
       setFile('')
       setGlobalMsg('✅ Send Quotation file suceessful')
+      setLoading(false)
     } catch (e) {
-      setGlobalMsg('❌ Send file error')
+      setGlobalMsg(`❌ ${e.message}`)
     }
   }
 
@@ -132,9 +135,9 @@ const SendQuotationDrawer = ({ open, handleClose, quotationData }) => {
             </div>
 
             <div className='flex items-center gap-4'>
-              <Button variant='contained' type='submit'>
+              <LoadingButton variant='contained' type='submit'>
                 Add
-              </Button>
+              </LoadingButton>
               <Button variant='outlined' color='error' type='reset' onClick={handleReset}>
                 Discard
               </Button>

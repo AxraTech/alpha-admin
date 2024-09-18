@@ -149,7 +149,7 @@ const QuotationListTable = () => {
       //     />
       //   )
       // },
-      columnHelper.accessor('id', {
+      columnHelper.accessor('quotation_number', {
         header: 'Quotation Number',
         cell: ({ row }) => (
           <Typography
@@ -160,7 +160,7 @@ const QuotationListTable = () => {
         )
       }),
 
-      columnHelper.accessor('user.name ', {
+      columnHelper.accessor('user.name', {
         header: 'Client',
         cell: ({ row }) => (
           <div className='flex items-center gap-3'>
@@ -173,7 +173,7 @@ const QuotationListTable = () => {
           </div>
         )
       }),
-      columnHelper.accessor('dealer_remark ', {
+      columnHelper.accessor('dealer_remark', {
         header: 'Dealer Remark',
         cell: ({ row }) => (
           <div className='flex items-center gap-3'>
@@ -302,7 +302,7 @@ const QuotationListTable = () => {
 
   useEffect(() => {
     const filteredData = data?.filter(invoice => {
-      if (status && invoice.status.toLowerCase().replace(/\s+/g, '-') !== status) return false
+      if (status && invoice?.status?.toLowerCase().replace(/\s+/g, '-') !== status) return false
 
       return true
     })
@@ -331,7 +331,7 @@ const QuotationListTable = () => {
               labelId='status-select'
             >
               <MenuItem value=''>none</MenuItem>
-              {quoStatus.quotation_status.map(s => (
+              {quoStatus.quotation_status?.map(s => (
                 <MenuItem value={s.name} key={s.id}>
                   {s.name}
                 </MenuItem>

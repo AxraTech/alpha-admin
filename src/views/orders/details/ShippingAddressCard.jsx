@@ -46,11 +46,11 @@ const ShippingAddress = ({ orderData }) => {
           /> */}
         </div>
         <div className='flex flex-col'>
-          <Typography>Receiver Name : {orderData.receiver_name}</Typography>
+          <Typography>Receiver Name : {orderData?.receiver_name}</Typography>
           <br></br>
-          <Typography>Receiver Phone : {orderData.receiver_phone}</Typography>
+          <Typography>Receiver Phone : {orderData?.receiver_phone}</Typography>
           <br></br>
-          <Typography>Receiver Address : {orderData.receiver_address}</Typography>
+          <Typography>Receiver Address : {orderData?.receiver_address}</Typography>
         </div>
       </CardContent>
     </Card>

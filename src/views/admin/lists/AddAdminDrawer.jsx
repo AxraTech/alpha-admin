@@ -27,7 +27,7 @@ const AddCategoryDrawer = props => {
   const { setGlobalMsg } = useApp()
   // Props
   const { open, handleClose, adminData, setData } = props
-  const [userId, setUserId] = useState()
+
   const [addAdmin] = useMutation(ADD_ADMIN)
   const { data: adminRoles } = useSuspenseQuery(ADMIN_ROLES)
   // Refs

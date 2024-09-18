@@ -90,20 +90,20 @@ const OrderTable = ({ orderData }) => {
 
             <div className='flex flex-col items-start  '>
               <Typography color='text.primary' className='font-medium w-60 text-wrap'>
-                {row.original.product.title}
+                {row.original?.product?.title}
               </Typography>
-              <Typography variant='body2'>{row.original.product.brand.title}</Typography>
+              <Typography variant='body2'>{row.original?.product.brand?.title}</Typography>
             </div>
           </div>
         )
       }),
       columnHelper.accessor('order_items?.unit_price', {
         header: 'Price',
-        cell: ({ row }) => <Typography>{`${row.original.unit_price.toLocaleString()}`} Ks</Typography>
+        cell: ({ row }) => <Typography>{`${row.original?.unit_price?.toLocaleString()}`} Ks</Typography>
       }),
       columnHelper.accessor('quantity', {
         header: 'Qty',
-        cell: ({ row }) => <Typography>{`${row.original.quantity}`}</Typography>
+        cell: ({ row }) => <Typography>{`${row.original?.quantity}`}</Typography>
       }),
       columnHelper.accessor('total', {
         header: 'Total',

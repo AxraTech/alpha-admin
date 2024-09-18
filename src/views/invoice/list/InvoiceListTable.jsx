@@ -153,7 +153,7 @@ const InvoiceListTable = () => {
       //     />
       //   )
       // },
-      columnHelper.accessor('id', {
+      columnHelper.accessor('invoice_number', {
         header: 'Invoice Number',
         cell: ({ row }) => (
           <Typography
@@ -164,7 +164,7 @@ const InvoiceListTable = () => {
         )
       }),
 
-      columnHelper.accessor('user.name ', {
+      columnHelper.accessor('user.name', {
         header: 'Client',
         cell: ({ row }) => (
           <div className='flex items-center gap-3'>
@@ -177,7 +177,7 @@ const InvoiceListTable = () => {
           </div>
         )
       }),
-      columnHelper.accessor('balance ', {
+      columnHelper.accessor('balance', {
         header: 'Balance',
         cell: ({ row }) => (
           <div className='flex items-center gap-3'>
@@ -210,7 +210,7 @@ const InvoiceListTable = () => {
         header: 'Date',
         cell: ({ row }) => <Typography>{row.original.created_at.substring(0, 10)}</Typography>
       }),
-      columnHelper.accessor('status ', {
+      columnHelper.accessor('status', {
         header: 'Status',
         cell: ({ row }) => (
           <div className='flex items-center gap-3'>

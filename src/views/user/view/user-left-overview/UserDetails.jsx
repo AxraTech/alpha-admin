@@ -38,11 +38,11 @@ const UserDetails = () => {
             <div className='flex items-center justify-center flex-col gap-4'>
               <div className='flex flex-col items-center gap-4'>
                 <CustomAvatar alt='user-profile' src='/images/avatars/1.png' variant='rounded' size={120} />
-                <Typography variant='h5'>{data.users_by_pk.name}</Typography>
+                <Typography variant='h5'>{data.users_by_pk?.name}</Typography>
               </div>
               <Chip
                 label={data.users_by_pk.role}
-                color={`${data.users_by_pk.role === 'consumer' ? 'warning' : 'info'}`}
+                color={`${data.users_by_pk?.role === 'consumer' ? 'warning' : 'info'}`}
                 size='small'
                 variant='tonal'
               />
@@ -72,8 +72,8 @@ const UserDetails = () => {
             <div className='flex justify-between items-center'>
               <Typography variant='h5'>Details</Typography>
               <Chip
-                label={data.users_by_pk.status}
-                color={`${data.users_by_pk.status === 'pending' ? 'primary' : data.users_by_pk.status === 'verified' ? 'success' : 'error'}`}
+                label={data.users_by_pk?.status}
+                color={`${data.users_by_pk?.status === 'pending' ? 'primary' : data.users_by_pk?.status === 'verified' ? 'success' : 'error'}`}
                 size='small'
                 // variant='tonal'
               />
@@ -85,13 +85,13 @@ const UserDetails = () => {
                 <Typography className='font-medium' color='text.primary'>
                   Username:
                 </Typography>
-                <Typography>{data.users_by_pk.name}</Typography>
+                <Typography>{data.users_by_pk?.name}</Typography>
               </div>
               <div className='flex items-center flex-wrap gap-x-1.5'>
                 <Typography className='font-medium' color='text.primary'>
                   Phone :
                 </Typography>
-                <Typography>{data.users_by_pk.phone}</Typography>
+                <Typography>{data.users_by_pk?.phone}</Typography>
               </div>
 
               <Typography className='text-primary mt-4'>Delivery Information</Typography>
@@ -100,22 +100,22 @@ const UserDetails = () => {
                 <Typography className='font-medium' color='text.primary'>
                   Delivery Name:
                 </Typography>
-                <Typography color='text.primary'>{data.users_by_pk.delivery_name}</Typography>
+                <Typography color='text.primary'>{data.users_by_pk?.delivery_name}</Typography>
               </div>
               <div className='flex items-center flex-wrap gap-x-1.5'>
                 <Typography className='font-medium' color='text.primary'>
                   Delivery Phone :
                 </Typography>
-                <Typography color='text.primary'>{data.users_by_pk.delivery_phone}</Typography>
+                <Typography color='text.primary'>{data.users_by_pk?.delivery_phone}</Typography>
               </div>
               <div className='flex items-center flex-wrap gap-x-1.5'>
                 <Typography className='font-medium' color='text.primary'>
                   Delivery Address :
                 </Typography>
-                <Typography color='text.primary'>{data.users_by_pk.delivery_address}</Typography>
+                <Typography color='text.primary'>{data.users_by_pk?.delivery_address}</Typography>
               </div>
 
-              {data.users_by_pk.role === 'dealer' && (
+              {data.users_by_pk?.role === 'dealer' && (
                 <>
                   <Typography className='text-primary mt-4'>Dealer Information</Typography>
                   <Divider />
@@ -123,31 +123,31 @@ const UserDetails = () => {
                     <Typography className='font-medium' color='text.primary'>
                       Shop Name :
                     </Typography>
-                    <Typography color='text.primary'>{data.users_by_pk.dealer.name}</Typography>
+                    <Typography color='text.primary'>{data.users_by_pk.dealer?.name}</Typography>
                   </div>
                   <div className='flex items-center flex-wrap gap-x-1.5'>
                     <Typography className='font-medium' color='text.primary'>
                       Shop Phone :
                     </Typography>
-                    <Typography color='text.primary'>{data.users_by_pk.dealer.phone}</Typography>
+                    <Typography color='text.primary'>{data.users_by_pk.dealer?.phone}</Typography>
                   </div>
                   <div className='flex items-center flex-wrap gap-x-1.5'>
                     <Typography className='font-medium' color='text.primary'>
                       Shop Address :
                     </Typography>
-                    <Typography color='text.primary'>{data.users_by_pk.dealer.address}</Typography>
+                    <Typography color='text.primary'>{data.users_by_pk.dealer?.address}</Typography>
                   </div>
                   <div className='flex items-center flex-wrap gap-x-1.5'>
                     <Typography className='font-medium' color='text.primary'>
                       Shop City Name :
                     </Typography>
-                    <Typography color='text.primary'>{data.users_by_pk.dealer.city_name}</Typography>
+                    <Typography color='text.primary'>{data.users_by_pk.dealer?.city_name}</Typography>
                   </div>
                   <div className='flex items-center flex-wrap gap-x-1.5'>
                     <Typography className='font-medium' color='text.primary'>
                       Shop Township Name :
                     </Typography>
-                    <Typography color='text.primary'>{data.users_by_pk.dealer.township_name}</Typography>
+                    <Typography color='text.primary'>{data.users_by_pk.dealer?.township_name}</Typography>
                   </div>
                 </>
               )}
@@ -160,13 +160,13 @@ const UserDetails = () => {
               dialog={EditUserInfo}
               dialogProps={{ data: data.users_by_pk }}
             /> */}
-            {data.users_by_pk.status !== 'disable' ? (
+            {data.users_by_pk?.status !== 'disable' ? (
               <OpenDialogOnElementClick
                 element={Button}
                 elementProps={buttonProps(`Disable`, `error`, 'outlined')}
                 dialog={ConfirmationDialog}
                 dialogProps={{ type: 'disable-account' }}
-                data={data.users_by_pk}
+                data={data?.users_by_pk}
               />
             ) : (
               <OpenDialogOnElementClick
@@ -174,22 +174,22 @@ const UserDetails = () => {
                 elementProps={buttonProps(`Enable`, `success`, 'outlined')}
                 dialog={ConfirmationDialog}
                 dialogProps={{ type: 'enable-account' }}
-                data={data.users_by_pk}
+                data={data?.users_by_pk}
               />
             )}
-            {data.users_by_pk.role === 'dealer' && (
+            {data.users_by_pk?.role === 'dealer' && (
               <OpenDialogOnElementClick
                 element={Button}
                 elementProps={buttonProps(
-                  `${data.users_by_pk.status === 'verified' ? 'Unverify' : 'Verify'}`,
-                  `${data.users_by_pk.status === 'verified' ? 'error' : 'success'}`,
+                  `${data.users_by_pk?.status === 'verified' ? 'Unverify' : 'Verify'}`,
+                  `${data.users_by_pk?.status === 'verified' ? 'error' : 'success'}`,
                   'outlined'
                 )}
                 dialog={ConfirmationDialog}
                 dialogProps={{
-                  type: `${data.users_by_pk.status === 'verified' ? 'unverified-account' : 'verified-account'}`
+                  type: `${data.users_by_pk?.status === 'verified' ? 'unverified-account' : 'verified-account'}`
                 }}
-                userData={data.users_by_pk}
+                userData={data?.users_by_pk}
               />
             )}
           </div>

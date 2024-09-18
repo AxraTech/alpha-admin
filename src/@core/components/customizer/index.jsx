@@ -156,10 +156,10 @@ const Customizer = ({ breakpoint = 'lg', dir = 'ltr', disableDirection = false }
           [styles.smallScreen]: isMobileScreen
         })}
       >
-        <div className={styles.toggler} onClick={handleToggle}>
+        {/* <div className={styles.toggler} onClick={handleToggle}>
           <i className='ri-settings-5-line text-[22px]' />
-        </div>
-        <div className={styles.header}>
+        </div> */}
+        {/* <div className={styles.header}>
           <div className='flex flex-col'>
             <h6 className={styles.customizerTitle}>Theme Customizer</h6>
             <p className={styles.customizerSubtitle}>Customize & Preview in Real Time</p>
@@ -171,7 +171,7 @@ const Customizer = ({ breakpoint = 'lg', dir = 'ltr', disableDirection = false }
             </div>
             <i className='ri-close-line text-actionActive cursor-pointer' onClick={handleToggle} />
           </div>
-        </div>
+        </div> */}
         <ScrollWrapper
           {...(isBelowLgScreen
             ? { className: 'bs-full overflow-y-auto overflow-x-hidden' }
@@ -327,7 +327,7 @@ const Customizer = ({ breakpoint = 'lg', dir = 'ltr', disableDirection = false }
                 </div>
               )}
             </div>
-            <hr className={styles.hr} />
+            {/* <hr className={styles.hr} />
             <div className='flex flex-col gap-6'>
               <Chip label='Layout' size='small' color='primary' variant='tonal' className='self-start rounded-sm' />
               <div className='flex flex-col gap-2.5'>
@@ -456,7 +456,7 @@ const Customizer = ({ breakpoint = 'lg', dir = 'ltr', disableDirection = false }
                   </div>
                 </div>
               )}
-            </div>
+            </div> */}
           </div>
         </ScrollWrapper>
       </div>

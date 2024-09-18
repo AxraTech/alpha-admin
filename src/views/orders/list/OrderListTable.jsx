@@ -83,7 +83,7 @@ const DebouncedInput = ({ value: initialValue, onChange, debounce = 500, ...prop
     return () => clearTimeout(timeout)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value])
-
+  console.log('value ', value)
   return <TextField {...props} value={value} onChange={e => setValue(e.target.value)} size='small' />
 }
 
@@ -156,7 +156,7 @@ const OrderListTable = () => {
       //     />
       //   )
       // },
-      columnHelper.accessor('id', {
+      columnHelper.accessor('order_number', {
         header: 'Order Number',
         cell: ({ row }) => (
           <Typography
@@ -167,7 +167,7 @@ const OrderListTable = () => {
         )
       }),
 
-      columnHelper.accessor('user.name ', {
+      columnHelper.accessor('user.name', {
         header: 'Client',
         cell: ({ row }) => (
           <div className='flex items-center gap-3'>
@@ -180,13 +180,13 @@ const OrderListTable = () => {
           </div>
         )
       }),
-      columnHelper.accessor('receiver_name ', {
+      columnHelper.accessor('receiver_name', {
         header: 'Receiver Name',
         cell: ({ row }) => (
           <div className='flex items-center gap-3'>
             <div className='flex flex-col'>
               <Typography className='font-medium' color='text.primary'>
-                {row.original.receiver_name}
+                {row.original?.receiver_name}
               </Typography>
             </div>
           </div>
@@ -194,7 +194,7 @@ const OrderListTable = () => {
       }),
       columnHelper.accessor('total', {
         header: 'Total',
-        cell: ({ row }) => <Typography>{`${row.original.total !== null ? row.original.total : '-'}`}</Typography>
+        cell: ({ row }) => <Typography>{`${row.original.total !== null ? row.original?.total : '-'}`}</Typography>
       }),
       columnHelper.accessor('created_at', {
         header: 'Date',
@@ -262,9 +262,10 @@ const OrderListTable = () => {
 
     [data, filteredData]
   )
-
+  console.log('filter data ', filteredData)
+  console.log('gloabal filter ', globalFilter)
   const table = useReactTable({
-    data: temp,
+    data: filteredData,
     columns,
     filterFns: {
       fuzzy: fuzzyFilter

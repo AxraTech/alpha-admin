@@ -33,12 +33,12 @@ const Preview = () => {
           <QuotationStatus quotationData={quotationData.quotations_by_pk} />
         </Grid> */}
         <Grid item xs={12} md={9}>
-          <PreviewCard quotationData={quotationData.quotations_by_pk} />
+          <PreviewCard quotationData={quotationData?.quotations_by_pk} />
         </Grid>
         <Grid item xs={12} md={3} className='flex flex-col gap-5'>
-          <QuotationStatus quotationData={quotationData.quotations_by_pk} />
+          <QuotationStatus quotationData={quotationData?.quotations_by_pk} />
 
-          <PreviewActions onButtonClick={handleButtonClick} quotationData={quotationData.quotations_by_pk} />
+          <PreviewActions onButtonClick={handleButtonClick} quotationData={quotationData?.quotations_by_pk} />
         </Grid>
       </Grid>
     </>

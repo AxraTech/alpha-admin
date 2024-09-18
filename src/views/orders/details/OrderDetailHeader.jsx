@@ -133,8 +133,8 @@ const OrderDetailHeader = ({ orderData }) => {
               event.preventDefault()
               const formData = new FormData(event.currentTarget)
               const formJson = Object.fromEntries(formData.entries())
-              const remark = formJson.remark
-              const image = formJson.image
+              const remark = formJson?.remark
+              const image = formJson?.image
               const fileUploadUrl = await getFileUploadUrl({
                 variables: {
                   content_type: 'image',
@@ -148,9 +148,9 @@ const OrderDetailHeader = ({ orderData }) => {
                 'image'
               )
               await completeOrder({
-                variables: { completion_photo_url: uploadedFileUrl, id: orderData.id, remark: remark }
+                variables: { completion_photo_url: uploadedFileUrl, id: orderData?.id, remark: remark }
               })
-              await handleChangeOrderStatus(orderData.id, 'completed')
+              await handleChangeOrderStatus(orderData?.id, 'completed')
               setGlobalMsg('✅ Image Send Successfull')
               setCompleteOpen(false)
             }

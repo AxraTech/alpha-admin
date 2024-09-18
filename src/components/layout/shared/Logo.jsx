@@ -62,7 +62,7 @@ const Logo = ({ color }) => {
 
   return (
     <div className='flex items-center min-bs-[24px]'>
-      <Image src={logo} width={42} height={42} className='rounded-full bg-contain' placeholder='blur' />
+      <Image src={logo} width={42} height={42} className='rounded-full bg-contain' placeholder='blur' alt='logo' />
       <LogoText
         color={color}
         ref={logoTextRef}
