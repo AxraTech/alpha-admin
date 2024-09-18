@@ -14,7 +14,7 @@ const InvoiceListCard = ({ count, title }) => {
             <div className='flex items-center gap-2 flex-wrap'>
               <Typography
                 variant='h5'
-                color={`${title === 'Pending' ? 'orange' : title === 'User' ? 'primary' : title === 'Reject' ? 'error' : title === 'Complete' ? 'green' : 'grey'}`}
+                color={`${title === 'Pending' ? 'orange' : title === 'User' ? 'green' : title === 'Reject' ? 'error' : title === 'Negotiation' ? 'primary' : 'grey'}`}
               >
                 {title}
               </Typography>
@@ -23,7 +23,7 @@ const InvoiceListCard = ({ count, title }) => {
           </div>
           <CustomAvatar skin='light' variant='rounded' size={42}>
             <i
-              class={`${title === 'Pending' ? 'ri-pass-pending-fill' : title === 'User' ? 'ri-user-add-line' : title === 'Reject' ? 'ri-user-unfollow-fill ' : title === 'Complete' ? 'ri-check-double-fill' : 'grey'}`}
+              class={`${title === 'Pending' ? 'ri-pass-pending-fill' : title === 'User' ? 'ri-user-add-line' : title === 'Reject' ? 'ri-user-unfollow-fill ' : title === 'Negotiation' ? 'ri-check-double-fill' : 'grey'}`}
             ></i>
           </CustomAvatar>
         </CardContent>

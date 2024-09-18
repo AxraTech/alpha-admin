@@ -38,10 +38,10 @@ const UserDetails = () => {
             <div className='flex items-center justify-center flex-col gap-4'>
               <div className='flex flex-col items-center gap-4'>
                 <CustomAvatar alt='user-profile' src='/images/avatars/1.png' variant='rounded' size={120} />
-                <Typography variant='h5'>{data.users_by_pk?.name}</Typography>
+                <Typography variant='h5'>{data?.users_by_pk?.name}</Typography>
               </div>
               <Chip
-                label={data.users_by_pk.role}
+                label={data.users_by_pk?.role}
                 color={`${data.users_by_pk?.role === 'consumer' ? 'warning' : 'info'}`}
                 size='small'
                 variant='tonal'

@@ -1019,22 +1019,22 @@ export const INVOICE_AGGREGATE = gql`
         count
       }
     }
-    UnPaindInvoice: users_aggregate(where: { status: { _eq: "unpaid" } }) {
+    UnPaindInvoice: invoices_aggregate(where: { status: { _eq: "unpaid" } }) {
       aggregate {
         count
       }
     }
-    completeInvoice: users_aggregate(where: { status: { _eq: "completed" } }) {
+    completeInvoice: invoices_aggregate(where: { status: { _eq: "completed" } }) {
       aggregate {
         count
       }
     }
-    pendingInvoice: users_aggregate(where: { status: { _eq: "pending" } }) {
+    pendingInvoice: invoices_aggregate(where: { status: { _eq: "pending" } }) {
       aggregate {
         count
       }
     }
-    partiallPaidInvoice: users_aggregate(where: { status: { _eq: "partially paid" } }) {
+    partiallPaidInvoice: invoices_aggregate(where: { status: { _eq: "partially paid" } }) {
       aggregate {
         count
       }
@@ -1059,7 +1059,7 @@ export const QUOTATION_AGGREGATE = gql`
         count
       }
     }
-    completedQuotation: quotations_aggregate(where: { status: { _eq: "completed" } }) {
+    negotiationQuotation: quotations_aggregate(where: { status: { _eq: "negotiation" } }) {
       aggregate {
         count
       }

@@ -30,7 +30,7 @@ const QuotationList = () => {
         <QuotationListCards count={quotationAggregate.rejectedQuotation.aggregate.count} title='Reject' />
       </Grid>
       <Grid item md={3} xs={12} sm={6}>
-        <QuotationListCards count={quotationAggregate.completedQuotation.aggregate.count} title='Complete' />
+        <QuotationListCards count={quotationAggregate.negotiationQuotation.aggregate.count} title='Negotiation' />
       </Grid>
       <Grid item xs={12}>
         <QuotationListTable />
