@@ -272,15 +272,15 @@ export const CHANGE_USER_ACTIVATE = gql`
   }
 `
 export const CHANGE_QUOTATION_STATUS = gql`
-  mutation updateQuotationStatus($quotation_id: uuid!, $status: String!) {
-    updateQuotationStatus(quotation_id: $quotation_id, status: $status) {
+  mutation updateQuotationStatus($quotation_id: uuid!, $status: String!, $rejected_reason: String) {
+    updateQuotationStatus(quotation_id: $quotation_id, status: $status, rejected_reason: $rejected_reason) {
       message
     }
   }
 `
 export const CHANGE_INVOICE_STATUS = gql`
-  mutation updateInvoiceStatus($invoice_id: uuid!, $status: String!) {
-    updateInvoiceStatus(invoice_id: $invoice_id, status: $status) {
+  mutation updateInvoiceStatus($invoice_id: uuid!, $status: String!, $rejected_reason: String) {
+    updateInvoiceStatus(invoice_id: $invoice_id, status: $status, rejected_reason: $rejected_reason) {
       message
     }
   }
