@@ -213,6 +213,7 @@ export const NEW_BY_ID = gql`
     news_by_pk(id: $id) {
       id
       title
+      body_html
       image_url
       news_category {
         id
@@ -253,6 +254,10 @@ export const GET_ALL_INVOICES = gql`
         id
         name
         profile_picture_url
+        user_role {
+          role_name
+          id
+        }
       }
       created_at
       updated_at
@@ -429,7 +434,7 @@ export const GET_ALL_SERVICE_CENTERS = gql`
 `
 export const QUOTATION_STATUS = gql`
   query aa {
-    quotation_status {
+    quotation_status(where: { name: { _neq: "canceled" } }) {
       id
       name
     }
@@ -565,7 +570,7 @@ export const SERVICE_TOKEN_BY_ID = gql`
 `
 export const ORDER_STATUS = gql`
   query OrderStatus {
-    order_status {
+    order_status(where: { name: { _neq: "refunded" } }) {
       id
       name
     }

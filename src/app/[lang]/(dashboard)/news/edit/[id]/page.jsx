@@ -1,9 +1,6 @@
 'use client'
 // MUI Imports
 import Grid from '@mui/material/Grid'
-
-// Component Imports
-
 import { useApp } from '@/app/ApolloWrapper'
 import Alert from '@/components/helper/Alert'
 import { ADD_NEWS_PRODUCTS, DELETE_NEW_RELATED_PRODUCTS, EDIT_NEWS, IMGAE_UPLOAD } from '@/graphql/mutations'
@@ -17,10 +14,9 @@ import NewInformation from '@views/news/edit/NewsInformation'
 import NewsOrganize from '@views/news/edit/NewsOrganize'
 import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import ReactHtmlParser from 'react-html-parser'
+
 const EditNews = () => {
   const { id } = useParams()
-
   const router = useRouter()
   const { setGlobalMsg, loading, setLoading } = useApp()
   const [title, setTitle] = useState()
@@ -41,7 +37,7 @@ const EditNews = () => {
     if (newData) {
       setImage(newData.image_url)
       setTitle(newData.title)
-      setDescription(ReactHtmlParser(newData.body_html)[0]?.props?.children[0])
+      setDescription(newData.body_html)
     }
   }, [newData])
 
@@ -107,7 +103,7 @@ const EditNews = () => {
             }
           })
       )
-      // router.back()
+      router.back()
       setLoading(false)
       setTitle('')
       setDescription('')
@@ -129,7 +125,6 @@ const EditNews = () => {
 
   return (
     <>
-     
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <NewsAddHeader handleDiscardProduct={handleDiscardProduct} handleEditNews={handleEditNews} />

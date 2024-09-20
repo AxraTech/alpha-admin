@@ -76,7 +76,7 @@ const OrderDetailHeader = ({ orderData }) => {
             size='small'
           /> */}
         </div>
-        <Typography>{`${new Date(orderData?.ordered_at ?? '').toLocaleString()}`}</Typography>
+        <Typography>{`${new Date(orderData?.ordered_at ?? '')?.toLocaleString()}`}</Typography>
       </div>
       <div className='flex gap-4'>
         <Button

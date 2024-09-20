@@ -13,8 +13,8 @@ const ProductAddHeader = ({ handleDiscardProduct, handleEditProduct, productData
         <Typography>Orders placed across your store</Typography>
       </div>
       <div className='flex flex-wrap max-sm:flex-col gap-4'>
-        <Button variant='outlined' color='secondary' onClick={handleDiscardProduct}>
-          Discard
+        <Button variant='outlined' color='error' onClick={handleDiscardProduct}>
+          Cancel
         </Button>
         <Button variant='contained' onClick={handleEditProduct}>
           Update

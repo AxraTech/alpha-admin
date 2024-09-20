@@ -65,6 +65,17 @@ const EditorToolbar = ({ editor }) => {
       >
         <i className={classnames('ri-strikethrough', { 'text-textSecondary': !editor.isActive('strike') })} />
       </CustomIconButton>
+
+      {/* Bullet List Button */}
+      <CustomIconButton
+        {...(editor.isActive('bulletList') && { color: 'primary' })}
+        variant='outlined'
+        size='small'
+        onClick={() => editor.chain().focus().toggleBulletList().run()}
+      >
+        <i className={classnames('ri-list-unordered', { 'text-textSecondary': !editor.isActive('bulletList') })} />
+      </CustomIconButton>
+
       <CustomIconButton
         {...(editor.isActive({ textAlign: 'left' }) && { color: 'primary' })}
         variant='outlined'
@@ -116,13 +127,6 @@ const EditorToolbar = ({ editor }) => {
 const ProductInformation = ({ setTitle, title, setSNo, sNo, setDescription, description, errors, productData }) => {
   // const htmlDescription = ReactHtmlParser(productData.description_html)
 
-  useEffect(() => {
-    if (productData) {
-      setTitle(productData.title)
-      setSNo(productData.serial_number)
-      setDescription(ReactHtmlParser(productData.description_html)[0]?.props?.children[0])
-    }
-  }, [productData])
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -139,6 +143,20 @@ const ProductInformation = ({ setTitle, title, setSNo, sNo, setDescription, desc
       setDescription(editor.getHTML())
     }
   })
+
+  useEffect(() => {
+    if (productData) {
+      setTitle(productData?.title)
+      setSNo(productData?.serial_number)
+
+      setDescription(productData?.description_html)
+    }
+  }, [productData])
+  useEffect(() => {
+    if (editor && description !== editor.getHTML()) {
+      editor.commands.setContent(description || '')
+    }
+  }, [description, editor])
 
   return (
     <Card>

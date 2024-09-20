@@ -24,18 +24,13 @@ import { invoiceStatusColor } from '@components/helper/StatusColor'
 const PreviewCard = ({ invoiceData }) => {
   const invoiceDataId = invoiceData?.invoices_by_pk
   const { setGlobalMsg } = useApp()
-  const [changeInvoiceStatus] = useMutation(CHANGE_INVOICE_STATUS)
+  const [changeInvoiceStatus] = useMutation(CHANGE_INVOICE_STATUS, { refetchQueries: [INVOICE_BY_ID] })
   const handleChangeInvoiceStatus = async (id, status) => {
     try {
       await changeInvoiceStatus({
-        variables: {
-          data: {
-            ...status
-          },
-          id: id
-        }
+        variables: { invoice_id: id, status: status }
       })
-      setGlobalMsg('✅ Change Order Status')
+      setGlobalMsg('✅ Change Invoice Status')
     } catch (e) {
       console.log('Change Status Error ', e)
     }
@@ -48,39 +43,38 @@ const PreviewCard = ({ invoiceData }) => {
             <div className='flex gap-4 mb-4'>
               <Button
                 variant='outlined'
-                color='secondary'
-                onClick={() => handleChangeInvoiceStatus(invoiceDataId?.id, { status: 'paid' })}
+                color='success'
+                onClick={() => handleChangeInvoiceStatus(invoiceData?.invoices_by_pk?.id, 'paid')}
               >
                 Paid
               </Button>
-              <Button
+              {/* <Button
                 variant='outlined'
                 color='info'
                 onClick={() => handleChangeInvoiceStatus(invoiceDataId?.id, { status: 'partially paid' })}
               >
                 Partially Paid
-              </Button>
+              </Button> */}
 
               <Button
                 variant='outlined'
                 color='primary'
-                onClick={() => handleChangeInvoiceStatus(invoiceDataId?.id, { status: 'unpaid' })}
+                onClick={() => handleChangeInvoiceStatus(invoiceData?.invoices_by_pk?.id, 'unpaid')}
               >
                 UnPaid
               </Button>
-              <Button
+              {/* <Button
                 variant='outlined'
                 color='warning'
                 onClick={() => handleChangeInvoiceStatus(invoiceDataId?.id, { status: 'pending' })}
               >
                 Pending
-              </Button>
+              </Button> */}
+
               <Button
                 variant='outlined'
                 color='error'
-                onClick={() =>
-                  handleChangeInvoiceStatus(invoiceDataId?.id, { status: 'rejected' }, { completed_at: new Date() })
-                }
+                onClick={() => handleChangeInvoiceStatus(invoiceData?.invoices_by_pk?.id, 'rejected')}
               >
                 Reject
               </Button>
@@ -112,10 +106,10 @@ const PreviewCard = ({ invoiceData }) => {
                   <div className='flex flex-col gap-1'>
                     <Typography color='text.primary'>Invoice Number : {invoiceDataId.invoice_number}</Typography>
                     <Typography color='text.primary'>
-                      Date Issued : {new Date(invoiceDataId?.created_at).toLocaleDateString()}
+                      Issued Date : {new Date(invoiceDataId?.created_at).toLocaleDateString()}
                     </Typography>
                     <Typography color='text.primary'>
-                      Date Due : {new Date(invoiceDataId?.updated_at).toLocaleDateString()}
+                      Due Date : {new Date(invoiceDataId?.updated_at).toLocaleDateString()}
                     </Typography>
                   </div>
                 </div>

@@ -18,12 +18,13 @@ import { useState } from 'react'
 import Alert from '@/components/helper/Alert'
 import { useApp } from '@/app/ApolloWrapper'
 import { Box } from '@mui/material'
-import { useRouter } from 'next/router'
+
 import { uploadFile } from '@/utils/helper'
 import { GET_NEWS } from '@/graphql/queries'
+import { useRouter } from 'next/navigation'
 
 const eCommerceProductsAdd = () => {
-  // const router = useRouter()
+  const router = useRouter()
   const { setGlobalMsg, loading, setLoading } = useApp()
   const [title, setTitle] = useState()
   const [description, setDescription] = useState()
@@ -32,7 +33,7 @@ const eCommerceProductsAdd = () => {
   const [productId, setProductId] = useState([])
   const [errors, setErrors] = useState()
   const [addNews] = useMutation(ADD_NEWS, { refetchQueries: [GET_NEWS] })
-  const [addNewProduct] = useMutation(ADD_NEWS_PRODUCTS)
+  const [addNewProduct] = useMutation(ADD_NEWS_PRODUCTS, { refetchQueries: [GET_NEWS] })
   const [getFileUploadUrl] = useMutation(IMGAE_UPLOAD)
 
   const handleaddNews = async () => {
@@ -96,7 +97,7 @@ const eCommerceProductsAdd = () => {
             }
           })
       )
-      // router.back()
+      router.back()
       setLoading(false)
       setTitle('')
       setDescription('')
@@ -110,11 +111,7 @@ const eCommerceProductsAdd = () => {
   }
 
   const handleDiscardProduct = () => {
-    setTitle('')
-    setDescription('')
-    setCatId('')
-    // setImage('')
-    setProductId([])
+    router.back()
   }
   if (loading) {
     return <Box sx={{ textAlign: 'center' }}>Loading...</Box>

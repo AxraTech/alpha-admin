@@ -41,17 +41,25 @@ const Dropzone = styled(AppReactDropzone)(({ theme }) => ({
 }))
 
 const NewImage = ({ files, setFiles }) => {
-  // States
+  const [errorMessage, setErrorMessage] = useState('')
 
   // Hooks
   const { getRootProps, getInputProps } = useDropzone({
     multiple: true,
     onDrop: acceptedFiles => {
-      setFiles(acceptedFiles.map(file => Object.assign(file)))
+      const imageFiles = acceptedFiles.filter(file => file.type.startsWith('image'))
+      if (imageFiles.length !== acceptedFiles.length) {
+        setErrorMessage('Only image files are allowed.')
+      } else {
+        setErrorMessage('')
+      }
+
+      setFiles(imageFiles.map(file => Object.assign(file)))
     }
   })
 
   const renderFilePreview = file => {
+    console.log('file ', file)
     if (file.type.startsWith('image')) {
       return <img width={38} height={38} alt={file.name} src={URL.createObjectURL(file)} />
     } else {
@@ -96,11 +104,11 @@ const NewImage = ({ files, setFiles }) => {
       <Card>
         <CardHeader
           title='Product Image'
-          action={
-            <Typography component={Link} color='primary' className='font-medium'>
-              Add media from URL
-            </Typography>
-          }
+          // action={
+          //   <Typography component={Link} color='primary' className='font-medium'>
+          //     Add media from URL
+          //   </Typography>
+          // }
           sx={{ '& .MuiCardHeader-action': { alignSelf: 'center' } }}
         />
         <CardContent>
@@ -117,6 +125,13 @@ const NewImage = ({ files, setFiles }) => {
               </Button>
             </div>
           </div>
+
+          {/* Show error message if there is one */}
+          {errorMessage && (
+            <Typography color='error' variant='body2'>
+              {errorMessage}
+            </Typography>
+          )}
 
           {files.length ? (
             <>

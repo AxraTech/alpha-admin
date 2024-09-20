@@ -296,7 +296,7 @@ const DiscountDetailsCard = ({ productData }) => {
                 Serial Number :
               </Typography>
               <Typography color='text.primary' className='font-medium'>
-                {productData.serial_number}
+                {productData?.serial_number}
               </Typography>
             </div>
             {/* <div className='flex items-center gap-12'>

@@ -18,10 +18,11 @@ import Alert from '@/components/helper/Alert'
 import { useApp } from '@/app/ApolloWrapper'
 import { AlertTitle, Box } from '@mui/material'
 import { uploadFile } from '@/utils/helper'
-import { useParams } from 'next/navigation'
-import { PRODUCTS_BY_ID } from '@/graphql/queries'
+import { useParams, useRouter } from 'next/navigation'
+import { GET_PRODUCTS, PRODUCTS_BY_ID } from '@/graphql/queries'
 const EditProducts = () => {
   const { id } = useParams()
+  const router = useRouter()
   const { setGlobalMsg, loading, setLoading } = useApp()
   const [title, setTitle] = useState()
   const [description, setDescription] = useState()
@@ -31,40 +32,40 @@ const EditProducts = () => {
   const [sNo, setSNo] = useState()
   const [errors, setErrors] = useState()
   const [productMedia, setProductMedia] = useState([])
-  const [editProduct] = useMutation(EDIT_RPODUCTS)
+  const [editProduct] = useMutation(EDIT_RPODUCTS, { refetchQueries: [GET_PRODUCTS] })
   const [getFileUploadUrl] = useMutation(IMGAE_UPLOAD)
   const { data } = useSuspenseQuery(PRODUCTS_BY_ID, { variables: { id: id } })
 
-  const productData = data.products_by_pk
+  const productData = data?.products_by_pk
 
   const handleEditProduct = async () => {
     setLoading(true)
     let errObj = {}
     let isErrExit = false
-    if (!title) {
-      errObj.title = 'Title field is required'
-      isErrExit = true
-    }
-    if (!title) {
-      errObj.title = 'Title field is required'
-      isErrExit = true
-    }
-    if (!price) {
-      errObj.price = 'Price field is required'
-      isErrExit = true
-    }
-    if (!sNo) {
-      errObj.sNo = 'Serial Number field is required'
-      isErrExit = true
-    }
-    if (!brandId) {
-      errObj.brandId = 'Brand field is required'
-      isErrExit = true
-    }
-    if (!catId) {
-      errObj.catId = 'Category field is required'
-      isErrExit = true
-    }
+    // if (!title) {
+    //   errObj.title = 'Title field is required'
+    //   isErrExit = true
+    // }
+    // if (!title) {
+    //   errObj.title = 'Title field is required'
+    //   isErrExit = true
+    // }
+    // if (!price) {
+    //   errObj.price = 'Price field is required'
+    //   isErrExit = true
+    // }
+    // if (!sNo) {
+    //   errObj.sNo = 'Serial Number field is required'
+    //   isErrExit = true
+    // }
+    // if (!brandId) {
+    //   errObj.brandId = 'Brand field is required'
+    //   isErrExit = true
+    // }
+    // if (!catId) {
+    //   errObj.catId = 'Category field is required'
+    //   isErrExit = true
+    // }
     // if (!sNo) {
     //   errObj.sNo = 'Serial Number field is required'
     //   isErrExit = true
@@ -75,46 +76,41 @@ const EditProducts = () => {
       return
     }
     try {
-      const productMediaUrls = await Promise.all(
-        productMedia.map(async item => {
-          const uploadUrl = await getFileUploadUrl({
-            variables: {
-              // content_type: item.type.split('/')[0],
-              content_type: 'image',
-              folder: 'products'
-            }
-          })
+      // const productMediaUrls = await Promise.all(
+      //   productMedia.map(async item => {
+      //     const uploadUrl = await getFileUploadUrl({
+      //       variables: {
+      //         // content_type: item.type.split('/')[0],
+      //         content_type: 'image',
+      //         folder: 'products'
+      //       }
+      //     })
 
-          const fileUrl = await uploadFile(item, uploadUrl.data.getFileUploadUrl.fileUploadUrl, 'image')
+      //     const fileUrl = await uploadFile(item, uploadUrl.data.getFileUploadUrl.fileUploadUrl, 'image')
 
-          return {
-            media_type: 'image',
-            media_url: fileUrl
-            // width: item.width,
-            // height: item.height
-          }
-        })
-      )
+      //     return {
+      //       media_type: 'image',
+      //       media_url: fileUrl
+      //       // width: item.width,
+      //       // height: item.height
+      //     }
+      //   })
+      // )
 
       await editProduct({
         variables: {
-          id: productData.id,
+          id: productData?.id,
           title: title,
           description_html: description,
           brand_id: brandId,
-          category_id: catId,
+          category_id: catId?.id,
           serial_number: sNo,
           price: price
         }
       })
-      setLoading(false)
-      setTitle('')
-      setPrice('')
-      setDescription('')
-      setSNo('')
-      setBrandId('')
-      setCatId('')
+
       setGlobalMsg('✅ Product has been updated')
+      router.back()
     } catch (err) {
       setGlobalMsg('❌ Add Product Error')
       console.log(err.response)
@@ -122,12 +118,7 @@ const EditProducts = () => {
   }
 
   const handleDiscardProduct = () => {
-    setTitle('')
-    setDescription('')
-    setPrice(0)
-    setSNo(0)
-    setCatId('')
-    setBrandId('')
+    router.back()
   }
   if (loading) {
     return <Box sx={{ textAlign: 'center' }}>Loading...</Box>

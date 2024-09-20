@@ -1,134 +1,3 @@
-// 'use client'
-
-// // React Imports
-// import { useState } from 'react'
-
-// // MUI Imports
-// import Card from '@mui/material/Card'
-// import CardHeader from '@mui/material/CardHeader'
-// import CardContent from '@mui/material/CardContent'
-// import FormControl from '@mui/material/FormControl'
-// import InputLabel from '@mui/material/InputLabel'
-// import MenuItem from '@mui/material/MenuItem'
-// import Select from '@mui/material/Select'
-// import TextField from '@mui/material/TextField'
-
-// // Component Imports
-// import CustomIconButton from '@core/components/mui/IconButton'
-// import { useSuspenseQuery } from '@apollo/client'
-// import { NEWS_CATS, PRODUCT_SELECT } from '@/graphql/queries'
-// import {
-//   Checkbox,
-//   CheckBoxIcon,
-//   CheckBoxOutlineBlankIcon,
-//   FormHelperText,
-//   ListItemText,
-//   OutlinedInput
-// } from '@mui/material'
-// import Autocomplete from '@mui/material/Autocomplete'
-
-// const icon = <CheckBoxOutlineBlankIcon fontSize='small' />
-// const checkedIcon = <CheckBoxIcon fontSize='small' />
-// const NewsOrganize = ({ productId, setProductId, catId, setCatId, errors }) => {
-//   const MenuProps = {
-//     PaperProps: {
-//       style: {
-//         width: 250,
-//         maxHeight: '80vh'
-//       }
-//     }
-//   }
-
-//   const { data: cats } = useSuspenseQuery(NEWS_CATS)
-//   const { data: products } = useSuspenseQuery(PRODUCT_SELECT)
-
-//   const handleChangesMuscleType = event => {
-//     const {
-//       target: { value }
-//     } = event
-
-//     // setSubType(typeof value === "string" ? value.split(",") : value);
-//     setProductId(prevSubType => {
-//       const newValue = typeof value === 'string' ? value.split(',') : value
-//       return newValue
-//     })
-//   }
-
-//   const getSubtypeNameById = uuid => {
-//     const subtype = products?.products.find(subtype => subtype.id === uuid)
-//     return subtype ? subtype.title : ''
-//   }
-//   return (
-//     <Card>
-//       <CardHeader title='Organize' />
-//       <CardContent>
-//         <form onSubmit={e => e.preventDefault()} className='flex flex-col gap-5'>
-//           {/* <FormControl fullWidth>
-//             <InputLabel>Select Product Brand</InputLabel>
-//             <Select
-//               label='Select Vendor'
-//               value={brandId}
-//               onChange={e => setBrandId(e.target.value)}
-//               error={errors?.brandId ? true : false}
-//               helperText={errors?.brandId}
-//             >
-//               {brands?.brands?.map((brand, index) => (
-//                 <MenuItem value={brand?.id} key={index}>
-//                   {brand?.title}
-//                 </MenuItem>
-//               ))}
-//             </Select>
-//             <FormHelperText sx={{ color: 'red' }}>{errors?.brandId}</FormHelperText>
-//           </FormControl> */}
-//           <div className='flex items-center gap-4'>
-//             <FormControl fullWidth>
-//               <InputLabel>Select News Category</InputLabel>
-//               <Select
-//                 label='Select Category'
-//                 value={catId}
-//                 onChange={e => setCatId(e.target.value)}
-//                 error={errors?.catId ? true : false}
-//               >
-//                 {cats?.news_categories?.map((cat, index) => (
-//                   <MenuItem value={cat?.id} key={index}>
-//                     {cat?.title}
-//                   </MenuItem>
-//                 ))}
-//               </Select>
-//               <FormHelperText sx={{ color: 'red' }}>{errors?.catId}</FormHelperText>
-//             </FormControl>
-//             {/* <CustomIconButton size='large' variant='outlined' color='primary' className='min-is-fit'>
-//               <i className='ri-add-line' />
-//             </CustomIconButton> */}
-//           </div>
-
-//           {/* productId */}
-//           <Autocomplete
-//             multiple
-//             id='checkboxes-tags-demo'
-//             options={products?.products}
-//             disableCloseOnSelect
-//             getOptionLabel={productId => productId.title}
-//             renderOption={(props, option, { selected }) => {
-//               const { key, ...optionProps } = props
-//               return (
-//                 <li key={key} {...optionProps}>
-//                   <Checkbox icon={icon} checkedIcon={checkedIcon} style={{ marginRight: 8 }} checked={selected} />
-//                   {option.title}
-//                 </li>
-//               )
-//             }}
-//             style={{ width: 500 }}
-//             renderInput={params => <TextField {...params} label='Products' placeholder='Favorites' />}
-//           />
-//         </form>
-//       </CardContent>
-//     </Card>
-//   )
-// }
-
-// export default NewsOrganize
-
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -151,14 +20,14 @@ import { NEWS_CATS, NEWS_RELATED_PRODUCTS, PRODUCT_SELECT } from '@/graphql/quer
 const NewsOrganize = ({ productId, setProductId, catId, setCatId, errors, newData }) => {
   const { data: cats } = useSuspenseQuery(NEWS_CATS)
   const { data: products } = useSuspenseQuery(PRODUCT_SELECT)
-  const { data: newsRelatedProducts } = useSuspenseQuery(NEWS_RELATED_PRODUCTS, { variables: { news_id: newData.id } })
+  const { data: newsRelatedProducts } = useSuspenseQuery(NEWS_RELATED_PRODUCTS, { variables: { news_id: newData?.id } })
 
   useEffect(() => {
     if (newData) {
       setCatId(newData.news_category?.id)
       setProductId(newsRelatedProducts && newsRelatedProducts?.news_related_products?.map(item => item?.product_id))
     }
-  }, [newData])
+  }, [newData, setCatId, setProductId])
 
   return (
     <Card>
@@ -166,28 +35,36 @@ const NewsOrganize = ({ productId, setProductId, catId, setCatId, errors, newDat
       <CardContent>
         <form onSubmit={e => e.preventDefault()} className='flex flex-col gap-5'>
           {/* <div className='flex items-center gap-4'> */}
-          <FormControl fullWidth>
-            <InputLabel>Select News Category</InputLabel>
-            <Select
-              label='Select Category'
-              value={catId}
-              onChange={e => setCatId(e.target.value)}
-              error={errors?.catId}
-            >
-              {cats?.news_categories?.map((cat, index) => (
-                <MenuItem value={cat?.id} key={index}>
-                  {cat?.title}
-                </MenuItem>
-              ))}
-            </Select>
-            <FormHelperText sx={{ color: 'red' }}>{errors?.catId}</FormHelperText>
-          </FormControl>
+
+          {catId && (
+            <FormControl fullWidth>
+              <InputLabel>Select News Category</InputLabel>
+              <Select
+                label='Select Category'
+                value={catId}
+                onChange={e => setCatId(e.target.value)}
+                error={errors?.catId}
+              >
+                {cats?.news_categories?.map((cat, index) => (
+                  <MenuItem value={cat?.id} key={index}>
+                    {cat?.title}
+                  </MenuItem>
+                ))}
+              </Select>
+              <FormHelperText sx={{ color: 'red' }}>{errors?.catId}</FormHelperText>
+            </FormControl>
+          )}
 
           <Autocomplete
             multiple
-            value={productId}
+            // value={productId}
+            value={products?.products?.filter(product => productId.includes(product.id)) || []}
+            // onChange={(event, newValue) => {
+            //   setProductId(newValue)
+            // }}
             onChange={(event, newValue) => {
-              setProductId(newValue)
+              // When products are selected or removed, update the productId state
+              setProductId(newValue.map(product => product.id))
             }}
             // inputValue={inputValue}
             // onInputChange={(event, newInputValue) => {

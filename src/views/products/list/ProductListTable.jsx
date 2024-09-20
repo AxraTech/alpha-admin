@@ -111,10 +111,10 @@ const ProductListTable = () => {
 
   const temp = filteredData.map(item => ({
     ...item,
-    title: item.brand.title,
-    title: item.product_category.title,
-    created_at: new Date(item.created_at).toLocaleString(),
-    updated_at: new Date(item.updated_at).toLocaleString()
+    title: item?.brand?.title,
+    title: item?.product_category?.title,
+    created_at: new Date(item.created_at)?.toLocaleString(),
+    updated_at: new Date(item.updated_at)?.toLocaleString()
   }))
   const handleDelete = async id => {
     try {
@@ -142,9 +142,9 @@ const ProductListTable = () => {
 
             <div className='flex flex-col w-60 text-wrap'>
               <Typography className='font-medium' color='text.primary'>
-                {row.original.title}
+                {row.original?.title}
               </Typography>
-              <Typography variant='body2'>{row.original.brand.title}</Typography>
+              <Typography variant='body2'>{row.original?.brand?.title}</Typography>
             </div>
           </div>
         )
@@ -154,22 +154,22 @@ const ProductListTable = () => {
 
         cell: ({ row }) => (
           <div className='flex items-center gap-4'>
-            <Avatar src={row.original.product_category.image_url} />
-            <Typography color='text.primary'>{row.original.product_category.title}</Typography>
+            <Avatar src={row.original?.product_category?.image_url} />
+            <Typography color='text.primary'>{row.original?.product_category?.title}</Typography>
           </div>
         )
       }),
       columnHelper.accessor('serial_number', {
         header: 'Serial No.',
-        cell: ({ row }) => <Typography>{row.original.serial_number ? row.original.serial_number : '-'}</Typography>
+        cell: ({ row }) => <Typography>{row.original?.serial_number ? row.original?.serial_number : '-'}</Typography>
       }),
       columnHelper.accessor('price', {
         header: 'Price',
-        cell: ({ row }) => <Typography>{row.original.price.toLocaleString()}</Typography>
+        cell: ({ row }) => <Typography>{row.original?.price.toLocaleString()}</Typography>
       }),
       columnHelper.accessor('created_at', {
         header: 'Date',
-        cell: ({ row }) => <Typography>{row.original.created_at.substring(0, 10)}</Typography>
+        cell: ({ row }) => <Typography>{row.original?.created_at?.substring(0, 10)}</Typography>
       }),
       // columnHelper.accessor('disabled', {
       //   header: 'Status',
@@ -258,8 +258,6 @@ const ProductListTable = () => {
         <TableFilters setData={setFilteredData} productData={data} />
         <Divider />
         <div className='flex justify-between flex-col items-start sm:flex-row sm:items-center gap-y-4 p-5'>
-          {console.log('gloabl filter ', globalFilter)}
-          {console.log('filter data ', filteredData)}
           <DebouncedInput
             value={globalFilter ?? ''}
             onChange={value => setGlobalFilter(String(value))}

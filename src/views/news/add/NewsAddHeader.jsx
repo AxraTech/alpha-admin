@@ -8,13 +8,13 @@ const NewsAddHeader = ({ handleDiscardProduct, handleaddNews }) => {
     <div className='flex flex-wrap sm:items-center justify-between max-sm:flex-col gap-6'>
       <div>
         <Typography variant='h4' className='mbe-1'>
-          Add a new Post
+          Add a New Post
         </Typography>
         {/* <Typography>Orders placed across your store</Typography> */}
       </div>
       <div className='flex flex-wrap max-sm:flex-col gap-4'>
-        <Button variant='outlined' color='secondary' onClick={handleDiscardProduct}>
-          Discard
+        <Button variant='outlined' color='error' onClick={handleDiscardProduct}>
+          Cancel
         </Button>
 
         <Button variant='contained' onClick={handleaddNews}>

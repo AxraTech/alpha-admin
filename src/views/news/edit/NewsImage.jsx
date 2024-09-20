@@ -41,12 +41,20 @@ const Dropzone = styled(AppReactDropzone)(({ theme }) => ({
 }))
 
 const NewsImage = ({ files, setFiles, newData, isImageChange, setIsImageChange }) => {
+  const [errorMessage, setErrorMessage] = useState('')
   // Hooks
   const { getRootProps, getInputProps } = useDropzone({
     multiple: false,
     onDrop: acceptedFiles => {
       setIsImageChange(true)
-      setFiles(acceptedFiles.map(file => Object.assign(file)))
+      const imageFiles = acceptedFiles.filter(file => file.type.startsWith('image'))
+
+      if (imageFiles.length !== acceptedFiles.length) {
+        setErrorMessage('Only image files are allowed.')
+      } else {
+        setErrorMessage('') // Clear error if only images are dropped
+      }
+      setFiles(imageFiles.map(file => Object.assign(file)))
     }
   })
 
@@ -76,11 +84,11 @@ const NewsImage = ({ files, setFiles, newData, isImageChange, setIsImageChange }
       <Card>
         <CardHeader
           title='Product Image'
-          action={
-            <Typography component={Link} color='primary' className='font-medium'>
-              Add media from URL
-            </Typography>
-          }
+          // action={
+          //   <Typography component={Link} color='primary' className='font-medium'>
+          //     Add media from URL
+          //   </Typography>
+          // }
           sx={{ '& .MuiCardHeader-action': { alignSelf: 'center' } }}
         />
         <CardContent>
@@ -98,6 +106,13 @@ const NewsImage = ({ files, setFiles, newData, isImageChange, setIsImageChange }
             </div>
           </div>
 
+          {/* Show error message if there is one */}
+          {errorMessage && (
+            <Typography color='error' variant='body2'>
+              {errorMessage}
+            </Typography>
+          )}
+
           <List>
             <ListItem className='pis-4 plb-3'>
               <div className='file-details'>
@@ -105,7 +120,7 @@ const NewsImage = ({ files, setFiles, newData, isImageChange, setIsImageChange }
                 <div className='file-preview'>
                   {files.length > 0 ? renderFilePreview(files[0]) : renderFilePreview(null)}
                 </div>
-                {files.length > 0 && (
+                {/* {files.length > 0 && (
                   <div>
                     <Typography className='file-name font-medium' color='text.primary'>
                       {files[0]?.name}
@@ -116,7 +131,7 @@ const NewsImage = ({ files, setFiles, newData, isImageChange, setIsImageChange }
                         : `${(Math.round(files[0].size / 100) / 10).toFixed(1)} kb`}
                     </Typography>
                   </div>
-                )}
+                )} */}
               </div>
               {files.length > 0 && (
                 <IconButton onClick={() => handleRemoveFile(files[0])}>

@@ -32,6 +32,7 @@ const AddCategoryDrawer = props => {
   const { data: adminRoles } = useSuspenseQuery(ADMIN_ROLES)
   // Refs
   const fileInputRef = useRef(null)
+  const [showPassword, setShowPassword] = useState(false)
 
   // Hooks
   const {
@@ -59,6 +60,10 @@ const AddCategoryDrawer = props => {
     setData([...(adminData ?? []), res])
     handleReset()
     setGlobalMsg('➕ Added New Data')
+  }
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword)
   }
 
   // Handle Form Reset
@@ -149,8 +154,8 @@ const AddCategoryDrawer = props => {
               />
               {errors.role && <FormHelperText error>This field is required.</FormHelperText>}
             </FormControl>
-            {/* phone */}
-            <Controller
+            {/* password */}
+            {/* <Controller
               name='password'
               control={control}
               rules={{ required: true }}
@@ -162,6 +167,39 @@ const AddCategoryDrawer = props => {
                   type='password'
                   placeholder=''
                   {...(errors.password && { error: true, helperText: 'This field is required.' })}
+                />
+              )}
+            /> */}
+            <Controller
+              name='password'
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  fullWidth
+                  label='Password'
+                  type={showPassword ? 'text' : 'password'} // Toggle between 'text' and 'password'
+                  placeholder=''
+                  error={Boolean(errors.password)}
+                  helperText={errors.password ? 'This field is required.' : ''}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position='end'>
+                        <IconButton
+                          aria-label='toggle password visibility'
+                          onClick={handleClickShowPassword}
+                          edge='end'
+                        >
+                          {showPassword ? (
+                            <i className='ri-eye-fill text-[22px] text-textSecondary' />
+                          ) : (
+                            <i className=' ri-eye-off-fill text-[22px] text-textSecondary' />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}
                 />
               )}
             />

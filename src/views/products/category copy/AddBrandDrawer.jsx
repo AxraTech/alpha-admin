@@ -30,7 +30,7 @@ const AddBrandDrawer = props => {
 
   // States
   const [fileName, setFileName] = useState('')
-
+  const [fileError, setFileError] = useState('')
   // Refs
   const fileInputRef = useRef(null)
 
@@ -74,14 +74,14 @@ const AddBrandDrawer = props => {
       handleClose()
       handleReset()
     } catch (e) {
-      setGlobalMsg('❌ Add Brand Error')
+      setGlobalMsg('❌ Title Must Be Unique')
       console.log('Add Error ', e)
     }
   }
 
   // Handle Form Reset
   const handleReset = () => {
-    resetForm({})
+    resetForm({ title: '', image_url: '' })
     setFileName('')
   }
   const handleCloseBtn = () => {
@@ -92,7 +92,16 @@ const AddBrandDrawer = props => {
   const handleFileUpload = event => {
     const { files } = event.target
     if (files && files.length !== 0) {
-      setFileName(files)
+      const file = files[0]
+      const fileType = file.type.split('/')[0]
+      if (fileType !== 'image') {
+        setFileError('Please upload a valid image file.')
+        setFileName('')
+      } else {
+        setFileError('')
+        setFileName(files)
+        console.log('Selected file:', files[0]?.name)
+      }
     }
   }
 
@@ -133,7 +142,7 @@ const AddBrandDrawer = props => {
               size='small'
               placeholder='No file chosen'
               variant='outlined'
-              value={fileName[0]?.name}
+              value={fileName ? fileName[0]?.name : ''}
               className='flex-auto'
               InputProps={{
                 readOnly: true,
@@ -151,6 +160,7 @@ const AddBrandDrawer = props => {
               <input hidden id='contained-button-file' type='file' onChange={handleFileUpload} ref={fileInputRef} />
             </Button>
           </div>
+          {fileError && <Typography color='error'>{fileError}</Typography>}
 
           <div className='flex items-center gap-4'>
             <Button variant='contained' type='submit' loading={loading}>

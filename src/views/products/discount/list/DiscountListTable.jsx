@@ -156,7 +156,7 @@ const DiscountListTable = ({ discountDatas, productId }) => {
         )
       }),
 
-      columnHelper.accessor('min_order ', {
+      columnHelper.accessor('min_order', {
         header: 'Minimal Order',
         cell: ({ row }) => (
           <div className='flex items-center gap-3'>
@@ -169,7 +169,7 @@ const DiscountListTable = ({ discountDatas, productId }) => {
           </div>
         )
       }),
-      columnHelper.accessor('customer_type ', {
+      columnHelper.accessor('customer_type', {
         header: 'Customer Type',
         cell: ({ row }) => (
           <div className='flex items-center gap-3'>

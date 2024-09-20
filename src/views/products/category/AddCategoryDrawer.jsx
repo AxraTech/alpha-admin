@@ -31,7 +31,7 @@ const AddCategoryDrawer = props => {
 
   // States
   const [fileName, setFileName] = useState('')
-
+  const [fileError, setFileError] = useState('') // State for file error message
   // Refs
   const fileInputRef = useRef(null)
 
@@ -44,7 +44,7 @@ const AddCategoryDrawer = props => {
   } = useForm({
     defaultValues: {
       title: '',
-      description: ''
+      image_url: ''
     }
   })
 
@@ -55,10 +55,9 @@ const AddCategoryDrawer = props => {
       const fileUploadUrl = await getFileUploadUrl({
         variables: {
           content_type: 'image',
-          folder: 'quotations'
+          folder: 'products'
         }
       })
-
       const uploadedFileUrl = await uploadFile(fileName[0], fileUploadUrl.data.getFileUploadUrl.fileUploadUrl, 'image')
       const res = await addCategory({
         variables: {
@@ -74,24 +73,35 @@ const AddCategoryDrawer = props => {
       setGlobalMsg('➕ Added New Category')
     } catch (e) {
       console.log('Error ', e)
+      setGlobalMsg('❌ Title Must Be Unique')
     }
   }
 
   // Handle Form Reset
   const handleReset = () => {
-    handleClose()
-    resetForm({ title: '', description: '' })
+    // handleClose()
+    resetForm({ title: '', image_url: '' })
     setFileName('')
+    fileInputRef.current.value = ''
   }
 
   // Handle File Upload
   const handleFileUpload = event => {
     const { files } = event.target
     if (files && files.length !== 0) {
-      setFileName(files)
+      const file = files[0]
+      const fileType = file.type.split('/')[0]
+      if (fileType !== 'image') {
+        setFileError('Please upload a valid image file.')
+        setFileName('')
+      } else {
+        setFileError('')
+        setFileName(files)
+        console.log('Selected file:', files[0]?.name)
+      }
     }
   }
-  console.log('rile name ', fileName)
+
   return (
     <>
       <Drawer
@@ -104,7 +114,7 @@ const AddCategoryDrawer = props => {
       >
         <div className='flex items-center justify-between pli-5 plb-4'>
           <Typography variant='h5'>Add Category</Typography>
-          <IconButton size='small' onClick={handleReset}>
+          <IconButton size='small' onClick={handleClose}>
             <i className='ri-close-line text-2xl' />
           </IconButton>
         </div>
@@ -130,7 +140,7 @@ const AddCategoryDrawer = props => {
                 size='small'
                 placeholder='No file chosen'
                 variant='outlined'
-                value={fileName[0]?.name}
+                value={fileName ? fileName[0]?.name : ''}
                 className='flex-auto'
                 InputProps={{
                   readOnly: true,
@@ -148,7 +158,7 @@ const AddCategoryDrawer = props => {
                 <input hidden id='contained-button-file' type='file' onChange={handleFileUpload} ref={fileInputRef} />
               </Button>
             </div>
-
+            {fileError && <Typography color='error'>{fileError}</Typography>}
             <div className='flex items-center gap-4'>
               <Button variant='contained' type='submit' loading={loading}>
                 Add

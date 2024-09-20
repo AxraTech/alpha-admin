@@ -177,6 +177,18 @@ const InvoiceListTable = () => {
           </div>
         )
       }),
+      columnHelper.accessor('user.user_role.role_name', {
+        header: 'User Role',
+        cell: ({ row }) => (
+          <div className='flex items-center gap-3'>
+            <div className='flex flex-col'>
+              <Typography className='font-medium' color='text.primary'>
+                {row.original.user?.user_role?.role_name}
+              </Typography>
+            </div>
+          </div>
+        )
+      }),
       columnHelper.accessor('balance', {
         header: 'Balance',
         cell: ({ row }) => (

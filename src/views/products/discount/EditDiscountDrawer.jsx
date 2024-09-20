@@ -60,6 +60,7 @@ const EditDiscountDrawer = props => {
         discounted_value: discountData.discounted_value,
         customer_type: discountData.customer_type
       })
+      setCustomerType(discountData.customer_type)
     }
   }, [discountData, resetForm])
   // Handle Form Submit
@@ -149,24 +150,25 @@ const EditDiscountDrawer = props => {
                 />
               )}
             />
-
-            <FormControl fullWidth>
-              <InputLabel>Select User Role</InputLabel>
-              <Select
-                label='Select Vendor'
-                value={customerType}
-                onChange={e => setCustomerType(e.target.value)}
-                //     error={errors?.customer_id ? true : false}
-                //     helperText={errors?.customer_id}
-              >
-                {userRoles?.user_roles?.map((brand, index) => (
-                  <MenuItem value={brand?.role_name} key={index}>
-                    {brand?.role_name}
-                  </MenuItem>
-                ))}
-              </Select>
-              <FormHelperText sx={{ color: 'red' }}>{errors?.role_name}</FormHelperText>
-            </FormControl>
+            {customerType && (
+              <FormControl fullWidth>
+                <InputLabel>Select User Role</InputLabel>
+                <Select
+                  label='Select Vendor'
+                  value={customerType}
+                  onChange={e => setCustomerType(e.target.value)}
+                  //     error={errors?.customer_id ? true : false}
+                  //     helperText={errors?.customer_id}
+                >
+                  {userRoles?.user_roles?.map((brand, index) => (
+                    <MenuItem value={brand?.role_name} key={index}>
+                      {brand?.role_name}
+                    </MenuItem>
+                  ))}
+                </Select>
+                <FormHelperText sx={{ color: 'red' }}>{errors?.role_name}</FormHelperText>
+              </FormControl>
+            )}
             {/* <div className='flex items-center gap-4'>
               <TextField
                 size='small'

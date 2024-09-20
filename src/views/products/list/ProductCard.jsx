@@ -15,37 +15,6 @@ import classnames from 'classnames'
 // Component Imports
 import CustomAvatar from '@core/components/mui/Avatar'
 
-// Vars
-const data = [
-  {
-    title: 'In-Store Sales',
-    value: '$5,345',
-    icon: 'ri-home-6-line',
-    desc: '5k',
-    change: 5.7
-  },
-  {
-    title: 'Website Sales',
-    value: '$74,347',
-    icon: 'ri-computer-line',
-    desc: '21k',
-    change: 12.4
-  },
-  {
-    title: 'Discount',
-    value: '$14,235',
-    icon: 'ri-gift-line',
-    desc: '6k'
-  },
-  {
-    title: 'Affiliate',
-    value: '$8,345',
-    icon: 'ri-money-dollar-circle-line',
-    desc: '150',
-    change: -3.5
-  }
-]
-
 const ProductCard = ({ count, title }) => {
   // Hooks
   const isBelowMdScreen = useMediaQuery(theme => theme.breakpoints.down('md'))

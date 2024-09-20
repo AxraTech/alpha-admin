@@ -37,7 +37,7 @@ const OrderDetailHeader = ({ serviceData }) => {
   const [deleteOrder] = useMutation(DELETE_ORDERS)
   const [status, setStatus] = useState()
   const [acceptStatus, setAcceptStatus] = useState()
-  const [changeOrderStatus] = useMutation(CHANGE_SERVICE_STATUS, { refetchQueries: [SERVICE_TOKEN_BY_ID] })
+  const [changeServiceStatus] = useMutation(CHANGE_SERVICE_STATUS, { refetchQueries: [SERVICE_TOKEN_BY_ID] })
   const { data: serviceStatus } = useSuspenseQuery(SERVICE_STATUS)
   const [rejectService] = useMutation(REJECT_SERVICE_TOKEN, { refetchQueries: [SERVICE_TOKEN_BY_ID] })
   const buttonProps = (children, color, variant) => ({
@@ -46,9 +46,9 @@ const OrderDetailHeader = ({ serviceData }) => {
     variant
   })
 
-  const handleChangeOrderStatus = async (id, status, dateObj) => {
+  const handleChangeServiceStatus = async (id, status, dateObj) => {
     try {
-      const result = await changeOrderStatus({
+      const result = await changeServiceStatus({
         variables: {
           data: {
             ...status,
@@ -85,47 +85,52 @@ const OrderDetailHeader = ({ serviceData }) => {
           </div>
           {/* <Typography>{`${new Date(serviceData?.created_at ?? '').toLocaleString()}`}</Typography> */}
         </div>
-        {console.log('set tus ', serviceData.status)}
-        {(status === 'accept' || serviceData.status === 'picking up') && serviceData.status !== 'rejected' && (
-          <>
-            <div className='flex gap-4'>
-              <Button
-                variant='outlined'
-                color='success'
-                onClick={() => {
-                  handleChangeOrderStatus(serviceData?.id, { status: 'completed' }, { completed_at: new Date() })
-                  setGlobalMsg('✅ Changed status')
-                  setStatus('accept')
-                }}
-              >
-                Complete
-              </Button>
-              {/* <Button
+
+        {(status === 'accept' ||
+          serviceData.status === 'picking up' ||
+          serviceData.status === 'processing' ||
+          serviceData.status === 'delivering') &&
+          serviceData.status !== 'rejected' &&
+          serviceData.status !== 'completed' && (
+            <>
+              <div className='flex gap-4'>
+                <Button
+                  variant='outlined'
+                  color='success'
+                  onClick={async () => {
+                    await changeServiceStatus({ variables: { status: 'completed', service_token_id: serviceData.id } })
+                    setGlobalMsg('✅ Changed status')
+                    setStatus('accept')
+                  }}
+                >
+                  Complete
+                </Button>
+                {/* <Button
             variant='outlined'
             color='error'
             onClick={async () => {
-              await changeOrderStatus({ variables: { status: 'canceled', service_token_id: serviceData.id } })
+              await changeServiceStatus({ variables: { status: 'canceled', service_token_id: serviceData.id } })
               setGlobalMsg('✅ Changed status')
             }}
           >
             Cancel
           </Button> */}
-              <Button
-                variant='outlined'
-                color='primary'
-                onClick={async () => {
-                  await changeOrderStatus({ variables: { status: 'delivering', service_token_id: serviceData.id } })
-                  setGlobalMsg('✅ Changed status')
-                  setStatus('accept')
-                }}
-              >
-                Delivering
-              </Button>
-              {/* <Button
+                <Button
+                  variant='outlined'
+                  color='primary'
+                  onClick={async () => {
+                    await changeServiceStatus({ variables: { status: 'delivering', service_token_id: serviceData.id } })
+                    setGlobalMsg('✅ Changed status')
+                    setStatus('accept')
+                  }}
+                >
+                  Delivering
+                </Button>
+                {/* <Button
             variant='outlined'
             color='info'
             onClick={async () => {
-              await changeOrderStatus({ variables: { status: 'awaiting delivery', service_token_id: serviceData.id } })
+              await changeServiceStatus({ variables: { status: 'awaiting delivery', service_token_id: serviceData.id } })
               setGlobalMsg('✅ Changed status')
             }}
           >
@@ -135,26 +140,26 @@ const OrderDetailHeader = ({ serviceData }) => {
             variant='outlined'
             color='primary'
             onClick={async () => {
-              await changeOrderStatus({ variables: { status: 'picking up', service_token_id: serviceData.id } })
+              await changeServiceStatus({ variables: { status: 'picking up', service_token_id: serviceData.id } })
               setGlobalMsg('✅ Changed status')
             }}
           >
             Picking Up
           </Button> */}
-              <Button
-                variant='outlined'
-                color='warning'
-                onClick={async () => {
-                  await changeOrderStatus({ variables: { status: 'processing', service_token_id: serviceData.id } })
-                  setGlobalMsg('✅ Changed status')
-                  setStatus('accept')
-                }}
-              >
-                Processing
-              </Button>
-            </div>
-          </>
-        )}
+                <Button
+                  variant='outlined'
+                  color='warning'
+                  onClick={async () => {
+                    await changeServiceStatus({ variables: { status: 'processing', service_token_id: serviceData.id } })
+                    setGlobalMsg('✅ Changed status')
+                    setStatus('accept')
+                  }}
+                >
+                  Processing
+                </Button>
+              </div>
+            </>
+          )}
 
         <div className='flex gap-5'>
           <Button variant='outlined' className='text-success' onClick={() => setEditServicerOpen(!editServicerOpen)}>
@@ -231,7 +236,7 @@ const OrderDetailHeader = ({ serviceData }) => {
         serviceData={serviceData}
         serivceStatus={serviceStatus}
         setStatus={setStatus}
-        setAcceptStatus={setAcceptStatus}
+
         // setData={setData}
       />
     </>

@@ -33,6 +33,7 @@ const EditCategoryDrawer = props => {
   // States
   const [fileName, setFileName] = useState()
   const [filePreview, setFilePreview] = useState()
+  const [fileError, setFileError] = useState('')
   // Refs
   const fileInputRef = useRef(null)
 
@@ -98,15 +99,32 @@ const EditCategoryDrawer = props => {
     handleClose()
     resetForm({ title: '', description: '' })
     setFileName('')
+    setFileError('')
   }
 
   // Handle File Upload
   const handleFileUpload = event => {
+    // const { files } = event.target
+    // if (files && files.length > 0) {
+    //   const selectedFile = files[0]
+    //   setFileName(selectedFile)
+    //   setFilePreview(URL.createObjectURL(selectedFile))
+    // }
     const { files } = event.target
     if (files && files.length > 0) {
       const selectedFile = files[0]
-      setFileName(selectedFile)
-      setFilePreview(URL.createObjectURL(selectedFile))
+      const validImageTypes = ['image/jpeg', 'image/png'] // Allowed image types
+
+      if (!validImageTypes.includes(selectedFile.type)) {
+        setFileError('Invalid file type. Please select an image (JPEG, PNG, GIF).')
+        setFileName(null)
+        setFilePreview(null)
+        fileInputRef.current.value = null // Clear file input
+      } else {
+        setFileError('') // Clear error if valid image type
+        setFileName(selectedFile)
+        setFilePreview(URL.createObjectURL(selectedFile))
+      }
     }
   }
 
@@ -183,6 +201,11 @@ const EditCategoryDrawer = props => {
                 ref={fileInputRef}
               />
             </div>
+            {fileError && ( // Display error message if file type is invalid
+              <Typography color='error' variant='body2'>
+                {fileError}
+              </Typography>
+            )}
             {filePreview && (
               <div className='mt-4'>
                 <img src={filePreview} alt='Preview' style={{ width: '100%', borderRadius: '4px' }} />

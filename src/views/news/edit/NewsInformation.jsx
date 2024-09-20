@@ -23,6 +23,7 @@ import CustomIconButton from '@core/components/mui/IconButton'
 // Style Imports
 import '@/libs/styles/tiptapEditor.css'
 import { setNonce } from 'react-colorful'
+import { useEffect } from 'react'
 
 const EditorToolbar = ({ editor }) => {
   if (!editor) {
@@ -63,6 +64,17 @@ const EditorToolbar = ({ editor }) => {
       >
         <i className={classnames('ri-strikethrough', { 'text-textSecondary': !editor.isActive('strike') })} />
       </CustomIconButton>
+
+      {/* Bullet List Button */}
+      <CustomIconButton
+        {...(editor.isActive('bulletList') && { color: 'primary' })}
+        variant='outlined'
+        size='small'
+        onClick={() => editor.chain().focus().toggleBulletList().run()}
+      >
+        <i className={classnames('ri-list-unordered', { 'text-textSecondary': !editor.isActive('bulletList') })} />
+      </CustomIconButton>
+
       <CustomIconButton
         {...(editor.isActive({ textAlign: 'left' }) && { color: 'primary' })}
         variant='outlined'
@@ -123,11 +135,18 @@ const NewsInformation = ({ setTitle, title, setDescription, description, errors 
       }),
       Underline
     ],
-    content: description, // Use the initial description state
+    content: description,
     onUpdate: ({ editor }) => {
-      setDescription(editor.getHTML()) // Update state when content changes
+      setDescription(editor.getHTML())
     }
   })
+
+  // Update editor content when `description` changes
+  useEffect(() => {
+    if (editor && description !== editor.getHTML()) {
+      editor.commands.setContent(description || '')
+    }
+  }, [description, editor])
 
   return (
     <Card>
@@ -151,10 +170,11 @@ const NewsInformation = ({ setTitle, title, setDescription, description, errors 
           <CardContent className='p-0'>
             <EditorToolbar editor={editor} />
             <Divider className='mli-5' />
+
             <EditorContent
               editor={editor}
               className='bs-[135px] overflow-y-auto flex '
-              value={description}
+              // value={description}
               onChange={e => setDescription(e.target.value)}
             />
           </CardContent>

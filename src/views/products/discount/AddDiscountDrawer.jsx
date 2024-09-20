@@ -28,11 +28,11 @@ const AddDiscountDrawer = props => {
   const { open, handleClose, data, productId, loading, setLoading, setData } = props
   const [addDiscount] = useMutation(ADD_DISCOUNT)
 
-  const [customerType, setCustomerType] = useState()
+  const [customerType, setCustomerType] = useState('')
   const { data: userRoles } = useSuspenseQuery(USER_ROLES)
   // States
-  const [fileName, setFileName] = useState('')
-
+  const [fileName, setFileName] = useState(null)
+  const [customerTypeError, setCustomerTypeError] = useState(false)
   // Refs
   const fileInputRef = useRef(null)
 
@@ -43,11 +43,20 @@ const AddDiscountDrawer = props => {
     handleSubmit,
     formState: { errors }
   } = useForm({
-    defaultValues: {}
+    defaultValues: {
+      min_order: '',
+      customer_type: '',
+      discounted_value: '',
+      product_id: ''
+    }
   })
 
   // Handle Form Submit
   const handleFormSubmit = async datas => {
+    if (!customerType) {
+      setCustomerTypeError(true)
+      return
+    }
     try {
       setLoading(true)
 
@@ -61,20 +70,19 @@ const AddDiscountDrawer = props => {
           }
         }
       })
-      console.log('res ', res)
+
       setLoading(false)
-      resetForm({})
+      resetForm({
+        min_order: '',
+        customer_type: '',
+        discounted_value: '',
+        product_id: ''
+      })
       setData([...data, res.data.insert_product_discounts_one])
-      //setData(res.data.insert_product_discounts_one)
-      // setData(prevData => [...(Array.isArray(prevData) ? prevData : [prevData]), res.data.insert_product_discounts_one])
-
-      // setData(prevData =>
-      //   prevData.map(item =>
-      //     item.id === discountData?.id ? { ...item, ...res.data.insert_product_discounts_one } : item
-      //   )
-      // )
-
+      setCustomerType('')
       handleReset()
+      handleClose()
+
       setGlobalMsg('➕ Added New Product Discount')
     } catch (e) {
       console.log('Error ', e)
@@ -83,9 +91,9 @@ const AddDiscountDrawer = props => {
 
   // Handle Form Reset
   const handleReset = () => {
-    handleClose()
-    resetForm({ title: '', description: '' })
+    resetForm({ min_order: '', customer_type: '', discounted_value: '', product_id: '' })
     setFileName('')
+    setCustomerType('')
   }
 
   // Handle File Upload
@@ -103,13 +111,13 @@ const AddDiscountDrawer = props => {
         open={open}
         anchor='right'
         variant='temporary'
-        onClose={handleReset}
+        onClose={handleClose}
         ModalProps={{ keepMounted: true }}
         sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
       >
         <div className='flex items-center justify-between pli-5 plb-4'>
           <Typography variant='h5'>Add Discount</Typography>
-          <IconButton size='small' onClick={handleReset}>
+          <IconButton size='small' onClick={handleClose}>
             <i className='ri-close-line text-2xl' />
           </IconButton>
         </div>
@@ -152,10 +160,8 @@ const AddDiscountDrawer = props => {
               <InputLabel>Select User Role</InputLabel>
               <Select
                 label='Select Vendor'
-                value={customerType}
+                value={customerType ? customerType : ''}
                 onChange={e => setCustomerType(e.target.value)}
-                //     error={errors?.customer_id ? true : false}
-                //     helperText={errors?.customer_id}
               >
                 {userRoles?.user_roles?.map((brand, index) => (
                   <MenuItem value={brand?.role_name} key={index}>
@@ -163,7 +169,8 @@ const AddDiscountDrawer = props => {
                   </MenuItem>
                 ))}
               </Select>
-              <FormHelperText sx={{ color: 'red' }}>{errors?.role_name}</FormHelperText>
+
+              {customerTypeError && <FormHelperText sx={{ color: 'red' }}>Please select a user role.</FormHelperText>}
             </FormControl>
             {/* <div className='flex items-center gap-4'>
               <TextField

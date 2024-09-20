@@ -28,11 +28,11 @@ const TableFilters = ({ setData, productData }) => {
   useEffect(
     () => {
       const filteredData = productData?.filter(product => {
-        if (category && product.product_category.title !== category) return false
+        if (category && product?.product_category?.title !== category) return false
 
         if (stock && product.stock !== productStockObj[stock]) return false
         // if (status && product.disabled !== status) return false
-        if (status !== '' && product.disabled !== (status === 'false')) return false
+        if (status !== '' && product?.disabled !== (status === 'false')) return false
         return true
       })
 
@@ -74,9 +74,9 @@ const TableFilters = ({ setData, productData }) => {
               labelId='category-select'
             >
               <MenuItem value=''>Select Category</MenuItem>
-              {catProducts.product_categories.map(cats => (
-                <MenuItem value={cats.title} key={cats.id}>
-                  {cats.title}
+              {catProducts?.product_categories?.map(cats => (
+                <MenuItem value={cats?.title} key={cats.id}>
+                  {cats?.title}
                 </MenuItem>
               ))}
             </Select>

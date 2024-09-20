@@ -63,6 +63,17 @@ const EditorToolbar = ({ editor }) => {
       >
         <i className={classnames('ri-strikethrough', { 'text-textSecondary': !editor.isActive('strike') })} />
       </CustomIconButton>
+
+      {/* Bullet List Button */}
+      <CustomIconButton
+        {...(editor.isActive('bulletList') && { color: 'primary' })}
+        variant='outlined'
+        size='small'
+        onClick={() => editor.chain().focus().toggleBulletList().run()}
+      >
+        <i className={classnames('ri-list-unordered', { 'text-textSecondary': !editor.isActive('bulletList') })} />
+      </CustomIconButton>
+
       <CustomIconButton
         {...(editor.isActive({ textAlign: 'left' }) && { color: 'primary' })}
         variant='outlined'
@@ -123,9 +134,9 @@ const NewsInformation = ({ setTitle, title, setDescription, description, errors 
       }),
       Underline
     ],
-    content: description, // Use the initial description state
+    content: description,
     onUpdate: ({ editor }) => {
-      setDescription(editor.getHTML()) // Update state when content changes
+      setDescription(editor.getHTML())
     }
   })
 

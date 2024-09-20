@@ -79,6 +79,10 @@ const EditNewCategoryDrawer = props => {
     setFileName('')
   }
 
+  const handleCancel = () => {
+    handleClose()
+  }
+
   // Handle File Upload
   const handleFileUpload = event => {
     const { files } = event.target
@@ -149,8 +153,8 @@ const EditNewCategoryDrawer = props => {
               <Button variant='contained' type='submit'>
                 Update
               </Button>
-              <Button variant='outlined' color='error' type='reset' onClick={handleReset}>
-                Discard
+              <Button variant='outlined' color='error' type='reset' onClick={handleCancel}>
+                Cancel
               </Button>
             </div>
           </form>

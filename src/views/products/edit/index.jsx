@@ -32,6 +32,7 @@ const ProductEditDetails = () => {
   const [catId, setCatId] = useState()
   const [price, setPrice] = useState()
   const [sNo, setSNo] = useState()
+  const [isImageChange, setIsImageChange] = useState(false)
   const [errors, setErrors] = useState()
   const [productMedia, setProductMedia] = useState([])
   // const [addProduct] = useMutation(ADD_PRODUCT)

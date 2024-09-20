@@ -13,7 +13,6 @@ import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material/styles'
-import { uploadFile } from '@/utils/helper'
 
 // Third-party Imports
 import { useDropzone } from 'react-dropzone'
@@ -24,7 +23,11 @@ import CustomAvatar from '@core/components/mui/Avatar'
 
 // Styled Component Imports
 import AppReactDropzone from '@/libs/styles/AppReactDropzone'
-
+import { useMutation } from '@apollo/client'
+import { DELETE_PRODUCT_IMAGE, IMGAE_UPLOAD, PRODUCT_IMAGE_UPLOAD } from '@/graphql/mutations'
+import { uploadFile } from '@/utils/helper'
+import { useApp } from '@/app/ApolloWrapper'
+import Alert from '@/components/helper/Alert'
 // Styled Dropzone Component
 const Dropzone = styled(AppReactDropzone)(({ theme }) => ({
   '& .dropzone': {
@@ -43,22 +46,37 @@ const ProductImage = ({ files, setFiles, productData }) => {
   // States
 
   const [productMedia, setProductMedia] = useState([])
+  const [errorMessage, setErrorMessage] = useState('')
+  const [isImageChange, setIsImageChange] = useState(false)
+  const [deleteImage] = useMutation(DELETE_PRODUCT_IMAGE)
+  const [imageUpload] = useMutation(PRODUCT_IMAGE_UPLOAD)
+  const [getFileUploadUrl] = useMutation(IMGAE_UPLOAD)
+  const { setGlobalMsg } = useApp()
   // Hooks
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: acceptedFiles => {
+      setIsImageChange(true)
+      const imageFiles = acceptedFiles.filter(file => file.type.startsWith('image'))
+
+      if (imageFiles.length !== acceptedFiles.length) {
+        setErrorMessage('Only image files are allowed.')
+      } else {
+        setErrorMessage('') // Clear error if only images are dropped
+      }
       setFiles(prevFiles => [
         ...prevFiles,
-        ...acceptedFiles.map(file => Object.assign(file, { preview: URL.createObjectURL(file) }))
+        ...acceptedFiles?.map(file => Object.assign(file, { preview: URL.createObjectURL(file) }))
       ])
-      // setFiles(acceptedFiles.map(file => Object.assign(file)))
     }
+
+    // setFiles(acceptedFiles.map(file => Object.assign(file)))
   })
 
   useEffect(() => {
     if (productData?.product_medias) {
-      const initialFiles = productData.product_medias.map(image => ({
-        media_url: image.media_url,
-        id: image.id,
+      const initialFiles = productData?.product_medias?.map(image => ({
+        media_url: image?.media_url,
+        id: image?.id,
         type: 'image',
         name: 'image'
       }))
@@ -68,8 +86,8 @@ const ProductImage = ({ files, setFiles, productData }) => {
   }, [productData])
 
   const renderFilePreview = file => {
-    if (file.media_url) {
-      return <img width={38} height={38} alt={file.name} src={file.media_url} />
+    if (file?.media_url) {
+      return <img width={38} height={38} alt={file?.name} src={file.media_url} />
     }
     if (file.type.startsWith('image')) {
       return <img width={38} height={38} alt={file.name} src={URL.createObjectURL(file)} />
@@ -78,26 +96,51 @@ const ProductImage = ({ files, setFiles, productData }) => {
     }
   }
 
-  const handleRemoveFile = file => {
-    const uploadedFiles = files
-    const filtered = uploadedFiles.filter(i => i.name !== file.name)
-    setFiles([...filtered])
+  const handleImageUpdate = async () => {
+    try {
+      if (isImageChange) {
+        const newFiles = files?.filter(file => !file.id)
+        newFiles?.map(async file => {
+          const fileUploadUrl = await getFileUploadUrl({
+            variables: {
+              content_type: 'image',
+              folder: 'products'
+            }
+          })
+          const uploadedFileUrl = await uploadFile(file, fileUploadUrl.data.getFileUploadUrl.fileUploadUrl, 'image')
+          imageUpload({
+            variables: {
+              data: {
+                product_id: productData?.id,
+                media_type: 'image',
+                media_url: uploadedFileUrl
+              }
+            }
+          })
+        })
+      }
+      setGlobalMsg('✅ Image Uploaded')
+    } catch (e) {
+      console.log('Image Upload error ', e)
+    }
+  }
+  const handleRemoveFile = async file => {
+    if (!isImageChange) {
+      !isImageChange && (await deleteImage({ variables: { id: file?.id } }))
+      const uploadedFiles = files
+      const filtered = uploadedFiles.filter(i => i.id !== file.id)
+      setFiles([...filtered])
+    } else {
+      const uploadedFiles = files
+      const filtered = uploadedFiles.filter(i => i.name !== file.name)
+      setFiles([...filtered])
+    }
   }
 
-  const fileList = files.map(file => (
-    <ListItem key={file.name} className='pis-4 plb-3'>
+  const fileList = files?.map(file => (
+    <ListItem key={file?.id} className='pis-4 plb-3'>
       <div className='file-details'>
         <div className='file-preview'>{renderFilePreview(file)}</div>
-        <div>
-          <Typography className='file-name font-medium' color='text.primary'>
-            {file.name}
-          </Typography>
-          <Typography className='file-size' variant='body2'>
-            {Math.round(file.size / 100) / 10 > 1000
-              ? `${(Math.round(file.size / 100) / 10000).toFixed(1)} mb`
-              : `${(Math.round(file.size / 100) / 10).toFixed(1)} kb`}
-          </Typography>
-        </div>
       </div>
       <IconButton onClick={() => handleRemoveFile(file)}>
         <i className='ri-close-line text-xl' />
@@ -122,45 +165,45 @@ const ProductImage = ({ files, setFiles, productData }) => {
   }
 
   return (
-    <Dropzone>
-      <Card>
-        <CardHeader
-          title='Product Image'
-          action={
-            <Typography component={Link} color='primary' className='font-medium'>
-              Add media from URL
-            </Typography>
-          }
-          sx={{ '& .MuiCardHeader-action': { alignSelf: 'center' } }}
-        />
-        <CardContent>
-          <div {...getRootProps({ className: 'dropzone' })}>
-            <input {...getInputProps()} />
-            <div className='flex items-center flex-col gap-2 text-center'>
-              <CustomAvatar variant='rounded' skin='light' color='secondary'>
-                <i className='ri-upload-2-line' />
-              </CustomAvatar>
-              <Typography variant='h4'>Drag and Drop Your Image Here.</Typography>
-              <Typography color='text.disabled'>or</Typography>
-              <Button variant='outlined' size='small'>
-                Browse Image
-              </Button>
-            </div>
-          </div>
-          {files.length ? (
-            <>
-              <List>{fileList}</List>
-              <div className='buttons'>
-                <Button color='error' variant='outlined' onClick={handleRemoveAllFiles}>
-                  Remove All
+    <>
+      <Dropzone>
+        <Card>
+          <CardHeader title='Product Image' sx={{ '& .MuiCardHeader-action': { alignSelf: 'center' } }} />
+          <CardContent>
+            <div {...getRootProps({ className: 'dropzone' })}>
+              <input {...getInputProps()} />
+              <div className='flex items-center flex-col gap-2 text-center'>
+                <CustomAvatar variant='rounded' skin='light' color='secondary'>
+                  <i className='ri-upload-2-line' />
+                </CustomAvatar>
+                <Typography variant='h4'>Drag and Drop Your Image Here.</Typography>
+                <Typography color='text.disabled'>or</Typography>
+                <Button variant='outlined' size='small'>
+                  Browse Image
                 </Button>
-                {/* <Button variant='contained'>Upload Files</Button> */}
               </div>
-            </>
-          ) : null}
-        </CardContent>
-      </Card>
-    </Dropzone>
+            </div>
+            {errorMessage && (
+              <Typography color='error' variant='body2'>
+                {errorMessage}
+              </Typography>
+            )}
+            {files?.length ? (
+              <>
+                <List>{fileList}</List>
+                <div className='buttons'>
+                  <Button color='primary' variant='contained' onClick={handleImageUpdate}>
+                    Image Update
+                  </Button>
+                  {/* <Button variant='contained'>Upload Files</Button> */}
+                </div>
+              </>
+            ) : null}
+          </CardContent>
+        </Card>
+      </Dropzone>
+      <Alert />
+    </>
   )
 }
 

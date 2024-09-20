@@ -71,7 +71,7 @@ const PreviewCard = ({ quotationData }) => {
                   <div className='flex flex-col gap-1'>
                     <Typography color='text.primary'>Quotation Number : {quotationData?.quotation_number}</Typography>
                     <Typography color='text.primary'>
-                      Date Due : {new Date(quotationData?.updated_at).toLocaleDateString()}
+                      Due Date : {new Date(quotationData?.updated_at).toLocaleDateString()}
                     </Typography>
                   </div>
                 </div>

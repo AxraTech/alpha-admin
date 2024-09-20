@@ -16,12 +16,12 @@ const index = () => {
       <Grid item xs={12} sm={6} md={3}>
         <NewPostCard count={newsAggregate.categoryNews.aggregate.count} title='Category' />
       </Grid>
-      <Grid item xs={12} sm={6} md={3}>
+      {/* <Grid item xs={12} sm={6} md={3}>
         <NewPostCard count={newsAggregate.disableNews.aggregate.count} title='Disable' />
-      </Grid>
-      <Grid item xs={12} sm={6} md={3}>
+      </Grid> */}
+      {/* <Grid item xs={12} sm={6} md={3}>
         <NewPostCard count={newsAggregate.activeNews.aggregate.count} title='Active' />
-      </Grid>
+      </Grid> */}
       <Grid item xs={12}>
         <NewListTable />
       </Grid>

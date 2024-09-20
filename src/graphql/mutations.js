@@ -46,6 +46,7 @@ export const ADD_PRODUCT = gql`
     $category_id: uuid!
     $serial_number: String!
     $price: numeric!
+    $product_medias: product_medias_arr_rel_insert_input!
   ) {
     insert_products_one(
       object: {
@@ -55,6 +56,7 @@ export const ADD_PRODUCT = gql`
         category_id: $category_id
         serial_number: $serial_number
         price: $price
+        product_medias: $product_medias
       }
     ) {
       id
@@ -277,10 +279,9 @@ export const CHANGE_QUOTATION_STATUS = gql`
   }
 `
 export const CHANGE_INVOICE_STATUS = gql`
-  mutation changeInvoiceStatus($id: uuid!, $data: invoices_set_input!) {
-    update_invoices_by_pk(pk_columns: { id: $id }, _set: $data) {
-      id
-      status
+  mutation updateInvoiceStatus($invoice_id: uuid!, $status: String!) {
+    updateInvoiceStatus(invoice_id: $invoice_id, status: $status) {
+      message
     }
   }
 `

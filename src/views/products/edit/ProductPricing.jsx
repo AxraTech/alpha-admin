@@ -17,7 +17,7 @@ import { useEffect } from 'react'
 const ProductPricing = ({ price, setPrice, errors, productData }) => {
   useEffect(() => {
     if (productData) {
-      setPrice(productData.price)
+      setPrice(productData?.price)
     }
   }, [productData])
   return (

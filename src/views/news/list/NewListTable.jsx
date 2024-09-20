@@ -133,10 +133,10 @@ const NewListTable = () => {
   const temp = filteredData.map(item => ({
     ...item,
     product_title: item.title,
-    title: item.news_category.title,
-    disabled: item.disabled === true ? 'Disable' : 'Enable',
-    created_at: new Date(item.created_at).toLocaleString(),
-    updated_at: new Date(item.updated_at).toLocaleString()
+    title: item?.news_category?.title,
+    // disabled: item.disabled === true ? 'Disable' : 'Enable',
+    created_at: new Date(item.created_at)?.toLocaleString(),
+    updated_at: new Date(item.updated_at)?.toLocaleString()
   }))
   const handleDelete = async id => {
     try {
@@ -258,7 +258,7 @@ const NewListTable = () => {
           <DebouncedInput
             value={globalFilter ?? ''}
             onChange={value => setGlobalFilter(String(value))}
-            placeholder='Search Product'
+            placeholder='Search News'
             className='max-sm:is-full'
           />
           <div className='flex items-center max-sm:flex-col gap-4 max-sm:is-full is-auto'>
