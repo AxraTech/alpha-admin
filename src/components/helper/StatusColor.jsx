@@ -11,7 +11,8 @@ export const quotationstatusChipColor = {
   pending: 'warning',
   completed: 'success',
   accepted: 'info',
-  rejected: 'error'
+  rejected: 'error',
+  negotiation: 'primary'
 }
 
 export const orderStatusColor = {

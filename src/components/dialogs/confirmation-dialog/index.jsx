@@ -205,7 +205,7 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData }) => {
       </Dialog>
 
       {/* Delete Account Dialog */}
-      <Dialog open={secondDialog} onClose={handleSecondDialogClose}>
+      {/* <Dialog open={secondDialog} onClose={handleSecondDialogClose}>
         <DialogContent className='flex items-center flex-col text-center sm:pbs-16 sm:pbe-6 sm:pli-16'>
           <i
             className={classnames('text-[88px] mbe-6', {
@@ -257,7 +257,7 @@ const ConfirmationDialog = ({ open, setOpen, type, dataId, data, setData }) => {
             Ok
           </Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
     </>
   )
 }
