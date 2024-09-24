@@ -220,9 +220,9 @@ const SendInvoiceNewDrawer = ({ open, handleClose, invoiceData }) => {
 
       const uploadedFileUrl = await uploadFile(file[0], fileUploadUrl.data.getFileUploadUrl.fileUploadUrl, 'image')
       const res = await sendInvoice({
-        variables: { quotation_id: invoiceData.id, invoice_file_url: uploadedFileUrl }
+        variables: { id: invoiceData.id, invoice_file_url: uploadedFileUrl }
       })
-      console.log('res ', res)
+
       setFile('')
       setGlobalMsg('✅ Send Invoice file suceessful')
       setLoading(false)
@@ -233,9 +233,8 @@ const SendInvoiceNewDrawer = ({ open, handleClose, invoiceData }) => {
 
   // Handle File Upload
   const handleFileUpload = event => {
-    console.log('---------------------------------------------')
     const { files } = event.target
-    console.log('files---------- ', files)
+
     if (files && files.length !== 0) {
       if (files[0].type !== 'application/pdf') {
         setErrorMsg('Invalid file type. Please upload a PDF.')

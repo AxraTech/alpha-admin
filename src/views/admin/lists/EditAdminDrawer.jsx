@@ -77,7 +77,6 @@ const EditAdminDrawer = props => {
   // Handle Form Reset
   const handleReset = () => {
     handleClose()
-    resetForm({ title: '', description: '' })
   }
 
   return (
@@ -174,8 +173,8 @@ const EditAdminDrawer = props => {
               <Button variant='contained' type='submit'>
                 Update
               </Button>
-              <Button variant='outlined' color='error' type='reset' onClick={handleReset}>
-                Discard
+              <Button variant='outlined' color='error' type='reset' onClick={handleClose}>
+                Cancel
               </Button>
             </div>
           </form>
