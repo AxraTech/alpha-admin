@@ -25,7 +25,6 @@ const ProductOrganize = ({ status, setStatus, brandId, setBrandId, catId, setCat
 
   useEffect(() => {
     if (productData) {
-      setBrandId(productData.brand.id)
       const selectedCategory = cats?.product_categories.find(cat => cat.id === productData.product_category.id)
       setCatId(selectedCategory || null)
     }
@@ -66,8 +65,8 @@ const ProductOrganize = ({ status, setStatus, brandId, setBrandId, catId, setCat
               //   }
               // }}
               value={catId}
-              onChange={(event, newValue) => {
-                setCatId(newValue || null) // Set the selected object or null
+              onChange={(_event, newValue) => {
+                setCatId(newValue?.id || null) // Set the selected object or null
               }}
               className='overflow-y-auto h-[40vh]'
               id='checkboxes-tags-demo'

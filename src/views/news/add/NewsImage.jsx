@@ -25,6 +25,7 @@ import CustomAvatar from '@core/components/mui/Avatar'
 import AppReactDropzone from '@/libs/styles/AppReactDropzone'
 import { useMutation } from '@apollo/client'
 import { IMGAE_UPLOAD } from '@/graphql/mutations'
+import { FormHelperText } from '@mui/material'
 
 // Styled Dropzone Component
 const Dropzone = styled(AppReactDropzone)(({ theme }) => ({
@@ -40,9 +41,9 @@ const Dropzone = styled(AppReactDropzone)(({ theme }) => ({
   }
 }))
 
-const NewImage = ({ files, setFiles }) => {
+const NewImage = ({ files, setFiles, errors }) => {
   const [errorMessage, setErrorMessage] = useState('')
-
+  console.log('errors ', errors)
   // Hooks
   const { getRootProps, getInputProps } = useDropzone({
     multiple: true,
@@ -59,7 +60,6 @@ const NewImage = ({ files, setFiles }) => {
   })
 
   const renderFilePreview = file => {
-    console.log('file ', file)
     if (file.type.startsWith('image')) {
       return <img width={38} height={38} alt={file.name} src={URL.createObjectURL(file)} />
     } else {
@@ -132,14 +132,15 @@ const NewImage = ({ files, setFiles }) => {
               {errorMessage}
             </Typography>
           )}
+          {errors && <FormHelperText className='text-error'>{errors.image}</FormHelperText>}
 
           {files.length ? (
             <>
               <List>{fileList}</List>
               <div className='buttons'>
-                <Button color='error' variant='outlined' onClick={handleRemoveAllFiles}>
+                {/* <Button color='error' variant='outlined' onClick={handleRemoveAllFiles}>
                   Remove All
-                </Button>
+                </Button> */}
                 {/* <Button variant='contained'>Upload Files</Button> */}
               </div>
             </>

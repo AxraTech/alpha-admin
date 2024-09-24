@@ -41,20 +41,24 @@ const eCommerceProductsAdd = () => {
     let errObj = {}
     let isErrExit = false
     if (!title) {
-      errObj.title = 'Title field is required'
+      errObj.title = 'This field is required'
       isErrExit = true
     }
-    // if (!description) {
-    //   errObj.description = 'Body field is required'
-    //   isErrExit = true
-    // }
+    if (!description) {
+      errObj.description = 'This field is required'
+      isErrExit = true
+    }
 
     if (!catId) {
-      errObj.catId = 'Category field is required'
+      errObj.catId = 'This field is required'
       isErrExit = true
     }
-    if (!productId) {
-      errObj.productId = 'Product field is required'
+    if (productId.length === 0) {
+      errObj.productId = 'This field is required'
+      isErrExit = true
+    }
+    if (image.length === 0) {
+      errObj.image = 'This field is required'
       isErrExit = true
     }
     // if (!sNo) {
@@ -113,6 +117,7 @@ const eCommerceProductsAdd = () => {
   const handleDiscardProduct = () => {
     router.back()
   }
+
   if (loading) {
     return <Box sx={{ textAlign: 'center' }}>Loading...</Box>
   }
@@ -137,7 +142,7 @@ const eCommerceProductsAdd = () => {
             </Grid>
 
             <Grid item xs={12}>
-              <NewImage files={image} setFiles={setImage} />
+              <NewImage files={image} setFiles={setImage} errors={errors} />
             </Grid>
             {/* <Grid item xs={12}>
             <ProductVariants />

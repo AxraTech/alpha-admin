@@ -273,6 +273,7 @@ const ProductListTable = () => {
             >
               <CSVLink
                 className='exportBtn'
+                target='_blank'
                 data={temp}
                 headers={headers}
                 filename={`all-products-${new Date().toISOString()}.csv`}

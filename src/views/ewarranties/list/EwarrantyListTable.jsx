@@ -91,7 +91,7 @@ const DebouncedInput = ({ value: initialValue, onChange, debounce = 500, ...prop
 const columnHelper = createColumnHelper()
 const headers = [
   { label: 'E-Warranty Number', key: 'ewarranty_number' },
-
+  { label: 'User Name', key: 'user_name' },
   { label: 'Customer Name', key: 'customer_name' },
   { label: 'Customer Phone', key: 'customer_phone' },
   { label: 'Model Number', key: 'model_number' },
@@ -120,6 +120,7 @@ const OrderListTable = () => {
     ...item,
     ewarranty_number: item.ewarranty_number,
     customer_name: item.customer_name,
+    user_name: item?.user?.name,
     customer_phone: item.customer_phone,
     model_number: item.model_number,
     serial_number: item.serial_number,
@@ -163,11 +164,17 @@ const OrderListTable = () => {
         )
       }),
 
+      columnHelper.accessor('user.name', {
+        header: 'User Name',
+        cell: ({ row }) => (
+          <Typography>{`${row.original.user?.name !== null ? row.original?.user?.name : '-'}`}</Typography>
+        )
+      }),
       columnHelper.accessor('customer_name', {
         header: 'Customer Name',
         cell: ({ row }) => (
           <div className='flex items-center gap-4 '>
-            <div className='flex flex-col w-60 text-wrap'>
+            <div className='flex flex-col  text-wrap'>
               <Typography className='font-medium' color='text.primary'>
                 {row.original?.customer_name}
               </Typography>
@@ -188,12 +195,7 @@ const OrderListTable = () => {
           </div>
         )
       }),
-      // columnHelper.accessor('shop_name', {
-      //   header: 'Shop Name',
-      //   cell: ({ row }) => (
-      //     <Typography>{`${row.original.shop_name !== null ? row.original?.shop_name : '-'}`}</Typography>
-      //   )
-      // }),
+
       columnHelper.accessor('serial_number', {
         header: 'Serial Number',
         cell: ({ row }) => (

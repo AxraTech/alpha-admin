@@ -55,10 +55,10 @@ const eCommerceProductsAdd = () => {
       errObj.sNo = 'Serial Number field is required'
       isErrExit = true
     }
-    // if (!warrantyPeriod) {
-    //   errObj.warrantyPeriod = 'Warranty Period field is required'
-    //   isErrExit = true
-    // }
+    if (!warrantyPeriod) {
+      errObj.warrantyPeriod = 'Warranty Period field is required'
+      isErrExit = true
+    }
     if (!brandId) {
       errObj.brandId = 'Brand field is required'
       isErrExit = true
@@ -98,20 +98,21 @@ const eCommerceProductsAdd = () => {
         })
       )
 
-      await addProduct({
+      const res = await addProduct({
         variables: {
           title: title,
           description_html: description,
           brand_id: brandId,
           category_id: catId,
           serial_number: sNo,
-          // warranty_period: warrantyPeriod,
-          price: price,
+          warranty_period: warrantyPeriod,
+          price: Number(price),
           product_medias: {
             data: productMediaUrls
           }
         }
       })
+      // router.back()
       setLoading(false)
       setTitle('')
       setPrice('')
@@ -121,7 +122,6 @@ const eCommerceProductsAdd = () => {
       setBrandId('')
       setCatId('')
       setGlobalMsg('➕ Add New Product')
-      router.back()
     } catch (err) {
       setGlobalMsg('❌ Add Product Error')
       console.log(err.response)
@@ -131,11 +131,12 @@ const eCommerceProductsAdd = () => {
   const handleDiscardProduct = () => {
     setTitle('')
     setDescription('')
-    setPrice(0)
-    setSNo(0)
-    setCatId('')
-    // setWarrantyPeriod('')
-    setBrandId('')
+    setPrice('')
+    setSNo('')
+
+    setWarrantyPeriod('')
+    setBrandId()
+    setProductMedia([])
   }
   if (loading) {
     return <Box sx={{ textAlign: 'center' }}>Loading...</Box>
@@ -154,8 +155,8 @@ const eCommerceProductsAdd = () => {
                 title={title}
                 setSNo={setSNo}
                 sNo={sNo}
-                // warrantyPeriod={warrantyPeriod}
-                // setWarrantyPeriod={setWarrantyPeriod}
+                warrantyPeriod={warrantyPeriod}
+                setWarrantyPeriod={setWarrantyPeriod}
                 setDescription={setDescription}
                 description={description}
                 errors={errors}

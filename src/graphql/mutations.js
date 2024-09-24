@@ -62,6 +62,19 @@ export const ADD_PRODUCT = gql`
       }
     ) {
       id
+      title
+      price
+      created_at
+      description_html
+      serial_number
+      warranty_period
+      product_medias {
+        media_url
+        media_type
+      }
+      brand {
+        title
+      }
     }
   }
 `
@@ -74,6 +87,7 @@ export const EDIT_RPODUCTS = gql`
     $category_id: uuid!
     $serial_number: String
     $price: numeric!
+    $warranty_period: String
   ) {
     update_products_by_pk(
       pk_columns: { id: $id }
@@ -84,9 +98,23 @@ export const EDIT_RPODUCTS = gql`
         category_id: $category_id
         serial_number: $serial_number
         price: $price
+        warranty_period: $warranty_period
       }
     ) {
       id
+      title
+      price
+      created_at
+      description_html
+      serial_number
+      warranty_period
+      product_medias {
+        media_url
+        media_type
+      }
+      brand {
+        title
+      }
     }
   }
 `

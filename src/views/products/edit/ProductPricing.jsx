@@ -15,11 +15,11 @@ import Form from '@components/Form'
 import { useEffect } from 'react'
 
 const ProductPricing = ({ price, setPrice, errors, productData }) => {
-  useEffect(() => {
-    if (productData) {
-      setPrice(productData?.price)
-    }
-  }, [productData])
+  // useEffect(() => {
+  //   if (productData) {
+  //     setPrice(productData?.price)
+  //   }
+  // }, [productData])
   return (
     <Card>
       <CardHeader title='Pricing' />
@@ -27,8 +27,9 @@ const ProductPricing = ({ price, setPrice, errors, productData }) => {
         <Form>
           <TextField
             fullWidth
-            label='Base Price'
-            placeholder='Enter Base Price'
+            type='number'
+            label='Based Price'
+            placeholder='Enter Based Price'
             className='mbe-5'
             value={price}
             onChange={e => setPrice(e.target.value)}

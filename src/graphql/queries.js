@@ -106,6 +106,8 @@ export const PRODUCTS_BY_ID = gql`
       id
       title
       serial_number
+      brand_id
+      category_id
       description_html
       warranty_period
       product_medias {
@@ -295,7 +297,7 @@ export const INVOICE_TABS = gql`
 
 export const INVOICE_STATUS = gql`
   query invoiceStatus {
-    invoice_status {
+    invoice_status(where: { name: { _nin: ["partially paid", "canceled"] } }) {
       id
       name
     }
@@ -1041,6 +1043,11 @@ export const INVOICE_AGGREGATE = gql`
       }
     }
     partiallPaidInvoice: invoices_aggregate(where: { status: { _eq: "partially paid" } }) {
+      aggregate {
+        count
+      }
+    }
+    rejectInvoice: invoices_aggregate(where: { status: { _eq: "rejected" } }) {
       aggregate {
         count
       }

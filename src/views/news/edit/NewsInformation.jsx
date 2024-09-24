@@ -165,7 +165,7 @@ const NewsInformation = ({ setTitle, title, setDescription, description, errors 
             />
           </Grid>
         </Grid>
-        <Typography className='mbe-1'>Description (Optional)</Typography>
+        <Typography className='mbe-1'>Description</Typography>
         <Card className='p-0 border shadow-none'>
           <CardContent className='p-0'>
             <EditorToolbar editor={editor} />

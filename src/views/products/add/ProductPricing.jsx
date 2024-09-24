@@ -21,8 +21,9 @@ const ProductPricing = ({ price, setPrice, errors }) => {
         <Form>
           <TextField
             fullWidth
-            label='Base Price'
-            placeholder='Enter Base Price'
+            type='number'
+            label='Based Price'
+            placeholder='Enter Based Price'
             className='mbe-5'
             value={price}
             onChange={e => setPrice(e.target.value)}

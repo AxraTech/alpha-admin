@@ -157,7 +157,7 @@ const DiscountListTable = ({ discountDatas, productId }) => {
       }),
 
       columnHelper.accessor('min_order', {
-        header: 'Minimal Order',
+        header: 'Minimum Order',
         cell: ({ row }) => (
           <div className='flex items-center gap-3'>
             {/* <Avatar src={row.original.user.min_order} width='100px' height='100px' /> */}

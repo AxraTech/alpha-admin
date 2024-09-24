@@ -50,8 +50,13 @@ const AddCategoryDrawer = props => {
 
   // Handle Form Submit
   const handleFormSubmit = async data => {
+    if (!fileName || fileName.length === 0) {
+      setFileError('Please Select Image')
+      return
+    }
     try {
       setLoading(true)
+
       const fileUploadUrl = await getFileUploadUrl({
         variables: {
           content_type: 'image',
@@ -70,6 +75,7 @@ const AddCategoryDrawer = props => {
       setLoading(false)
       setData([...categoryData, res.data.insert_product_categories_one])
       handleReset()
+      handleClose()
       setGlobalMsg('➕ Added New Category')
     } catch (e) {
       console.log('Error ', e)
@@ -79,7 +85,6 @@ const AddCategoryDrawer = props => {
 
   // Handle Form Reset
   const handleReset = () => {
-    // handleClose()
     resetForm({ title: '', image_url: '' })
     setFileName('')
     fileInputRef.current.value = ''
@@ -97,7 +102,6 @@ const AddCategoryDrawer = props => {
       } else {
         setFileError('')
         setFileName(files)
-        console.log('Selected file:', files[0]?.name)
       }
     }
   }

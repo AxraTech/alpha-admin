@@ -49,6 +49,10 @@ const AddBrandDrawer = props => {
 
   // Handle Form Submit
   const handleFormSubmit = async data => {
+    if (!fileName || fileName.length === 0) {
+      setFileError('Please Select Image')
+      return
+    }
     try {
       setLoading(true)
       const fileUploadUrl = await getFileUploadUrl({

@@ -132,9 +132,9 @@ const ProductInformation = ({
   setDescription,
   description,
   errors,
-  productData
-  // warrantyPeriod,
-  // setWarrantyPeriod
+  productData,
+  warrantyPeriod,
+  setWarrantyPeriod
 }) => {
   // const htmlDescription = ReactHtmlParser(productData.description_html)
 
@@ -155,14 +155,14 @@ const ProductInformation = ({
     }
   })
 
-  useEffect(() => {
-    if (productData) {
-      setTitle(productData?.title)
-      setSNo(productData?.serial_number)
-
-      setDescription(productData?.description_html)
-    }
-  }, [productData])
+  // useEffect(() => {
+  //   if (productData) {
+  //     setTitle(productData?.title)
+  //     setSNo(productData?.serial_number)
+  //     setWarrantyPeriod(productData?.warranty_period)
+  //     setDescription(productData?.description_html)
+  //   }
+  // }, [productData])
   useEffect(() => {
     if (editor && description !== editor.getHTML()) {
       editor.commands.setContent(description || '')
@@ -186,7 +186,7 @@ const ProductInformation = ({
             />
           </Grid>
           {/* warranty_period */}
-          {/* <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
               label='Warranty Period'
@@ -196,7 +196,7 @@ const ProductInformation = ({
               error={errors?.warrantyPeriod ? true : false}
               helperText={errors?.warrantyPeriod}
             />
-          </Grid> */}
+          </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
@@ -209,7 +209,7 @@ const ProductInformation = ({
             />
           </Grid>
         </Grid>
-        <Typography className='mbe-1'>Description (Optional)</Typography>
+        <Typography className='mbe-1'>Description </Typography>
         <Card className='p-0 border shadow-none'>
           <CardContent className='p-0'>
             <EditorToolbar editor={editor} />

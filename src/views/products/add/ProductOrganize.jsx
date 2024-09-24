@@ -32,7 +32,7 @@ const ProductOrganize = ({ brandId, setBrandId, catId, setCatId, errors }) => {
             <InputLabel>Select Product Brand</InputLabel>
             <Select
               label='Select Vendor'
-              value={brandId}
+              value={brandId ? brandId : ''}
               onChange={e => setBrandId(e.target.value)}
               error={errors?.brandId ? true : false}
               helperText={errors?.brandId}

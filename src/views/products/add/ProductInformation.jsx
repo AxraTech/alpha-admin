@@ -131,9 +131,9 @@ const ProductInformation = ({
   setDescription,
   description,
   errors,
-  productData
-  // warrantyPeriod,
-  // setWarrantyPeriod
+  productData,
+  warrantyPeriod,
+  setWarrantyPeriod
 }) => {
   const editor = useEditor({
     extensions: [
@@ -175,7 +175,7 @@ const ProductInformation = ({
             />
           </Grid>
           {/* warranty_period */}
-          {/* <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
               label='Warranty Period'
@@ -185,7 +185,7 @@ const ProductInformation = ({
               error={errors?.warrantyPeriod ? true : false}
               helperText={errors?.warrantyPeriod}
             />
-          </Grid> */}
+          </Grid>
           {/* sNo */}
           <Grid item xs={12} sm={6}>
             <TextField
@@ -199,7 +199,7 @@ const ProductInformation = ({
             />
           </Grid>
         </Grid>
-        <Typography className='mbe-1'>Description (Optional)</Typography>
+        <Typography className='mbe-1'>Description</Typography>
         <Card className='p-0 border shadow-none'>
           <CardContent className='p-0'>
             <EditorToolbar editor={editor} />

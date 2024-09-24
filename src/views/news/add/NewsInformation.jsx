@@ -157,7 +157,7 @@ const NewsInformation = ({ setTitle, title, setDescription, description, errors 
             />
           </Grid>
         </Grid>
-        <Typography className='mbe-1'>Description (Optional)</Typography>
+        <Typography className='mbe-1'>Description</Typography>
         <Card className='p-0 border shadow-none'>
           <CardContent className='p-0'>
             <EditorToolbar editor={editor} />
@@ -170,6 +170,11 @@ const NewsInformation = ({ setTitle, title, setDescription, description, errors 
             />
           </CardContent>
         </Card>
+        {errors?.description && (
+          <Typography color='error' className='mli-5 mt-2'>
+            {errors.description.message || 'This field is required'}
+          </Typography>
+        )}
       </CardContent>
     </Card>
   )

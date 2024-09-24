@@ -109,6 +109,8 @@ fragment productBaseFields on products {
       id
       title
       serial_number
+      brand_id
+      category_id
       description_html
       warranty_period
       product_medias {
@@ -282,7 +284,7 @@ fragment productBaseFields on products {
   }
 `,(0,a.Ps)`
   query invoiceStatus {
-    invoice_status {
+    invoice_status(where: { name: { _nin: ["partially paid", "canceled"] } }) {
       id
       name
     }
@@ -982,6 +984,11 @@ fragment productBaseFields on products {
       }
     }
     partiallPaidInvoice: invoices_aggregate(where: { status: { _eq: "partially paid" } }) {
+      aggregate {
+        count
+      }
+    }
+    rejectInvoice: invoices_aggregate(where: { status: { _eq: "rejected" } }) {
       aggregate {
         count
       }

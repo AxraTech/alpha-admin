@@ -13,7 +13,7 @@ import ProductPricing from '@views/products/edit/ProductPricing'
 import ProductVariants from '@views/products/edit/ProductVariants'
 import { useMutation, useSuspenseQuery } from '@apollo/client'
 import { ADD_PRODUCT, EDIT_RPODUCTS, IMGAE_UPLOAD } from '@/graphql/mutations'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Alert from '@/components/helper/Alert'
 import { useApp } from '@/app/ApolloWrapper'
 import { AlertTitle, Box } from '@mui/material'
@@ -30,6 +30,7 @@ const EditProducts = () => {
   const [catId, setCatId] = useState()
   const [price, setPrice] = useState()
   const [sNo, setSNo] = useState()
+  const [warrantyPeriod, setWarrantyPeriod] = useState()
   const [errors, setErrors] = useState()
   const [productMedia, setProductMedia] = useState([])
   const [editProduct] = useMutation(EDIT_RPODUCTS, { fetchPolicy: 'network-only', refetchQueries: [GET_PRODUCTS] })
@@ -38,43 +39,20 @@ const EditProducts = () => {
 
   const productData = data?.products_by_pk
 
+  useEffect(() => {
+    if (productData) {
+      setTitle(productData?.title)
+      setSNo(productData?.serial_number)
+      setWarrantyPeriod(productData?.warranty_period)
+      setDescription(productData?.description_html)
+      setBrandId(productData?.brand_id)
+      setPrice(productData?.price)
+    }
+  }, [productData])
+
   const handleEditProduct = async () => {
     setLoading(true)
-    let errObj = {}
-    let isErrExit = false
-    // if (!title) {
-    //   errObj.title = 'Title field is required'
-    //   isErrExit = true
-    // }
-    // if (!title) {
-    //   errObj.title = 'Title field is required'
-    //   isErrExit = true
-    // }
-    // if (!price) {
-    //   errObj.price = 'Price field is required'
-    //   isErrExit = true
-    // }
-    // if (!sNo) {
-    //   errObj.sNo = 'Serial Number field is required'
-    //   isErrExit = true
-    // }
-    // if (!brandId) {
-    //   errObj.brandId = 'Brand field is required'
-    //   isErrExit = true
-    // }
-    // if (!catId) {
-    //   errObj.catId = 'Category field is required'
-    //   isErrExit = true
-    // }
-    // if (!sNo) {
-    //   errObj.sNo = 'Serial Number field is required'
-    //   isErrExit = true
-    // }
-    if (isErrExit) {
-      setErrors({ ...errObj })
-      setLoading(false)
-      return
-    }
+
     try {
       // const productMediaUrls = await Promise.all(
       //   productMedia.map(async item => {
@@ -105,12 +83,14 @@ const EditProducts = () => {
           brand_id: brandId,
           category_id: catId?.id,
           serial_number: sNo,
-          price: price
+          warranty_period: warrantyPeriod,
+          price: Number(price)
         }
       })
+      // router.back()
+
       setLoading(false)
       setGlobalMsg('✅ Product has been updated')
-      router.back()
     } catch (err) {
       setGlobalMsg('❌ Edit Product Error')
       console.log(err.response)
@@ -143,6 +123,8 @@ const EditProducts = () => {
                 sNo={sNo}
                 setDescription={setDescription}
                 description={description}
+                warrantyPeriod={warrantyPeriod}
+                setWarrantyPeriod={setWarrantyPeriod}
                 errors={errors}
                 productData={productData}
               />

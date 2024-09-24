@@ -36,6 +36,7 @@ import AddDiscountDrawer from '../discount/AddDiscountDrawer'
 import DiscountListTable from '../discount/list/DiscountListTable'
 import { GET_ALL_PRODUCT_DISCOUNT } from '@/graphql/queries'
 import { useSuspenseQuery } from '@apollo/client'
+import ProductInformation from '../add/ProductInformation'
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -54,15 +55,15 @@ const fuzzyFilter = (row, columnId, value, addMeta) => {
 const columnHelper = createColumnHelper()
 
 const DiscountDetailsCard = ({ productData }) => {
-  const [loading, setLoading] = useState(false)
-  const [discountOpen, setDiscountOpen] = useState(false)
+  // const [loading, setLoading] = useState(false)
+  // const [discountOpen, setDiscountOpen] = useState(false)
 
-  const { data: discountData } = useSuspenseQuery(GET_ALL_PRODUCT_DISCOUNT, {
-    variables: { product_id: productData.id },
-    fetchPolicy: 'network-only'
-  })
+  // const { data: discountData } = useSuspenseQuery(GET_ALL_PRODUCT_DISCOUNT, {
+  //   variables: { product_id: productData.id },
+  //   fetchPolicy: 'network-only'
+  // })
 
-  const [data, setData] = useState(...[discountData.product_discounts])
+  // const [data, setData] = useState(...[discountData.product_discounts])
 
   return (
     <>
@@ -111,14 +112,14 @@ const DiscountDetailsCard = ({ productData }) => {
               </Typography>
             </div>
             {/* warranty_period */}
-            {/* <div className='flex items-center gap-12 mt-3'>
+            <div className='flex items-center gap-12 mt-3'>
               <Typography color='text.primary' className='min-is-[100px]'>
                 Warranty Period :
               </Typography>
               <Typography color='text.primary' className='font-medium'>
                 {productData?.warranty_period}
               </Typography>
-            </div> */}
+            </div>
             {/* <div className='flex items-center gap-12'>
             <Typography color='text.primary' className='min-is-[100px]'>
               Tax:

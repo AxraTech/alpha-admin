@@ -28,6 +28,9 @@ const InvoiceList = () => {
       <Grid item md={3} xs={12} sm={6}>
         <InvoiceListCards count={invoiceAggregate.UnPaindInvoice.aggregate.count} title='UnPaid' />
       </Grid>
+      <Grid item md={3} xs={12} sm={6}>
+        <InvoiceListCards count={invoiceAggregate.rejectInvoice.aggregate.count} title='Rejected' />
+      </Grid>
 
       <Grid item xs={12}>
         <InvoiceListTable />
