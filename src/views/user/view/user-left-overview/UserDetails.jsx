@@ -1,4 +1,3 @@
-// MUI Imports
 'use client'
 
 import Card from '@mui/material/Card'
@@ -79,11 +78,10 @@ const UserDetails = () => {
               />
             </div>
             <Divider className='mlb-4' />
-
             <div className='flex flex-col gap-2'>
               <div className='flex items-center flex-wrap gap-x-1.5'>
                 <Typography className='font-medium' color='text.primary'>
-                  Username:
+                  Username :
                 </Typography>
                 <Typography>{data.users_by_pk?.name}</Typography>
               </div>

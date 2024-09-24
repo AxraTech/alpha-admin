@@ -132,7 +132,7 @@ const ProductCategoryTable = () => {
       }),
       columnHelper.accessor('created_at', {
         header: 'Date',
-        cell: ({ row }) => <Typography>{row.original.created_at.substring(0, 10)}</Typography>
+        cell: ({ row }) => <Typography>{row.original.created_at?.substring(0, 10)}</Typography>
       }),
       columnHelper.accessor('actions', {
         header: 'Actions',

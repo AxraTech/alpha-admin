@@ -9,7 +9,8 @@ export const adminRoutes = [
   '/en/invoice',
   '/en/quotations',
   '/en/admin',
-  '/en/service_center'
+  '/en/service_center',
+  '/en/ewarranties'
 ]
 
 export const managerRoutes = ['/en/dashboards', '/en/products', '/en/services', '/en/service_center', '/en/news']

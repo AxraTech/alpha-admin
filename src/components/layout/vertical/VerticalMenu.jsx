@@ -123,11 +123,16 @@ const VerticalMenu = ({ dictionary, scrollMenu }) => {
             {dictionary['navigation'].orders}
           </MenuItem>
         )}
-
         {/* user */}
         {checkRoleBaseNav(role, 'user') && (
           <MenuItem href={`/${locale}/user/list`} icon={<i className='ri-user-line' />}>
             {dictionary['navigation'].user}
+          </MenuItem>
+        )}
+        {/* ewarranties */}
+        {checkRoleBaseNav(role, 'ewarranties') && (
+          <MenuItem href={`/${locale}/ewarranties/list`} icon={<i className='ri-copper-coin-fill' />}>
+            {dictionary['navigation'].ewarranties}
           </MenuItem>
         )}
       </Menu>

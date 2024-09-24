@@ -8,19 +8,33 @@
   },
   "views\\dashboards\\crm\\LineAreaChart.jsx -> @/libs/styles/AppReactApexCharts": {
     "id": 15199,
-    "files": []
+    "files": [
+      "static/chunks/5199.71bf540ff21a2113.js"
+    ]
   },
   "views\\dashboards\\crm\\RevenueReport.jsx -> @/libs/styles/AppReactApexCharts": {
     "id": 15199,
-    "files": []
+    "files": [
+      "static/chunks/5199.71bf540ff21a2113.js"
+    ]
   },
   "views\\dashboards\\crm\\SalesOverview.jsx -> @/libs/styles/AppReactApexCharts": {
     "id": 15199,
-    "files": []
+    "files": [
+      "static/chunks/5199.71bf540ff21a2113.js"
+    ]
   },
   "views\\dashboards\\crm\\TotalSales.jsx -> @/libs/styles/AppReactApexCharts": {
     "id": 15199,
-    "files": []
+    "files": [
+      "static/chunks/5199.71bf540ff21a2113.js"
+    ]
+  },
+  "views\\dashboards\\crm\\WeeklySales.jsx -> @/libs/styles/AppReactApexCharts": {
+    "id": 15199,
+    "files": [
+      "static/chunks/5199.71bf540ff21a2113.js"
+    ]
   },
   "views\\dashboards\\ecommerce\\LineChartWithShadow.jsx -> @/libs/styles/AppReactApexCharts": {
     "id": 15199,

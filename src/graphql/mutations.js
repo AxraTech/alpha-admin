@@ -70,7 +70,7 @@ export const EDIT_RPODUCTS = gql`
     $description_html: String!
     $brand_id: uuid!
     $category_id: uuid!
-    $serial_number: String!
+    $serial_number: String
     $price: numeric!
   ) {
     update_products_by_pk(
@@ -229,6 +229,7 @@ export const CHANGE_ORDER_STATUS = gql`
     }
   }
 `
+
 export const CHANGE_SERVICE_STATUS = gql`
   mutation updateServiceStatus($service_token_id: uuid!, $status: String!) {
     updateServiceStatus(service_token_id: $service_token_id, status: $status) {
@@ -482,6 +483,14 @@ export const DELETE_PRODUCT_IMAGE = gql`
       id
       media_url
       media_type
+    }
+  }
+`
+
+export const RESET_USER_PASSWORD = gql`
+  mutation resetUserPassword($user_id: uuid!, $confirmNewPassword: String!, $newPassword: String!) {
+    UpdateUserPassword(confirmNewPassword: $confirmNewPassword, user_id: $user_id, newPassword: $newPassword) {
+      message
     }
   }
 `

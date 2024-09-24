@@ -97,23 +97,23 @@ const OrderDetailHeader = ({ orderData }) => {
         {/* <Button variant='outlined' color='success' onClick={() => handleChangeOrderStatus(orderData.id, 'completed')}>
           Complete
         </Button> */}
-        {orderData.status !== 'canceled' && (
-          <>
-            <Button variant='outlined' color='info' onClick={() => handleChangeOrderStatus(orderData.id, 'preparing')}>
-              Preparing
-            </Button>
-            <Button
-              variant='outlined'
-              color='primary'
-              onClick={() => handleChangeOrderStatus(orderData.id, 'delivering')}
-            >
-              Delivering
-            </Button>
-            <Button color='success' variant='outlined' onClick={() => setCompleteOpen(true)}>
-              Complete
-            </Button>
-          </>
-        )}
+
+        <>
+          <Button variant='outlined' color='info' onClick={() => handleChangeOrderStatus(orderData.id, 'preparing')}>
+            Preparing
+          </Button>
+          <Button
+            variant='outlined'
+            color='primary'
+            onClick={() => handleChangeOrderStatus(orderData.id, 'delivering')}
+          >
+            Delivering
+          </Button>
+          <Button color='success' variant='outlined' onClick={() => setCompleteOpen(true)}>
+            Complete
+          </Button>
+        </>
+
         <Button variant='outlined' color='error' onClick={() => handleChangeOrderStatus(orderData.id, 'canceled')}>
           Cancel
         </Button>

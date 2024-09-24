@@ -102,14 +102,14 @@ const ProductListTable = () => {
   const [deletProduct] = useMutation(DELETE_PRODUCT)
   // States
   const [rowSelection, setRowSelection] = useState({})
-  const [data, setData] = useState(...[productData.products])
+  const [data, setData] = useState(...[productData?.products])
   const [filteredData, setFilteredData] = useState(data)
   const [globalFilter, setGlobalFilter] = useState('')
 
   // Hooks
   const { lang: locale } = useParams()
 
-  const temp = filteredData.map(item => ({
+  const temp = filteredData?.map(item => ({
     ...item,
     title: item?.brand?.title,
     title: item?.product_category?.title,

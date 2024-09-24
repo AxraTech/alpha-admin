@@ -39,6 +39,7 @@ import {
 // Component Imports
 import TableFilters from './TableFilters'
 import AddUserDrawer from './AddUserDrawer'
+import ResetDrawer from './ResetDrawer'
 import OptionMenu from '@core/components/option-menu'
 import CustomAvatar from '@core/components/mui/Avatar'
 
@@ -111,9 +112,14 @@ const UserListTable = ({ tableData }) => {
   const [data, setData] = useState(...[tableData])
   const [filteredData, setFilteredData] = useState(data)
   const [globalFilter, setGlobalFilter] = useState('')
-
+  const [resetOpen, setResetOpen] = useState(false)
+  const [resetData, setResetData] = useState()
   // Hooks
   const { lang: locale } = useParams()
+  const handleResetData = resetData => {
+    setResetOpen(true)
+    setResetData(resetData)
+  }
 
   const columns = useMemo(
     () => [
@@ -175,6 +181,16 @@ const UserListTable = ({ tableData }) => {
                 <i className='ri-eye-line text-textSecondary' />
               </Link>
             </IconButton>
+
+            <Button
+              onClick={() => handleResetData(row.original)}
+              // onClick={() => {
+              //   setResetOpen(!resetOpen)
+              //   setResetData(row.original)
+              // }}
+            >
+              <i className='ri-loop-left-line text-warning'></i>
+            </Button>
             {/* <OptionMenu
               iconButtonProps={{ size: 'medium' }}
               iconClassName='text-textSecondary'
@@ -351,6 +367,13 @@ const UserListTable = ({ tableData }) => {
         handleClose={() => setAddUserOpen(!addUserOpen)}
         userData={data}
         setData={setData}
+      />
+
+      <ResetDrawer
+        open={resetOpen}
+        userData={resetData}
+        setData={setData}
+        handleClose={() => setResetOpen(!resetOpen)}
       />
     </>
   )

@@ -1058,4 +1058,64 @@ fragment productBaseFields on products {
       }
     }
   }
+`,(0,a.Ps)`
+  query allEwaranties {
+    ewarranties(order_by: { updated_at: desc }) {
+      id
+      created_at
+      updated_at
+      customer_name
+      customer_phone
+      ewarranty_number
+      model_number
+      registration_date
+      serial_number
+      receipt_image_url
+      shop_name
+      purchase_date
+      product_category_id
+      remark
+      warranty_end_date
+      warranty_period_month
+      user_id
+      user {
+        email
+        phone
+        name
+      }
+      warranty_start_date
+    }
+  }
+`,(0,a.Ps)`
+  query ewarrantiesById($id: uuid!) {
+    ewarranties_by_pk(id: $id) {
+      id
+      created_at
+      updated_at
+      customer_name
+      customer_phone
+      ewarranty_number
+      model_number
+      registration_date
+      serial_number
+      receipt_image_url
+      shop_name
+      purchase_date
+      product_category_id
+      remark
+      warranty_end_date
+      warranty_period_month
+      user_id
+      user {
+        email
+        phone
+        name
+      }
+      warranty_start_date
+      product_category {
+        title
+        id
+      }
+    }
+  }
 `}};

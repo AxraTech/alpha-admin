@@ -1,11 +1,11 @@
-"use strict";exports.id=5436,exports.ids=[5436],exports.modules={91347:(e,t,i)=>{i.d(t,{Z:()=>s});var d=i(27486);i(618);var a=i(27319),n=i(22405);let s=()=>{let{globalMsg:e,setGlobalMsg:t}=(0,n.q)();return d.jsx("div",{children:d.jsx(a.Z,{anchorOrigin:{horizontal:"center",vertical:"top"},open:!!e,autoHideDuration:3e3,onClose:()=>t(null),message:e})})}},66718:(e,t,i)=>{i.d(t,{BM:()=>C,DR:()=>U,Ff:()=>c,HT:()=>g,Hd:()=>y,J2:()=>L,J9:()=>o,JB:()=>M,KN:()=>q,Lh:()=>H,MP:()=>s,MZ:()=>I,O7:()=>z,Qm:()=>T,SB:()=>p,SZ:()=>w,Sf:()=>P,Si:()=>W,Zq:()=>Z,aY:()=>l,bc:()=>O,dE:()=>v,dn:()=>J,en:()=>Q,hB:()=>a,he:()=>F,hq:()=>n,jN:()=>A,ju:()=>$,mU:()=>j,mt:()=>E,oe:()=>m,pE:()=>G,rV:()=>B,si:()=>K,tC:()=>N,tt:()=>S,tz:()=>k,u7:()=>_,uv:()=>u,vl:()=>D,wU:()=>b,yG:()=>f,yn:()=>h,z7:()=>x,zN:()=>r});var d=i(12738);let a=(0,d.Ps)`
+"use strict";exports.id=5436,exports.ids=[5436],exports.modules={91347:(e,t,i)=>{i.d(t,{Z:()=>n});var d=i(27486);i(618);var a=i(27319),s=i(22405);let n=()=>{let{globalMsg:e,setGlobalMsg:t}=(0,s.q)();return d.jsx("div",{children:d.jsx(a.Z,{anchorOrigin:{horizontal:"center",vertical:"top"},open:!!e,autoHideDuration:3e3,onClose:()=>t(null),message:e})})}},66718:(e,t,i)=>{i.d(t,{BM:()=>C,DR:()=>I,Ff:()=>c,HT:()=>g,Hd:()=>y,J2:()=>L,J9:()=>o,JB:()=>M,KN:()=>q,Lh:()=>H,MP:()=>n,MZ:()=>D,O7:()=>z,Qm:()=>T,SB:()=>p,SZ:()=>j,Sf:()=>S,Si:()=>W,Zq:()=>Z,aY:()=>l,bc:()=>O,dE:()=>P,dn:()=>J,en:()=>Q,hB:()=>a,he:()=>F,hq:()=>s,jN:()=>A,ju:()=>$,mU:()=>w,mt:()=>E,oe:()=>m,pE:()=>G,rV:()=>B,si:()=>K,tC:()=>N,tt:()=>h,tz:()=>k,u7:()=>_,ui:()=>R,uv:()=>u,vl:()=>U,wU:()=>b,yG:()=>f,yn:()=>v,z7:()=>x,zN:()=>r});var d=i(12738);let a=(0,d.Ps)`
   mutation adminSignIn($email: String!, $password: String!) {
     AdminSignIn(email: $email, password: $password) {
       token
       message
     }
   }
-`,n=(0,d.Ps)`
+`,s=(0,d.Ps)`
   mutation addCategory($data: product_categories_insert_input!) {
     insert_product_categories_one(object: $data) {
       id
@@ -19,7 +19,7 @@
       }
     }
   }
-`,s=(0,d.Ps)`
+`,n=(0,d.Ps)`
   mutation addCategory($data: brands_insert_input!) {
     insert_brands_one(object: $data) {
       id
@@ -64,7 +64,7 @@
     $description_html: String!
     $brand_id: uuid!
     $category_id: uuid!
-    $serial_number: String!
+    $serial_number: String
     $price: numeric!
   ) {
     update_products_by_pk(
@@ -164,7 +164,7 @@
       id
     }
   }
-`,v=(0,d.Ps)`
+`,P=(0,d.Ps)`
   mutation editNewProducts($id: uuid!, $data: news_set_input!) {
     update_news_by_pk(pk_columns: { id: $id }, _set: $data) {
       id
@@ -181,7 +181,7 @@
       updated_at
     }
   }
-`,h=(0,d.Ps)`
+`,v=(0,d.Ps)`
   mutation aa($news_id: uuid!) {
     delete_news_related_products(where: { news_id: { _eq: $news_id } }) {
       returning {
@@ -189,7 +189,7 @@
       }
     }
   }
-`,P=(0,d.Ps)`
+`,S=(0,d.Ps)`
   mutation aa($content_type: String!, $folder: String!) {
     getFileUploadUrl(content_type: $content_type, folder: $folder) {
       error
@@ -198,7 +198,7 @@
       fileUploadUrl
     }
   }
-`,S=(0,d.Ps)`
+`,h=(0,d.Ps)`
   mutation orderStatus($order_id: uuid!, $status: String!) {
     updateOrderStatus(order_id: $order_id, status: $status) {
       message
@@ -220,13 +220,13 @@
       message
     }
   }
-`,j=(0,d.Ps)`
+`,w=(0,d.Ps)`
   mutation rejectServiceToken($rejected_reason: String!, $service_token_id: uuid!) {
     rejectServiceToken(rejected_reason: $rejected_reason, service_token_id: $service_token_id) {
       message
     }
   }
-`,w=(0,d.Ps)`
+`,j=(0,d.Ps)`
   mutation changeUserStatus($id: uuid!, $data: users_set_input!) {
     update_users_by_pk(pk_columns: { id: $id }, _set: $data) {
       id
@@ -275,19 +275,19 @@
       message
     }
   }
-`,D=(0,d.Ps)`
+`,U=(0,d.Ps)`
   mutation sendQuotationPdf($id: uuid!, $invoice_file_url: String!) {
     update_invoices_by_pk(pk_columns: { id: $id }, _set: { invoice_file_url: $invoice_file_url }) {
       id
     }
   }
-`,I=(0,d.Ps)`
+`,D=(0,d.Ps)`
   mutation deleteAdmin($id: uuid!) {
     delete_admins_by_pk(id: $id) {
       id
     }
   }
-`,U=(0,d.Ps)`
+`,I=(0,d.Ps)`
   mutation deleteServiceCenter($id: uuid!) {
     delete_service_centers_by_pk(id: $id) {
       id
@@ -425,4 +425,10 @@
       media_type
     }
   }
-`},5436:(e,t,i)=>{i.d(t,{Z:()=>b});var d=i(27486),a=i(618),n=i(39800),s=i(9594),r=i(72660),o=i(4081),u=i(44182),_=i(50822),c=i(57971),l=i(95727),m=i(23467),p=i(12964),$=i(20700),g=i(32475),y=i(83398),v=i(66718),h=i(91347),P=i(22405);let S={paymentDate:new Date,paymentMethod:"select-method",paymentAmount:500,paymentNote:""},b=({open:e,handleClose:t,invoiceData:i,paymentMethods:b})=>{let{setGlobalMsg:k}=(0,P.q)(),[j,w]=(0,a.useState)(!1),[x,f]=(0,a.useState)(S),[Z]=(0,y.D)(v.tC),C=async e=>{e.preventDefault();try{w(!0),await Z({variables:{amount:x.amount,invoice_id:i.id,payment_date:x.payment_date,payment_method:x.payment_method}}),w(!1),k("✅ Payment Send Successful"),f(""),t()}catch(e){console.log("Error ",e)}},N=()=>{t(),f(S)};return(0,d.jsxs)(d.Fragment,{children:[(0,d.jsxs)(n.ZP,{open:e,anchor:"right",variant:"temporary",onClose:N,ModalProps:{keepMounted:!0},sx:{"& .MuiDrawer-paper":{width:{xs:300,sm:400}}},children:[(0,d.jsxs)("div",{className:"flex items-center justify-between pli-5 plb-4",children:[d.jsx(r.Z,{variant:"h5",children:"Add Payment"}),d.jsx(s.Z,{size:"small",onClick:N,children:d.jsx("i",{className:"ri-close-line text-2xl"})})]}),d.jsx($.Z,{}),(0,d.jsxs)("div",{className:"p-5",children:[(0,d.jsxs)(r.Z,{className:"flex justify-end text-white",children:["Balance : ",i.balance?i.balance.toLocaleString():0]}),(0,d.jsxs)("form",{onSubmit:C,className:"flex flex-col gap-5 mt-5",children:[d.jsx(o.Z,{fullWidth:!0,id:"amount",label:"Payment Amount",type:"number",InputProps:{startAdornment:d.jsx(c.Z,{position:"start"})},value:x.amount,onChange:e=>f({...x,amount:+e.target.value})}),d.jsx(g.Z,{selected:x.payment_date,id:"payment-date",onChange:e=>null!==e&&f({...x,payment_date:e}),customInput:d.jsx(o.Z,{fullWidth:!0,label:"Payment Date"})}),(0,d.jsxs)(u.Z,{fullWidth:!0,children:[d.jsx(_.Z,{htmlFor:"payment-method",children:"Payment Method"}),(0,d.jsxs)(l.Z,{label:"Payment Method",labelId:"payment-method",id:"payment-method-select",value:x.payment_method,onChange:e=>f({...x,payment_method:e.target.value}),children:[d.jsx(m.Z,{value:"select-method",disabled:!0,children:"Select Payment Method"}),b.payment_methods.map(e=>d.jsx(m.Z,{value:e.name,children:e.name},e.id))]})]}),(0,d.jsxs)("div",{className:"flex items-center gap-4",children:[d.jsx(p.Z,{loading:j,size:"large",variant:"contained",type:"submit",children:"Send"}),d.jsx(p.Z,{size:"large",variant:"outlined",color:"secondary",type:"reset",onClick:N,children:"Cancel"})]})]})]})]}),d.jsx(h.Z,{})]})}}};
+`,R=(0,d.Ps)`
+  mutation resetUserPassword($user_id: uuid!, $confirmNewPassword: String!, $newPassword: String!) {
+    UpdateUserPassword(confirmNewPassword: $confirmNewPassword, user_id: $user_id, newPassword: $newPassword) {
+      message
+    }
+  }
+`},5436:(e,t,i)=>{i.d(t,{Z:()=>b});var d=i(27486),a=i(618),s=i(39800),n=i(9594),r=i(72660),o=i(30785),u=i(44182),_=i(50822),c=i(57971),l=i(95727),m=i(23467),p=i(12964),$=i(20700),g=i(32475),y=i(83398),P=i(66718),v=i(91347),S=i(22405);let h={paymentDate:new Date,paymentMethod:"select-method",paymentAmount:500,paymentNote:""},b=({open:e,handleClose:t,invoiceData:i,paymentMethods:b})=>{let{setGlobalMsg:k}=(0,S.q)(),[w,j]=(0,a.useState)(!1),[x,f]=(0,a.useState)(h),[Z]=(0,y.D)(P.tC),C=async e=>{e.preventDefault();try{j(!0),await Z({variables:{amount:x.amount,invoice_id:i.id,payment_date:x.payment_date,payment_method:x.payment_method}}),j(!1),k("✅ Payment Send Successful"),f(""),t()}catch(e){console.log("Error ",e)}},N=()=>{t(),f(h)};return(0,d.jsxs)(d.Fragment,{children:[(0,d.jsxs)(s.ZP,{open:e,anchor:"right",variant:"temporary",onClose:N,ModalProps:{keepMounted:!0},sx:{"& .MuiDrawer-paper":{width:{xs:300,sm:400}}},children:[(0,d.jsxs)("div",{className:"flex items-center justify-between pli-5 plb-4",children:[d.jsx(r.Z,{variant:"h5",children:"Add Payment"}),d.jsx(n.Z,{size:"small",onClick:N,children:d.jsx("i",{className:"ri-close-line text-2xl"})})]}),d.jsx($.Z,{}),(0,d.jsxs)("div",{className:"p-5",children:[(0,d.jsxs)(r.Z,{className:"flex justify-end text-white",children:["Balance : ",i.balance?i.balance.toLocaleString():0]}),(0,d.jsxs)("form",{onSubmit:C,className:"flex flex-col gap-5 mt-5",children:[d.jsx(o.Z,{fullWidth:!0,id:"amount",label:"Payment Amount",type:"number",InputProps:{startAdornment:d.jsx(c.Z,{position:"start"})},value:x.amount,onChange:e=>f({...x,amount:+e.target.value})}),d.jsx(g.Z,{selected:x.payment_date,id:"payment-date",onChange:e=>null!==e&&f({...x,payment_date:e}),customInput:d.jsx(o.Z,{fullWidth:!0,label:"Payment Date"})}),(0,d.jsxs)(u.Z,{fullWidth:!0,children:[d.jsx(_.Z,{htmlFor:"payment-method",children:"Payment Method"}),(0,d.jsxs)(l.Z,{label:"Payment Method",labelId:"payment-method",id:"payment-method-select",value:x.payment_method,onChange:e=>f({...x,payment_method:e.target.value}),children:[d.jsx(m.Z,{value:"select-method",disabled:!0,children:"Select Payment Method"}),b.payment_methods.map(e=>d.jsx(m.Z,{value:e.name,children:e.name},e.id))]})]}),(0,d.jsxs)("div",{className:"flex items-center gap-4",children:[d.jsx(p.Z,{loading:w,size:"large",variant:"contained",type:"submit",children:"Send"}),d.jsx(p.Z,{size:"large",variant:"outlined",color:"secondary",type:"reset",onClick:N,children:"Cancel"})]})]})]})]}),d.jsx(v.Z,{})]})}}};

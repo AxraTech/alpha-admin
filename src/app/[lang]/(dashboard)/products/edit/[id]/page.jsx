@@ -32,7 +32,7 @@ const EditProducts = () => {
   const [sNo, setSNo] = useState()
   const [errors, setErrors] = useState()
   const [productMedia, setProductMedia] = useState([])
-  const [editProduct] = useMutation(EDIT_RPODUCTS, { refetchQueries: [GET_PRODUCTS] })
+  const [editProduct] = useMutation(EDIT_RPODUCTS, { fetchPolicy: 'network-only', refetchQueries: [GET_PRODUCTS] })
   const [getFileUploadUrl] = useMutation(IMGAE_UPLOAD)
   const { data } = useSuspenseQuery(PRODUCTS_BY_ID, { variables: { id: id } })
 
@@ -108,11 +108,11 @@ const EditProducts = () => {
           price: price
         }
       })
-
+      setLoading(false)
       setGlobalMsg('✅ Product has been updated')
       router.back()
     } catch (err) {
-      setGlobalMsg('❌ Add Product Error')
+      setGlobalMsg('❌ Edit Product Error')
       console.log(err.response)
     }
   }
