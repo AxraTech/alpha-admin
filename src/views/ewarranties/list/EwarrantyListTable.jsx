@@ -90,7 +90,7 @@ const DebouncedInput = ({ value: initialValue, onChange, debounce = 500, ...prop
 // Column Definitions
 const columnHelper = createColumnHelper()
 const headers = [
-  { label: 'E-warranty Number', key: 'ewarranty_number' },
+  { label: 'E-Warranty Number', key: 'ewarranty_number' },
 
   { label: 'Customer Name', key: 'customer_name' },
   { label: 'Customer Phone', key: 'customer_phone' },
@@ -153,13 +153,13 @@ const OrderListTable = () => {
       //   )
       // },
       columnHelper.accessor('ewarranty_number', {
-        header: 'E-warranty Number',
+        header: 'E-Warranty Number',
         cell: ({ row }) => (
           <Typography
             component={Link}
             href={getLocalizedUrl(`/ewarranties/details/${row.original.id}`, locale)}
             color='primary'
-          >{`${row.original.ewarranty_number}`}</Typography>
+          >{`${row.original?.ewarranty_number}`}</Typography>
         )
       }),
 
@@ -210,7 +210,7 @@ const OrderListTable = () => {
         cell: ({ row }) => (
           <div className='flex items-center'>
             <IconButton>
-              <Link href={getLocalizedUrl(`/ewarranties/details/${row.original.id}`, locale)} className='flex'>
+              <Link href={getLocalizedUrl(`/ewarranties/details/${row.original?.id}`, locale)} className='flex'>
                 <i className='ri-eye-line text-textSecondary' />
               </Link>
             </IconButton>
@@ -222,8 +222,7 @@ const OrderListTable = () => {
 
     [data, filteredData]
   )
-  console.log('filter data ', filteredData)
-  console.log('gloabal filter ', globalFilter)
+
   const table = useReactTable({
     data: filteredData,
     columns,
@@ -284,7 +283,7 @@ const OrderListTable = () => {
           <DebouncedInput
             value={globalFilter ?? ''}
             onChange={value => setGlobalFilter(String(value))}
-            placeholder='Search E-warranty'
+            placeholder='Search E-Warranty'
             className='max-sm:is-full min-is-[200px]'
           />
         </div>

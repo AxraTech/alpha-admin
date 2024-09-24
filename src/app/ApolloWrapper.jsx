@@ -27,10 +27,13 @@ function makeClient() {
 
   const authLink = setContext(async (_, { headers }) => {
     try {
+      // const token = Cookies.get('token')
+
       return {
         headers: {
           ...headers,
           'x-hasura-admin-secret': 'alphapassword'
+          // Authorization: `Bearer ${token}`
         }
       }
     } catch (e) {

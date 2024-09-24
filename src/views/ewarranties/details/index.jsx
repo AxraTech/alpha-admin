@@ -30,8 +30,12 @@ const OrderDetails = () => {
           <Grid item xs={12}>
             <EwarrantyDetailsCard warrantyData={warrantyData} />
           </Grid>
+          {/* <Grid item xs={12}>
+            <ShippingActivity warrantyData={warrantyData} />
+          </Grid> */}
         </Grid>
       </Grid>
+
       <Grid item xs={12} md={6}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
@@ -40,9 +44,6 @@ const OrderDetails = () => {
           <Grid item xs={12}>
             <ShippingAddress warrantyData={warrantyData} />
           </Grid>
-          {/* <Grid item xs={12}>
-          <BillingAddress />
-        </Grid> */}
         </Grid>
       </Grid>
     </Grid>

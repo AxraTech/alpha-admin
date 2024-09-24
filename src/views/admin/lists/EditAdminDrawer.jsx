@@ -61,7 +61,7 @@ const EditAdminDrawer = props => {
     setData(prevData =>
       prevData.map(item => (item.id === adminData?.id ? { ...item, ...res.data.update_admins_by_pk } : item))
     )
-    handleReset()
+    handleClose()
     setGlobalMsg('✅ Staff Data has been updated')
   }
 

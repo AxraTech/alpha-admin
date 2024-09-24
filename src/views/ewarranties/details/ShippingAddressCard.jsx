@@ -69,7 +69,7 @@ const ShippingAddress = ({ warrantyData }) => {
         {/* purchase_date */}
         <div className='flex items-center gap-3'>
           <div className='flex flex-col'>
-            <Typography>Serial Number</Typography>
+            <Typography>Purchase Date</Typography>
             <Typography color='text.primary' className='font-medium'>
               {new Date(warrantyData?.purchase_date)?.toLocaleString()}
             </Typography>

@@ -77,7 +77,7 @@ const EwarrantyDetailHeader = ({ warrantyData }) => {
     <div className='flex flex-wrap justify-between sm:items-center max-sm:flex-col gap-y-4'>
       <div className='flex flex-col items-start gap-1'>
         <div className='flex items-center gap-2'>
-          <Typography variant='h5'>{`E-warranyty Number - ${warrantyData?.ewarranty_number}`}</Typography>
+          <Typography variant='h5'>{`E-Warranty Number - ${warrantyData?.ewarranty_number}`}</Typography>
         </div>
         <Typography>{`${new Date(warrantyData?.created_at ?? '')?.toLocaleString()}`}</Typography>
       </div>

@@ -34,6 +34,7 @@ const SendQuotationDrawer = ({ open, handleClose, quotationData }) => {
   const [getFileUploadUrl] = useMutation(IMGAE_UPLOAD)
   const [sendQuotation] = useMutation(SEND_QUOTATION_FILE)
   const { setGlobalMsg, loading, setLoading } = useApp()
+  const [errorMsg, setErrorMsg] = useState()
   const fileInputRef = useRef(null)
 
   // Hooks
@@ -52,6 +53,10 @@ const SendQuotationDrawer = ({ open, handleClose, quotationData }) => {
   // Handle Form Submit
   const handleFormSubmit = async data => {
     try {
+      if (!file || file[0].type !== 'application/pdf') {
+        setErrorMsg('Please upload a PDF file.')
+        return
+      }
       setLoading(true)
       const fileUploadUrl = await getFileUploadUrl({
         variables: {
@@ -78,13 +83,20 @@ const SendQuotationDrawer = ({ open, handleClose, quotationData }) => {
     const { files } = event.target
 
     if (files && files.length !== 0) {
-      setFile(files)
+      if (files[0].type !== 'application/pdf') {
+        setErrorMsg('Invalid file type. Please upload a PDF.')
+        setFile(null)
+      } else {
+        setErrorMsg('') // Clear error if the file is valid
+        setFile(files)
+      }
     }
   }
 
   const handleReset = () => {
     setFile('')
     handleClose()
+    setErrorMsg('')
     // setFormData(initialData)
   }
   const handleCloseDrawer = () => {
@@ -133,7 +145,12 @@ const SendQuotationDrawer = ({ open, handleClose, quotationData }) => {
                 <input hidden id='contained-button-file' type='file' onChange={handleFileUpload} ref={fileInputRef} />
               </Button>
             </div>
-
+            {/* Error Message Display */}
+            {errorMsg && (
+              <Typography variant='body2' color='error'>
+                {errorMsg}
+              </Typography>
+            )}
             <div className='flex items-center gap-4'>
               <LoadingButton variant='contained' type='submit'>
                 Add

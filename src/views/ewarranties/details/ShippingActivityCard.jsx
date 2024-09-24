@@ -35,116 +35,51 @@ const Timeline = styled(MuiTimeline)({
   }
 })
 
-const ShippingActivity = ({ orderData }) => {
+const ShippingActivity = ({ warrantyData }) => {
   return (
     <Card>
-      <CardHeader title='Delivery Activity' />
-      <CardContent>
-        <Timeline>
-          <TimelineItem>
-            <TimelineSeparator>
-              <TimelineDot color='primary' />
-              <TimelineConnector />
-            </TimelineSeparator>
-
-            <TimelineContent>
-              <div className='flex flex-wrap items-center justify-between gap-x-2 mbe-2.5'>
-                <Typography color='text.primary' className='font-medium'>
-                  Order was placed (Order ID: #{orderData?.order_number})
-                </Typography>
-
-                <Typography variant='caption'>{new Date(orderData.ordered_at)?.toLocaleString()}</Typography>
-              </div>
-              <Typography className='mbe-2'>Order has been placed successfully</Typography>
-            </TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineSeparator>
-              <TimelineDot
-                // variant={orderData.preparing_at === null ? 'outlined' : 'contained'}
-                color={orderData?.preparing_at === null ? 'grey' : 'primary'}
-              />
-              <TimelineConnector />
-            </TimelineSeparator>
-            <TimelineContent>
-              <div className='flex flex-wrap items-center justify-between gap-x-2 mbe-2.5'>
-                <Typography color='text.primary' className='font-medium'>
-                  Preparing
-                </Typography>
-                {orderData?.preparing_at !== null && (
-                  <Typography variant='caption'>{new Date(orderData?.preparing_at).toLocaleString()}</Typography>
-                )}
-              </div>
-              <Typography className='mbe-2'>Order is preparing</Typography>
-            </TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineSeparator>
-              <TimelineDot
-                // variant={orderData.delivering_at === null ? 'outlined' : 'contained'}
-                color={orderData?.delivering_at === null ? 'grey' : 'primary'}
-              />
-              <TimelineConnector />
-            </TimelineSeparator>
-            <TimelineContent>
-              <div className='flex flex-wrap items-center justify-between gap-x-2 mbe-2.5'>
-                <Typography color='text.primary' className='font-medium'>
-                  Delivering
-                </Typography>
-                {orderData?.delivering_at !== null && (
-                  <Typography variant='caption'>{new Date(orderData?.delivering_at).toLocaleString()}</Typography>
-                )}
-              </div>
-              <Typography className='mbe-2'>Order is delivering </Typography>
-            </TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineSeparator>
-              <TimelineDot
-                // variant={orderData.completed_at === null ? 'outlined' : 'contained'}
-                color={orderData?.completed_at === null ? 'grey' : 'primary'}
-              />
-              <TimelineConnector />
-            </TimelineSeparator>
-            <TimelineContent>
-              <div className='flex flex-wrap items-center justify-between gap-x-2 mbe-2.5'>
-                <Typography color='text.primary' className='font-medium'>
-                  Completed
-                </Typography>
-                {orderData?.completed_at !== null && (
-                  <Typography variant='caption'>{new Date(orderData?.completed_at).toLocaleString()}</Typography>
-                )}
-              </div>
-              <Typography className='mbe-2'>Order has been completed </Typography>
-            </TimelineContent>
-          </TimelineItem>
-          {/* <TimelineItem>
-            <TimelineSeparator>
-              <TimelineDot color='primary' />
-              <TimelineConnector />
-            </TimelineSeparator>
-            <TimelineContent>
-              <div className='flex flex-wrap items-center justify-between gap-x-2 mbe-2.5'>
-                <Typography color='text.primary' className='font-medium'>
-                  Dispatched for delivery
-                </Typography>
-                <Typography variant='caption'>Today 14:12 PM</Typography>
-              </div>
-              <Typography className='mbe-2'>Package has left an Amazon facility , NY</Typography>
-            </TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineSeparator>
-              <TimelineDot color='primary' />
-            </TimelineSeparator>
-            <TimelineContent>
-              <Typography color='text.primary' className='font-medium'>
-                Delivery
-              </Typography>
-              <Typography className='mbe-2'>Package will be delivered by tomorrow</Typography>
-            </TimelineContent>
-          </TimelineItem> */}
-        </Timeline>
+      <CardContent className='flex flex-col gap-6'>
+        <Typography variant='h5'>E-Warranty Details</Typography>
+        {/* registration_date */}
+        <div className='flex items-center gap-3'>
+          <div className='flex flex-col'>
+            <Typography>Registration Date</Typography>
+            <Typography color='text.primary' className='font-medium'>
+              {warrantyData?.registration_date}
+            </Typography>
+            {/* <Typography>Customer ID: #47389</Typography> */}
+          </div>
+        </div>
+        {/* start date */}
+        <div className='flex items-center gap-3'>
+          <div className='flex flex-col'>
+            <Typography>Start Date</Typography>
+            <Typography color='text.primary' className='font-medium'>
+              {warrantyData?.warranty_start_date}
+            </Typography>
+            {/* <Typography>Customer ID: #47389</Typography> */}
+          </div>
+        </div>
+        {/* end date */}
+        <div className='flex items-center gap-3'>
+          <div className='flex flex-col'>
+            <Typography>End Date</Typography>
+            <Typography color='text.primary' className='font-medium'>
+              {warrantyData?.warranty_end_date}
+            </Typography>
+            {/* <Typography>Customer ID: #47389</Typography> */}
+          </div>
+        </div>
+        {/* warranty_period_month */}
+        <div className='flex items-center gap-3'>
+          <div className='flex flex-col'>
+            <Typography>Warranty Periods</Typography>
+            <Typography color='text.primary' className='font-medium'>
+              {warrantyData?.warranty_period_month}
+            </Typography>
+            {/* <Typography>Customer ID: #47389</Typography> */}
+          </div>
+        </div>
       </CardContent>
     </Card>
   )

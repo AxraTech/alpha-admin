@@ -25,9 +25,8 @@ import { InputAdornment } from '@mui/material'
 
 // Vars
 const initialData = {
-  company: '',
-  country: '',
-  contact: ''
+  confirm_password: '',
+  new_password: ''
 }
 
 const ResetDrawer = props => {
@@ -55,6 +54,8 @@ const ResetDrawer = props => {
   const onSubmit = async data => {
     setLoading(true)
     try {
+      console.log('data ', data)
+
       const newUser = await resetUserPassword({
         variables: {
           user_id: userData.id,
@@ -64,7 +65,7 @@ const ResetDrawer = props => {
       })
       setLoading(false)
       setGlobalMsg('✅ Reset User Password')
-      setData([...(userData ?? []), newUser])
+      // setData([...(userData ?? []), newUser])
       handleClose()
       setFormData(initialData)
       resetForm({})
@@ -73,6 +74,9 @@ const ResetDrawer = props => {
     }
   }
 
+  const handleConfirmShowPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword)
+  }
   const handleReset = () => {
     handleClose()
     setFormData(initialData)
@@ -132,7 +136,7 @@ const ResetDrawer = props => {
           />
           {/* confirm password */}
           <Controller
-            name='confirm_Password'
+            name='confirm_password'
             control={control}
             rules={{ required: true }}
             render={({ field }) => (
@@ -140,7 +144,7 @@ const ResetDrawer = props => {
                 {...field}
                 fullWidth
                 label='confirm_password'
-                type={showPassword ? 'text' : 'password'} // Toggle between 'text' and 'password'
+                type={showConfirmPassword ? 'text' : 'password'} // Toggle between 'text' and 'password'
                 placeholder=''
                 error={Boolean(errors.confirm_password)}
                 helperText={errors.confirm_password ? 'This field is required.' : ''}
@@ -149,7 +153,7 @@ const ResetDrawer = props => {
                     <InputAdornment position='end'>
                       <IconButton
                         aria-label='toggle password visibility'
-                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        onClick={handleConfirmShowPassword}
                         edge='end'
                       >
                         {showConfirmPassword ? (
