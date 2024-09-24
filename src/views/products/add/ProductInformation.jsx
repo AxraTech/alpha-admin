@@ -123,7 +123,18 @@ const EditorToolbar = ({ editor }) => {
   )
 }
 
-const ProductInformation = ({ setTitle, title, setSNo, sNo, setDescription, description, errors, productData }) => {
+const ProductInformation = ({
+  setTitle,
+  title,
+  setSNo,
+  sNo,
+  setDescription,
+  description,
+  errors,
+  productData
+  // warrantyPeriod,
+  // setWarrantyPeriod
+}) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -141,12 +152,12 @@ const ProductInformation = ({ setTitle, title, setSNo, sNo, setDescription, desc
     }
   })
 
-  useEffect(() => {
-    if (productData) {
-      setTitle(productData?.title)
-      setSNo(productData?.serial_number)
-    }
-  })
+  // useEffect(() => {
+  //   if (productData) {
+  //     setTitle(productData?.title)
+  //     setSNo(productData?.serial_number)
+  //   }
+  // })
   return (
     <Card>
       <CardHeader title='Product Information' />
@@ -163,7 +174,19 @@ const ProductInformation = ({ setTitle, title, setSNo, sNo, setDescription, desc
               helperText={errors?.title}
             />
           </Grid>
-
+          {/* warranty_period */}
+          {/* <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              label='Warranty Period'
+              placeholder='Enter Warranty Period'
+              value={warrantyPeriod}
+              onChange={e => setWarrantyPeriod(e.target.value)}
+              error={errors?.warrantyPeriod ? true : false}
+              helperText={errors?.warrantyPeriod}
+            />
+          </Grid> */}
+          {/* sNo */}
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth

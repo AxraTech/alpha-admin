@@ -32,7 +32,8 @@ const ProductEditDetails = () => {
   const [catId, setCatId] = useState()
   const [price, setPrice] = useState()
   const [sNo, setSNo] = useState()
-  const [isImageChange, setIsImageChange] = useState(false)
+  const [warrantyPeriod, setWarrantyPeriod] = useState()
+
   const [errors, setErrors] = useState()
   const [productMedia, setProductMedia] = useState([])
   // const [addProduct] = useMutation(ADD_PRODUCT)
@@ -41,6 +42,7 @@ const ProductEditDetails = () => {
 
   const [getFileUploadUrl] = useMutation(IMGAE_UPLOAD)
   const productData = data.products_by_pk
+
   const handleAddProduct = async () => {
     setLoading(true)
     let errObj = {}
@@ -61,6 +63,10 @@ const ProductEditDetails = () => {
       errObj.sNo = 'Serial Number field is required'
       isErrExit = true
     }
+    // if (!warrantyPeriod) {
+    //   errObj.warrantyPeriod = 'Warranty Period field is required'
+    //   isErrExit = true
+    // }
     if (!brandId) {
       errObj.brandId = 'Brand field is required'
       isErrExit = truealpha - admin / src / app / [lang] / dashboard / products / add
@@ -100,7 +106,7 @@ const ProductEditDetails = () => {
         })
       )
 
-      await addProduct({
+      const res = await addProduct({
         variables: {
           title: title,
           description_html: description,
@@ -108,6 +114,7 @@ const ProductEditDetails = () => {
           category_id: catId,
           // disable: status,
           serial_number: sNo,
+          warranty_period: warrantyPeriod,
           price: price,
           product_medias: {
             data: productMediaUrls
@@ -119,6 +126,7 @@ const ProductEditDetails = () => {
       setPrice('')
       setDescription('')
       setSNo('')
+      setWarrantyPeriod('')
       setBrandId('')
       setCatId('')
       setGlobalMsg('➕ Add New Product')
@@ -133,6 +141,7 @@ const ProductEditDetails = () => {
     setDescription('')
     setPrice(0)
     setSNo(0)
+    setWarrantyPeriod('')
     setCatId('')
     setBrandId('')
   }
@@ -158,6 +167,8 @@ const ProductEditDetails = () => {
                 title={title}
                 setSNo={setSNo}
                 sNo={sNo}
+                warrantyPeriod={warrantyPeriod}
+                setWarrantyPeriod={setWarrantyPeriod}
                 setDescription={setDescription}
                 description={description}
                 errors={errors}

@@ -124,7 +124,18 @@ const EditorToolbar = ({ editor }) => {
   )
 }
 
-const ProductInformation = ({ setTitle, title, setSNo, sNo, setDescription, description, errors, productData }) => {
+const ProductInformation = ({
+  setTitle,
+  title,
+  setSNo,
+  sNo,
+  setDescription,
+  description,
+  errors,
+  productData,
+  warrantyPeriod,
+  setWarrantyPeriod
+}) => {
   // const htmlDescription = ReactHtmlParser(productData.description_html)
 
   const editor = useEditor({
@@ -148,7 +159,7 @@ const ProductInformation = ({ setTitle, title, setSNo, sNo, setDescription, desc
     if (productData) {
       setTitle(productData?.title)
       setSNo(productData?.serial_number)
-
+      setWarrantyPeriod(productData?.warranty_period)
       setDescription(productData?.description_html)
     }
   }, [productData])
@@ -174,7 +185,18 @@ const ProductInformation = ({ setTitle, title, setSNo, sNo, setDescription, desc
               helperText={errors?.title}
             />
           </Grid>
-
+          {/* warranty_period */}
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              label='Warranty Period'
+              placeholder='0123-4567'
+              value={warrantyPeriod}
+              onChange={e => setWarrantyPeriod(e.target.value)}
+              error={errors?.warrantyPeriod ? true : false}
+              helperText={errors?.warrantyPeriod}
+            />
+          </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth

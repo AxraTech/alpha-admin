@@ -41,6 +41,7 @@
     $category_id: uuid!
     $serial_number: String!
     $price: numeric!
+    $warranty_period: String
     $product_medias: product_medias_arr_rel_insert_input!
   ) {
     insert_products_one(
@@ -51,6 +52,7 @@
         category_id: $category_id
         serial_number: $serial_number
         price: $price
+        warranty_period: $warranty_period
         product_medias: $product_medias
       }
     ) {

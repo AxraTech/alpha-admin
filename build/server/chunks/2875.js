@@ -110,6 +110,7 @@ fragment productBaseFields on products {
       title
       serial_number
       description_html
+      warranty_period
       product_medias {
         id
         media_url

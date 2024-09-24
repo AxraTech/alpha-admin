@@ -31,7 +31,8 @@ const SendInvoiceDrawer = ({ open, handleClose }) => {
   const [formData, setFormData] = useState(initialData)
 
   // States
-  const [fileName, setFileName] = useState('')
+  const [fileName, setFileNameName] = useState('')
+  const [errorMsg, setErrorMsg] = useState()
 
   // Refs
   const fileInputRef = useRef(null)
@@ -68,15 +69,24 @@ const SendInvoiceDrawer = ({ open, handleClose }) => {
   // const handleReset = () => {
   //   handleClose()
   //   resetForm({ title: '', description: '' })
-  //   setFileName('')
+  //   setFileNameName('')
   // }
 
   // Handle File Upload
   const handleFileUpload = event => {
     const { files } = event.target
-
+    if (!fileName || fileName[0].type !== 'application/pdf') {
+      setErrorMsg('Please upload a PDF file.')
+      return
+    }
     if (files && files.length !== 0) {
-      setFileName(files[0].name)
+      if (files[0].type !== 'application/pdf') {
+        setErrorMsg('Invalid file type. Please upload a PDF.')
+        setFileName(null)
+      } else {
+        setErrorMsg('') // Clear error if the file is valid
+        setFileName(files)
+      }
     }
   }
 
@@ -85,9 +95,10 @@ const SendInvoiceDrawer = ({ open, handleClose }) => {
   //   handleClose()
   //   setFormData(initialData)
   // }
-  console.log('fiel name ', fileName)
+
   const handleReset = () => {
     handleClose()
+    setErrorMsg('')
     setFormData(initialData)
   }
 
@@ -193,7 +204,7 @@ const SendInvoiceDrawer = ({ open, handleClose }) => {
                 readOnly: true,
                 endAdornment: fileName ? (
                   <InputAdornment position='end'>
-                    <IconButton size='small' edge='end' onClick={() => setFileName('')}>
+                    <IconButton size='small' edge='end' onClick={() => setFileNameName('')}>
                       <i className='ri-close-line' />
                     </IconButton>
                   </InputAdornment>
@@ -205,6 +216,11 @@ const SendInvoiceDrawer = ({ open, handleClose }) => {
               <input hidden id='contained-button-file' type='file' onChange={handleFileUpload} ref={fileInputRef} />
             </Button>
           </div>
+          {errorMsg && (
+            <Typography variant='body2' color='error'>
+              {errorMsg}
+            </Typography>
+          )}
 
           <div className='flex items-center gap-4'>
             <Button variant='contained' type='submit'>

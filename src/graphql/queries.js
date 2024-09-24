@@ -107,6 +107,7 @@ export const PRODUCTS_BY_ID = gql`
       title
       serial_number
       description_html
+      warranty_period
       product_medias {
         id
         media_url
