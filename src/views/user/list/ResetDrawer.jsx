@@ -6,22 +6,17 @@ import { useState } from 'react'
 import LoadingButton from '@mui/lab/LoadingButton'
 import Button from '@mui/material/Button'
 import Drawer from '@mui/material/Drawer'
-import FormControl from '@mui/material/FormControl'
 import IconButton from '@mui/material/IconButton'
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
-import Select from '@mui/material/Select'
 import TextField from '@mui/material/TextField'
-import FormHelperText from '@mui/material/FormHelperText'
-import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
-import Alert from '@/components/helper/Alert'
+import Typography from '@mui/material/Typography'
+import { InputAdornment } from '@mui/material'
+
 // Third-party Imports
 import { useForm, Controller } from 'react-hook-form'
 import { useMutation } from '@apollo/client'
-import { ADD_USER, RESET_USER_PASSWORD } from '@/graphql/mutations'
+import { RESET_USER_PASSWORD } from '@/graphql/mutations'
 import { useApp } from '@/app/ApolloWrapper'
-import { InputAdornment } from '@mui/material'
 
 // Vars
 const initialData = {
@@ -34,15 +29,18 @@ const ResetDrawer = props => {
   const { setGlobalMsg, loading, setLoading } = useApp()
   const { open, handleClose, userData, setData } = props
   const [resetUserPassword] = useMutation(RESET_USER_PASSWORD)
+
   // States
   const [formData, setFormData] = useState(initialData)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+
   // Hooks
   const {
     control,
     reset: resetForm,
     handleSubmit,
+    watch,
     formState: { errors }
   } = useForm({
     defaultValues: {
@@ -51,11 +49,11 @@ const ResetDrawer = props => {
     }
   })
 
+  const newPassword = watch('new_password') // Watch the password field to compare with confirm password
+
   const onSubmit = async data => {
     setLoading(true)
     try {
-      console.log('data ', data)
-
       const newUser = await resetUserPassword({
         variables: {
           user_id: userData.id,
@@ -65,7 +63,6 @@ const ResetDrawer = props => {
       })
       setLoading(false)
       setGlobalMsg('✅ Reset User Password')
-      // setData([...(userData ?? []), newUser])
       handleClose()
       setFormData(initialData)
       resetForm({})
@@ -74,9 +71,6 @@ const ResetDrawer = props => {
     }
   }
 
-  const handleConfirmShowPassword = () => {
-    setShowConfirmPassword(!showConfirmPassword)
-  }
   const handleReset = () => {
     handleClose()
     setFormData(initialData)
@@ -99,21 +93,23 @@ const ResetDrawer = props => {
       </div>
       <Divider />
       <div className='p-5'>
-        <form onSubmit={handleSubmit(data => onSubmit(data))} className='flex flex-col gap-5'>
-          {/*new password */}
+        <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-5'>
+          {/* New Password */}
           <Controller
             name='new_password'
             control={control}
-            rules={{ required: true }}
+            rules={{
+              required: 'New password is required',
+              minLength: { value: 6, message: 'Password must be at least 6 characters long' }
+            }}
             render={({ field }) => (
               <TextField
                 {...field}
                 fullWidth
-                label='new_password'
-                type={showPassword ? 'text' : 'password'} // Toggle between 'text' and 'password'
-                placeholder=''
+                label='New Password'
+                type={showPassword ? 'text' : 'password'}
                 error={Boolean(errors.new_password)}
-                helperText={errors.new_password ? 'This field is required.' : ''}
+                helperText={errors.new_password ? errors.new_password.message : ''}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position='end'>
@@ -134,26 +130,30 @@ const ResetDrawer = props => {
               />
             )}
           />
-          {/* confirm password */}
+
+          {/* Confirm Password */}
           <Controller
             name='confirm_password'
             control={control}
-            rules={{ required: true }}
+            rules={{
+              required: 'Confirm password is required',
+              validate: value => value === newPassword || 'Passwords do not match',
+              minLength: { value: 6, message: 'Password must be at least 6 characters long' }
+            }}
             render={({ field }) => (
               <TextField
                 {...field}
                 fullWidth
-                label='confirm_password'
-                type={showConfirmPassword ? 'text' : 'password'} // Toggle between 'text' and 'password'
-                placeholder=''
+                label='Confirm Password'
+                type={showConfirmPassword ? 'text' : 'password'}
                 error={Boolean(errors.confirm_password)}
-                helperText={errors.confirm_password ? 'This field is required.' : ''}
+                helperText={errors.confirm_password ? errors.confirm_password.message : ''}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position='end'>
                       <IconButton
                         aria-label='toggle password visibility'
-                        onClick={handleConfirmShowPassword}
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                         edge='end'
                       >
                         {showConfirmPassword ? (
@@ -173,13 +173,12 @@ const ResetDrawer = props => {
             <LoadingButton variant='contained' type='submit' loading={loading}>
               Submit
             </LoadingButton>
-            <Button variant='outlined' color='error' type='reset' onClick={() => handleReset()}>
+            <Button variant='outlined' color='error' type='reset' onClick={handleReset}>
               Cancel
             </Button>
           </div>
         </form>
       </div>
-      <Alert />
     </Drawer>
   )
 }
