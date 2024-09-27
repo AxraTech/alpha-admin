@@ -46,18 +46,18 @@ const PreviewCard = ({ invoiceData }) => {
               <div className='flex gap-4 mb-4'>
                 <Button
                   variant='outlined'
+                  color='info'
+                  onClick={() => handleChangeInvoiceStatus(invoiceData?.invoices_by_pk?.id, 'partially paid')}
+                >
+                  Partially Paid
+                </Button>
+                <Button
+                  variant='outlined'
                   color='success'
                   onClick={() => handleChangeInvoiceStatus(invoiceData?.invoices_by_pk?.id, 'paid')}
                 >
                   Paid
                 </Button>
-                {/* <Button
-                variant='outlined'
-                color='info'
-                onClick={() => handleChangeInvoiceStatus(invoiceDataId?.id, { status: 'partially paid' })}
-              >
-                Partially Paid
-              </Button> */}
 
                 <Button
                   variant='outlined'

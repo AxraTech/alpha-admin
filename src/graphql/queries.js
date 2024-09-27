@@ -253,6 +253,12 @@ export const GET_ALL_INVOICES = gql`
         id
         name
       }
+      order {
+        order_status {
+          name
+          id
+        }
+      }
       user {
         id
         name

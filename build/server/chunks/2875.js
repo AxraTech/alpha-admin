@@ -243,6 +243,12 @@ fragment productBaseFields on products {
         id
         name
       }
+      order {
+        order_status {
+          name
+          id
+        }
+      }
       user {
         id
         name

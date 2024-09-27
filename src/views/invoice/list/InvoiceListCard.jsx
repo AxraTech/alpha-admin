@@ -15,7 +15,7 @@ const InvoiceListCard = ({ count, title }) => {
             <div className='flex items-center gap-2 flex-wrap'>
               <Typography
                 variant='h5'
-                color={`${title === 'Paid' ? 'green' : title === 'User' ? 'info' : title === 'UnPaid' ? 'primary' : title === 'Partially Paid' ? 'green' : title === 'Rejected' ? 'error' : 'grey'}`}
+                color={`${title === 'Paid' ? 'green' : title === 'User' ? 'info' : title === 'UnPaid' ? 'primary' : title === 'Partially Paid' ? 'orange' : title === 'Rejected' ? 'error' : 'grey'}`}
               >
                 {title}
               </Typography>
@@ -24,7 +24,7 @@ const InvoiceListCard = ({ count, title }) => {
           </div>
           <CustomAvatar skin='light' variant='rounded' size={42}>
             <i
-              class={`${title === 'Paid' ? 'ri-wallet-line ' : title === 'User' ? 'ri-user-add-line' : title === 'UnPaid' ? 'ri-refund-2-line ' : title === 'Partially Paid' ? 'ri-wechat-pay-fill ' : 'grey'}`}
+              class={`${title === 'Paid' ? 'ri-wallet-line ' : title === 'User' ? 'ri-user-add-line' : title === 'UnPaid' ? 'ri-refund-2-line ' : title === 'Partially Paid' ? 'ri-wechat-pay-fill ' : title === 'Rejected' ? 'ri-user-unfollow-fill' : 'grey'}`}
             ></i>
           </CustomAvatar>
         </CardContent>

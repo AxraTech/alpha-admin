@@ -55,7 +55,7 @@ import { Avatar } from '@mui/material'
 import { CHANGE_INVOICE_STATUS } from '@/graphql/mutations'
 import { invoiceStatusColor } from '@components/helper/StatusColor'
 import { CSVLink } from 'react-csv'
-
+import { orderStatusColor } from '@components/helper/StatusColor'
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   // Rank the item
   const itemRank = rankItem(row.getValue(columnId), value)
@@ -86,16 +86,6 @@ const DebouncedInput = ({ value: initialValue, onChange, debounce = 500, ...prop
   }, [value])
 
   return <TextField {...props} value={value} onChange={e => setValue(e.target.value)} size='small' />
-}
-
-// Vars
-const invoiceStatusObj = {
-  Sent: { color: 'secondary', icon: 'ri-send-plane-2-line' },
-  Paid: { color: 'success', icon: 'ri-check-line' },
-  Draft: { color: 'primary', icon: 'ri-mail-line' },
-  'Partial Payment': { color: 'warning', icon: 'ri-pie-chart-2-line' },
-  'Past Due': { color: 'error', icon: 'ri-information-line' },
-  Downloaded: { color: 'info', icon: 'ri-arrow-down-line' }
 }
 
 // Column Definitions
@@ -129,6 +119,7 @@ const InvoiceListTable = () => {
     created_at: new Date(item.created_at).toLocaleString(),
     updated_at: new Date(item.updated_at).toLocaleString()
   }))
+
   const columns = useMemo(
     () => [
       // {
@@ -223,13 +214,29 @@ const InvoiceListTable = () => {
         cell: ({ row }) => <Typography>{row.original.created_at.substring(0, 10)}</Typography>
       }),
       columnHelper.accessor('status', {
-        header: 'Status',
+        header: 'Payment Status',
         cell: ({ row }) => (
           <div className='flex items-center gap-3'>
             <div className='flex flex-col'>
               <Chip
                 label={row.original.status}
                 color={invoiceStatusColor[row.original.status]}
+                style={{ textTransform: 'capitalize' }}
+                variant='tonal'
+                size='small'
+              />
+            </div>
+          </div>
+        )
+      }),
+      columnHelper.accessor('order.order_status.name', {
+        header: 'Delivery Status',
+        cell: ({ row }) => (
+          <div className='flex items-center gap-3'>
+            <div className='flex flex-col'>
+              <Chip
+                label={row.original?.order?.order_status?.name}
+                color={orderStatusColor[row.original.order?.order_status?.name]}
                 style={{ textTransform: 'capitalize' }}
                 variant='tonal'
                 size='small'
