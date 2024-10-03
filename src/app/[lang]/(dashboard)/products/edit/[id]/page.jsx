@@ -16,10 +16,10 @@ import { ADD_PRODUCT, EDIT_RPODUCTS, IMGAE_UPLOAD } from '@/graphql/mutations'
 import { useEffect, useState } from 'react'
 import Alert from '@/components/helper/Alert'
 import { useApp } from '@/app/ApolloWrapper'
-import { AlertTitle, Box } from '@mui/material'
-import { uploadFile } from '@/utils/helper'
+
 import { useParams, useRouter } from 'next/navigation'
 import { GET_PRODUCTS, PRODUCTS_BY_ID } from '@/graphql/queries'
+import { Box } from '@mui/material'
 const EditProducts = () => {
   const { id } = useParams()
   const router = useRouter()

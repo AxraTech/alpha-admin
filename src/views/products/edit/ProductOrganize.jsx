@@ -54,7 +54,7 @@ const ProductOrganize = ({ status, setStatus, brandId, setBrandId, catId, setCat
               <FormHelperText sx={{ color: 'red' }}>{errors?.brandId}</FormHelperText>
             </FormControl>
           )}
-          {catId ? (
+          {/* {catId ? (
             <Autocomplete
               //value={catId}
               // onChange={(event, newValue) => {
@@ -106,7 +106,24 @@ const ProductOrganize = ({ status, setStatus, brandId, setBrandId, catId, setCat
               )}
               renderInput={params => <TextField {...params} label='Category' placeholder='select category' />}
             />
-          )}
+          )} */}
+          <Autocomplete
+            value={catId || null}
+            onChange={(_event, newValue) => {
+              setCatId(newValue || null) // Ensure the selected object is passed, or null
+            }}
+            className='overflow-y-auto h-[40vh]'
+            id='checkboxes-tags-demo'
+            options={cats?.product_categories || []}
+            disableCloseOnSelect
+            getOptionLabel={option => option?.title || ''}
+            renderOption={(props, option, { selected }) => (
+              <li {...props} key={option.id}>
+                {option.title}
+              </li>
+            )}
+            renderInput={params => <TextField {...params} label='Category' placeholder='Select category' />}
+          />
         </form>
       </CardContent>
     </Card>
