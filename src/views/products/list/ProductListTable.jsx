@@ -163,9 +163,13 @@ const ProductListTable = () => {
         header: 'Serial No.',
         cell: ({ row }) => <Typography>{row.original?.serial_number ? row.original?.serial_number : '-'}</Typography>
       }),
-      columnHelper.accessor('price', {
-        header: 'Price',
-        cell: ({ row }) => <Typography>{row.original?.price.toLocaleString()}</Typography>
+      columnHelper.accessor('dealer_price', {
+        header: 'Dealer Price',
+        cell: ({ row }) => <Typography>{row.original?.dealer_price.toLocaleString()}</Typography>
+      }),
+      columnHelper.accessor('consumer_price', {
+        header: 'Consumer Price',
+        cell: ({ row }) => <Typography>{row.original?.consumer_price.toLocaleString()}</Typography>
       }),
       columnHelper.accessor('created_at', {
         header: 'Date',

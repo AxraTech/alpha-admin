@@ -15,8 +15,8 @@ import Form from '@components/Form'
 import { useEffect } from 'react'
 
 const ProductPricing = ({
-  price,
-  setPrice,
+  // price,
+  // setPrice,
   dealerPrice,
   consumerPrice,
   setDealerPrice,
@@ -34,7 +34,7 @@ const ProductPricing = ({
       <CardHeader title='Pricing' />
       <CardContent>
         <Form>
-          <TextField
+          {/* <TextField
             fullWidth
             type='number'
             label='Based Price'
@@ -44,6 +44,18 @@ const ProductPricing = ({
             onChange={e => setPrice(e.target.value)}
             error={errors?.price ? true : false}
             helperText={errors?.price}
+          /> */}
+
+          <TextField
+            fullWidth
+            type='number'
+            label='Dealer Price'
+            placeholder='Enter Dealer Price'
+            className='mbe-5'
+            value={dealerPrice}
+            onChange={e => setDealerPrice(e.target.value)}
+            error={errors?.dealerPrice ? true : false}
+            helperText={errors?.dealerPrice}
           />
           <TextField
             fullWidth
@@ -55,17 +67,6 @@ const ProductPricing = ({
             onChange={e => setConsumerPrice(e.target.value)}
             error={errors?.consumerPrice ? true : false}
             helperText={errors?.consumerPrice}
-          />
-          <TextField
-            fullWidth
-            type='number'
-            label='Dealer Price'
-            placeholder='Enter Dealer Price'
-            className='mbe-5'
-            value={dealerPrice}
-            onChange={e => setDealerPrice(e.target.value)}
-            error={errors?.dealerPrice ? true : false}
-            helperText={errors?.dealerPrice}
           />
           {/* <TextField fullWidth label='Discounted Price' placeholder='$499' className='mbe-5' />
           <FormControlLabel control={<Checkbox defaultChecked />} label='Charge tax on this product' />

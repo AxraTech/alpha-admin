@@ -27,7 +27,7 @@ const eCommerceProductsAdd = () => {
   const [description, setDescription] = useState()
   const [brandId, setBrandId] = useState()
   const [catId, setCatId] = useState()
-  const [price, setPrice] = useState()
+  // const [price, setPrice] = useState()
   const [dealerPrice, setDealerPrice] = useState()
   const [consumerPrice, setConsumerPrice] = useState()
   const [sNo, setSNo] = useState()
@@ -49,10 +49,10 @@ const eCommerceProductsAdd = () => {
       errObj.title = 'Title field is required'
       isErrExit = true
     }
-    if (!price) {
-      errObj.price = 'Price field is required'
-      isErrExit = true
-    }
+    // if (!price) {
+    //   errObj.price = 'Price field is required'
+    //   isErrExit = true
+    // }
     if (!dealerPrice) {
       errObj.dealerPrice = 'Dealer Price field is required'
       isErrExit = true
@@ -116,7 +116,7 @@ const eCommerceProductsAdd = () => {
           category_id: catId,
           serial_number: sNo,
           warranty_period: warrantyPeriod,
-          price: Number(price),
+          // price: Number(price),
           dealer_price: Number(dealerPrice),
           consumer_price: Number(consumerPrice),
           product_medias: {
@@ -127,7 +127,7 @@ const eCommerceProductsAdd = () => {
       // router.back()
       setLoading(false)
       setTitle('')
-      setPrice('')
+      // setPrice('')
       setDescription('')
       setSNo('')
       setDealerPrice('')
@@ -145,7 +145,7 @@ const eCommerceProductsAdd = () => {
   const handleDiscardProduct = () => {
     setTitle('')
     setDescription('')
-    setPrice('')
+    // setPrice('')
     setSNo('')
     setDealerPrice('')
     setConsumerPrice('')
@@ -192,8 +192,8 @@ const eCommerceProductsAdd = () => {
           <Grid container spacing={6}>
             <Grid item xs={12}>
               <ProductPricing
-                price={price}
-                setPrice={setPrice}
+                // price={price}
+                // setPrice={setPrice}
                 errors={errors}
                 dealerPrice={dealerPrice}
                 setDealerPrice={setDealerPrice}

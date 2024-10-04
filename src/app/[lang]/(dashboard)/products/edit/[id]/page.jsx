@@ -28,7 +28,7 @@ const EditProducts = () => {
   const [description, setDescription] = useState()
   const [brandId, setBrandId] = useState()
   const [catId, setCatId] = useState()
-  const [price, setPrice] = useState()
+  // const [price, setPrice] = useState()
   const [dealerPrice, setDealerPrice] = useState()
   const [consumerPrice, setConsumerPrice] = useState()
   const [sNo, setSNo] = useState()
@@ -48,7 +48,7 @@ const EditProducts = () => {
       setWarrantyPeriod(productData?.warranty_period)
       setDescription(productData?.description_html)
       setBrandId(productData?.brand_id)
-      setPrice(productData?.price)
+      // setPrice(productData?.price)
       setDealerPrice(productData?.dealer_price)
       setConsumerPrice(productData?.consumer_price)
     }
@@ -88,7 +88,7 @@ const EditProducts = () => {
           category_id: catId?.id,
           serial_number: sNo,
           warranty_period: warrantyPeriod,
-          price: Number(price),
+          // price: Number(price),
           dealer_price: Number(dealerPrice),
           consumer_price: Number(consumerPrice)
         }
@@ -150,8 +150,8 @@ const EditProducts = () => {
           <Grid container spacing={6}>
             <Grid item xs={12}>
               <ProductPricing
-                price={price}
-                setPrice={setPrice}
+                // price={price}
+                // setPrice={setPrice}
                 errors={errors}
                 productData={productData}
                 dealerPrice={dealerPrice}

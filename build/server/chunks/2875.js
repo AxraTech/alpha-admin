@@ -82,6 +82,8 @@ fragment productBaseFields on products {
       title
       created_at
       updated_at
+      dealer_price
+      consumer_price
       description_html
       serial_number
       product_medias(order_by: { updated_at: desc }, limit: 1) {

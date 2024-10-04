@@ -13,13 +13,13 @@ import Typography from '@mui/material/Typography'
 // Component Imports
 import Form from '@components/Form'
 
-const ProductPricing = ({ price, setPrice, errors, dealerPrice, setDealerPrice, consumerPrice, setConsumerPrice }) => {
+const ProductPricing = ({ errors, dealerPrice, setDealerPrice, consumerPrice, setConsumerPrice }) => {
   return (
     <Card>
       <CardHeader title='Pricing' />
       <CardContent>
         <Form>
-          <TextField
+          {/* <TextField
             fullWidth
             type='number'
             label='Based Price'
@@ -29,14 +29,14 @@ const ProductPricing = ({ price, setPrice, errors, dealerPrice, setDealerPrice, 
             onChange={e => setPrice(e.target.value)}
             error={errors?.price ? true : false}
             helperText={errors?.price}
-          />
+          /> */}
           <TextField
             fullWidth
             type='number'
             label='Dealer Price'
             placeholder='Enter Dealer Price'
             className='mbe-5'
-            value={price}
+            value={dealerPrice}
             onChange={e => setDealerPrice(e.target.value)}
             error={errors?.dealerPrice ? true : false}
             helperText={errors?.dealerPrice}

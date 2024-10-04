@@ -50,7 +50,6 @@
     $brand_id: uuid!
     $category_id: uuid!
     $serial_number: String!
-    $price: numeric!
     $dealer_price: numeric!
     $consumer_price: numeric!
     $warranty_period: String
@@ -63,7 +62,6 @@
         brand_id: $brand_id
         category_id: $category_id
         serial_number: $serial_number
-        price: $price
         dealer_price: $dealer_price
         consumer_price: $consumer_price
         warranty_period: $warranty_period
@@ -72,7 +70,7 @@
     ) {
       id
       title
-      price
+
       consumer_price
       dealer_price
       created_at
@@ -96,7 +94,6 @@
     $brand_id: uuid!
     $category_id: uuid!
     $serial_number: String
-    $price: numeric!
     $dealer_price: numeric!
     $consumer_price: numeric!
     $warranty_period: String
@@ -109,7 +106,6 @@
         brand_id: $brand_id
         category_id: $category_id
         serial_number: $serial_number
-        price: $price
         dealer_price: $dealer_price
         consumer_price: $consumer_price
         warranty_period: $warranty_period
@@ -117,7 +113,7 @@
     ) {
       id
       title
-      price
+
       consumer_price
       dealer_price
       created_at
