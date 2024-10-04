@@ -16,7 +16,9 @@ import { StarterKit } from '@tiptap/starter-kit'
 import { Underline } from '@tiptap/extension-underline'
 import { Placeholder } from '@tiptap/extension-placeholder'
 import { TextAlign } from '@tiptap/extension-text-align'
-
+import Paragraph from '@tiptap/extension-paragraph'
+import ListItem from '@tiptap/extension-list-item'
+import BulletList from '@tiptap/extension-bullet-list'
 // Components Imports
 import CustomIconButton from '@core/components/mui/IconButton'
 import ReactHtmlParser from 'react-html-parser'
@@ -124,6 +126,24 @@ const EditorToolbar = ({ editor }) => {
   )
 }
 
+const CustomStarterKit = StarterKit.configure({
+  bulletList: {
+    parseHTML: () => [{ tag: 'p' }], // Treat bullet lists as <p>
+    renderHTML: () => ['p', 0] // Render bullet lists as <p>
+  },
+  orderedList: {
+    parseHTML: () => [{ tag: 'p' }], // Treat ordered lists as <p>
+    renderHTML: () => ['p', 0] // Render ordered lists as <p>
+  }
+})
+
+const CustomParagraph = Paragraph.extend({
+  renderHTML({ HTMLAttributes }) {
+    // Do not wrap list items inside <p> tags
+    return ['p', HTMLAttributes, 0]
+  }
+})
+
 const ProductInformation = ({
   setTitle,
   title,
@@ -138,20 +158,60 @@ const ProductInformation = ({
 }) => {
   // const htmlDescription = ReactHtmlParser(productData.description_html)
 
+  // const editor = useEditor({
+  //   extensions: [
+  //     StarterKit,
+  //     Placeholder.configure({
+  //       placeholder: 'Write something here...'
+  //     }),
+  //     TextAlign.configure({
+  //       types: ['heading', 'paragraph']
+  //     }),
+  //     Underline
+  //   ],
+  //   content: description,
+  //   onUpdate: ({ editor }) => {
+  //     setDescription(editor.getHTML())
+  //   }
+  // })
   const editor = useEditor({
     extensions: [
-      StarterKit,
-      Placeholder.configure({
-        placeholder: 'Write something here...'
+      StarterKit.configure({
+        paragraph: false // Disable default paragraph extension to avoid wrapping
       }),
+      Underline,
       TextAlign.configure({
         types: ['heading', 'paragraph']
       }),
-      Underline
+      Placeholder.configure({
+        placeholder: 'Write something here...'
+      }),
+      Paragraph.extend({
+        renderHTML({ HTMLAttributes }) {
+          return ['p', HTMLAttributes, 0]
+        }
+      }),
+      BulletList.extend({
+        renderHTML({ HTMLAttributes }) {
+          return ['ul', HTMLAttributes, 0]
+        }
+      }),
+      ListItem.extend({
+        renderHTML({ HTMLAttributes }) {
+          return ['li', HTMLAttributes, 0]
+        },
+        addKeyboardShortcuts() {
+          return {
+            Enter: () => this.editor.commands.splitListItem('listItem'),
+            Tab: () => this.editor.commands.sinkListItem('listItem'),
+            'Shift-Tab': () => this.editor.commands.liftListItem('listItem')
+          }
+        }
+      })
     ],
-    content: description,
+    content: description, // Set the initial content
     onUpdate: ({ editor }) => {
-      setDescription(editor.getHTML())
+      setDescription(editor.getHTML()) // Save content in HTML format
     }
   })
 

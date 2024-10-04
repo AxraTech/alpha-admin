@@ -120,6 +120,24 @@ const DiscountDetailsCard = ({ productData }) => {
                 {productData?.warranty_period}
               </Typography>
             </div>
+            {/* dealer price */}
+            <div className='flex items-center gap-12 mt-3'>
+              <Typography color='text.primary' className='min-is-[100px]'>
+                Dealer Price :
+              </Typography>
+              <Typography color='text.primary' className='font-medium'>
+                {productData?.dealer_price}
+              </Typography>
+            </div>
+            {/* consumer price */}
+            <div className='flex items-center gap-12 mt-3'>
+              <Typography color='text.primary' className='min-is-[100px]'>
+                Consumer Price :
+              </Typography>
+              <Typography color='text.primary' className='font-medium'>
+                {productData?.consumer_price}
+              </Typography>
+            </div>
             {/* <div className='flex items-center gap-12'>
             <Typography color='text.primary' className='min-is-[100px]'>
               Tax:

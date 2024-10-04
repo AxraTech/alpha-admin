@@ -46,6 +46,8 @@ export const ADD_PRODUCT = gql`
     $category_id: uuid!
     $serial_number: String!
     $price: numeric!
+    $dealer_price: numeric!
+    $consumer_price: numeric!
     $warranty_period: String
     $product_medias: product_medias_arr_rel_insert_input!
   ) {
@@ -57,6 +59,8 @@ export const ADD_PRODUCT = gql`
         category_id: $category_id
         serial_number: $serial_number
         price: $price
+        dealer_price: $dealer_price
+        consumer_price: $consumer_price
         warranty_period: $warranty_period
         product_medias: $product_medias
       }
@@ -64,6 +68,8 @@ export const ADD_PRODUCT = gql`
       id
       title
       price
+      consumer_price
+      dealer_price
       created_at
       description_html
       serial_number
@@ -87,6 +93,8 @@ export const EDIT_RPODUCTS = gql`
     $category_id: uuid!
     $serial_number: String
     $price: numeric!
+    $dealer_price: numeric!
+    $consumer_price: numeric!
     $warranty_period: String
   ) {
     update_products_by_pk(
@@ -98,12 +106,16 @@ export const EDIT_RPODUCTS = gql`
         category_id: $category_id
         serial_number: $serial_number
         price: $price
+        dealer_price: $dealer_price
+        consumer_price: $consumer_price
         warranty_period: $warranty_period
       }
     ) {
       id
       title
       price
+      consumer_price
+      dealer_price
       created_at
       description_html
       serial_number

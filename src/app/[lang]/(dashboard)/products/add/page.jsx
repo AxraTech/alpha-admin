@@ -28,6 +28,8 @@ const eCommerceProductsAdd = () => {
   const [brandId, setBrandId] = useState()
   const [catId, setCatId] = useState()
   const [price, setPrice] = useState()
+  const [dealerPrice, setDealerPrice] = useState()
+  const [consumerPrice, setConsumerPrice] = useState()
   const [sNo, setSNo] = useState()
   const [warrantyPeriod, setWarrantyPeriod] = useState()
   const [errors, setErrors] = useState()
@@ -49,6 +51,14 @@ const eCommerceProductsAdd = () => {
     }
     if (!price) {
       errObj.price = 'Price field is required'
+      isErrExit = true
+    }
+    if (!dealerPrice) {
+      errObj.dealerPrice = 'Dealer Price field is required'
+      isErrExit = true
+    }
+    if (!consumerPrice) {
+      errObj.consumerPrice = 'Consumer Price field is required'
       isErrExit = true
     }
     if (!sNo) {
@@ -107,6 +117,8 @@ const eCommerceProductsAdd = () => {
           serial_number: sNo,
           warranty_period: warrantyPeriod,
           price: Number(price),
+          dealer_price: Number(dealerPrice),
+          consumer_price: Number(consumerPrice),
           product_medias: {
             data: productMediaUrls
           }
@@ -118,6 +130,8 @@ const eCommerceProductsAdd = () => {
       setPrice('')
       setDescription('')
       setSNo('')
+      setDealerPrice('')
+      setConsumerPrice('')
       // setWarrantyPeriod('')
       setBrandId('')
       setCatId('')
@@ -133,7 +147,8 @@ const eCommerceProductsAdd = () => {
     setDescription('')
     setPrice('')
     setSNo('')
-
+    setDealerPrice('')
+    setConsumerPrice('')
     setWarrantyPeriod('')
     setBrandId()
     setProductMedia([])
@@ -176,7 +191,15 @@ const eCommerceProductsAdd = () => {
         <Grid item xs={12} md={4}>
           <Grid container spacing={6}>
             <Grid item xs={12}>
-              <ProductPricing price={price} setPrice={setPrice} errors={errors} />
+              <ProductPricing
+                price={price}
+                setPrice={setPrice}
+                errors={errors}
+                dealerPrice={dealerPrice}
+                setDealerPrice={setDealerPrice}
+                consumerPrice={consumerPrice}
+                setConsumerPrice={setConsumerPrice}
+              />
             </Grid>
             <Grid item xs={12}>
               <ProductOrganize

@@ -29,6 +29,8 @@ const EditProducts = () => {
   const [brandId, setBrandId] = useState()
   const [catId, setCatId] = useState()
   const [price, setPrice] = useState()
+  const [dealerPrice, setDealerPrice] = useState()
+  const [consumerPrice, setConsumerPrice] = useState()
   const [sNo, setSNo] = useState()
   const [warrantyPeriod, setWarrantyPeriod] = useState()
   const [errors, setErrors] = useState()
@@ -47,6 +49,8 @@ const EditProducts = () => {
       setDescription(productData?.description_html)
       setBrandId(productData?.brand_id)
       setPrice(productData?.price)
+      setDealerPrice(productData?.dealer_price)
+      setConsumerPrice(productData?.consumer_price)
     }
   }, [productData])
 
@@ -84,7 +88,9 @@ const EditProducts = () => {
           category_id: catId?.id,
           serial_number: sNo,
           warranty_period: warrantyPeriod,
-          price: Number(price)
+          price: Number(price),
+          dealer_price: Number(dealerPrice),
+          consumer_price: Number(consumerPrice)
         }
       })
       // router.back()
@@ -143,7 +149,16 @@ const EditProducts = () => {
         <Grid item xs={12} md={4}>
           <Grid container spacing={6}>
             <Grid item xs={12}>
-              <ProductPricing price={price} setPrice={setPrice} errors={errors} productData={productData} />
+              <ProductPricing
+                price={price}
+                setPrice={setPrice}
+                errors={errors}
+                productData={productData}
+                dealerPrice={dealerPrice}
+                setDealerPrice={setDealerPrice}
+                consumerPrice={consumerPrice}
+                setConsumerPrice={setConsumerPrice}
+              />
             </Grid>
             <Grid item xs={12}>
               <ProductOrganize

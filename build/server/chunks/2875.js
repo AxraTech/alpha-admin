@@ -133,6 +133,8 @@ fragment productBaseFields on products {
         image_url
       }
       price
+      dealer_price
+      consumer_price
       sku
       disabled
     }

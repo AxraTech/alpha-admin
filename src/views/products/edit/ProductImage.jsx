@@ -48,8 +48,8 @@ const ProductImage = ({ files, setFiles, productData }) => {
   const [productMedia, setProductMedia] = useState([])
   const [errorMessage, setErrorMessage] = useState('')
   const [isImageChange, setIsImageChange] = useState(false)
-  const [deleteImage] = useMutation(DELETE_PRODUCT_IMAGE)
-  const [imageUpload] = useMutation(PRODUCT_IMAGE_UPLOAD)
+  const [deleteImage] = useMutation(DELETE_PRODUCT_IMAGE, { fetchPolicy: 'network-only' })
+  const [imageUpload] = useMutation(PRODUCT_IMAGE_UPLOAD, { fetchPolicy: 'network-only' })
   const [getFileUploadUrl] = useMutation(IMGAE_UPLOAD)
   const { setGlobalMsg } = useApp()
   // Hooks
@@ -108,7 +108,7 @@ const ProductImage = ({ files, setFiles, productData }) => {
             }
           })
           const uploadedFileUrl = await uploadFile(file, fileUploadUrl.data.getFileUploadUrl.fileUploadUrl, 'image')
-          imageUpload({
+          await imageUpload({
             variables: {
               data: {
                 product_id: productData?.id,
@@ -121,6 +121,7 @@ const ProductImage = ({ files, setFiles, productData }) => {
       }
       setGlobalMsg('✅ Image Uploaded')
     } catch (e) {
+      setGlobalMsg(`❌ Image Upload Error`, e)
       console.log('Image Upload error ', e)
     }
   }

@@ -130,6 +130,8 @@ export const PRODUCTS_BY_ID = gql`
         image_url
       }
       price
+      dealer_price
+      consumer_price
       sku
       disabled
     }

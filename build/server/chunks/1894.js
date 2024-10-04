@@ -1,11 +1,11 @@
-exports.id=1894,exports.ids=[1894],exports.modules={36839:(e,t,i)=>{"use strict";i.d(t,{Z:()=>r});var d=i(27486),a=i(618);let r=e=>{let{element:t,dialog:i,elementProps:r,dialogProps:s,dataId:n,setData:o,data:u}=e,[_,c]=(0,a.useState)(!1),{onClick:l,...m}=r;return(0,d.jsxs)(d.Fragment,{children:[d.jsx(t,{onClick:e=>{l&&l(e),c(!0)},...m}),d.jsx(i,{open:_,setOpen:c,...s,dataId:n,setData:o,data:u})]})}},5632:(e,t,i)=>{"use strict";i.d(t,{Z:()=>p});var d=i(27486),a=i(618),r=i(19412),s=i(56239),n=i(53544),o=i(72660),u=i(12964);i(19396);var _=i(83398),c=i(66718),l=i(46811),m=i(25009);let p=({open:e,setOpen:t,type:i,dataId:p,data:$,setData:y})=>{let{userId:g}=(0,l.useParams)(),[b]=(0,_.D)(c.HT),[v]=(0,_.D)(c.SZ,{refetchQueries:[m.L5]}),[w]=(0,_.D)(c.z7,{refetchQueries:[m.L5]}),[P]=(0,_.D)(c.aY),[S]=(0,_.D)(c.Ff),[k]=(0,_.D)(c.ju),[h]=(0,_.D)(c.oe),[f]=(0,_.D)(c.DR),[j]=(0,_.D)(c.Qm),[x,C]=(0,a.useState)(!1),[D,N]=(0,a.useState)(!1),Z="disable-account"===i?"div":a.Fragment,U=async e=>{if(!0===e)try{"disable-account"===i&&await v({variables:{id:g,data:{status:"disable"}}}),"enable-account"===i&&await v({variables:{id:g,data:{status:"verified"}}}),"verified-account"===i&&await w({variables:{user_id:g,is_verified:!0}}),"unverified-account"===i&&await w({variables:{user_id:g,is_verified:!1}}),"deleteProductCategory"===i&&(await P({variables:{id:p}}),y($.filter(e=>e.id!==p))),"deleteProductBrand"===i&&(await S({variables:{id:p}}),y($.filter(e=>e.id!==p))),"deletePost"===i&&(await k({variables:{id:p}}),y($.filter(e=>e.id!==p))),"deleteNewCategory"===i&&(await h({variables:{id:p}}),y($.filter(e=>e.id!==p))),"deleteServiceCenter"===i&&(await f({variables:{id:p}}),y($.filter(e=>e.id!==p))),"deleteProductDiscount"===i&&(await j({variables:{id:p}}),y($.filter(e=>e.id!==p))),N(e),t(!1)}catch(e){console.log("Error",e)}else t(!1);N(e),C(!0),t(!1)};return d.jsx(d.Fragment,{children:(0,d.jsxs)(r.Z,{fullWidth:!0,maxWidth:"xs",open:e,onClose:()=>t(!1),children:[(0,d.jsxs)(s.Z,{className:"flex items-center flex-col text-center sm:pbs-16 sm:pbe-6 sm:pli-16",children:[d.jsx("i",{className:"ri-error-warning-line text-[88px] mbe-6 text-warning"}),(0,d.jsxs)(Z,{..."disable-account"===i&&{className:"flex flex-col items-center gap-2"},children:[(0,d.jsxs)(o.Z,{variant:"h4",children:["unsubscribe"===i&&"Are you sure to cancel your subscription?","disable-account"===i&&"Are you sure?","delete-order"===i&&"Are you sure?","delete-customer"===i&&"Are you sure?"]}),"verified-account"===i&&d.jsx(o.Z,{color:"text.primary",children:"Are you sure you want to verify your account?"}),"unverified-account"===i&&d.jsx(o.Z,{color:"text.primary",children:"Are you sure you want to unverify your account?"}),"disable-account"===i&&d.jsx(o.Z,{color:"text.primary",children:"Are you sure you want to disalbe user!"}),"enable-account"===i&&d.jsx(o.Z,{color:"text.primary",children:"Are you sure you want to enable user!"}),"deleteProductCategory"===i&&d.jsx(o.Z,{color:"text.primary",children:"Are you sure you want to delete?"}),"deleteProductDiscount"===i&&d.jsx(o.Z,{color:"text.primary",children:"Are you sure you want to delete?"}),"deleteServiceCenter"===i&&d.jsx(o.Z,{color:"text.primary",children:"Are you sure you want to delete?"}),"deleteProductBrand"===i&&d.jsx(o.Z,{color:"text.primary",children:"Are you sure you want to delete?"}),"deletePost"===i&&d.jsx(o.Z,{color:"text.primary",children:"Are you sure you want to delete?"}),"deleteNewCategory"===i&&d.jsx(o.Z,{color:"text.primary",children:"Are you sure you want to delete?"})]})]}),(0,d.jsxs)(n.Z,{className:"justify-center pbs-0 sm:pbe-16 sm:pli-16",children:[d.jsx(u.Z,{variant:"contained",onClick:()=>U(!0),children:"disable-account"===i?"Yes, Disabel User!":"enable-account"===i?"Yes, Enable User!":"deleteProductCategory"===i?"Yes, Delete Category!":"deleteProductBrand"===i?"Yes, Delete Brand":"delete-customer"===i?"Yes, Delete Customer!":"verified-account"===i?"Yes , User Verify":"unverified-account"===i?"Yes, User Unverify":"deletePost"===i?"Yes, Delete Post":"deleteNewCategory"===i?"Yes, Delete Category":"deleteServiceCenter"===i?"Yes, Delete Service Center":"deleteProductDiscount"===i?"Yes, Delete Product Discount":"Yes"}),d.jsx(u.Z,{variant:"outlined",color:"secondary",onClick:()=>{U(!1)},children:"Cancel"})]})]})})}},66718:(e,t,i)=>{"use strict";i.d(t,{BM:()=>D,DR:()=>q,Ff:()=>c,HT:()=>y,Hd:()=>g,J2:()=>M,J9:()=>o,JB:()=>Y,KN:()=>Z,Lh:()=>L,MP:()=>s,MZ:()=>A,O7:()=>Q,Qm:()=>z,SB:()=>p,SZ:()=>f,Sf:()=>w,Si:()=>J,Zq:()=>C,aY:()=>l,bc:()=>H,dE:()=>b,dn:()=>W,en:()=>F,hB:()=>a,he:()=>T,hq:()=>r,jN:()=>I,ju:()=>$,mU:()=>h,mt:()=>E,oe:()=>m,pE:()=>O,rV:()=>B,si:()=>R,tC:()=>N,tt:()=>P,tz:()=>k,u7:()=>_,ui:()=>V,uv:()=>u,vl:()=>U,wU:()=>S,yG:()=>x,yn:()=>v,z7:()=>j,zN:()=>n});var d=i(12738);let a=(0,d.Ps)`
+exports.id=1894,exports.ids=[1894],exports.modules={36839:(e,t,i)=>{"use strict";i.d(t,{Z:()=>a});var d=i(27486),r=i(618);let a=e=>{let{element:t,dialog:i,elementProps:a,dialogProps:s,dataId:n,setData:o,data:u}=e,[_,c]=(0,r.useState)(!1),{onClick:l,...m}=a;return(0,d.jsxs)(d.Fragment,{children:[d.jsx(t,{onClick:e=>{l&&l(e),c(!0)},...m}),d.jsx(i,{open:_,setOpen:c,...s,dataId:n,setData:o,data:u})]})}},5632:(e,t,i)=>{"use strict";i.d(t,{Z:()=>p});var d=i(27486),r=i(618),a=i(19412),s=i(56239),n=i(53544),o=i(72660),u=i(12964);i(19396);var _=i(83398),c=i(66718),l=i(46811),m=i(25009);let p=({open:e,setOpen:t,type:i,dataId:p,data:$,setData:y})=>{let{userId:g}=(0,l.useParams)(),[b]=(0,_.D)(c.HT),[v]=(0,_.D)(c.SZ,{refetchQueries:[m.L5]}),[w]=(0,_.D)(c.z7,{refetchQueries:[m.L5]}),[P]=(0,_.D)(c.aY),[S]=(0,_.D)(c.Ff),[k]=(0,_.D)(c.ju),[h]=(0,_.D)(c.oe),[f]=(0,_.D)(c.DR),[j]=(0,_.D)(c.Qm),[x,C]=(0,r.useState)(!1),[D,N]=(0,r.useState)(!1),Z="disable-account"===i?"div":r.Fragment,U=async e=>{if(!0===e)try{"disable-account"===i&&await v({variables:{id:g,data:{status:"disable"}}}),"enable-account"===i&&await v({variables:{id:g,data:{status:"verified"}}}),"verified-account"===i&&await w({variables:{user_id:g,is_verified:!0}}),"unverified-account"===i&&await w({variables:{user_id:g,is_verified:!1}}),"deleteProductCategory"===i&&(await P({variables:{id:p}}),y($.filter(e=>e.id!==p))),"deleteProductBrand"===i&&(await S({variables:{id:p}}),y($.filter(e=>e.id!==p))),"deletePost"===i&&(await k({variables:{id:p}}),y($.filter(e=>e.id!==p))),"deleteNewCategory"===i&&(await h({variables:{id:p}}),y($.filter(e=>e.id!==p))),"deleteServiceCenter"===i&&(await f({variables:{id:p}}),y($.filter(e=>e.id!==p))),"deleteProductDiscount"===i&&(await j({variables:{id:p}}),y($.filter(e=>e.id!==p))),N(e),t(!1)}catch(e){console.log("Error",e)}else t(!1);N(e),C(!0),t(!1)};return d.jsx(d.Fragment,{children:(0,d.jsxs)(a.Z,{fullWidth:!0,maxWidth:"xs",open:e,onClose:()=>t(!1),children:[(0,d.jsxs)(s.Z,{className:"flex items-center flex-col text-center sm:pbs-16 sm:pbe-6 sm:pli-16",children:[d.jsx("i",{className:"ri-error-warning-line text-[88px] mbe-6 text-warning"}),(0,d.jsxs)(Z,{..."disable-account"===i&&{className:"flex flex-col items-center gap-2"},children:[(0,d.jsxs)(o.Z,{variant:"h4",children:["unsubscribe"===i&&"Are you sure to cancel your subscription?","disable-account"===i&&"Are you sure?","delete-order"===i&&"Are you sure?","delete-customer"===i&&"Are you sure?"]}),"verified-account"===i&&d.jsx(o.Z,{color:"text.primary",children:"Are you sure you want to verify your account?"}),"unverified-account"===i&&d.jsx(o.Z,{color:"text.primary",children:"Are you sure you want to unverify your account?"}),"disable-account"===i&&d.jsx(o.Z,{color:"text.primary",children:"Are you sure you want to disalbe user!"}),"enable-account"===i&&d.jsx(o.Z,{color:"text.primary",children:"Are you sure you want to enable user!"}),"deleteProductCategory"===i&&d.jsx(o.Z,{color:"text.primary",children:"Are you sure you want to delete?"}),"deleteProductDiscount"===i&&d.jsx(o.Z,{color:"text.primary",children:"Are you sure you want to delete?"}),"deleteServiceCenter"===i&&d.jsx(o.Z,{color:"text.primary",children:"Are you sure you want to delete?"}),"deleteProductBrand"===i&&d.jsx(o.Z,{color:"text.primary",children:"Are you sure you want to delete?"}),"deletePost"===i&&d.jsx(o.Z,{color:"text.primary",children:"Are you sure you want to delete?"}),"deleteNewCategory"===i&&d.jsx(o.Z,{color:"text.primary",children:"Are you sure you want to delete?"})]})]}),(0,d.jsxs)(n.Z,{className:"justify-center pbs-0 sm:pbe-16 sm:pli-16",children:[d.jsx(u.Z,{variant:"contained",onClick:()=>U(!0),children:"disable-account"===i?"Yes, Disabel User!":"enable-account"===i?"Yes, Enable User!":"deleteProductCategory"===i?"Yes, Delete Category!":"deleteProductBrand"===i?"Yes, Delete Brand":"delete-customer"===i?"Yes, Delete Customer!":"verified-account"===i?"Yes , User Verify":"unverified-account"===i?"Yes, User Unverify":"deletePost"===i?"Yes, Delete Post":"deleteNewCategory"===i?"Yes, Delete Category":"deleteServiceCenter"===i?"Yes, Delete Service Center":"deleteProductDiscount"===i?"Yes, Delete Product Discount":"Yes"}),d.jsx(u.Z,{variant:"outlined",color:"secondary",onClick:()=>{U(!1)},children:"Cancel"})]})]})})}},66718:(e,t,i)=>{"use strict";i.d(t,{BM:()=>D,DR:()=>q,Ff:()=>c,HT:()=>y,Hd:()=>g,J2:()=>M,J9:()=>o,JB:()=>Y,KN:()=>Z,Lh:()=>L,MP:()=>s,MZ:()=>A,O7:()=>Q,Qm:()=>z,SB:()=>p,SZ:()=>f,Sf:()=>w,Si:()=>J,Zq:()=>C,aY:()=>l,bc:()=>H,dE:()=>b,dn:()=>W,en:()=>F,hB:()=>r,he:()=>T,hq:()=>a,jN:()=>I,ju:()=>$,mU:()=>h,mt:()=>E,oe:()=>m,pE:()=>O,rV:()=>B,si:()=>R,tC:()=>N,tt:()=>P,tz:()=>k,u7:()=>_,ui:()=>V,uv:()=>u,vl:()=>U,wU:()=>S,yG:()=>x,yn:()=>v,z7:()=>j,zN:()=>n});var d=i(12738);let r=(0,d.Ps)`
   mutation adminSignIn($email: String!, $password: String!) {
     AdminSignIn(email: $email, password: $password) {
       token
       message
     }
   }
-`,r=(0,d.Ps)`
+`,a=(0,d.Ps)`
   mutation addCategory($data: product_categories_insert_input!) {
     insert_product_categories_one(object: $data) {
       id
@@ -41,6 +41,8 @@ exports.id=1894,exports.ids=[1894],exports.modules={36839:(e,t,i)=>{"use strict"
     $category_id: uuid!
     $serial_number: String!
     $price: numeric!
+    $dealer_price: numeric!
+    $consumer_price: numeric!
     $warranty_period: String
     $product_medias: product_medias_arr_rel_insert_input!
   ) {
@@ -52,6 +54,8 @@ exports.id=1894,exports.ids=[1894],exports.modules={36839:(e,t,i)=>{"use strict"
         category_id: $category_id
         serial_number: $serial_number
         price: $price
+        dealer_price: $dealer_price
+        consumer_price: $consumer_price
         warranty_period: $warranty_period
         product_medias: $product_medias
       }
@@ -59,6 +63,8 @@ exports.id=1894,exports.ids=[1894],exports.modules={36839:(e,t,i)=>{"use strict"
       id
       title
       price
+      consumer_price
+      dealer_price
       created_at
       description_html
       serial_number
@@ -81,6 +87,8 @@ exports.id=1894,exports.ids=[1894],exports.modules={36839:(e,t,i)=>{"use strict"
     $category_id: uuid!
     $serial_number: String
     $price: numeric!
+    $dealer_price: numeric!
+    $consumer_price: numeric!
     $warranty_period: String
   ) {
     update_products_by_pk(
@@ -92,12 +100,16 @@ exports.id=1894,exports.ids=[1894],exports.modules={36839:(e,t,i)=>{"use strict"
         category_id: $category_id
         serial_number: $serial_number
         price: $price
+        dealer_price: $dealer_price
+        consumer_price: $consumer_price
         warranty_period: $warranty_period
       }
     ) {
       id
       title
       price
+      consumer_price
+      dealer_price
       created_at
       description_html
       serial_number

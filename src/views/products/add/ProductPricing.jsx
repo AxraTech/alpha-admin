@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography'
 // Component Imports
 import Form from '@components/Form'
 
-const ProductPricing = ({ price, setPrice, errors }) => {
+const ProductPricing = ({ price, setPrice, errors, dealerPrice, setDealerPrice, consumerPrice, setConsumerPrice }) => {
   return (
     <Card>
       <CardHeader title='Pricing' />
@@ -29,6 +29,28 @@ const ProductPricing = ({ price, setPrice, errors }) => {
             onChange={e => setPrice(e.target.value)}
             error={errors?.price ? true : false}
             helperText={errors?.price}
+          />
+          <TextField
+            fullWidth
+            type='number'
+            label='Dealer Price'
+            placeholder='Enter Dealer Price'
+            className='mbe-5'
+            value={price}
+            onChange={e => setDealerPrice(e.target.value)}
+            error={errors?.dealerPrice ? true : false}
+            helperText={errors?.dealerPrice}
+          />
+          <TextField
+            fullWidth
+            type='number'
+            label='Consumer Price'
+            placeholder='Enter Consumer Price'
+            className='mbe-5'
+            value={consumerPrice}
+            onChange={e => setConsumerPrice(e.target.value)}
+            error={errors?.consumerPrice ? true : false}
+            helperText={errors?.consumerPrice}
           />
           {/* <TextField fullWidth label='Discounted Price' placeholder='$499' className='mbe-5' />
           <FormControlLabel control={<Checkbox defaultChecked />} label='Charge tax on this product' />

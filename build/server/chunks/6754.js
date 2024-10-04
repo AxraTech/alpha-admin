@@ -1,4 +1,4 @@
-exports.id=6754,exports.ids=[6754],exports.modules={55701:(e,t,i)=>{"use strict";i.d(t,{Z:()=>n});var d=i(12964),a=i(26829),r=i(36354);let n=(0,a.ZP)(d.Z)(({color:e,size:t,theme:i,variant:d})=>({minInlineSize:0,..."small"===t?{fontSize:"20px",padding:i.spacing("outlined"===d?1.5:1.75),"& i, & svg":{fontSize:"inherit"}}:{..."large"===t?{fontSize:"24px",padding:i.spacing("outlined"===d?2:2.25),"& i, & svg":{fontSize:"inherit"}}:{fontSize:"22px",padding:i.spacing("outlined"===d?1.75:2),"& i, & svg":{fontSize:"inherit"}}},...!e&&{color:"var(--mui-palette-action-active)","&:not(.Mui-disabled):hover, &:not(.Mui-disabled):active":{backgroundColor:"rgb(var(--mui-palette-text-primaryChannel) / 0.08)"},...r.Z.disableRipple&&{"&.Mui-focusVisible:not(.Mui-disabled)":{backgroundColor:"rgb(var(--mui-palette-text-primaryChannel) / 0.08)"}},"&.Mui-disabled":{opacity:.45,color:"var(--mui-palette-action-active)"},..."outlined"===d&&{border:"none !important",..."small"===t?{padding:i.spacing(1.75)}:{..."large"===t?{padding:i.spacing(2.25)}:{padding:i.spacing(2)}}},..."contained"===d&&{boxShadow:"none !important",backgroundColor:"transparent"}}}))},65738:(e,t,i)=>{"use strict";i.d(t,{Z:()=>n});var d=i(27486),a=i(12988);let r=(0,i(26829).ZP)(a.Z)(({color:e,pill:t,theme:i,orientation:d})=>({..."true"===t&&{minHeight:38,..."vertical"===d?{borderInlineEnd:0}:{borderBlockEnd:0},"&, & .MuiTabs-scroller":{..."vertical"===d&&{boxSizing:"content-box"},margin:`${i.spacing(-1,-1,-1.5,-1)} !important`,padding:i.spacing(1,1,1.5,1)},"& .MuiTabs-indicator":{display:"none"},"& .MuiTabs-flexContainer":{gap:i.spacing(1)},"& .Mui-selected":{backgroundColor:`var(--mui-palette-${e}-main) !important`,color:`var(--mui-palette-${e}-contrastText) !important`,boxShadow:"var(--mui-customShadows-xs)"},"& .MuiTab-root":{minHeight:38,padding:i.spacing(2,5.5),borderRadius:"var(--mui-shape-borderRadius)","&:hover":{border:0,backgroundColor:`var(--mui-palette-${e}-lightOpacity)`,color:`var(--mui-palette-${e}-main)`,..."vertical"===d?{paddingInlineEnd:i.spacing(5.5)}:{paddingBlockEnd:i.spacing(2)}}}}})),n=e=>{let{color:t="primary",...i}=e;return d.jsx(r,{color:t,...i})}},7830:(e,t,i)=>{"use strict";i.d(t,{Z:()=>a});var d=i(27486);let a=e=>{let{onSubmit:t,...i}=e;return d.jsx("form",{...i,onSubmit:t?e=>t(e):e=>e.preventDefault()})}},36858:(e,t,i)=>{"use strict";i(27486),i(618),i(38165)},91347:(e,t,i)=>{"use strict";i.d(t,{Z:()=>n});var d=i(27486);i(618);var a=i(27319),r=i(22405);let n=()=>{let{globalMsg:e,setGlobalMsg:t}=(0,r.q)();return d.jsx("div",{children:d.jsx(a.Z,{anchorOrigin:{horizontal:"center",vertical:"top"},open:!!e,autoHideDuration:3e3,onClose:()=>t(null),message:e})})}},66718:(e,t,i)=>{"use strict";i.d(t,{BM:()=>I,DR:()=>z,Ff:()=>p,HT:()=>g,Hd:()=>b,J2:()=>J,J9:()=>o,JB:()=>N,KN:()=>M,Lh:()=>A,MP:()=>n,MZ:()=>U,O7:()=>B,Qm:()=>E,SB:()=>m,SZ:()=>f,Sf:()=>S,Si:()=>O,Zq:()=>C,aY:()=>c,bc:()=>L,dE:()=>v,dn:()=>F,en:()=>D,hB:()=>a,he:()=>Q,hq:()=>r,jN:()=>T,ju:()=>$,mU:()=>h,mt:()=>H,oe:()=>l,pE:()=>V,rV:()=>R,si:()=>W,tC:()=>q,tt:()=>P,tz:()=>k,u7:()=>_,ui:()=>G,uv:()=>u,vl:()=>Z,wU:()=>w,yG:()=>x,yn:()=>y,z7:()=>j,zN:()=>s});var d=i(12738);let a=(0,d.Ps)`
+exports.id=6754,exports.ids=[6754],exports.modules={55701:(e,t,i)=>{"use strict";i.d(t,{Z:()=>n});var d=i(12964),a=i(26829),r=i(36354);let n=(0,a.ZP)(d.Z)(({color:e,size:t,theme:i,variant:d})=>({minInlineSize:0,..."small"===t?{fontSize:"20px",padding:i.spacing("outlined"===d?1.5:1.75),"& i, & svg":{fontSize:"inherit"}}:{..."large"===t?{fontSize:"24px",padding:i.spacing("outlined"===d?2:2.25),"& i, & svg":{fontSize:"inherit"}}:{fontSize:"22px",padding:i.spacing("outlined"===d?1.75:2),"& i, & svg":{fontSize:"inherit"}}},...!e&&{color:"var(--mui-palette-action-active)","&:not(.Mui-disabled):hover, &:not(.Mui-disabled):active":{backgroundColor:"rgb(var(--mui-palette-text-primaryChannel) / 0.08)"},...r.Z.disableRipple&&{"&.Mui-focusVisible:not(.Mui-disabled)":{backgroundColor:"rgb(var(--mui-palette-text-primaryChannel) / 0.08)"}},"&.Mui-disabled":{opacity:.45,color:"var(--mui-palette-action-active)"},..."outlined"===d&&{border:"none !important",..."small"===t?{padding:i.spacing(1.75)}:{..."large"===t?{padding:i.spacing(2.25)}:{padding:i.spacing(2)}}},..."contained"===d&&{boxShadow:"none !important",backgroundColor:"transparent"}}}))},65738:(e,t,i)=>{"use strict";i.d(t,{Z:()=>n});var d=i(27486),a=i(12988);let r=(0,i(26829).ZP)(a.Z)(({color:e,pill:t,theme:i,orientation:d})=>({..."true"===t&&{minHeight:38,..."vertical"===d?{borderInlineEnd:0}:{borderBlockEnd:0},"&, & .MuiTabs-scroller":{..."vertical"===d&&{boxSizing:"content-box"},margin:`${i.spacing(-1,-1,-1.5,-1)} !important`,padding:i.spacing(1,1,1.5,1)},"& .MuiTabs-indicator":{display:"none"},"& .MuiTabs-flexContainer":{gap:i.spacing(1)},"& .Mui-selected":{backgroundColor:`var(--mui-palette-${e}-main) !important`,color:`var(--mui-palette-${e}-contrastText) !important`,boxShadow:"var(--mui-customShadows-xs)"},"& .MuiTab-root":{minHeight:38,padding:i.spacing(2,5.5),borderRadius:"var(--mui-shape-borderRadius)","&:hover":{border:0,backgroundColor:`var(--mui-palette-${e}-lightOpacity)`,color:`var(--mui-palette-${e}-main)`,..."vertical"===d?{paddingInlineEnd:i.spacing(5.5)}:{paddingBlockEnd:i.spacing(2)}}}}})),n=e=>{let{color:t="primary",...i}=e;return d.jsx(r,{color:t,...i})}},7830:(e,t,i)=>{"use strict";i.d(t,{Z:()=>a});var d=i(27486);let a=e=>{let{onSubmit:t,...i}=e;return d.jsx("form",{...i,onSubmit:t?e=>t(e):e=>e.preventDefault()})}},36858:(e,t,i)=>{"use strict";i(27486),i(618),i(38165)},91347:(e,t,i)=>{"use strict";i.d(t,{Z:()=>n});var d=i(27486);i(618);var a=i(27319),r=i(22405);let n=()=>{let{globalMsg:e,setGlobalMsg:t}=(0,r.q)();return d.jsx("div",{children:d.jsx(a.Z,{anchorOrigin:{horizontal:"center",vertical:"top"},open:!!e,autoHideDuration:3e3,onClose:()=>t(null),message:e})})}},66718:(e,t,i)=>{"use strict";i.d(t,{BM:()=>I,DR:()=>z,Ff:()=>c,HT:()=>g,Hd:()=>b,J2:()=>J,J9:()=>o,JB:()=>N,KN:()=>M,Lh:()=>A,MP:()=>n,MZ:()=>U,O7:()=>B,Qm:()=>E,SB:()=>m,SZ:()=>f,Sf:()=>S,Si:()=>O,Zq:()=>C,aY:()=>p,bc:()=>L,dE:()=>v,dn:()=>F,en:()=>D,hB:()=>a,he:()=>Q,hq:()=>r,jN:()=>T,ju:()=>$,mU:()=>h,mt:()=>H,oe:()=>l,pE:()=>V,rV:()=>R,si:()=>W,tC:()=>q,tt:()=>P,tz:()=>k,u7:()=>_,ui:()=>G,uv:()=>u,vl:()=>Z,wU:()=>w,yG:()=>x,yn:()=>y,z7:()=>j,zN:()=>s});var d=i(12738);let a=(0,d.Ps)`
   mutation adminSignIn($email: String!, $password: String!) {
     AdminSignIn(email: $email, password: $password) {
       token
@@ -41,6 +41,8 @@ exports.id=6754,exports.ids=[6754],exports.modules={55701:(e,t,i)=>{"use strict"
     $category_id: uuid!
     $serial_number: String!
     $price: numeric!
+    $dealer_price: numeric!
+    $consumer_price: numeric!
     $warranty_period: String
     $product_medias: product_medias_arr_rel_insert_input!
   ) {
@@ -52,6 +54,8 @@ exports.id=6754,exports.ids=[6754],exports.modules={55701:(e,t,i)=>{"use strict"
         category_id: $category_id
         serial_number: $serial_number
         price: $price
+        dealer_price: $dealer_price
+        consumer_price: $consumer_price
         warranty_period: $warranty_period
         product_medias: $product_medias
       }
@@ -59,6 +63,8 @@ exports.id=6754,exports.ids=[6754],exports.modules={55701:(e,t,i)=>{"use strict"
       id
       title
       price
+      consumer_price
+      dealer_price
       created_at
       description_html
       serial_number
@@ -81,6 +87,8 @@ exports.id=6754,exports.ids=[6754],exports.modules={55701:(e,t,i)=>{"use strict"
     $category_id: uuid!
     $serial_number: String
     $price: numeric!
+    $dealer_price: numeric!
+    $consumer_price: numeric!
     $warranty_period: String
   ) {
     update_products_by_pk(
@@ -92,12 +100,16 @@ exports.id=6754,exports.ids=[6754],exports.modules={55701:(e,t,i)=>{"use strict"
         category_id: $category_id
         serial_number: $serial_number
         price: $price
+        dealer_price: $dealer_price
+        consumer_price: $consumer_price
         warranty_period: $warranty_period
       }
     ) {
       id
       title
       price
+      consumer_price
+      dealer_price
       created_at
       description_html
       serial_number
@@ -134,13 +146,13 @@ exports.id=6754,exports.ids=[6754],exports.modules={55701:(e,t,i)=>{"use strict"
       id
     }
   }
-`,p=(0,d.Ps)`
+`,c=(0,d.Ps)`
   mutation deleteBrand($id: uuid!) {
     delete_brands_by_pk(id: $id) {
       id
     }
   }
-`,c=(0,d.Ps)`
+`,p=(0,d.Ps)`
   mutation deleteProductCat($id: uuid!) {
     delete_product_categories_by_pk(id: $id) {
       id
